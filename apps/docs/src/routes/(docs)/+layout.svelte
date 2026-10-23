@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import type { Path } from '$app/types';
 	import { page } from '$app/state';
+	import { pageHref } from '#lib/docs/href.js';
 	import Sidebar from '#lib/docs/Sidebar.svelte';
 	import Toc from '#lib/docs/Toc.svelte';
 	import { locate, toNavPath } from '#lib/docs/nav.js';
@@ -21,16 +20,15 @@
 		{#if position.previous || position.next}
 			<nav class="docs-pager" aria-label="Previous and next page">
 				{#if position.previous}
-					<a class="docs-pager__link" href={resolve(position.previous.path as Path)}>
+					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
+					<a class="docs-pager__link" href={pageHref(position.previous.path)}>
 						<span class="docs-label">Previous</span>
 						<span>{position.previous.title}</span>
 					</a>
 				{/if}
 				{#if position.next}
-					<a
-						class="docs-pager__link docs-pager__link--next"
-						href={resolve(position.next.path as Path)}
-					>
+					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
+					<a class="docs-pager__link docs-pager__link--next" href={pageHref(position.next.path)}>
 						<span class="docs-label">Next</span>
 						<span>{position.next.title}</span>
 					</a>

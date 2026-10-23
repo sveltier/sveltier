@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import type { Path } from '$app/types';
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
+	import { pageHref } from './href.js';
 	import { NAV, toNavPath } from './nav.js';
 	import { useShell } from './shell.svelte.js';
 
@@ -41,9 +40,9 @@
 			<ul>
 				{#each group.items as item (item.path)}
 					<li>
-						<a
-							href={resolve(item.path as Path)}
-							aria-current={current === item.path ? 'page' : undefined}>{item.title}</a
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
+						<a href={pageHref(item.path)} aria-current={current === item.path ? 'page' : undefined}
+							>{item.title}</a
 						>
 					</li>
 				{/each}
