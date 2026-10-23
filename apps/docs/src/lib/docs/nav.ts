@@ -54,6 +54,18 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Primitives',
+		items: [
+			{ title: 'Focus', path: 'primitives/focus' },
+			{ title: 'Layers', path: 'primitives/layers' },
+			{ title: 'Portal and modality', path: 'primitives/modality' },
+			{ title: 'Positioning', path: 'primitives/positioning' },
+			{ title: 'Keyboard', path: 'primitives/keyboard' },
+			{ title: 'Motion', path: 'primitives/motion' },
+			{ title: 'Virtual lists', path: 'primitives/virtual-lists' }
+		]
+	},
+	{
 		title: 'Accessibility',
 		items: [{ title: 'Overview', path: 'accessibility' }]
 	},

@@ -407,3 +407,292 @@ export const UI_PROVIDER_PROPS: ApiRow[] = [
 		description: 'The app.'
 	}
 ];
+
+export const FOCUS_TRAP_OPTIONS: ApiRow[] = [
+	{
+		name: 'initialFocus',
+		type: 'HTMLElement | SVGElement | string | false',
+		default: 'first tabbable',
+		description:
+			'Where focus goes when the trap starts, unless it is already inside: an element, a selector inside the container, or false to leave it. With nothing tabbable inside, the container itself takes focus.'
+	},
+	{
+		name: 'returnFocus',
+		type: 'boolean | HTMLElement | SVGElement | null',
+		default: 'true',
+		description:
+			'Where focus goes when the trap ends, if it is still inside or lost to the page: true for the element that had it when the trap started, an element (pass the trigger, since Safari does not focus a clicked button), or false.'
+	}
+];
+
+export const ROVING_FOCUS_OPTIONS: ApiRow[] = [
+	{
+		name: 'orientation',
+		type: "'horizontal' | 'vertical' | 'both'",
+		default: "'horizontal'",
+		description: 'Which arrow keys move. Left and right follow the writing direction.'
+	},
+	{
+		name: 'loop',
+		type: 'boolean',
+		default: 'true',
+		description: 'Wrap from the last item to the first and back.'
+	},
+	{
+		name: 'items',
+		type: 'string',
+		default: "'[data-sv-item]'",
+		description: 'Selector for the items inside the container.'
+	}
+];
+
+export const DISMISSABLE_OPTIONS: ApiRow[] = [
+	{
+		name: 'onDismiss',
+		type: "(reason: 'escape' | 'outside' | 'focus') => void",
+		description: 'Called when the user dismisses the layer. The component decides whether to close.'
+	},
+	{
+		name: 'escape',
+		type: 'boolean',
+		default: 'true',
+		description: 'Dismiss on Escape, unless an element inside handled it (event.preventDefault()).'
+	},
+	{
+		name: 'outside',
+		type: 'boolean',
+		default: 'true',
+		description:
+			'Dismiss on a press outside: on pointerdown for mouse and pen, on the click that ends a tap for touch.'
+	},
+	{
+		name: 'focusOutside',
+		type: 'boolean',
+		default: 'false',
+		description: 'Dismiss when focus moves outside, as menus and non-modal popovers do on Tab.'
+	},
+	{
+		name: 'inside',
+		type: 'Element[] | (() => Element[])',
+		default: '[]',
+		description: 'Elements that count as inside, such as the trigger.'
+	}
+];
+
+export const PORTAL_PROPS: ApiRow[] = [
+	{
+		name: 'target',
+		type: 'HTMLElement | string',
+		default: "'body'",
+		description: 'Where the content goes: an element, or a selector for one.'
+	},
+	{
+		name: 'children',
+		type: 'Snippet',
+		description: 'The content, rendered with the contexts and theme scope of where Portal is used.'
+	}
+];
+
+export const ANCHORED_OPTIONS: ApiRow[] = [
+	{
+		name: 'anchor',
+		type: 'Element | null | undefined',
+		description: 'The element to place against. Nothing happens until it exists.'
+	},
+	{
+		name: 'side',
+		type: "'top' | 'bottom' | 'start' | 'end'",
+		default: "'bottom'",
+		description: 'Side of the anchor. Start and end follow the writing direction.'
+	},
+	{
+		name: 'align',
+		type: "'start' | 'center' | 'end'",
+		default: "'start'",
+		description: 'Alignment along that side, following the writing direction.'
+	},
+	{
+		name: 'offset',
+		type: 'number',
+		default: '5',
+		description: 'Gap between the anchor and the element, in px.'
+	},
+	{
+		name: 'flip',
+		type: 'boolean',
+		default: 'true',
+		description: 'Move to the opposite side when there is not enough room.'
+	}
+];
+
+export const KEYMAP_API: ApiRow[] = [
+	{
+		name: 'keymap(map)',
+		type: '(map: Record<string, KeyHandler>) => Attachment',
+		description:
+			'Calls the handler bound to a key combination and prevents the default when it ran. A handler returning false lets the event through.'
+	},
+	{
+		name: 'combinations',
+		type: "'Ctrl+Alt+Shift+Meta+Key'",
+		description:
+			'Modifiers in that order, then the event.key name. Shift is left out for characters ("?", not "Shift+/"). ArrowForward and ArrowBackward follow the writing direction.'
+	}
+];
+
+export const TYPEAHEAD_OPTIONS: ApiRow[] = [
+	{
+		name: 'items',
+		type: 'string',
+		default: "'[data-sv-item]'",
+		description: 'Selector for the items inside the container.'
+	},
+	{
+		name: 'timeout',
+		type: 'number',
+		default: '500',
+		description: 'How long typed characters keep building one search, in ms.'
+	},
+	{
+		name: 'onMatch',
+		type: '(item: HTMLElement) => void',
+		default: 'focus the item',
+		description: 'What a match does.'
+	}
+];
+
+export const TRANSITION_OPTIONS: ApiRow[] = [
+	{
+		name: 'duration',
+		type: 'number',
+		default: "the theme's normal duration",
+		description: 'Length in ms. Under reduced motion the theme duration is 0.01ms.'
+	},
+	{
+		name: 'delay',
+		type: 'number',
+		default: '0',
+		description: 'Wait before starting, in ms.'
+	},
+	{
+		name: 'distance',
+		type: 'number',
+		default: '8',
+		description: 'rise only: how far the element travels, in px.'
+	},
+	{
+		name: 'scale',
+		type: 'number',
+		default: '0.944',
+		description: 'pop only: the scale it grows from, 1 − φ⁻⁶.'
+	}
+];
+
+export const SPRING_API: ApiRow[] = [
+	{
+		name: 'spring(value, preset)',
+		type: '<T>(value: T, preset?: SpringPreset) => Spring<T>',
+		default: "'standard'",
+		description:
+			'A Svelte Spring with a preset. Set target to move it and render current. While the user prefers reduced motion, updates land at once unless set() is called with instant: false.'
+	},
+	{
+		name: 'snappy',
+		type: '{ stiffness: 0.236, damping: 0.764 }',
+		description: '1/φ³. Small, quick things: toggles, thumbs, indicators.'
+	},
+	{
+		name: 'standard',
+		type: '{ stiffness: 0.146, damping: 0.854 }',
+		description: "1/φ⁴, close to Svelte's own default. Most movement."
+	},
+	{
+		name: 'gentle',
+		type: '{ stiffness: 0.09, damping: 0.91 }',
+		description: '1/φ⁵. Large surfaces and numbers that count up or down.'
+	}
+];
+
+export const MOTION_API: ApiRow[] = [
+	{
+		name: 'motion(element)',
+		type: '(element: Element) => Motion',
+		description:
+			'The timing where the element is: fast, normal and slow in ms, and ease as a CSS easing. Call it in the browser, from an attachment, an effect or a handler.'
+	},
+	{
+		name: 'easing(ease)',
+		type: '(ease: string) => (t: number) => number',
+		description:
+			'A CSS easing as a function. Reads cubic-bezier() and the keywords; anything else falls back to ease.'
+	},
+	{
+		name: 'cubicBezier(x1, y1, x2, y2)',
+		type: '(x1: number, y1: number, x2: number, y2: number) => (t: number) => number',
+		description: 'An easing function from control points, as CSS defines them.'
+	}
+];
+
+export const VIRTUAL_LIST_OPTIONS: ApiRow[] = [
+	{
+		name: 'count',
+		type: 'number',
+		description: 'How many items the list has.'
+	},
+	{
+		name: 'itemSize',
+		type: 'number | ((index: number) => number)',
+		description:
+			'Item height in px: one number when every item is as tall, or an estimate per index. Measured items use their measurement.'
+	},
+	{
+		name: 'overscan',
+		type: 'number',
+		default: '3',
+		description: 'Items rendered beyond each edge of the viewport, so fast scrolling shows no gaps.'
+	},
+	{
+		name: 'key',
+		type: '(index: number) => string | number',
+		default: 'the index',
+		description:
+			'A stable key per item, so measured heights follow items that move. It is read for every item when measurements change, so keep large data in $state.raw.'
+	},
+	{
+		name: 'ssrHeight',
+		type: 'number',
+		default: '0',
+		description: 'Viewport height in px assumed until the viewport is measured, as on the server.'
+	}
+];
+
+export const VIRTUAL_LIST_API: ApiRow[] = [
+	{
+		name: 'items',
+		type: 'VirtualItem[]',
+		description:
+			'The items to render, each with index, key, and start, size and end in px from the top of the list.'
+	},
+	{
+		name: 'totalSize',
+		type: 'number',
+		description: 'Height of all the items in px, for the element that holds them.'
+	},
+	{
+		name: 'viewport',
+		type: 'Attachment<HTMLElement>',
+		description:
+			"For the scrolling element. Turns off the browser's scroll anchoring there: the list keeps items steady itself."
+	},
+	{
+		name: 'measure',
+		type: 'Attachment<HTMLElement>',
+		description: 'For items whose height is measured. They need data-index={item.index}.'
+	},
+	{
+		name: 'scrollToIndex(index, options)',
+		type: "(index: number, options?: { align?: 'auto' | 'start' | 'center' | 'end' }) => void",
+		description:
+			'Scrolls the item into view at once and renders it in the same update, then keeps it in place while the rows around it are measured. auto moves as little as possible, and not at all when the item is in view. Indexes outside the list are ignored.'
+	}
+];

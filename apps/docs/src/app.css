@@ -1023,3 +1023,280 @@ a {
 	padding: var(--sv-space-13);
 	border-radius: var(--sv-radius-lg);
 }
+
+/* Primitives demos */
+
+.docs-trap {
+	display: grid;
+	gap: var(--sv-space-13);
+	padding: var(--sv-space-21);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-field {
+	display: grid;
+	gap: var(--sv-space-5);
+	font-size: var(--sv-text-sm);
+}
+
+.docs-field input {
+	min-block-size: var(--sv-control-md);
+	padding-inline: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border-strong);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-background);
+	color: var(--sv-color-text);
+	font: inherit;
+}
+
+.docs-toolbar {
+	display: inline-flex;
+	justify-self: start;
+	gap: var(--sv-space-3);
+	padding: var(--sv-space-3);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-surface-raised);
+}
+
+.docs-toolbar__item {
+	min-block-size: calc(var(--sv-control-sm) - 6px);
+	padding-inline: var(--sv-space-13);
+	border: 0;
+	border-radius: calc(var(--sv-radius-md) - 2px);
+	background: transparent;
+	color: var(--sv-color-text-muted);
+	font: var(--sv-weight-medium) var(--sv-text-xs) / 1 var(--sv-font-data);
+	cursor: pointer;
+}
+
+.docs-toolbar__item[aria-checked='true'] {
+	background-color: var(--sv-color-surface);
+	color: var(--sv-color-text);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-layer-anchor {
+	position: relative;
+	justify-self: start;
+}
+
+.docs-layer {
+	position: absolute;
+	inset-block-start: calc(100% + var(--sv-space-5));
+	inset-inline-start: 0;
+	z-index: 1;
+	display: grid;
+	gap: var(--sv-space-13);
+	inline-size: max-content;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-sheet-scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background-color: color-mix(in oklch, var(--sv-color-text) 34%, transparent);
+}
+
+.docs-sheet {
+	position: fixed;
+	inset-block-end: 0;
+	inset-inline: 0;
+	z-index: 101;
+	display: grid;
+	gap: var(--sv-space-13);
+	max-inline-size: var(--docs-content-width);
+	margin-inline: auto;
+	padding: var(--sv-space-21);
+	border-start-start-radius: var(--sv-radius-xl);
+	border-start-end-radius: var(--sv-radius-xl);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-sheet__title {
+	margin: 0;
+	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-display);
+}
+
+/* Room for the popover on every side of its trigger, clear of the controls: 144 + 89. */
+.docs-anchored-stage {
+	display: grid;
+	place-items: center;
+	min-block-size: calc(var(--sv-space-144) + var(--sv-space-89));
+}
+
+.docs-anchored {
+	display: grid;
+	gap: var(--sv-space-3);
+	inline-size: 13rem;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	color: var(--sv-color-text);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-listbox {
+	display: grid;
+	justify-self: start;
+	min-inline-size: 13rem;
+	margin: 0;
+	padding: var(--sv-space-3);
+	list-style: none;
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-surface);
+}
+
+.docs-listbox__option {
+	padding: var(--sv-space-5) var(--sv-space-13);
+	border-radius: calc(var(--sv-radius-md) - 2px);
+	font-size: var(--sv-text-sm);
+	cursor: pointer;
+}
+
+.docs-listbox__option[aria-selected='true'] {
+	background-color: color-mix(in oklch, var(--sv-color-primary) var(--sv-tonal-wash), transparent);
+	color: color-mix(
+		in oklch,
+		var(--sv-color-primary) var(--sv-tonal-text-mix),
+		var(--sv-color-text)
+	);
+	font-weight: var(--sv-weight-medium);
+}
+
+/* Room for the receipt whether it is shown or not, so hiding it does not move the page. */
+.docs-motion-stage {
+	display: grid;
+	align-items: start;
+	min-block-size: var(--sv-space-144);
+}
+
+.docs-receipt {
+	display: grid;
+	gap: var(--sv-space-3);
+	justify-self: start;
+	min-inline-size: 15rem;
+	padding: var(--sv-space-13) var(--sv-space-21);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+	font-size: var(--sv-text-sm);
+}
+
+.docs-receipt__amount {
+	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-data);
+	font-variant-numeric: tabular-nums;
+}
+
+.docs-springs {
+	display: grid;
+	gap: var(--sv-space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.docs-spring {
+	display: grid;
+	grid-template-columns: 5rem minmax(0, 1fr) 4rem;
+	gap: var(--sv-space-13);
+	align-items: center;
+	font-size: var(--sv-text-sm);
+}
+
+.docs-spring__name {
+	font-family: var(--sv-font-data);
+	color: var(--sv-color-text-subtle);
+}
+
+.docs-spring__track {
+	overflow: hidden;
+	block-size: var(--sv-space-8);
+	border-radius: var(--sv-radius-sm);
+	background-color: var(--sv-color-surface-raised);
+}
+
+/* Scaled, not resized: only transform moves. It grows from the inline start. */
+.docs-spring__fill {
+	display: block;
+	block-size: 100%;
+	background-color: var(--sv-color-primary);
+	transform-origin: left;
+}
+
+.docs-spring__fill:dir(rtl) {
+	transform-origin: right;
+}
+
+/* Virtual lists: 377px tall, 144 + 144 + 89. */
+.docs-virtual {
+	position: relative;
+	overflow-y: auto;
+	block-size: calc(var(--sv-space-144) * 2 + var(--sv-space-89));
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-surface);
+	overscroll-behavior: contain;
+}
+
+.docs-virtual__content {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.docs-virtual__row,
+.docs-virtual__entry {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline: 0;
+	box-sizing: border-box;
+	border-block-end: var(--sv-hairline) solid var(--sv-color-border);
+	font-size: var(--sv-text-sm);
+}
+
+.docs-virtual__row {
+	display: grid;
+	grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+	gap: var(--sv-space-13);
+	align-items: center;
+	padding-inline: var(--sv-space-13);
+}
+
+.docs-virtual__label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.docs-virtual__entry {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: var(--sv-space-13);
+	padding: var(--sv-space-8) var(--sv-space-13);
+	line-height: var(--sv-leading-snug);
+}
+
+.docs-virtual-go {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sv-space-8);
+	align-items: end;
+}
+
+.docs-virtual-go input {
+	inline-size: 8rem;
+}

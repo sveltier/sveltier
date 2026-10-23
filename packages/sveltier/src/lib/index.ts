@@ -78,3 +78,57 @@ export {
 	type MessageKey,
 	type Messages
 } from './core/locale/locale.js';
+
+// Primitives: focus
+export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
+export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
+export { isTabbable, tabbable, type FocusableElement } from './primitives/focus/tabbable.js';
+
+// Primitives: layers
+export {
+	dismissable,
+	type DismissableOptions,
+	type DismissReason
+} from './primitives/layer/dismissable.js';
+
+// Primitives: portal and modality
+export { default as Portal, type PortalProps } from './primitives/portal/Portal.svelte';
+export { inertOthers } from './primitives/inert/inert-others.js';
+export { scrollLock } from './primitives/scroll-lock/scroll-lock.js';
+
+// Primitives: positioning
+export {
+	anchored,
+	type Align,
+	type AnchoredOptions,
+	type Side
+} from './primitives/anchored/anchored.js';
+
+// Primitives: keyboard
+export { combination, keymap, type KeyHandler } from './primitives/keyboard/keymap.js';
+export { typeahead, type TypeaheadOptions } from './primitives/keyboard/typeahead.js';
+
+// Primitives: motion
+export { cubicBezier } from './primitives/motion/easing.js';
+export {
+	easing,
+	fade,
+	motion,
+	pop,
+	rise,
+	spring,
+	SPRINGS,
+	type Motion,
+	type SpringPreset,
+	type TransitionOptions
+} from './primitives/motion/motion.js';
+
+// Primitives: virtual lists
+export {
+	virtualList,
+	type ScrollToIndexOptions,
+	type VirtualItem,
+	type VirtualKey,
+	type VirtualList,
+	type VirtualListOptions
+} from './primitives/virtual/virtual-list.svelte.js';
