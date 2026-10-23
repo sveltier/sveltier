@@ -95,3 +95,11 @@ export {
 export { default as Portal, type PortalProps } from './primitives/portal/Portal.svelte';
 export { inertOthers } from './primitives/inert/inert-others.js';
 export { scrollLock } from './primitives/scroll-lock/scroll-lock.js';
+
+// Primitives: positioning
+export {
+	anchored,
+	type Align,
+	type AnchoredOptions,
+	type Side
+} from './primitives/anchored/anchored.js';

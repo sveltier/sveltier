@@ -492,3 +492,35 @@ export const PORTAL_PROPS: ApiRow[] = [
 		description: 'The content, rendered with the contexts and theme scope of where Portal is used.'
 	}
 ];
+
+export const ANCHORED_OPTIONS: ApiRow[] = [
+	{
+		name: 'anchor',
+		type: 'Element | null | undefined',
+		description: 'The element to place against. Nothing happens until it exists.'
+	},
+	{
+		name: 'side',
+		type: "'top' | 'bottom' | 'start' | 'end'",
+		default: "'bottom'",
+		description: 'Side of the anchor. Start and end follow the writing direction.'
+	},
+	{
+		name: 'align',
+		type: "'start' | 'center' | 'end'",
+		default: "'start'",
+		description: 'Alignment along that side, following the writing direction.'
+	},
+	{
+		name: 'offset',
+		type: 'number',
+		default: '5',
+		description: 'Gap between the anchor and the element, in px.'
+	},
+	{
+		name: 'flip',
+		type: 'boolean',
+		default: 'true',
+		description: 'Move to the opposite side when there is not enough room.'
+	}
+];

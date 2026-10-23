@@ -7,7 +7,7 @@
  * own budget instead of counting against the core JS. The core imports no theme: theme data
  * counts against the pack budgets.
  *
- * @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css' }>}
+ * @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css', external?: RegExp[] }>}
  */
 const packs = ['monolith', 'heritage', 'aurora', 'maison', 'milano'];
 
@@ -56,6 +56,20 @@ export default [
 		limit: '0.6 KB'
 	},
 	{
+		// About 0.5 KB of its own; the rest is the bundler's helper for dynamic imports, which an
+		// app ships once for all its lazy imports. The fallback is measured below.
+		name: 'anchored',
+		code: "export { anchored } from 'sveltier';",
+		limit: '1.6 KB',
+		external: [/fallback\.js$/]
+	},
+	{
+		// Downloaded only by browsers without CSS anchor positioning.
+		name: 'anchored fallback',
+		code: "export { follow } from 'sveltier/primitives/anchored/fallback.js';",
+		limit: '1 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -67,10 +81,11 @@ export default [
 	})),
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
-		// the engine, the shared props CSS, locale and the primitives. It grows with every module by
-		// design.
+		// the engine, the shared props CSS, locale, the primitives and the bundler's dynamic import
+		// helper. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
-		limit: '11 KB'
+		external: [/fallback\.js$/],
+		limit: '13 KB'
 	}
 ];

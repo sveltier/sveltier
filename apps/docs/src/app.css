@@ -1126,3 +1126,22 @@ a {
 	margin: 0;
 	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-display);
 }
+
+/* Room for the popover on every side of its trigger, clear of the controls: 144 + 89. */
+.docs-anchored-stage {
+	display: grid;
+	place-items: center;
+	min-block-size: calc(var(--sv-space-144) + var(--sv-space-89));
+}
+
+.docs-anchored {
+	display: grid;
+	gap: var(--sv-space-3);
+	inline-size: 13rem;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	color: var(--sv-color-text);
+	box-shadow: var(--sv-shadow);
+}

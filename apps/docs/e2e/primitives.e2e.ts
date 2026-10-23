@@ -69,3 +69,36 @@ test('the modal sheet locks the page and returns focus however it closes', async
 	await expect(sheet).toBeHidden();
 	await expect(opener).toBeFocused();
 });
+
+test('the anchored popover sits against its trigger and follows side and alignment', async ({
+	page
+}) => {
+	await open(page, '/primitives/positioning');
+	const trigger = page.getByRole('button', { name: 'Account' });
+	await trigger.scrollIntoViewIfNeeded();
+	await trigger.click();
+	const popover = page.getByRole('group', { name: 'Account' });
+	await expect(popover).toBeVisible();
+
+	const boxes = async () => ({
+		anchor: (await trigger.boundingBox())!,
+		floating: (await popover.boundingBox())!
+	});
+	const settles = (check: (b: Awaited<ReturnType<typeof boxes>>) => boolean) =>
+		expect.poll(async () => check(await boxes())).toBe(true);
+	const near = (a: number, b: number) => Math.abs(a - b) < 1.5;
+
+	await settles(
+		({ anchor, floating }) =>
+			near(floating.y, anchor.y + anchor.height + 5) && near(floating.x, anchor.x)
+	);
+	await page.getByRole('radio', { name: 'top' }).check();
+	await settles(({ anchor, floating }) => near(floating.y + floating.height, anchor.y - 5));
+	await page.getByRole('group', { name: 'Align' }).getByRole('radio', { name: 'end' }).check();
+	await settles(({ anchor, floating }) =>
+		near(floating.x + floating.width, anchor.x + anchor.width)
+	);
+
+	await page.keyboard.press('Escape');
+	await expect(popover).toBeHidden();
+});

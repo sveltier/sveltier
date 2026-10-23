@@ -45,8 +45,14 @@ for (const entry of entries) {
 			rolldownOptions: {
 				input: entryFile,
 				preserveEntrySignatures: 'strict',
-				external: [/^svelte($|\/)/],
-				output: { entryFileNames: 'index.js', assetFileNames: 'index[extname]' }
+				// Lazily loaded modules can be left out and measured as entries of their own, so the
+				// bundler's preload helper (shared by every dynamic import of an app) is not counted.
+				external: [/^svelte($|\/)/, ...(entry.external ?? [])],
+				output: {
+					entryFileNames: 'index.js',
+					chunkFileNames: 'chunk-[name].js',
+					assetFileNames: 'index[extname]'
+				}
 			}
 		}
 	});
