@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { monolith, monolithDark, monolithLight } from '../../themes/monolith.js';
 import { defineTheme } from './define.js';
 import { themeCss, themeHead, themeScript } from './css.js';
+import { INTENT_COLORS } from './types.js';
 
 const themes = monolith;
 const light = 'monolith-light';
@@ -62,7 +63,7 @@ describe('themeCss', () => {
 		).toThrow(/unsafe value for "color-primary"/);
 	});
 
-	it('emits custom colours under --sv-color-*, whatever their name', () => {
+	it('emits custom colours under --sv-color-*, with a colour class', () => {
 		const custom = defineTheme({ colors: { 'ui-brand': 'oklch(0.5 0.1 300)' } });
 		const out = themeCss({
 			themes: { custom },
@@ -72,6 +73,26 @@ describe('themeCss', () => {
 		});
 		expect(out).toContain('--sv-color-ui-brand:oklch(0.5 0.1 300)');
 		expect(out).toContain('--sv-on-ui-brand:oklch(0.985 0.005 300)');
+		expect(out).toContain(
+			'.sv-color-ui-brand{--sv-color:var(--sv-color-ui-brand);--sv-on-color:var(--sv-on-ui-brand)}'
+		);
+	});
+
+	it('adds one colour class per colour with an on- colour, in the base layer', () => {
+		expect(css).toContain(
+			'@layer sv.base{.sv-color-primary{--sv-color:var(--sv-color-primary);--sv-on-color:var(--sv-on-primary)}'
+		);
+		// Two themes, one class each.
+		for (const intent of INTENT_COLORS) expect(css.split(`.sv-color-${intent}{`)).toHaveLength(2);
+		// Neutral roles have no on- colour, so they are not component colours.
+		expect(css).not.toContain('.sv-color-surface{');
+	});
+
+	it('rejects colour names that are not CSS identifiers', () => {
+		const bad = defineTheme({ colors: { 'brand name': 'oklch(0.5 0.1 300)' } });
+		expect(() =>
+			themeCss({ themes: { bad }, light: 'bad', dark: 'bad', fallback: 'system' })
+		).toThrow(/invalid colour or variable name "color-brand name"/);
 	});
 
 	it('rejects unknown light, dark or fallback names', () => {

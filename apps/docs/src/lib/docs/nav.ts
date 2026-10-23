@@ -45,7 +45,10 @@ export const NAV: NavGroup[] = [
 	},
 	{
 		title: 'Core',
-		items: [{ title: 'Defaults', path: 'core/defaults' }]
+		items: [
+			{ title: 'Defaults', path: 'core/defaults' },
+			{ title: 'Shared props', path: 'core/shared-props' }
+		]
 	},
 	{
 		title: 'Accessibility',
@@ -59,7 +62,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'defineTheme', path: 'api/define-theme' },
 			{ title: 'themeCss and themeScript', path: 'api/theme-css' },
 			{ title: 'DefaultsProvider', path: 'api/defaults-provider' },
-			{ title: 'useDefaults', path: 'api/use-defaults' }
+			{ title: 'useDefaults', path: 'api/use-defaults' },
+			{ title: 'sharedClasses', path: 'api/shared-classes' }
 		]
 	}
 ];

@@ -1,0 +1,125 @@
+/*
+ * Shared props. Each class sets custom properties that components read; none of them paints.
+ * They live in sv.base, so a component can refine a value for itself and any unlayered rule
+ * wins. The colour classes of the theme's intents and custom colours come from the theme
+ * stylesheet (themeCss), next to the colours they point at.
+ */
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.base {
+	.sv-color-neutral {
+		--sv-color: var(--sv-color-text);
+		--sv-on-color: var(--sv-color-background);
+	}
+
+	/*
+	 * Variants: resting background, foreground and border. Hover and press mix the foreground
+	 * over the background by --sv-state-hover and --sv-state-press.
+	 */
+	.sv-variant-flat {
+		--sv-variant-bg: var(--sv-color);
+		--sv-variant-fg: var(--sv-on-color);
+		--sv-variant-border: transparent;
+	}
+
+	.sv-variant-tonal {
+		--sv-variant-bg: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+		--sv-variant-fg: color-mix(
+			in oklch,
+			var(--sv-color) var(--sv-tonal-text-mix),
+			var(--sv-color-text)
+		);
+		--sv-variant-border: transparent;
+	}
+
+	.sv-variant-outlined {
+		--sv-variant-bg: transparent;
+		--sv-variant-fg: var(--sv-color);
+		--sv-variant-border: var(--sv-color);
+	}
+
+	.sv-variant-text,
+	.sv-variant-plain {
+		--sv-variant-bg: transparent;
+		--sv-variant-fg: var(--sv-color);
+		--sv-variant-border: transparent;
+	}
+
+	/* Plain: no decoration in any state. */
+	.sv-variant-plain {
+		--sv-state-hover: 0%;
+		--sv-state-press: 0%;
+	}
+
+	/* Sizes: a half step of φ in height and a quarter step in text per size. */
+	.sv-size-xs {
+		--sv-size-height: var(--sv-control-xs);
+		--sv-size-text: var(--sv-text-label);
+	}
+
+	.sv-size-sm {
+		--sv-size-height: var(--sv-control-sm);
+		--sv-size-text: var(--sv-text-xs);
+	}
+
+	.sv-size-md {
+		--sv-size-height: var(--sv-control-md);
+		--sv-size-text: var(--sv-text-sm);
+	}
+
+	.sv-size-lg {
+		--sv-size-height: var(--sv-control-lg);
+		--sv-size-text: var(--sv-text-md);
+	}
+
+	.sv-size-xl {
+		--sv-size-height: var(--sv-control-xl);
+		--sv-size-text: var(--sv-text-lg);
+	}
+
+	/* Density multiplies heights and paddings, never the text. */
+	.sv-density-compact {
+		--sv-density: var(--sv-density-compact);
+	}
+
+	.sv-density-default {
+		--sv-density: 1;
+	}
+
+	.sv-density-comfortable {
+		--sv-density: var(--sv-density-comfortable);
+	}
+
+	/*
+	 * `rounded` (true) clears any inherited value, so the component's own default applies:
+	 * border-radius: var(--sv-rounded, <the component's radius>).
+	 */
+	.sv-rounded {
+		--sv-rounded: initial;
+	}
+
+	.sv-rounded-none {
+		--sv-rounded: 0;
+	}
+
+	.sv-rounded-sm {
+		--sv-rounded: var(--sv-radius-sm);
+	}
+
+	.sv-rounded-md {
+		--sv-rounded: var(--sv-radius-md);
+	}
+
+	.sv-rounded-lg {
+		--sv-rounded: var(--sv-radius-lg);
+	}
+
+	.sv-rounded-xl {
+		--sv-rounded: var(--sv-radius-xl);
+	}
+
+	/* A pill in every theme, square themes included. */
+	.sv-rounded-full {
+		--sv-rounded: 9999px;
+	}
+}

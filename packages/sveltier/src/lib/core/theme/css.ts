@@ -3,6 +3,7 @@ import type { ThemeChoice, ThemeDefinition } from './types.js';
 export const THEME_ATTRIBUTE = 'data-sv-theme';
 
 const NAME = /^(?!system$)[a-z][\w-]*$/i;
+const KEY = /^[a-z][\w-]*$/i;
 const UNSAFE = /[<>{};]/;
 const NONCE = /^[\w+/=-]+$/;
 
@@ -19,6 +20,7 @@ function block(theme: ThemeDefinition | undefined, name: string): string {
 		...Object.entries(theme.variables)
 	];
 	for (const [key, value] of entries) {
+		check(KEY.test(key), `invalid colour or variable name "${key}"`);
 		check(!UNSAFE.test(String(value)), `unsafe value for "${key}"`);
 		out += `;--sv-${key}:${value}`;
 	}
@@ -38,20 +40,28 @@ export interface ThemeCssOptions {
 /**
  * One stylesheet for every theme, keyed by `data-sv-theme`. "system" is pure CSS
  * (`prefers-color-scheme`), so the right theme paints before any JavaScript runs.
+ * It also holds a `.sv-color-<name>` class for every colour with an `on-` colour (intents
+ * and custom colours), which a component's `color` prop sets.
  */
 export function themeCss({ themes, light, dark, fallback }: ThemeCssOptions): string {
 	const attr = (name: string) => `[${THEME_ATTRIBUTE}="${name}"]`;
 	const bare = `:root:not([${THEME_ATTRIBUTE}])`;
 	const system = attr('system') + (fallback === 'system' ? `,${bare}` : '');
+	const colors = new Set<string>();
 	let css = '';
-	for (const name in themes) {
+	for (const [name, theme] of Object.entries(themes)) {
 		check(NAME.test(name), `invalid theme name "${name}"`);
-		css += attr(name) + block(themes[name], name);
+		css += attr(name) + block(theme, name);
+		for (const key in theme.colors) if (key.startsWith('on-')) colors.add(key.slice(3));
 	}
 	css += `@media (prefers-color-scheme:light){${system}${block(themes[light], light)}}`;
 	css += `@media (prefers-color-scheme:dark){${system}${block(themes[dark], dark)}}`;
 	if (fallback !== 'system') css += bare + block(themes[fallback], fallback);
-	return `@layer sv.tokens,sv.base,sv.components,sv.utilities;@layer sv.tokens{${css}}`;
+	let classes = '';
+	for (const color of colors) {
+		classes += `.sv-color-${color}{--sv-color:var(--sv-color-${color});--sv-on-color:var(--sv-on-${color})}`;
+	}
+	return `@layer sv.tokens,sv.base,sv.components,sv.utilities;@layer sv.tokens{${css}}@layer sv.base{${classes}}`;
 }
 
 /**

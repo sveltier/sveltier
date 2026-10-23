@@ -22,10 +22,24 @@ export type Variant = (typeof VARIANTS)[number];
 export type Rounded = boolean | 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 /**
- * A theme colour name: an intent, `neutral` (text on surface), or a custom colour added
- * with `defineTheme()`.
+ * Custom colours added with `defineTheme()`. Register them here by declaration merging to
+ * use them as a component's `color`:
+ *
+ * @example
+ * declare module 'sveltier' {
+ *   interface CustomColors {
+ *     brand: true;
+ *   }
+ * }
  */
-export type Color = IntentColor | 'neutral' | (string & {});
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- extended by declaration merging
+export interface CustomColors {}
+
+/**
+ * A component's colour: an intent, `neutral` (the text colour, with the background as its
+ * on-colour), or a custom colour registered in `CustomColors`.
+ */
+export type Color = IntentColor | 'neutral' | Extract<keyof CustomColors, string>;
 
 /** Props shared by every component that supports them. */
 export interface SharedProps {

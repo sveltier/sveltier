@@ -1,0 +1,10 @@
+/* A stand-in component that reads every shared-props variable, the way components do. */
+.shared-box {
+	box-sizing: border-box;
+	block-size: calc(var(--sv-size-height) * var(--sv-density));
+	border: 1px solid var(--sv-variant-border);
+	border-radius: var(--sv-rounded, 3px);
+	background-color: var(--sv-variant-bg);
+	color: var(--sv-variant-fg);
+	font-size: var(--sv-size-text);
+}

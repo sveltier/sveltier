@@ -751,6 +751,51 @@ a {
 	background-color: var(--sv-color-surface-raised);
 }
 
+/* Shared props specimens: a stand-in control painted only through the shared variables. */
+
+.docs-demo__controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sv-space-8) var(--sv-space-13);
+}
+
+.docs-specimens {
+	border-collapse: separate;
+	border-spacing: var(--sv-space-8);
+	font-size: var(--sv-text-xs);
+}
+
+.docs-specimens th {
+	font-weight: var(--sv-weight-medium);
+	text-align: start;
+	color: var(--sv-color-text-subtle);
+	white-space: nowrap;
+}
+
+.docs-specimen {
+	display: inline-grid;
+	place-items: center;
+	box-sizing: border-box;
+	block-size: calc(var(--sv-size-height) * var(--sv-density));
+	padding-inline: calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+	border: var(--sv-hairline) solid var(--sv-variant-border);
+	border-radius: var(--sv-rounded, var(--sv-radius-md));
+	background-color: var(--sv-variant-bg);
+	color: var(--sv-variant-fg);
+	font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
+	letter-spacing: var(--sv-button-tracking);
+	text-transform: var(--sv-button-transform);
+	white-space: nowrap;
+}
+
+.docs-specimen:hover {
+	background-color: color-mix(
+		in oklch,
+		var(--sv-variant-fg) var(--sv-state-hover),
+		var(--sv-variant-bg)
+	);
+}
+
 /* Pager and footer */
 
 .docs-pager {

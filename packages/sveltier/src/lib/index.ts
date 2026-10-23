@@ -34,12 +34,14 @@ export {
 	SIZES,
 	VARIANTS,
 	type Color,
+	type CustomColors,
 	type Density,
 	type Rounded,
 	type SharedProps,
 	type Size,
 	type Variant
 } from './core/props/types.js';
+export { sharedClasses, type SharedClassProps } from './core/props/classes.js';
 
 // Defaults
 export {

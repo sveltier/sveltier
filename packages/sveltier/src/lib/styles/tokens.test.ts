@@ -66,6 +66,11 @@ describe('tokens.css', () => {
 		expect(token('--sv-density-comfortable')).toBeCloseTo(PHI ** 0.25, 4);
 	});
 
+	it('mixes interaction states in Fibonacci percentages', () => {
+		expect(FIBONACCI).toContain(token('--sv-state-hover'));
+		expect(FIBONACCI).toContain(token('--sv-state-press'));
+	});
+
 	it('splits layouts 61.8% / 38.2%', () => {
 		expect(token('--sv-golden-major')).toBeCloseTo(100 / PHI, 3);
 		expect(token('--sv-golden-minor')).toBeCloseTo(100 - 100 / PHI, 3);

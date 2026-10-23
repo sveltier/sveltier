@@ -60,3 +60,78 @@ function useDefaults<T extends object>(
   name: string,
   builtins: T
 ): (local: Partial<T>) => T;`;
+
+export const sharedComponent = `<script lang="ts">
+  import {
+    sharedClasses,
+    useDefaults,
+    type Color,
+    type ComponentDefaults,
+    type Size,
+    type Variant
+  } from 'sveltier';
+
+  interface Props {
+    label: string;
+    variant?: Variant;
+    size?: Size;
+    color?: Color;
+  }
+
+  let { label, variant, size, color }: Props = $props();
+
+  const resolve = useDefaults<ComponentDefaults['Pill']>('Pill', {
+    variant: 'tonal',
+    size: 'sm',
+    color: 'neutral'
+  });
+  // Every shared prop the component has, defaults included.
+  const p = $derived(resolve({ variant, size, color }));
+</script>
+
+<span class={['pill', sharedClasses(p)]}>{label}</span>
+
+<style>
+  .pill {
+    display: inline-grid;
+    place-items: center;
+    block-size: var(--sv-size-height);
+    padding-inline: calc(var(--sv-size-height) * 0.382);
+    border: var(--sv-hairline) solid var(--sv-variant-border);
+    border-radius: var(--sv-radius-full);
+    background: var(--sv-variant-bg);
+    color: var(--sv-variant-fg);
+    font-size: var(--sv-size-text);
+  }
+</style>`;
+
+export const sharedRegister = `// app.d.ts
+import type { Color, Size, Variant } from 'sveltier';
+
+declare module 'sveltier' {
+  interface ComponentDefaults {
+    Pill: { variant: Variant; size: Size; color: Color };
+  }
+}`;
+
+export const customColor = `// themes.ts: add the colour to every theme you register
+import { defineTheme, monolithDark, monolithLight } from 'sveltier';
+
+export const themes = {
+  'brand-light': defineTheme({ colors: { brand: 'oklch(0.55 0.15 300)' } }, monolithLight),
+  'brand-dark': defineTheme({ colors: { brand: 'oklch(0.75 0.12 300)' } }, monolithDark)
+};
+
+// app.d.ts: make it a valid \`color\`
+declare module 'sveltier' {
+  interface CustomColors {
+    brand: true;
+  }
+}`;
+
+export const sharedClassesSignature = `import { sharedClasses, type SharedClassProps } from 'sveltier';
+
+function sharedClasses(props: SharedClassProps): string;
+
+sharedClasses({ variant: 'tonal', size: 'sm', color: 'success', rounded: true });
+// 'sv-variant-tonal sv-size-sm sv-color-success sv-rounded'`;

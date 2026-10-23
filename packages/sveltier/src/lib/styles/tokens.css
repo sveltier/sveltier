@@ -70,6 +70,10 @@
 		--sv-tonal-wash: 12%;
 		--sv-tonal-text-mix: 80%;
 
+		/* Hover and press mix a control's foreground over its background by these amounts. */
+		--sv-state-hover: 8%;
+		--sv-state-press: 13%;
+
 		/* Focus ring. */
 		--sv-focus-width: 2px;
 		--sv-focus-offset: 2px;

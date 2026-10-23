@@ -24,6 +24,11 @@ export default [
 		measure: 'js'
 	},
 	{
+		name: 'sharedClasses (with the shared props CSS)',
+		code: "export { sharedClasses } from 'sveltier';",
+		limit: '1 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '2 KB'
@@ -34,8 +39,10 @@ export default [
 		limit: '1 KB'
 	})),
 	{
+		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
+		// the engine and the shared props CSS. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
-		limit: '7 KB'
+		limit: '8 KB'
 	}
 ];
