@@ -49,7 +49,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'Defaults', path: 'core/defaults' },
 			{ title: 'Shared props', path: 'core/shared-props' },
 			{ title: 'Display', path: 'core/display' },
-			{ title: 'Locale', path: 'core/locale' }
+			{ title: 'Locale', path: 'core/locale' },
+			{ title: 'Building components', path: 'core/building-components' }
 		]
 	},
 	{
