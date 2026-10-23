@@ -1,8 +1,8 @@
 # Sveltier
 
-A UI framework for Svelte 5, built the way Vuetify is built for Vue: shared theme, defaults,
-density, variants, layout and locale mechanisms, plus a wide set of components. Its design
-language, **Engraved Instrument**, is made for premium fintech products.
+A UI framework for Svelte 5: one shared system for theme, defaults, density, variants, layout
+and locale, and a wide set of components built on it. Its design language, **Engraved
+Instrument**, is made for premium fintech products.
 
 Smooth, light, luxurious.
 

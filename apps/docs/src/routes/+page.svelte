@@ -14,9 +14,9 @@
 	<span class="docs-label">Pre-alpha · Svelte 5</span>
 	<h1 id="hero-title">Instruments, engraved.</h1>
 	<p class="docs-lede">
-		Sveltier is a UI framework for Svelte 5, built the way Vuetify is built for Vue: shared theme,
-		defaults, density and layout mechanisms, then a wide set of components. Its design language,
-		Engraved Instrument, is made for premium fintech: serif numerals, hairline rules, quiet motion.
+		Sveltier is a UI framework for Svelte 5: one shared system for theme, defaults, density and
+		layout, and a wide set of components built on it. Its design language, Engraved Instrument, is
+		made for premium fintech: serif numerals, hairline rules, quiet motion.
 	</p>
 	<ul class="docs-principles">
 		<li>
