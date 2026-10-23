@@ -64,6 +64,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'Chip', path: 'components/chip' },
 			{ title: 'Divider', path: 'components/divider' },
 			{ title: 'Icon', path: 'components/icon' },
+			{ title: 'List', path: 'components/list' },
 			{ title: 'Progress', path: 'components/progress' },
 			{ title: 'Skeleton', path: 'components/skeleton' }
 		]

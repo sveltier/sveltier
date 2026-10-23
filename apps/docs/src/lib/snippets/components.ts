@@ -177,3 +177,20 @@ export const cardUsage = `<script>
     <Button variant="text">Statement</Button>
   {/snippet}
 </Card>`;
+
+export const listUsage = `<script>
+  import { List, ListItem } from 'sveltier';
+</script>
+
+<nav aria-label="Banking">
+  <List nav>
+    <ListItem title="Overview" href="/" active />
+    <ListItem title="Cards" href="/cards" />
+  </List>
+</nav>
+
+<List>
+  <ListItem title="Savings" subtitle="Instant access">
+    {#snippet append()}$12,480.00{/snippet}
+  </ListItem>
+</List>`;

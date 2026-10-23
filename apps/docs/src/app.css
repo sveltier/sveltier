@@ -565,8 +565,9 @@ a {
 	letter-spacing: var(--sv-tracking-display);
 }
 
-.doc-body ul,
-.doc-body ol {
+/* Prose lists only: lists inside demos are components and keep their own styles. */
+.doc-body > ul,
+.doc-body > ol {
 	display: grid;
 	gap: var(--sv-space-5);
 	margin: 0;
@@ -1405,4 +1406,17 @@ a {
 	margin: 0;
 	font-size: var(--sv-text-xl);
 	font-variant-numeric: tabular-nums;
+}
+
+.docs-list-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--sv-space-21);
+	align-items: start;
+}
+
+.docs-list-panel {
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
 }

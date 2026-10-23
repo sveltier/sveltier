@@ -1,0 +1,127 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-list {
+		display: grid;
+		margin: 0;
+		padding: calc(var(--sv-space-5) * var(--sv-density)) 0;
+		list-style: none;
+	}
+
+	.sv-list-item {
+		display: flex;
+		align-items: center;
+		min-inline-size: 0;
+	}
+
+	/* The row: a control tall, its text a φ step from what is before it. */
+	.sv-list-item__main {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		flex: 1;
+		gap: var(--sv-space-13);
+		align-items: center;
+		box-sizing: border-box;
+		min-inline-size: 0;
+		min-block-size: calc(var(--sv-control-md) * var(--sv-density));
+		margin: 0;
+		padding: calc(var(--sv-space-5) * var(--sv-density))
+			calc(var(--sv-space-13) * var(--sv-density));
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+		text-align: start;
+		text-decoration: none;
+	}
+
+	/* Rows that act share Button's state layer. */
+	:is(a, button).sv-list-item__main {
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	:is(a, button).sv-list-item__main::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-list-item:not(.sv-list-item--disabled) :is(a, button).sv-list-item__main:hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-list-item:not(.sv-list-item--disabled) :is(a, button).sv-list-item__main:active::before {
+		opacity: var(--sv-state-press);
+	}
+
+	/* Navigation: rounded rows, set in from the edges. */
+	.sv-list--nav {
+		padding-inline: var(--sv-space-5);
+	}
+
+	.sv-list--nav .sv-list-item__main {
+		border-radius: var(--sv-radius-md);
+	}
+
+	.sv-list-item--active .sv-list-item__main {
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+		color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-text-mix), var(--sv-color-text));
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-list-item--disabled {
+		opacity: 0.382;
+	}
+
+	.sv-list-item--disabled .sv-list-item__main {
+		cursor: not-allowed;
+	}
+
+	.sv-list-item__prepend,
+	.sv-list-item__append {
+		display: flex;
+		flex: none;
+		align-items: center;
+	}
+
+	.sv-list-item__append {
+		padding-inline-end: calc(var(--sv-space-13) * var(--sv-density));
+		font-size: var(--sv-text-sm);
+	}
+
+	:where(.sv-list-item__prepend, .sv-list-item__append) svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	.sv-list-item__text {
+		display: grid;
+		flex: 1;
+		gap: var(--sv-space-2);
+		min-inline-size: 0;
+	}
+
+	.sv-list-item__title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.sv-list-item__subtitle {
+		color: var(--sv-color-text-subtle);
+		font-size: var(--sv-text-xs);
+		font-weight: var(--sv-weight-regular);
+	}
+}

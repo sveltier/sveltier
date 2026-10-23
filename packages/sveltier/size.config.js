@@ -143,6 +143,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'List and ListItem',
+		code: "export { List, ListItem } from 'sveltier';",
+		limit: '2 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'ProgressLinear',
 		code: "export { ProgressLinear } from 'sveltier';",
 		limit: '1.3 KB',

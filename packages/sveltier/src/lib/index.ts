@@ -143,6 +143,13 @@ export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
 export {
+	List,
+	ListItem,
+	type ListDefaults,
+	type ListItemProps,
+	type ListProps
+} from './components/List/index.js';
+export {
 	ProgressCircular,
 	ProgressLinear,
 	type ProgressCircularDefaults,

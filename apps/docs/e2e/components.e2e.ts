@@ -126,3 +126,12 @@ test('a card titled with a level is in the page outline', async ({ page }) => {
 	await expect(page.getByRole('button', { name: 'Savings options' })).toBeVisible();
 	await expect(page.getByRole('button', { name: 'Add money' })).toBeVisible();
 });
+
+test('a navigation list marks the row the user picked', async ({ page }) => {
+	await open(page, '/components/list');
+	const nav = page.getByRole('navigation', { name: 'Banking' });
+	await nav.getByRole('button', { name: 'Cards' }).click();
+	await expect(page.getByText('Showing Cards.')).toBeVisible();
+	await expect(nav.getByRole('button', { name: 'Loans' })).toBeDisabled();
+	expect(await nav.getByRole('listitem').count()).toBe(4);
+});
