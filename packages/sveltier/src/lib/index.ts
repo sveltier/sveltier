@@ -90,3 +90,8 @@ export {
 	type DismissableOptions,
 	type DismissReason
 } from './primitives/layer/dismissable.js';
+
+// Primitives: portal and modality
+export { default as Portal, type PortalProps } from './primitives/portal/Portal.svelte';
+export { inertOthers } from './primitives/inert/inert-others.js';
+export { scrollLock } from './primitives/scroll-lock/scroll-lock.js';

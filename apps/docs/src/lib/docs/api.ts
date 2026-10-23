@@ -418,10 +418,10 @@ export const FOCUS_TRAP_OPTIONS: ApiRow[] = [
 	},
 	{
 		name: 'returnFocus',
-		type: 'boolean',
+		type: 'boolean | HTMLElement | SVGElement | null',
 		default: 'true',
 		description:
-			'Return focus to the element that had it when the trap started, if focus is still inside the trap or lost to the page.'
+			'Where focus goes when the trap ends, if it is still inside or lost to the page: true for the element that had it when the trap started, an element (pass the trigger, since Safari does not focus a clicked button), or false.'
 	}
 ];
 
@@ -476,5 +476,19 @@ export const DISMISSABLE_OPTIONS: ApiRow[] = [
 		type: 'Element[] | (() => Element[])',
 		default: '[]',
 		description: 'Elements that count as inside, such as the trigger.'
+	}
+];
+
+export const PORTAL_PROPS: ApiRow[] = [
+	{
+		name: 'target',
+		type: 'HTMLElement | string',
+		default: "'body'",
+		description: 'Where the content goes: an element, or a selector for one.'
+	},
+	{
+		name: 'children',
+		type: 'Snippet',
+		description: 'The content, rendered with the contexts and theme scope of where Portal is used.'
 	}
 ];

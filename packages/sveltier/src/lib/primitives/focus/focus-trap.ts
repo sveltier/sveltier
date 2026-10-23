@@ -8,8 +8,12 @@ export interface FocusTrapOptions {
 	 * element, else the container.
 	 */
 	initialFocus?: FocusableElement | string | false;
-	/** Return focus to the element that had it when the trap started. Defaults to `true`. */
-	returnFocus?: boolean;
+	/**
+	 * Where focus goes when the trap ends: `true` for the element that had it when the trap
+	 * started, an element (pass the trigger: Safari does not focus a button on click, so the
+	 * element that had focus may be the page itself), or `false` to leave it. Defaults to `true`.
+	 */
+	returnFocus?: boolean | FocusableElement | null;
 }
 
 interface Trap {
@@ -34,7 +38,7 @@ export function focusTrap({
 	returnFocus = true
 }: FocusTrapOptions = {}): Attachment<HTMLElement> {
 	return (container) => {
-		const previous = document.activeElement;
+		const previous = returnFocus === true ? document.activeElement : returnFocus;
 		let madeFocusable = false;
 		let last: FocusableElement | undefined;
 
@@ -91,19 +95,18 @@ export function focusTrap({
 			document.removeEventListener('focusin', onfocusin, true);
 			traps.splice(traps.indexOf(trap), 1);
 			if (madeFocusable) container.removeAttribute('tabindex');
-			// Give focus back only if it is still ours: inside the trap, or lost to the page.
-			const focused = document.activeElement;
-			const lost = !focused || focused === document.body || container.contains(focused);
-			if (
-				returnFocus &&
-				lost &&
-				(previous instanceof HTMLElement || previous instanceof SVGElement)
-			) {
-				if (previous.isConnected) previous.focus();
-			}
-			// The trap below takes over again.
-			const below = traps.at(-1);
-			if (below && !below.container.contains(document.activeElement)) below.resume();
+			// In a later task: after the other attachments of the closing surface have cleaned up
+			// (inertOthers may still hold the page inert now) and after the browser has moved
+			// focus for the press that closed it. Then give focus back if it is still ours
+			// (inside the trap, or lost to the page), and let the trap below take over again.
+			setTimeout(() => {
+				const focused = document.activeElement;
+				const lost = !focused || focused === document.body || container.contains(focused);
+				const restorable = previous instanceof HTMLElement || previous instanceof SVGElement;
+				if (lost && restorable && previous.isConnected) previous.focus();
+				const below = traps.at(-1);
+				if (below && !below.container.contains(document.activeElement)) below.resume();
+			});
 		};
 	};
 }

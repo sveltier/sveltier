@@ -46,6 +46,16 @@ export default [
 		limit: '0.75 KB'
 	},
 	{
+		name: 'Portal',
+		code: "export { Portal } from 'sveltier';",
+		limit: '0.85 KB'
+	},
+	{
+		name: 'inertOthers and scrollLock',
+		code: "export { inertOthers, scrollLock } from 'sveltier';",
+		limit: '0.6 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

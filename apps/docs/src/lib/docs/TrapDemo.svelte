@@ -3,14 +3,22 @@
 	import { focusTrap } from 'sveltier';
 
 	let open = $state(false);
+	let opener = $state<HTMLButtonElement>();
 </script>
 
 <div class="docs-demo">
 	<div class="docs-actions">
-		<button type="button" class="docs-button" onclick={() => (open = true)}>Open the panel</button>
+		<button type="button" class="docs-button" bind:this={opener} onclick={() => (open = true)}
+			>Open the panel</button
+		>
 	</div>
 	{#if open}
-		<div class="docs-trap" role="group" aria-labelledby="trap-title" {@attach focusTrap()}>
+		<div
+			class="docs-trap"
+			role="group"
+			aria-labelledby="trap-title"
+			{@attach focusTrap({ returnFocus: opener })}
+		>
 			<p class="docs-label" id="trap-title">Transfer</p>
 			<label class="docs-field">
 				<span>Amount</span>

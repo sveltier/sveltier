@@ -1,0 +1,8 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Carries the theme scope of portaled content without adding a box. */
+	.sv-portal {
+		display: contents;
+	}
+}

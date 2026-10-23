@@ -1098,3 +1098,31 @@ a {
 	background-color: var(--sv-color-surface);
 	box-shadow: var(--sv-shadow);
 }
+
+.docs-sheet-scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background-color: color-mix(in oklch, var(--sv-color-text) 34%, transparent);
+}
+
+.docs-sheet {
+	position: fixed;
+	inset-block-end: 0;
+	inset-inline: 0;
+	z-index: 101;
+	display: grid;
+	gap: var(--sv-space-13);
+	max-inline-size: var(--docs-content-width);
+	margin-inline: auto;
+	padding: var(--sv-space-21);
+	border-start-start-radius: var(--sv-radius-xl);
+	border-start-end-radius: var(--sv-radius-xl);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+}
+
+.docs-sheet__title {
+	margin: 0;
+	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-display);
+}

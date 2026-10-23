@@ -11,12 +11,19 @@ export const attachIntro = `<script>
 export const trapExample = `<script>
   import { focusTrap } from 'sveltier';
   let open = $state(false);
+  let opener = $state();
 </script>
 
-<button type="button" onclick={() => (open = true)}>Transfer</button>
+<button type="button" bind:this={opener} onclick={() => (open = true)}>Transfer</button>
 
 {#if open}
-  <div role="dialog" aria-modal="true" aria-labelledby="transfer-title" {@attach focusTrap()}>
+  <!-- Pass the trigger: Safari does not focus a button when it is clicked. -->
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="transfer-title"
+    {@attach focusTrap({ returnFocus: opener })}
+  >
     <h2 id="transfer-title">Transfer</h2>
     <input aria-label="Amount" />
     <button type="button" onclick={() => (open = false)}>Close</button>
@@ -52,4 +59,38 @@ export const dismissExample = `<script>
   <div {@attach dismissable({ onDismiss: () => (open = false), inside: [trigger] })}>
     …
   </div>
+{/if}`;
+
+export const portalExample = `<script>
+  import { Portal } from 'sveltier';
+</script>
+
+<!-- Rendered at the end of <body>, or in the element target names. -->
+<Portal target="#toasts">
+  <Toast />
+</Portal>`;
+
+export const modalExample = `<script>
+  import { Portal, dismissable, focusTrap, inertOthers, scrollLock } from 'sveltier';
+  let open = $state(false);
+  let opener = $state();
+</script>
+
+<button bind:this={opener} onclick={() => (open = true)}>Review transfer</button>
+
+{#if open}
+  <Portal>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="sheet-title"
+      {@attach focusTrap({ returnFocus: opener })}
+      {@attach inertOthers()}
+      {@attach scrollLock()}
+      {@attach dismissable({ onDismiss: () => (open = false) })}
+    >
+      <h2 id="sheet-title">Confirm transfer</h2>
+      …
+    </div>
+  </Portal>
 {/if}`;

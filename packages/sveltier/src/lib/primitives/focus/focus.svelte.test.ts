@@ -74,6 +74,16 @@ describe('focusTrap', () => {
 		await expect.element(button('Before')).toHaveFocus();
 	});
 
+	it('returns focus to the element passed as returnFocus', async () => {
+		const screen = await render(TrapHarness, { open: false });
+		const trap = { returnFocus: button('After').element() as HTMLElement };
+		button('Before').element().focus();
+		await screen.rerender({ open: true, trap });
+		await expect.element(button('One')).toHaveFocus();
+		await screen.rerender({ open: false, trap });
+		await expect.element(button('After')).toHaveFocus();
+	});
+
 	it('leaves focus alone with returnFocus: false', async () => {
 		const screen = await render(TrapHarness, { open: false, trap: { returnFocus: false } });
 		button('Before').element().focus();
