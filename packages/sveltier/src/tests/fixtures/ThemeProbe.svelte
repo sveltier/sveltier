@@ -7,6 +7,6 @@
 </script>
 
 <output data-testid={label}>{theme.choice}|{theme.name}|{theme.isDark}</output>
-<button type="button" onclick={() => theme.set('bone')}>{label} bone</button>
-<button type="button" onclick={() => theme.set('ink')}>{label} ink</button>
+<button type="button" onclick={() => theme.set('monolith-light')}>{label} light</button>
+<button type="button" onclick={() => theme.set('monolith-dark')}>{label} dark</button>
 <button type="button" onclick={() => theme.toggle()}>{label} toggle</button>

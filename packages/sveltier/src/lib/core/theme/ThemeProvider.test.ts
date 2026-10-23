@@ -11,7 +11,7 @@ describe('ThemeProvider on the server', () => {
 		expect(head).toContain('localStorage.getItem("sv-theme")');
 		expect(body).not.toContain('sv-theme-provider');
 		// The OS preference is unknown on the server, so "system" resolves to the light theme.
-		expect(body).toContain('system|bone|false');
+		expect(body).toContain('system|monolith-light|false');
 	});
 
 	it('omits the script without persistence and adds the nonce', () => {
@@ -21,16 +21,16 @@ describe('ThemeProvider on the server', () => {
 	});
 
 	it('maps a bare <html> to an explicit theme prop', () => {
-		const { head, body } = render(ThemedProbe, { props: { theme: 'ink' } });
+		const { head, body } = render(ThemedProbe, { props: { theme: 'monolith-dark' } });
 		expect(head).toContain(':root:not([data-sv-theme]){color-scheme:dark;');
-		expect(body).toContain('ink|ink|true');
+		expect(body).toContain('monolith-dark|monolith-dark|true');
 	});
 
 	it('renders nested scopes as wrappers with their theme', () => {
 		const { head, body } = render(NestedThemes);
 		expect(head.match(/<style id="sv-theme"/g)).toHaveLength(1);
 		expect(body).toMatch(
-			/<div[^>]*class="sv-theme-provider sv-theme-provider--background"[^>]*data-sv-theme="ink"/
+			/<div[^>]*class="sv-theme-provider sv-theme-provider--background"[^>]*data-sv-theme="monolith-dark"/
 		);
 	});
 });

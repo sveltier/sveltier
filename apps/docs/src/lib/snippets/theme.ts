@@ -1,4 +1,4 @@
-// Code samples shown on the Theme page. Kept in a .ts module because a literal closing
+// Code samples shown on the Themes page. Kept in a .ts module because a literal closing
 // script tag cannot appear inside a Svelte <script> block.
 
 export const setup = `<!-- src/routes/+layout.svelte -->
@@ -7,19 +7,29 @@ export const setup = `<!-- src/routes/+layout.svelte -->
   let { children } = $props();
 </script>
 
+<!-- Monolith by default, light or dark following the OS -->
 <ThemeProvider>
   {@render children()}
 </ThemeProvider>`;
 
-export const custom = `import { bone, defineTheme, ink, verdigris } from 'sveltier';
+export const pack = `<script>
+  import { ThemeProvider } from 'sveltier';
+  import { maison } from 'sveltier/themes/maison';
+</script>
 
-const themes = {
-  ink: ink(verdigris),
-  bone: bone(verdigris),
-  midnight: defineTheme({ dark: true, colors: { primary: 'oklch(0.78 0.11 260)' } })
-};
+<ThemeProvider themes={maison}>…</ThemeProvider>`;
 
-<ThemeProvider {themes} light="bone" dark="ink">…</ThemeProvider>`;
+export const custom = `import { defineTheme, monolith, milano } from 'sveltier';
+
+// Every theme fulfils the same typed contract: colours plus type, shape,
+// depth and motion. defineTheme() fills anything you leave out.
+const brand = defineTheme({
+  dark: false,
+  colors: { primary: 'oklch(0.52 0.16 255)' },
+  variables: { 'radius-md': '10px' }
+});
+
+const themes = { ...monolith, ...milano, brand };`;
 
 export const toggle = `<script>
   import { useTheme } from 'sveltier';
@@ -27,5 +37,5 @@ export const toggle = `<script>
 </script>
 
 <button type="button" onclick={() => theme.toggle()}>
-  {theme.isDark ? 'Bone' : 'Ink'}
+  {theme.isDark ? 'Light' : 'Dark'}
 </button>`;

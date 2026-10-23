@@ -1,7 +1,7 @@
 {
 	"name": "sveltier",
 	"version": "0.0.0",
-	"description": "A Svelte 5 UI framework with the Engraved Instrument design language for premium fintech products.",
+	"description": "A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free SSR theming.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -35,6 +35,10 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
+		},
+		"./themes/*": {
+			"types": "./dist/themes/*.d.ts",
+			"default": "./dist/themes/*.js"
 		},
 		"./styles/*.css": "./dist/styles/*.css",
 		"./package.json": "./package.json"

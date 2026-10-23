@@ -3,9 +3,9 @@
 	import ThemeProbe from './ThemeProbe.svelte';
 </script>
 
-<ThemeProvider theme="bone" storageKey={false}>
+<ThemeProvider theme="monolith-light" storageKey={false}>
 	<ThemeProbe label="outer" />
-	<ThemeProvider theme="ink" withBackground data-testid="inner-scope">
+	<ThemeProvider theme="monolith-dark" withBackground data-testid="inner-scope">
 		<ThemeProbe label="inner" />
 	</ThemeProvider>
 </ThemeProvider>

@@ -8,14 +8,14 @@
 		text-size-adjust: 100%;
 	}
 
-	/* Every theme scope re-applies its text colour, so nested themes recolour their content. */
+	/* Every theme scope re-applies its text colour and type, so nested themes restyle content. */
 	:root,
 	[data-sv-theme] {
 		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
 	}
 
 	body {
-		font-family: var(--sv-font-ui);
 		font-size: var(--sv-text-md);
 		line-height: var(--sv-leading-normal);
 		-webkit-font-smoothing: antialiased;
@@ -26,5 +26,19 @@
 	:focus-visible {
 		outline: var(--sv-focus-width) solid var(--sv-color-primary);
 		outline-offset: var(--sv-focus-offset);
+	}
+
+	/*
+	 * Themes set their own durations in sv.tokens. This later layer wins over every theme, so
+	 * reduced motion is honoured whatever theme is active.
+	 */
+	@media (prefers-reduced-motion: reduce) {
+		:root,
+		[data-sv-theme] {
+			--sv-duration-fast: 0.01ms;
+			--sv-duration-normal: 0.01ms;
+			--sv-duration-slow: 0.01ms;
+			--sv-press-offset: 0px;
+		}
 	}
 }

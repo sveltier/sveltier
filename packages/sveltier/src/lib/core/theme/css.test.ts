@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { bone } from '../../themes/bone.js';
-import { ink } from '../../themes/ink.js';
+import { monolith, monolithDark, monolithLight } from '../../themes/monolith.js';
 import { defineTheme } from './define.js';
 import { themeCss, themeHead, themeScript } from './css.js';
 
-const themes = { ink: ink(), bone: bone() };
+const themes = monolith;
+const light = 'monolith-light';
+const dark = 'monolith-dark';
 
 describe('themeCss', () => {
-	const css = themeCss({ themes, light: 'bone', dark: 'ink', fallback: 'system' });
+	const css = themeCss({ themes, light, dark, fallback: 'system' });
 
 	it('wraps everything in the tokens layer after the layer order statement', () => {
 		expect(css.startsWith('@layer sv.tokens,sv.base,sv.components,sv.utilities;')).toBe(true);
@@ -15,11 +16,12 @@ describe('themeCss', () => {
 	});
 
 	it('emits one rule per theme with colours, on- colours, variables and color-scheme', () => {
-		expect(css).toContain('[data-sv-theme="ink"]{color-scheme:dark;');
-		expect(css).toContain('[data-sv-theme="bone"]{color-scheme:light;');
-		expect(css).toContain('--sv-color-primary:oklch(0.80 0.090 84)');
-		expect(css).toContain('--sv-on-primary:oklch(0.20 0.020 80)');
-		expect(css).toContain('--sv-bevel:oklch(1 0 0 / 0.07)');
+		expect(css).toContain('[data-sv-theme="monolith-dark"]{color-scheme:dark;');
+		expect(css).toContain('[data-sv-theme="monolith-light"]{color-scheme:light;');
+		expect(css).toContain(`--sv-color-primary:${monolithDark.colors.primary}`);
+		expect(css).toContain(`--sv-on-primary:${monolithDark.colors['on-primary']}`);
+		expect(css).toContain(`--sv-font-ui:${monolithLight.variables['font-ui']}`);
+		expect(css).toContain('--sv-duration-normal:220ms');
 	});
 
 	it('maps "system" and a bare <html> to prefers-color-scheme', () => {
@@ -32,17 +34,27 @@ describe('themeCss', () => {
 	});
 
 	it('maps a bare <html> to a named fallback theme', () => {
-		const named = themeCss({ themes, light: 'bone', dark: 'ink', fallback: 'ink' });
+		const named = themeCss({ themes, light, dark, fallback: dark });
 		expect(named).toContain(':root:not([data-sv-theme]){color-scheme:dark;');
 		expect(named).not.toContain(',:root:not(');
 	});
 
 	it('rejects unsafe names and values', () => {
 		expect(() =>
-			themeCss({ themes: { 'a"]{}': ink() }, light: 'a"]{}', dark: 'a"]{}', fallback: 'system' })
+			themeCss({
+				themes: { 'a"]{}': monolithDark },
+				light: 'a"]{}',
+				dark: 'a"]{}',
+				fallback: 'system'
+			})
 		).toThrow(/invalid theme name/);
 		expect(() =>
-			themeCss({ themes: { system: ink() }, light: 'system', dark: 'system', fallback: 'system' })
+			themeCss({
+				themes: { system: monolithDark },
+				light: 'system',
+				dark: 'system',
+				fallback: 'system'
+			})
 		).toThrow(/invalid theme name/);
 		const evil = defineTheme({ colors: { primary: 'red}</style><script>alert(1)</script>' } });
 		expect(() =>
@@ -63,7 +75,7 @@ describe('themeCss', () => {
 	});
 
 	it('rejects unknown light, dark or fallback names', () => {
-		expect(() => themeCss({ themes, light: 'paper', dark: 'ink', fallback: 'system' })).toThrow(
+		expect(() => themeCss({ themes, light: 'paper', dark, fallback: 'system' })).toThrow(
 			/unknown theme "paper"/
 		);
 	});
@@ -71,13 +83,13 @@ describe('themeCss', () => {
 
 describe('themeScript', () => {
 	it('only applies stored values from the allowed list', () => {
-		const script = themeScript('sv-theme', ['system', 'ink', 'bone']);
+		const script = themeScript('sv-theme', ['system', dark, light]);
 		expect(script).toContain('localStorage.getItem("sv-theme")');
-		expect(script).toContain('["system","ink","bone"].indexOf(t)>-1');
+		expect(script).toContain('["system","monolith-dark","monolith-light"].indexOf(t)>-1');
 	});
 
 	it('escapes "<" so the script cannot close its own tag', () => {
-		expect(themeScript('</script>', ['ink'])).not.toContain('</script>');
+		expect(themeScript('</script>', [dark])).not.toContain('</script>');
 	});
 });
 

@@ -4,13 +4,15 @@ import { render } from 'vitest-browser-svelte';
 import NestedThemes from '../../../tests/fixtures/NestedThemes.svelte';
 import ThemedProbe from '../../../tests/fixtures/ThemedProbe.svelte';
 import ThemeProbe from '../../../tests/fixtures/ThemeProbe.svelte';
-import { bone } from '../../themes/bone.js';
-import { ink } from '../../themes/ink.js';
+import { maison } from '../../themes/maison.js';
+import { monolithDark, monolithLight } from '../../themes/monolith.js';
 
 const html = document.documentElement;
 const probe = (label = 'probe') => page.getByTestId(label);
 const cssVar = (element: Element, name: string) =>
 	getComputedStyle(element).getPropertyValue(name).trim();
+const DARK = 'monolith-dark|monolith-dark|true';
+const LIGHT = 'monolith-light|monolith-light|false';
 
 beforeEach(() => localStorage.clear());
 afterEach(() => vi.restoreAllMocks());
@@ -19,16 +21,16 @@ describe('root ThemeProvider', () => {
 	it('injects the theme stylesheet and marks <html> after mount', async () => {
 		await render(ThemedProbe);
 
-		await expect.element(probe()).toMatchTextContent(/^system\|/);
+		await expect.element(probe()).toMatchTextContent(/^system\|monolith-/);
 		expect(document.getElementById('sv-theme')?.tagName).toBe('STYLE');
 		expect(html.getAttribute('data-sv-theme')).toBe('system');
 	});
 
 	it('restores a stored choice and ignores unknown values', async () => {
-		localStorage.setItem('sv-theme', 'ink');
+		localStorage.setItem('sv-theme', 'monolith-dark');
 		const first = await render(ThemedProbe);
-		await expect.element(probe()).toHaveTextContent('ink|ink|true');
-		expect(html.getAttribute('data-sv-theme')).toBe('ink');
+		await expect.element(probe()).toHaveTextContent(DARK);
+		expect(html.getAttribute('data-sv-theme')).toBe('monolith-dark');
 		await first.unmount();
 
 		localStorage.setItem('sv-theme', 'hacked');
@@ -38,27 +40,37 @@ describe('root ThemeProvider', () => {
 
 	it('set() switches the theme, paints its tokens and remembers it', async () => {
 		await render(ThemedProbe);
-		await userEvent.click(page.getByRole('button', { name: 'probe ink' }));
+		await userEvent.click(page.getByRole('button', { name: 'probe dark' }));
 
-		await expect.element(probe()).toHaveTextContent('ink|ink|true');
-		expect(html.getAttribute('data-sv-theme')).toBe('ink');
-		expect(localStorage.getItem('sv-theme')).toBe('ink');
-		expect(cssVar(html, '--sv-color-background')).toBe(ink().colors.background);
+		await expect.element(probe()).toHaveTextContent(DARK);
+		expect(html.getAttribute('data-sv-theme')).toBe('monolith-dark');
+		expect(localStorage.getItem('sv-theme')).toBe('monolith-dark');
+		expect(cssVar(html, '--sv-color-background')).toBe(monolithDark.colors.background);
 		expect(getComputedStyle(html).colorScheme).toBe('dark');
 	});
 
 	it('toggle() flips between the light and dark themes', async () => {
-		await render(ThemedProbe, { theme: 'bone' });
+		await render(ThemedProbe, { theme: 'monolith-light' });
 		await userEvent.click(page.getByRole('button', { name: 'probe toggle' }));
-		await expect.element(probe()).toHaveTextContent('ink|ink|true');
+		await expect.element(probe()).toHaveTextContent(DARK);
 		await userEvent.click(page.getByRole('button', { name: 'probe toggle' }));
-		await expect.element(probe()).toHaveTextContent('bone|bone|false');
+		await expect.element(probe()).toHaveTextContent(LIGHT);
+	});
+
+	it('takes light and dark from the registered pack and restyles more than colour', async () => {
+		await render(ThemedProbe, { themes: maison, theme: 'maison-light' });
+
+		await expect.element(probe()).toHaveTextContent('maison-light|maison-light|false');
+		expect(cssVar(html, '--sv-radius-md')).toBe('0px');
+		expect(cssVar(html, '--sv-font-ui')).toContain('Jost');
+		await userEvent.click(page.getByRole('button', { name: 'probe toggle' }));
+		await expect.element(probe()).toHaveTextContent('maison-dark|maison-dark|true');
 	});
 
 	it('does not persist when storageKey is false', async () => {
 		await render(ThemedProbe, { storageKey: false });
-		await userEvent.click(page.getByRole('button', { name: 'probe ink' }));
-		await expect.element(probe()).toHaveTextContent('ink|ink|true');
+		await userEvent.click(page.getByRole('button', { name: 'probe dark' }));
+		await expect.element(probe()).toHaveTextContent(DARK);
 		expect(localStorage.length).toBe(0);
 	});
 
@@ -70,8 +82,8 @@ describe('root ThemeProvider', () => {
 			throw new DOMException('blocked', 'SecurityError');
 		});
 		await render(ThemedProbe);
-		await userEvent.click(page.getByRole('button', { name: 'probe ink' }));
-		await expect.element(probe()).toHaveTextContent('ink|ink|true');
+		await userEvent.click(page.getByRole('button', { name: 'probe dark' }));
+		await expect.element(probe()).toHaveTextContent(DARK);
 	});
 
 	it('removes its <html> attribute when unmounted', async () => {
@@ -87,11 +99,11 @@ describe('nested ThemeProvider', () => {
 		await render(NestedThemes);
 		const scope = page.getByTestId('inner-scope').element();
 
-		await expect.element(probe('outer')).toHaveTextContent('bone|bone|false');
-		await expect.element(probe('inner')).toHaveTextContent('ink|ink|true');
-		expect(html.getAttribute('data-sv-theme')).toBe('bone');
-		expect(cssVar(scope, '--sv-color-background')).toBe(ink().colors.background);
-		expect(cssVar(html, '--sv-color-background')).toBe(bone().colors.background);
+		await expect.element(probe('outer')).toHaveTextContent(LIGHT);
+		await expect.element(probe('inner')).toHaveTextContent(DARK);
+		expect(html.getAttribute('data-sv-theme')).toBe('monolith-light');
+		expect(cssVar(scope, '--sv-color-background')).toBe(monolithDark.colors.background);
+		expect(cssVar(html, '--sv-color-background')).toBe(monolithLight.colors.background);
 		expect(getComputedStyle(scope).backgroundColor).not.toBe(
 			getComputedStyle(html).backgroundColor
 		);
@@ -100,10 +112,12 @@ describe('nested ThemeProvider', () => {
 
 	it('changes only its own scope', async () => {
 		await render(NestedThemes);
-		await userEvent.click(page.getByRole('button', { name: 'inner bone' }));
-		await expect.element(probe('inner')).toHaveTextContent('bone|bone|false');
-		await expect.element(probe('outer')).toHaveTextContent('bone|bone|false');
-		expect(page.getByTestId('inner-scope').element().getAttribute('data-sv-theme')).toBe('bone');
+		await userEvent.click(page.getByRole('button', { name: 'inner light' }));
+		await expect.element(probe('inner')).toHaveTextContent(LIGHT);
+		await expect.element(probe('outer')).toHaveTextContent(LIGHT);
+		expect(page.getByTestId('inner-scope').element().getAttribute('data-sv-theme')).toBe(
+			'monolith-light'
+		);
 	});
 });
 

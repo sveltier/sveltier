@@ -3,8 +3,8 @@ import { expect, test, type Page } from '@playwright/test';
 // The right theme is painted from the first frame, with or without JavaScript, and
 // hydration never switches it.
 
-const INK_BG = 'oklch(0.175 0.010 78)';
-const BONE_BG = 'oklch(0.945 0.010 78)';
+const DARK_BG = 'oklch(0.155 0.003 260)'; // monolith-dark
+const LIGHT_BG = 'oklch(0.985 0.002 260)'; // monolith-light
 
 declare global {
 	interface Window {
@@ -59,35 +59,35 @@ const htmlBg = (page: Page) =>
 	);
 
 test.describe('system preference without JavaScript', () => {
-	test('light system paints bone', async ({ page }) => {
+	test('light system paints the light theme', async ({ page }) => {
 		await page.emulateMedia({ colorScheme: 'light' });
 		await blockAppJs(page);
 		await page.goto('/');
-		expect(await htmlBg(page)).toBe(BONE_BG);
+		expect(await htmlBg(page)).toBe(LIGHT_BG);
 	});
 
-	test('dark system paints ink', async ({ page }) => {
+	test('dark system paints the dark theme', async ({ page }) => {
 		await page.emulateMedia({ colorScheme: 'dark' });
 		await blockAppJs(page);
 		await page.goto('/');
-		expect(await htmlBg(page)).toBe(INK_BG);
+		expect(await htmlBg(page)).toBe(DARK_BG);
 	});
 });
 
 test('stored choice beats system preference before the app bundle runs', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'dark' });
-	await storeChoice(page, 'bone-champagne');
+	await storeChoice(page, 'monolith-light');
 	await blockAppJs(page);
 	await page.goto('/');
-	expect(await htmlBg(page)).toBe(BONE_BG);
+	expect(await htmlBg(page)).toBe(LIGHT_BG);
 });
 
 test('no frame shows the wrong theme through hydration', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'dark' });
-	await storeChoice(page, 'bone-champagne');
+	await storeChoice(page, 'monolith-light');
 	await recordFrames(page);
 	await page.goto('/');
-	await expect(page.getByRole('radio', { name: 'Bone', exact: true })).toBeChecked();
+	await expect(page.getByRole('radio', { name: 'Light', exact: true })).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 
 	const { frames, attrs } = await page.evaluate(() => ({
@@ -96,20 +96,20 @@ test('no frame shows the wrong theme through hydration', async ({ page }) => {
 	}));
 	const painted = frames.filter((value) => value !== '');
 	expect(painted.length).toBeGreaterThan(0);
-	expect(new Set(painted)).toEqual(new Set([BONE_BG]));
-	expect(attrs.every((value) => value === 'bone-champagne')).toBe(true);
+	expect(new Set(painted)).toEqual(new Set([LIGHT_BG]));
+	expect(attrs.every((value) => value === 'monolith-light')).toBe(true);
 });
 
 test('a new choice persists across reloads without a flash', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'light' });
 	await page.goto('/');
-	await page.getByRole('radio', { name: 'Ink', exact: true }).check();
-	expect(await htmlBg(page)).toBe(INK_BG);
+	await page.getByRole('radio', { name: 'Dark', exact: true }).check();
+	expect(await htmlBg(page)).toBe(DARK_BG);
 
 	await recordFrames(page);
 	await page.reload();
-	await expect(page.getByRole('radio', { name: 'Ink', exact: true })).toBeChecked();
+	await expect(page.getByRole('radio', { name: 'Dark', exact: true })).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 	const frames = await page.evaluate(() => window.__frames.filter((value) => value !== ''));
-	expect(new Set(frames)).toEqual(new Set([INK_BG]));
+	expect(new Set(frames)).toEqual(new Set([DARK_BG]));
 });

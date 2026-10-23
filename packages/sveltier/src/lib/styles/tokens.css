@@ -1,27 +1,22 @@
 /*
- * Engraved Instrument design tokens that do not change between themes.
- * Colours are theme-dependent and are emitted by <ThemeProvider> as --sv-color-* / --sv-on-*.
+ * Design tokens shared by every theme. Colour, type families, shape, depth and motion come
+ * from the active theme (<ThemeProvider>) as --sv-color-*, --sv-on-* and the theme contract
+ * variables (--sv-font-*, --sv-radius-*, --sv-shadow, --sv-ease, --sv-duration-*, ...).
  */
 @layer sv.tokens, sv.base, sv.components, sv.utilities;
 
 @layer sv.tokens {
 	:root {
-		/* Type families. Fonts are not bundled; these stacks fall back gracefully. */
-		--sv-font-display:
-			'Noto Serif Display', 'Didot', 'Bodoni 72', Georgia, 'Times New Roman', serif;
-		--sv-font-ui: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-		--sv-font-data: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-
 		/* Type scale (rem, so user font-size preferences apply). */
-		--sv-text-label: 0.65625rem; /* 10.5px, uppercase labels */
-		--sv-text-xs: 0.71875rem; /* 11.5px */
+		--sv-text-label: 0.65625rem; /* 10.5px */
+		--sv-text-xs: 0.75rem; /* 12px */
 		--sv-text-sm: 0.8125rem; /* 13px */
 		--sv-text-md: 0.875rem; /* 14px, body and controls */
 		--sv-text-lg: 1rem; /* 16px */
 		--sv-text-xl: 1.25rem; /* 20px */
-		--sv-text-title: 1.5rem; /* 24px, serif titles */
+		--sv-text-title: 1.5rem; /* 24px */
 		--sv-text-headline: clamp(1.625rem, 1.2rem + 1.6vw, 2.125rem); /* 26–34px */
-		--sv-text-display: clamp(2.25rem, 1.5rem + 3vw, 3.25rem); /* 36–52px, serif numerals */
+		--sv-text-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem); /* 36–56px */
 
 		--sv-weight-light: 300;
 		--sv-weight-regular: 400;
@@ -31,10 +26,6 @@
 		--sv-leading-tight: 1.15;
 		--sv-leading-snug: 1.3;
 		--sv-leading-normal: 1.5;
-
-		--sv-tracking-label: 0.12em;
-		--sv-tracking-ui: 0.02em;
-		--sv-tracking-display: -0.01em;
 
 		/* Spacing: the suffix is the size in px at the default 16px root. */
 		--sv-space-2: 0.125rem;
@@ -54,13 +45,7 @@
 		--sv-space-48: 3rem;
 		--sv-space-64: 4rem;
 
-		/* Shape: small radii, hairline rules, a 1px bevel highlight on top edges. */
-		--sv-radius-xs: 2px;
-		--sv-radius-sm: 3px;
-		--sv-radius-md: 4px;
-		--sv-radius-lg: 5px;
-		--sv-radius-xl: 6px;
-		--sv-radius-full: 999px;
+		/* Rules. */
 		--sv-hairline: 1px;
 		--sv-rule-total: 3px double;
 
@@ -73,25 +58,10 @@
 		--sv-tonal-text-mix: 80%;
 
 		/* Focus ring. */
-		--sv-focus-width: 1.5px;
-		--sv-focus-offset: 3px;
+		--sv-focus-width: 2px;
+		--sv-focus-offset: 2px;
 
-		/* Motion: mechanical, well damped. Only transform and opacity are animated. */
-		--sv-ease: cubic-bezier(0.22, 0.9, 0.24, 1);
-		--sv-duration-fast: 120ms;
-		--sv-duration-normal: 200ms;
-		--sv-duration-slow: 300ms;
-		--sv-duration-odometer: 800ms;
-		--sv-press-offset: 0.5px;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		:root {
-			--sv-duration-fast: 0.01ms;
-			--sv-duration-normal: 0.01ms;
-			--sv-duration-slow: 0.01ms;
-			--sv-duration-odometer: 0.01ms;
-			--sv-press-offset: 0px;
-		}
+		/* Pressed controls move down by this much; never scale. */
+		--sv-press-offset: 1px;
 	}
 }

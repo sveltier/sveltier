@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { contrast, parseOklch, toLinearSrgb, type Oklch } from '../core/theme/color.js';
 import { INTENT_COLORS, type ThemeDefinition } from '../core/theme/types.js';
-import { champagne, verdigris } from './accents.js';
-import { bone } from './bone.js';
-import { ink } from './ink.js';
+import { aurora } from './aurora.js';
+import { heritage } from './heritage.js';
+import { maison } from './maison.js';
+import { milano } from './milano.js';
+import { monolith } from './monolith.js';
 
 // WCAG 2.2: text 4.5:1 (1.4.3), UI component boundaries and focus indicators 3:1 (1.4.11).
 const TEXT = 4.5;
@@ -14,12 +16,14 @@ const UI = 3;
 const WASH = 0.14;
 const TONAL_TEXT_MIX = 0.8;
 
-const combos: Array<[string, ThemeDefinition]> = [
-	['ink + champagne', ink(champagne)],
-	['ink + verdigris', ink(verdigris)],
-	['bone + champagne', bone(champagne)],
-	['bone + verdigris', bone(verdigris)]
-];
+// Every built-in theme, light and dark.
+const combos: Array<[string, ThemeDefinition]> = Object.entries({
+	...monolith,
+	...heritage,
+	...aurora,
+	...maison,
+	...milano
+});
 
 const SURFACES = ['background', 'surface', 'surface-raised'] as const;
 const TEXTS = ['text', 'text-muted', 'text-subtle', ...INTENT_COLORS] as const;
