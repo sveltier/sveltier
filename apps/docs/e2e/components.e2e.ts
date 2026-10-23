@@ -109,3 +109,13 @@ test('a skeleton holds the place of content while its region is busy', async ({ 
 	await expect(card).toHaveAttribute('aria-busy', 'false');
 	await expect(card).toContainText('Alex Morgan');
 });
+
+test('an error alert is announced at once and a closed alert can come back', async ({ page }) => {
+	await open(page, '/components/alert');
+	await expect(page.getByRole('alert').filter({ hasText: 'Payment declined' })).toBeVisible();
+	await expect(page.getByRole('status').filter({ hasText: 'Transfer sent' })).toBeVisible();
+	await page.getByRole('button', { name: 'Dismiss tip' }).click();
+	await expect(page.getByText('Tip: press')).toHaveCount(0);
+	await page.getByRole('button', { name: 'Show the tip again' }).click();
+	await expect(page.getByText('Tip: press')).toBeVisible();
+});

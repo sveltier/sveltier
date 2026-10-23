@@ -1,0 +1,77 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Icon, message, close, each only when present; padding on the Fibonacci scale. */
+	.sv-alert {
+		display: flex;
+		gap: var(--sv-space-13);
+		align-items: flex-start;
+		box-sizing: border-box;
+		padding: calc(var(--sv-space-13) * var(--sv-density))
+			calc(var(--sv-space-21) * var(--sv-density));
+		border: var(--sv-hairline) solid var(--sv-variant-border);
+		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-variant-shadow);
+		color: var(--sv-variant-fg);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	/* Icons are φ^½ of the text, centred on the first line. */
+	.sv-alert__icon {
+		display: inline-flex;
+		flex: none;
+		block-size: calc(1em * var(--sv-leading-snug));
+		align-items: center;
+	}
+
+	:where(.sv-alert__icon) svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	.sv-alert__content {
+		display: grid;
+		flex: 1;
+		gap: var(--sv-space-5);
+		min-inline-size: 0;
+	}
+
+	.sv-alert__title {
+		font-weight: var(--sv-weight-semibold);
+	}
+
+	.sv-alert__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sv-space-8);
+		margin-block-start: var(--sv-space-5);
+	}
+
+	.sv-alert__close {
+		display: inline-grid;
+		flex: none;
+		place-items: center;
+		inline-size: 1.618em;
+		block-size: 1.618em;
+		margin-block: -0.191em;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	@media (hover: hover) {
+		.sv-alert__close:hover {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	.sv-alert__close svg {
+		inline-size: 1em;
+		block-size: 1em;
+	}
+}

@@ -98,6 +98,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'Alert',
+		code: "export { Alert } from 'sveltier';",
+		limit: '2 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'Avatar',
 		code: "export { Avatar } from 'sveltier';",
 		limit: '1.2 KB',

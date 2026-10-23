@@ -56,6 +56,7 @@ export const NAV: NavGroup[] = [
 	{
 		title: 'Components',
 		items: [
+			{ title: 'Alert', path: 'components/alert' },
 			{ title: 'Avatar', path: 'components/avatar' },
 			{ title: 'Badge', path: 'components/badge' },
 			{ title: 'Button', path: 'components/button' },
