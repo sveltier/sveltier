@@ -27,3 +27,28 @@ export { heritage, heritageDark, heritageLight } from './themes/heritage.js';
 export { aurora, auroraDark, auroraLight } from './themes/aurora.js';
 export { maison, maisonDark, maisonLight } from './themes/maison.js';
 export { milano, milanoDark, milanoLight } from './themes/milano.js';
+
+// Shared props
+export {
+	DENSITIES,
+	SIZES,
+	VARIANTS,
+	type Color,
+	type Density,
+	type Rounded,
+	type SharedProps,
+	type Size,
+	type Variant
+} from './core/props/types.js';
+
+// Defaults
+export {
+	default as DefaultsProvider,
+	type DefaultsProviderProps
+} from './core/defaults/DefaultsProvider.svelte';
+export {
+	useDefaults,
+	type ComponentDefaults,
+	type DefaultsConfig,
+	type GlobalDefaults
+} from './core/defaults/context.js';
