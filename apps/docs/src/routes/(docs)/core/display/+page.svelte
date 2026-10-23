@@ -2,7 +2,7 @@
 	import { resolve } from '$app/paths';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { displayExample } from '#lib/snippets/core.js';
+	import { displayExample, displayOptions } from '#lib/snippets/core.js';
 	import { BREAKPOINTS, useDisplay } from 'sveltier';
 
 	const display = useDisplay();
@@ -62,9 +62,11 @@
 	<h2 id="server">Server rendering</h2>
 	<p>
 		The server cannot know the viewport, so it renders mobile first: <code>xs</code>, and
-		<code>mobile</code> is true. On the client the real values apply at once, so content that depends
-		on them can change right after hydration. Keep such content small, or give the server a width from
-		client hints or a cookie when the app knows the device class.
+		<code>mobile</code> is true. On the client the real values apply at once, so content that
+		depends on them can change right after hydration. Keep such content small, or give the server a
+		width from client hints or a cookie when the app knows the device class. Thresholds, the mobile
+		breakpoint and that width are options of <code>UIProvider</code>:
 	</p>
+	<Code title="+layout.svelte" code={displayOptions} />
 	<p>See <a href={resolve('api/use-display')}>useDisplay</a> for every flag.</p>
 </DocPage>

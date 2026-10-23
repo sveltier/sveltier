@@ -4,7 +4,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { DEFAULTS_PROVIDER_PROPS, DEFAULTS_TYPES } from '#lib/docs/api.js';
-	import { defaultsGlobal } from '#lib/snippets/core.js';
+	import { defaultsNested } from '#lib/snippets/core.js';
 </script>
 
 <DocPage
@@ -18,7 +18,7 @@
 	<ApiTable label="Defaults types" rows={DEFAULTS_TYPES} />
 
 	<h2 id="example">Example</h2>
-	<Code title="+layout.svelte" code={defaultsGlobal} />
+	<Code title="Nested providers" code={defaultsNested} />
 	<p>
 		See <a href={resolve('core/defaults')}>Defaults</a> for how values resolve and how to register your
 		own components.

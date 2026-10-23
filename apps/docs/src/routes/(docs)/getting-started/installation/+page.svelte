@@ -40,19 +40,18 @@
 	<h2 id="what-you-get">What you get</h2>
 	<ul>
 		<li>
-			<code>ThemeProvider</code>, <code>useTheme()</code> and <code>defineTheme()</code>: the theme
-			engine.
+			<code>UIProvider</code> and the core: theming, defaults, shared props, breakpoints and locale.
 		</li>
 		<li>
-			Five theme packs: Monolith (default), Heritage, Aurora, Maison and Milano, each in light and
-			dark.
+			Five theme packs: Monolith (the one to start with), Heritage, Aurora, Maison and Milano, each
+			in light and dark.
 		</li>
 		<li>Components, as they land, each with its own small stylesheet.</li>
 		<li>Full TypeScript types, including the props type of every component.</li>
 	</ul>
 	<p>
-		There is no global stylesheet to import. Each component imports its own CSS, and
-		<code>ThemeProvider</code> brings the design tokens and a minimal base. Everything sits in the
+		There is no global stylesheet to import. Each component imports its own CSS, and the root
+		provider brings the design tokens and a minimal base. Everything sits in the
 		<code>sv.*</code> cascade layers, so your own unlayered CSS always wins.
 	</p>
 

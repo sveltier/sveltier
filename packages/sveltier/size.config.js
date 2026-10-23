@@ -19,8 +19,8 @@ export default [
 		measure: 'css'
 	},
 	{
-		name: 'core JS (theme, defaults, display, locale)',
-		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from 'sveltier';",
+		name: 'core JS (UIProvider: theme, defaults, display, locale)',
+		code: "export { UIProvider, ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from 'sveltier';",
 		limit: '5 KB',
 		measure: 'js'
 	},

@@ -1,3 +1,6 @@
+// Root provider
+export { default as UIProvider, type UIProviderProps } from './core/provider/UIProvider.svelte';
+
 // Theme engine
 export {
 	default as ThemeProvider,

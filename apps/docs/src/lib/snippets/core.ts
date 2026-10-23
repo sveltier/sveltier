@@ -1,16 +1,49 @@
-// Code samples for the Core pages (defaults, shared props).
+// Code samples for the Core pages (defaults, shared props, display, locale, UIProvider).
 
 export const defaultsGlobal = `<script>
-  import { DefaultsProvider, ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
-<ThemeProvider themes={monolith}>
-  <DefaultsProvider defaults={{ global: { density: 'compact', rounded: 'lg' } }}>
-    {@render children()}
-  </DefaultsProvider>
-</ThemeProvider>`;
+<UIProvider themes={monolith} defaults={{ global: { density: 'compact', rounded: 'lg' } }}>
+  {@render children()}
+</UIProvider>`;
+
+export const appOptions = `<script>
+  import { UIProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
+  let { children } = $props();
+</script>
+
+<UIProvider
+  themes={monolith}
+  defaults={{ global: { density: 'compact' } }}
+  locale={{ locale: 'en-GB', currency: 'GBP', timeZone: 'Europe/London' }}
+  display={{ mobileBreakpoint: 'lg' }}
+>
+  {@render children()}
+</UIProvider>`;
+
+export const displayOptions = `<!-- +layout.svelte: your own thresholds, and the width the server assumes -->
+<UIProvider
+  themes={monolith}
+  display={{ thresholds: { md: 1024 }, mobileBreakpoint: 'lg', ssrWidth: data.viewportWidth }}
+>
+  {@render children()}
+</UIProvider>`;
+
+export const localeOptions = `<script>
+  import { UIProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
+  let { children } = $props();
+  // A user setting: changing it reformats every amount in the app.
+  let currency = $state('EUR');
+</script>
+
+<UIProvider themes={monolith} locale={{ locale: 'en-IE', currency, timeZone: 'Europe/Dublin' }}>
+  {@render children()}
+</UIProvider>`;
 
 export const defaultsNested = `<DefaultsProvider defaults={{ global: { size: 'sm' } }}>
   <Toolbar />

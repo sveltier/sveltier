@@ -31,9 +31,9 @@
 
 	<h2 id="register">Registering themes</h2>
 	<p>
-		The root <code>ThemeProvider</code> registers themes with <code>themes</code> and writes one stylesheet
-		for all of them. There is no implicit default, so an app ships only the packs it registers. Combine
-		packs by spreading them:
+		The root provider (<code>UIProvider</code>, or <code>ThemeProvider</code> on its own) registers
+		themes with <code>themes</code> and writes one stylesheet for all of them. There is no implicit default,
+		so an app ships only the packs it registers. Combine packs by spreading them:
 	</p>
 	<Code title="Several packs" code={severalPacks} />
 

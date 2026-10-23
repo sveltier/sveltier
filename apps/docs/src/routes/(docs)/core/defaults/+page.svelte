@@ -32,14 +32,14 @@
 		<code>global</code> takes the shared props <code>variant</code>, <code>density</code>,
 		<code>size</code>, <code>color</code>, <code>rounded</code> and <code>disabled</code>. A global
 		default only reaches components that have the prop, so it never adds an attribute to an element
-		that does not expect it.
+		that does not expect it. Set the app-wide ones on <code>UIProvider</code>:
 	</p>
 	<Code title="+layout.svelte" code={defaultsGlobal} />
 
 	<h2 id="nesting">Nesting</h2>
 	<p>
-		Providers nest. An inner provider is merged over its parent key by key, so it only needs the
-		values it changes.
+		A <code>DefaultsProvider</code> changes the defaults of a section, and providers nest. An inner provider
+		is merged over its parent key by key, so it only needs the values it changes.
 	</p>
 	<Code title="Nested providers" code={defaultsNested} />
 

@@ -10,15 +10,15 @@ export const install = {
 
 export const setup = `<!-- src/routes/+layout.svelte -->
 <script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
 <!-- Monolith, light or dark following the OS -->
-<ThemeProvider themes={monolith}>
+<UIProvider themes={monolith}>
   {@render children()}
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const viteSetup = `// src/main.ts (Vite without SvelteKit)
 import { mount } from 'svelte';
@@ -28,34 +28,34 @@ mount(App, { target: document.getElementById('app')! });
 
 <!-- src/App.svelte -->
 <script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
 </script>
 
-<ThemeProvider themes={monolith}>
+<UIProvider themes={monolith}>
   <h1>Hello</h1>
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const pack = `<script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { maison } from 'sveltier/themes/maison';
   let { children } = $props();
 </script>
 
-<ThemeProvider themes={maison}>
+<UIProvider themes={maison}>
   {@render children()}
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const severalPacks = `<script>
-  import { ThemeProvider, monolith, milano } from 'sveltier';
+  import { UIProvider, monolith, milano } from 'sveltier';
 </script>
 
 <!-- "system" switches between monolith-light and monolith-dark;
      users can also pick milano-light or milano-dark -->
-<ThemeProvider themes={{ ...monolith, ...milano }}
+<UIProvider themes={{ ...monolith, ...milano }}
   light="monolith-light" dark="monolith-dark">
   …
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const toggle = `<script>
   import { useTheme } from 'sveltier';
@@ -66,37 +66,37 @@ export const toggle = `<script>
   {theme.isDark ? 'Light' : 'Dark'}
 </button>`;
 
-export const nested = `<ThemeProvider themes={monolith}>
+export const nested = `<UIProvider themes={monolith}>
   <p>The page follows the user's choice.</p>
 
   <ThemeProvider theme="monolith-dark" withBackground class="card">
     <p>This card is always dark.</p>
   </ThemeProvider>
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const bindTheme = `<script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
   let theme = $state('system');
 </script>
 
-<ThemeProvider themes={monolith} bind:theme>…</ThemeProvider>
+<UIProvider themes={monolith} bind:theme>…</UIProvider>
 <p>Current choice: {theme}</p>`;
 
 export const fonts = `<!-- src/routes/+layout.svelte -->
 <script>
   import '@fontsource-variable/geist';
   import '@fontsource-variable/geist-mono';
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
-<ThemeProvider themes={monolith}>{@render children()}</ThemeProvider>`;
+<UIProvider themes={monolith}>{@render children()}</UIProvider>`;
 
 export const cookie = `<!-- src/routes/+layout.svelte -->
 <script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { monolith } from 'sveltier/themes/monolith';
   let { data, children } = $props();
   let theme = $state(data.theme ?? 'system');
@@ -107,14 +107,14 @@ export const cookie = `<!-- src/routes/+layout.svelte -->
   });
 </script>
 
-<ThemeProvider themes={monolith} bind:theme storageKey={false}>
+<UIProvider themes={monolith} bind:theme storageKey={false}>
   {@render children()}
-</ThemeProvider>
+</UIProvider>
 
 // src/routes/+layout.server.ts
 export const load = ({ cookies }) => ({ theme: cookies.get('theme') });`;
 
-export const csp = `<ThemeProvider themes={monolith} nonce={data.cspNonce}>…</ThemeProvider>
+export const csp = `<UIProvider themes={monolith} nonce={data.cspNonce}>…</UIProvider>
 
 // or allow the restore script by hash
 import { themeScript, monolith } from 'sveltier';
@@ -176,14 +176,14 @@ export const override = `/* Your styles are unlayered, so they win over every Sv
 
 /** Usage of one theme pack, for its page. */
 export const packUsage = (id: string): string => `<script>
-  import { ThemeProvider } from 'sveltier';
+  import { UIProvider } from 'sveltier';
   import { ${id} } from 'sveltier/themes/${id}';
   let { children } = $props();
 </script>
 
-<ThemeProvider themes={${id}}>
+<UIProvider themes={${id}}>
   {@render children()}
-</ThemeProvider>`;
+</UIProvider>`;
 
 export const goldenSplit = `/* 61.8% / 38.2% of the space left after the gap. */
 .split {

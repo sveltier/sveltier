@@ -353,3 +353,57 @@ export const LOCALE_INSTANCE: ApiRow[] = [
 		description: 'Time from now in the largest unit that fits: "5 minutes ago", "tomorrow".'
 	}
 ];
+
+export const UI_PROVIDER_PROPS: ApiRow[] = [
+	{
+		name: 'themes',
+		type: 'Record<string, ThemeDefinition>',
+		description:
+			'Required. The registered themes, for example monolith or { ...monolith, ...maison }. An app ships only the packs it registers.'
+	},
+	{
+		name: 'theme',
+		type: "'system' | string",
+		default: "'system'",
+		description: 'The theme to show, or "system" to follow prefers-color-scheme. Bindable.'
+	},
+	{
+		name: 'light / dark',
+		type: 'string',
+		default: 'first light / dark theme',
+		description: 'The pair used by "system" and toggle().'
+	},
+	{
+		name: 'storageKey',
+		type: 'string | false',
+		default: "'sv-theme'",
+		description:
+			'Where the theme choice is remembered and restored before first paint. false turns it off.'
+	},
+	{
+		name: 'nonce',
+		type: 'string',
+		description: 'CSP nonce for the generated <style> and <script>.'
+	},
+	{
+		name: 'defaults',
+		type: 'DefaultsConfig',
+		description: 'Default props for every component below: global, and per component.'
+	},
+	{
+		name: 'display',
+		type: 'DisplayOptions',
+		description:
+			'Breakpoint thresholds, the mobile breakpoint and the width assumed on the server (ssrWidth). Read once.'
+	},
+	{
+		name: 'locale',
+		type: 'LocaleOptions',
+		description: 'Locale, currency, time zone and messages. Changes apply at once.'
+	},
+	{
+		name: 'children',
+		type: 'Snippet',
+		description: 'The app.'
+	}
+];

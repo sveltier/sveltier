@@ -60,6 +60,7 @@ export const NAV: NavGroup[] = [
 	{
 		title: 'API',
 		items: [
+			{ title: 'UIProvider', path: 'api/ui-provider' },
 			{ title: 'ThemeProvider', path: 'api/theme-provider' },
 			{ title: 'useTheme', path: 'api/use-theme' },
 			{ title: 'defineTheme', path: 'api/define-theme' },

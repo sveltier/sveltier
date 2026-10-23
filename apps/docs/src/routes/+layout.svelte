@@ -21,7 +21,7 @@
 	import AppBar from '#lib/docs/AppBar.svelte';
 	import { createShell } from '#lib/docs/shell.svelte.js';
 	import { THEMES, type PackId } from '#lib/site.js';
-	import { ThemeProvider } from 'sveltier';
+	import { UIProvider } from 'sveltier';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -29,8 +29,8 @@
 	createShell();
 </script>
 
-<ThemeProvider themes={THEMES} light="{pack}-light" dark="{pack}-dark">
+<UIProvider themes={THEMES} light="{pack}-light" dark="{pack}-dark">
 	<a class="docs-skip" href="#main">Skip to content</a>
 	<AppBar bind:pack />
 	{@render children()}
-</ThemeProvider>
+</UIProvider>

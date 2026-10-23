@@ -2,7 +2,7 @@
 	import { resolve } from '$app/paths';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { localeExample } from '#lib/snippets/core.js';
+	import { localeExample, localeOptions } from '#lib/snippets/core.js';
 	import { useLocale } from 'sveltier';
 
 	const locale = useLocale();
@@ -66,10 +66,11 @@
 	<h2 id="settings">Settings</h2>
 	<p>
 		The locale (default <code>en-US</code>), currency (<code>USD</code>), time zone (the runtime's)
-		and messages are app-wide settings of the root provider. They can change at runtime, for example
-		when a user picks another currency, and every formatted value updates. A section that shows
-		another currency or zone passes it per call.
+		and messages are app-wide settings of <code>UIProvider</code>. They can change at runtime, for
+		example when a user picks another currency, and every formatted value updates. A section that
+		shows another currency or zone passes it per call.
 	</p>
+	<Code title="+layout.svelte" code={localeOptions} />
 
 	<h2 id="messages">Messages</h2>
 	<p>
