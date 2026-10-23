@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,11 +13,19 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Must match the playwright version in package.json. Checked by the first step of each job.
+  PLAYWRIGHT_VERSION: 1.64.1
+
 jobs:
   ci:
     name: Lint, check, build, test, size
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    # Browsers and their system libraries come preinstalled, so no apt-get at run time.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v7
 
@@ -30,6 +39,9 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      - name: Check the Playwright version matches the container
+        run: test "$(pnpm --filter sveltier exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
+
       # Builds the package first (svelte-package + publint + attw), then the docs.
       - name: Build
         run: pnpm build
@@ -39,25 +51,6 @@ jobs:
 
       - name: Type check
         run: pnpm check
-
-      - name: Playwright version
-        id: playwright
-        run: echo "version=$(pnpm --filter sveltier exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm --filter sveltier exec playwright install --with-deps chromium firefox webkit
-
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm --filter sveltier exec playwright install-deps chromium firefox webkit
 
       # Vitest browser mode (Chromium, Firefox, WebKit) + SSR tests, then docs e2e tests.
       - name: Test
@@ -69,7 +62,10 @@ jobs:
   min-svelte:
     name: Package on the lowest supported Svelte
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
     env:
       # Keep in sync with peerDependencies.svelte in packages/sveltier/package.json.
       SVELTE_MIN: 5.40.0
@@ -88,24 +84,8 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm --filter sveltier add -D "svelte@$SVELTE_MIN"
 
-      - name: Playwright version
-        id: playwright
-        run: echo "version=$(pnpm --filter sveltier exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm --filter sveltier exec playwright install --with-deps chromium firefox webkit
-
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm --filter sveltier exec playwright install-deps chromium firefox webkit
+      - name: Check the Playwright version matches the container
+        run: test "$(pnpm --filter sveltier exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
 
       - name: Build, check and test the package
         run: |
