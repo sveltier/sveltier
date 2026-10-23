@@ -83,3 +83,10 @@ export {
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
 export { isTabbable, tabbable, type FocusableElement } from './primitives/focus/tabbable.js';
+
+// Primitives: layers
+export {
+	dismissable,
+	type DismissableOptions,
+	type DismissReason
+} from './primitives/layer/dismissable.js';

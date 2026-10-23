@@ -1078,3 +1078,23 @@ a {
 	color: var(--sv-color-text);
 	box-shadow: var(--sv-shadow);
 }
+
+.docs-layer-anchor {
+	position: relative;
+	justify-self: start;
+}
+
+.docs-layer {
+	position: absolute;
+	inset-block-start: calc(100% + var(--sv-space-5));
+	inset-inline-start: 0;
+	z-index: 1;
+	display: grid;
+	gap: var(--sv-space-13);
+	inline-size: max-content;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+}

@@ -41,6 +41,11 @@ export default [
 		limit: '1 KB'
 	},
 	{
+		name: 'dismissable',
+		code: "export { dismissable } from 'sveltier';",
+		limit: '0.75 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

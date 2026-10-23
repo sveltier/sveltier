@@ -38,3 +38,18 @@ export const tabbableExample = `import { isTabbable, tabbable } from 'sveltier';
 
 const stops = tabbable(dialog); // what Tab reaches, in Tab order
 isTabbable(button); // false when disabled, hidden, inert, or tabindex="-1"`;
+
+export const dismissExample = `<script>
+  import { dismissable } from 'sveltier';
+  let open = $state(false);
+  let trigger = $state();
+</script>
+
+<button bind:this={trigger} aria-expanded={open} onclick={() => (open = !open)}>Filters</button>
+
+{#if open}
+  <!-- The trigger counts as inside, so pressing it toggles instead of dismissing. -->
+  <div {@attach dismissable({ onDismiss: () => (open = false), inside: [trigger] })}>
+    …
+  </div>
+{/if}`;

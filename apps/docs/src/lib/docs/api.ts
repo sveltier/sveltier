@@ -445,3 +445,36 @@ export const ROVING_FOCUS_OPTIONS: ApiRow[] = [
 		description: 'Selector for the items inside the container.'
 	}
 ];
+
+export const DISMISSABLE_OPTIONS: ApiRow[] = [
+	{
+		name: 'onDismiss',
+		type: "(reason: 'escape' | 'outside' | 'focus') => void",
+		description: 'Called when the user dismisses the layer. The component decides whether to close.'
+	},
+	{
+		name: 'escape',
+		type: 'boolean',
+		default: 'true',
+		description: 'Dismiss on Escape, unless an element inside handled it (event.preventDefault()).'
+	},
+	{
+		name: 'outside',
+		type: 'boolean',
+		default: 'true',
+		description:
+			'Dismiss on a press outside: on pointerdown for mouse and pen, on the click that ends a tap for touch.'
+	},
+	{
+		name: 'focusOutside',
+		type: 'boolean',
+		default: 'false',
+		description: 'Dismiss when focus moves outside, as menus and non-modal popovers do on Tab.'
+	},
+	{
+		name: 'inside',
+		type: 'Element[] | (() => Element[])',
+		default: '[]',
+		description: 'Elements that count as inside, such as the trigger.'
+	}
+];
