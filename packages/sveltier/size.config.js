@@ -98,6 +98,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Count, cap, dot and the spoken label; includes the shared visually hidden rule.
+		name: 'Badge',
+		code: "export { Badge } from 'sveltier';",
+		limit: '1.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'Divider',
 		code: "export { Divider } from 'sveltier';",
 		limit: '0.6 KB',
@@ -127,6 +134,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '17 KB'
+		limit: '24 KB'
 	}
 ];

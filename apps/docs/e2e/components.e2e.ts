@@ -56,3 +56,15 @@ test('icons are hidden from assistive technology unless labelled', async ({ page
 	const decorative = page.locator('.sv-icon[aria-hidden="true"]');
 	expect(await decorative.count()).toBeGreaterThan(10);
 });
+
+test('a badge describes the button it is pinned to and hides at zero', async ({ page }) => {
+	await open(page, '/components/badge');
+	const messages = page.getByRole('button', { name: 'Messages' });
+	await expect(messages).toHaveAccessibleDescription('3 unread messages');
+	const read = page.getByRole('button', { name: 'Read one' });
+	for (let i = 0; i < 3; i++) await read.click();
+	await expect(page.locator('#inbox .sv-badge__badge')).toHaveCount(0);
+	await expect(page.getByRole('button', { name: 'Alerts' })).toHaveAccessibleDescription(
+		'120 alerts'
+	);
+});

@@ -1237,7 +1237,8 @@ a {
 	transform-origin: left;
 }
 
-.docs-spring__fill:dir(rtl) {
+/* An attribute selector: minifiers rewrite :dir() into language guesses. */
+:where([dir='rtl']) .docs-spring__fill {
 	transform-origin: right;
 }
 
@@ -1345,4 +1346,14 @@ a {
 	padding: var(--sv-space-3);
 	border: var(--sv-hairline) solid var(--sv-color-border);
 	border-radius: var(--sv-radius-md);
+}
+
+.docs-badge-avatar {
+	display: inline-grid;
+	place-items: center;
+	inline-size: var(--sv-control-md);
+	block-size: var(--sv-control-md);
+	border-radius: var(--sv-radius-full);
+	background-color: var(--sv-color-surface-raised);
+	font: var(--sv-weight-medium) var(--sv-text-sm) / 1 var(--sv-font-ui);
 }

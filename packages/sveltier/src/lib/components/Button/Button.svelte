@@ -3,6 +3,7 @@
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
+	import '../../styles/visually-hidden.css';
 	import './button.css';
 	import type { ButtonDefaults, ButtonProps } from './types.js';
 
@@ -79,6 +80,6 @@
 	{#if append}<span class="sv-button__append">{@render append()}</span>{/if}
 	{#if loading}
 		<span class="sv-button__loader" aria-hidden="true"></span>
-		<span class="sv-button__status">{locale.t('loading')}</span>
+		<span class="sv-visually-hidden">{locale.t('loading')}</span>
 	{/if}
 </svelte:element>

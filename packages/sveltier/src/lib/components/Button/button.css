@@ -117,15 +117,6 @@
 		animation: sv-spin 987ms linear infinite;
 	}
 
-	.sv-button__status {
-		position: absolute;
-		inline-size: 1px;
-		block-size: 1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
-	}
-
 	/* A spinner that stops reads as a frozen interface, so it slows down instead. */
 	@media (prefers-reduced-motion: reduce) {
 		.sv-button__loader {

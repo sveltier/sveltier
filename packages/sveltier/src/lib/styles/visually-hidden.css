@@ -1,0 +1,16 @@
+/*
+ * Text for assistive technology only: out of sight, still read. Components that need it
+ * import this file, so it ships once and only with them.
+ */
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.utilities {
+	.sv-visually-hidden {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+}

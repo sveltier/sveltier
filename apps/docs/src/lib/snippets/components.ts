@@ -80,3 +80,17 @@ export const dividerUsage = `<script>
   <Divider vertical />
   <Button variant="text">Export</Button>
 </div>`;
+
+export const badgeUsage = `<script>
+  import { Badge, Button, Icon } from 'sveltier';
+</script>
+
+<!-- The button is described by the badge's text, so the count is heard on focus. -->
+<Badge id="inbox" content={3} label="unread messages">
+  <Button icon aria-label="Messages" aria-describedby="inbox-label">
+    <Icon path={mdiEmail} />
+  </Button>
+</Badge>
+
+<!-- Alone in a line. -->
+Savings <Badge content="New" />`;
