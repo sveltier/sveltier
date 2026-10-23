@@ -155,3 +155,58 @@ export const THEME_CSS: ApiRow[] = [
 			'The render-blocking restore script. Exposed so a Content Security Policy can allow it by hash.'
 	}
 ];
+
+export const DEFAULTS_PROVIDER_PROPS: ApiRow[] = [
+	{
+		name: 'defaults',
+		type: 'DefaultsConfig',
+		description:
+			'Defaults for this subtree. global reaches every component that has the prop; a key per component name targets one component. Merged over any outer provider, key by key. Reactive.'
+	},
+	{
+		name: 'children',
+		type: 'Snippet',
+		description: 'The content that receives the defaults. The provider renders no element.'
+	}
+];
+
+export const USE_DEFAULTS: ApiRow[] = [
+	{
+		name: 'name',
+		type: 'string',
+		description:
+			'The component’s key in DefaultsConfig and ComponentDefaults, for example "PriceTag".'
+	},
+	{
+		name: 'builtins',
+		type: 'T',
+		description:
+			'Every defaultable prop with its built-in value. Only these keys are resolved, so global defaults never add a prop the component does not have.'
+	},
+	{
+		name: 'returns',
+		type: '(local: Partial<T>) => T',
+		description:
+			'A pure resolver. Call it inside $derived with the props as passed; undefined and null mean "not set".'
+	}
+];
+
+export const DEFAULTS_TYPES: ApiRow[] = [
+	{
+		name: 'DefaultsConfig',
+		type: '{ global?: GlobalDefaults } & { [Name in keyof ComponentDefaults]?: Partial<…> }',
+		description:
+			'What a DefaultsProvider takes. Unknown component names and values are type errors.'
+	},
+	{
+		name: 'GlobalDefaults',
+		type: 'Pick<SharedProps, "variant" | "density" | "size" | "color" | "rounded" | "disabled">',
+		description: 'Defaults that reach every component which declares the prop.'
+	},
+	{
+		name: 'ComponentDefaults',
+		type: 'interface',
+		description:
+			'Per-component defaults keyed by component name. Sveltier’s components register here, and so can yours, by declaration merging.'
+	}
+];
