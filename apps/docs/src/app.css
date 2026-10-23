@@ -1300,3 +1300,18 @@ a {
 .docs-virtual-go input {
 	inline-size: 8rem;
 }
+
+/* Components demos */
+
+/* Variants down, colours across; scrolls sideways on a phone rather than squeezing. */
+.docs-button-grid {
+	display: grid;
+	grid-template-columns: repeat(5, max-content);
+	gap: var(--sv-space-13) var(--sv-space-8);
+	align-items: center;
+	overflow-x: auto;
+}
+
+.docs-actions--baseline {
+	align-items: center;
+}

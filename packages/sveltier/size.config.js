@@ -88,6 +88,16 @@ export default [
 		limit: '1.8 KB'
 	},
 	{
+		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
+		// locale) come with UIProvider or the first component and are measured above. About
+		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of
+		// CSS (five variants on one state layer, bevel, spinner): over the first 1.5 KB guess.
+		name: 'Button',
+		code: "export { Button } from 'sveltier';",
+		limit: '2.1 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -104,6 +114,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '15 KB'
+		limit: '17 KB'
 	}
 ];

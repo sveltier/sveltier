@@ -132,3 +132,6 @@ export {
 	type VirtualList,
 	type VirtualListOptions
 } from './primitives/virtual/virtual-list.svelte.js';
+
+// Components
+export { Button, type ButtonDefaults, type ButtonProps } from './components/Button/index.js';

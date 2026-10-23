@@ -54,6 +54,10 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Components',
+		items: [{ title: 'Button', path: 'components/button' }]
+	},
+	{
 		title: 'Primitives',
 		items: [
 			{ title: 'Focus', path: 'primitives/focus' },
