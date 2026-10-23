@@ -104,3 +104,27 @@ export const avatarUsage = `<script>
 
 <!-- On its own, it needs alt text. -->
 <Avatar src={user.photo} alt="Alex Morgan" size="lg">AM</Avatar>`;
+
+export const chipFilter = `<script>
+  import { Chip } from 'sveltier';
+  let card = $state(true);
+  let transfer = $state(false);
+</script>
+
+<Chip bind:selected={card}>Card</Chip>
+<Chip bind:selected={transfer}>Transfer</Chip>`;
+
+export const chipClosable = `<script>
+  import { Chip } from 'sveltier';
+  let currencies = $state(['EUR', 'GBP', 'USD']);
+</script>
+
+{#each currencies as currency (currency)}
+  <Chip
+    closable
+    closeLabel="Remove {currency}"
+    onclose={() => (currencies = currencies.filter((c) => c !== currency))}
+  >
+    {currency}
+  </Chip>
+{/each}`;

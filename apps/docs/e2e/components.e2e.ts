@@ -76,3 +76,15 @@ test('an avatar falls back to its initials when the picture fails', async ({ pag
 	await expect(failed.locator('img')).toHaveCount(0);
 	await expect(failed).toHaveText('JK');
 });
+
+test('filter chips toggle and removable chips go away', async ({ page }) => {
+	await open(page, '/components/chip');
+	const transfer = page.getByRole('button', { name: 'Transfer', exact: true });
+	await expect(transfer).toHaveAttribute('aria-pressed', 'false');
+	await transfer.click();
+	await expect(transfer).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.getByText('2 of 4 transaction types shown.')).toBeVisible();
+	await page.getByRole('button', { name: 'Remove GBP' }).click();
+	await expect(page.getByRole('button', { name: 'Remove GBP' })).toHaveCount(0);
+	await expect(page.getByRole('group', { name: 'Watched currencies' })).not.toContainText('GBP');
+});
