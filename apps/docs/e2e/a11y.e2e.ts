@@ -1,15 +1,11 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { PAGES } from './pages.ts';
 
-// WCAG 2.2 A/AA rules on every docs page, in both bases.
-const pages = ['/', '/theme'];
-const schemes = ['light', 'dark'] as const;
-
-for (const path of pages) {
-	for (const colorScheme of schemes) {
-		test(`${path} has no axe violations (${colorScheme === 'dark' ? 'Ink' : 'Bone'})`, async ({
-			page
-		}) => {
+// WCAG 2.2 A/AA rules on every docs page, in the light and dark theme of the default pack.
+for (const path of PAGES) {
+	for (const colorScheme of ['light', 'dark'] as const) {
+		test(`${path} has no axe violations (${colorScheme})`, async ({ page }) => {
 			await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 			await page.goto(path);
 			await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'system');

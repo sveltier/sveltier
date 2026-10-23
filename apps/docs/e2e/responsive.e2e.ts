@@ -1,11 +1,9 @@
 import { expect, test } from '@playwright/test';
+import { PAGES } from './pages.ts';
 
-// No page may scroll sideways at common breakpoints, in either base.
-const widths = [320, 390, 768, 1440];
-const pages = ['/', '/theme'];
-
-for (const path of pages) {
-	for (const width of widths) {
+// No page may scroll sideways at common breakpoints.
+for (const path of PAGES) {
+	for (const width of [320, 390, 768, 1440]) {
 		test(`${path} fits ${width}px without horizontal scrolling`, async ({ page }) => {
 			await page.setViewportSize({ width, height: 900 });
 			await page.goto(path);

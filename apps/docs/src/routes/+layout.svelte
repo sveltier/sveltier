@@ -18,19 +18,19 @@
 	import '@fontsource/titillium-web/600.css';
 	import '@fontsource/titillium-web/700.css';
 	import '../app.css';
-	import SiteHeader from '#lib/SiteHeader.svelte';
+	import AppBar from '#lib/docs/AppBar.svelte';
+	import { createShell } from '#lib/docs/shell.svelte.js';
 	import { THEMES, type PackId } from '#lib/site.js';
 	import { ThemeProvider } from 'sveltier';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 	let pack = $state<PackId>('monolith');
+	createShell();
 </script>
 
 <ThemeProvider themes={THEMES} light="{pack}-light" dark="{pack}-dark">
-	<SiteHeader bind:pack />
-	<main class="docs-wrap docs-main">
-		{@render children()}
-	</main>
-	<footer class="docs-wrap docs-foot">Sveltier is pre-alpha. MIT licensed.</footer>
+	<a class="docs-skip" href="#main">Skip to content</a>
+	<AppBar bind:pack />
+	{@render children()}
 </ThemeProvider>
