@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "svelte-package && publint --strict && attw --pack . --profile esm-only --quiet",
+		"build": "svelte-package && node scripts/strip-css-imports-from-dts.js && publint --strict && attw --pack . --profile esm-only --ignore-rules internal-resolution-error --quiet",
 		"dev": "svelte-package --watch",
 		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
 		"size": "node scripts/size-bundle.js && size-limit"

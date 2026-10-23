@@ -1,0 +1,8 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-layered-box {
+		padding-block: 3px;
+		border-block-start: 1px solid var(--sv-fixture-marker, currentColor);
+	}
+}
