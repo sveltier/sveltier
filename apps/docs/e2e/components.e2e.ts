@@ -119,3 +119,10 @@ test('an error alert is announced at once and a closed alert can come back', asy
 	await page.getByRole('button', { name: 'Show the tip again' }).click();
 	await expect(page.getByText('Tip: press')).toBeVisible();
 });
+
+test('a card titled with a level is in the page outline', async ({ page }) => {
+	await open(page, '/components/card');
+	await expect(page.getByRole('heading', { level: 3, name: 'Savings' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Savings options' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Add money' })).toBeVisible();
+});

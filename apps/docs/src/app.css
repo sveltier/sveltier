@@ -1388,3 +1388,21 @@ a {
 	margin: 0;
 	font-size: var(--sv-text-xl);
 }
+
+.docs-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: var(--sv-space-21);
+	align-items: start;
+}
+
+.docs-card-stack {
+	display: grid;
+	gap: var(--sv-space-13);
+}
+
+.docs-card-amount {
+	margin: 0;
+	font-size: var(--sv-text-xl);
+	font-variant-numeric: tabular-nums;
+}

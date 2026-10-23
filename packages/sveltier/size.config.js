@@ -117,6 +117,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'Card',
+		code: "export { Card } from 'sveltier';",
+		limit: '1.5 KB',
+		external: [/\/core\//]
+	},
+	{
 		// A tag, a toggle, an action and a link in one, with a close button and its own state layer.
 		name: 'Chip',
 		code: "export { Chip } from 'sveltier';",
