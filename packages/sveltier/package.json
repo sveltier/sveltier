@@ -3,6 +3,15 @@
 	"version": "0.0.0",
 	"description": "A Svelte 5 UI framework with the Engraved Instrument design language for premium fintech products.",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sveltier/sveltier.git",
+		"directory": "packages/sveltier"
+	},
+	"homepage": "https://github.com/sveltier/sveltier#readme",
+	"bugs": {
+		"url": "https://github.com/sveltier/sveltier/issues"
+	},
 	"type": "module",
 	"scripts": {
 		"build": "svelte-package && node scripts/strip-css-imports-from-dts.js && publint --strict && attw --pack . --profile esm-only --ignore-rules internal-resolution-error --quiet",
