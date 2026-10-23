@@ -1,4 +1,4 @@
-import { createContext } from 'svelte';
+import { getContext, hasContext, setContext } from 'svelte';
 import type { ThemeChoice, ThemeDefinition } from './types.js';
 
 /** The nearest `<ThemeProvider>`, as seen by `useTheme()`. All fields are reactive. */
@@ -22,12 +22,16 @@ export interface ThemeInstance {
 	toggle(): void;
 }
 
-const [get, set, has] = createContext<ThemeInstance>();
+// A private symbol key instead of createContext(): its `has` function only exists from
+// Svelte 5.57, and the supported range starts at 5.40.
+const KEY = Symbol('sveltier.theme');
 
-export { has as hasThemeContext, set as setThemeContext };
+export const hasThemeContext = (): boolean => hasContext(KEY);
+export const setThemeContext = (theme: ThemeInstance): ThemeInstance => setContext(KEY, theme);
 
 /** Returns the nearest theme. Must be called during component initialisation. */
 export function useTheme(): ThemeInstance {
-	if (!has()) throw new Error('useTheme() must be called inside a <ThemeProvider>.');
-	return get();
+	if (!hasContext(KEY))
+		throw new Error('[sveltier] useTheme() must be called inside a <ThemeProvider>.');
+	return getContext<ThemeInstance>(KEY);
 }
