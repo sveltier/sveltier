@@ -143,3 +143,19 @@ test('a button group is a named set of buttons', async ({ page }) => {
 	await expect(page.getByText('Sorted descending.')).toBeVisible();
 	await expect(page.getByRole('group', { name: 'Export' }).getByRole('button')).toHaveCount(3);
 });
+
+test('a segmented control picks with the arrow keys and skips disabled options', async ({
+	page
+}) => {
+	await open(page, '/components/segmented-control');
+	const range = page.getByRole('radiogroup', { name: 'Chart range' });
+	await range.getByRole('radio', { name: '1M' }).focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(range.getByRole('radio', { name: '1Y' })).toBeFocused();
+	await expect(range.getByRole('radio', { name: '1Y' })).toHaveAttribute('aria-checked', 'true');
+	await expect(page.getByText('Showing 1Y as a list.')).toBeVisible();
+	const view = page.getByRole('radiogroup', { name: 'View' });
+	await view.getByRole('radio', { name: 'Grid' }).click();
+	await page.keyboard.press('ArrowRight');
+	await expect(view.getByRole('radio', { name: 'List' })).toHaveAttribute('aria-checked', 'true');
+});

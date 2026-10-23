@@ -167,6 +167,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Includes rovingFocus, which gives it one tab stop and arrow keys.
+		name: 'SegmentedControl',
+		code: "export { SegmentedControl } from 'sveltier';",
+		limit: '2.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'Skeleton',
 		code: "export { Skeleton } from 'sveltier';",
 		limit: '1.2 KB',
