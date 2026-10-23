@@ -159,3 +159,19 @@ test('a segmented control picks with the arrow keys and skips disabled options',
 	await page.keyboard.press('ArrowRight');
 	await expect(view.getByRole('radio', { name: 'List' })).toHaveAttribute('aria-checked', 'true');
 });
+
+test('tabs show the panel of the tab the arrow keys reach', async ({ page }) => {
+	await open(page, '/components/tabs');
+	const tabs = page.getByRole('tablist', { name: 'Account' });
+	await tabs.getByRole('tab', { name: 'Overview' }).focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(tabs.getByRole('tab', { name: 'Activity' })).toHaveAttribute(
+		'aria-selected',
+		'true'
+	);
+	await expect(page.getByRole('tabpanel', { name: 'Activity' })).toContainText('14 payments');
+	await page.keyboard.press('End');
+	await expect(tabs.getByRole('tab', { name: 'Statements' })).toBeFocused();
+	await page.keyboard.press('Tab');
+	await expect(page.getByRole('tabpanel', { name: 'Statements' })).toBeFocused();
+});

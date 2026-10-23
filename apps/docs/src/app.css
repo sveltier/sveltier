@@ -1420,3 +1420,8 @@ a {
 	border-radius: var(--sv-radius-lg);
 	background-color: var(--sv-color-surface);
 }
+
+.docs-tabs-panel {
+	margin: 0;
+	font-size: var(--sv-text-sm);
+}

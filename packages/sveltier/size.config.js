@@ -180,6 +180,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys.
+		name: 'Tabs',
+		code: "export { Tabs } from 'sveltier';",
+		limit: '2.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

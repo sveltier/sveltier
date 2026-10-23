@@ -169,3 +169,4 @@ export {
 	type SegmentedControlProps
 } from './components/SegmentedControl/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
+export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';

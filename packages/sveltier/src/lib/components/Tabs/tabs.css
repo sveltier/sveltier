@@ -1,0 +1,73 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-tabs {
+		display: grid;
+		gap: var(--sv-space-13);
+		min-inline-size: 0;
+	}
+
+	/* A row that scrolls when the tabs do not fit, over a hairline. */
+	.sv-tabs__list {
+		display: flex;
+		overflow-x: auto;
+		box-shadow: inset 0 calc(var(--sv-hairline) * -1) 0 var(--sv-color-border);
+		scrollbar-width: thin;
+	}
+
+	.sv-tabs__tab {
+		position: relative;
+		flex: none;
+		box-sizing: border-box;
+		block-size: calc(var(--sv-size-height) * var(--sv-density));
+		margin: 0;
+		padding: 0 calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		border: 0;
+		background: transparent;
+		color: var(--sv-color-text-muted);
+		font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
+		white-space: nowrap;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-tabs--grow .sv-tabs__tab {
+		flex: 1;
+	}
+
+	@media (hover: hover) {
+		.sv-tabs__tab:not(:disabled):hover {
+			color: var(--sv-color-text);
+		}
+	}
+
+	.sv-tabs__tab[aria-selected='true'] {
+		color: var(--sv-color);
+	}
+
+	.sv-tabs__tab:disabled {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	/* The selected tab's underline scales in: transform only. */
+	.sv-tabs__tab::after {
+		content: '';
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		block-size: 2px;
+		border-radius: 2px 2px 0 0;
+		background-color: var(--sv-color);
+		transform: scaleX(0);
+		transition: transform var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	.sv-tabs__tab[aria-selected='true']::after {
+		transform: scaleX(1);
+	}
+
+	.sv-tabs__panel {
+		min-inline-size: 0;
+	}
+}

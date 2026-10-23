@@ -218,3 +218,21 @@ export const segmentedUsage = `<script>
   ]}
   bind:value={range}
 />`;
+
+export const tabsUsage = `<script>
+  import { Tabs } from 'sveltier';
+  let section = $state('overview');
+</script>
+
+<Tabs
+  aria-label="Account"
+  items={[
+    { value: 'overview', label: 'Overview' },
+    { value: 'activity', label: 'Activity' }
+  ]}
+  bind:value={section}
+>
+  {#snippet panel(item)}
+    <AccountSection name={item.value} />
+  {/snippet}
+</Tabs>`;
