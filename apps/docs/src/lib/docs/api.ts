@@ -19,9 +19,8 @@ export const THEME_PROVIDER_PROPS: ApiRow[] = [
 	{
 		name: 'themes',
 		type: 'Record<string, ThemeDefinition>',
-		default: 'monolith',
 		description:
-			'Root only. The registered themes, for example maison or { ...monolith, ...maison }.'
+			'Required at the root, where it registers the themes, for example monolith or { ...monolith, ...maison }. There is no default, so an app ships only the packs it registers.'
 	},
 	{
 		name: 'light',
@@ -108,8 +107,8 @@ export const DEFINE_THEME: ApiRow[] = [
 	{
 		name: 'input.dark',
 		type: 'boolean',
-		default: 'base.dark ?? false',
-		description: 'Whether the theme is dark. Picks Monolith dark or light as the base.'
+		default: 'base.dark',
+		description: 'Whether the theme is dark.'
 	},
 	{
 		name: 'input.colors',
@@ -125,8 +124,8 @@ export const DEFINE_THEME: ApiRow[] = [
 	{
 		name: 'base',
 		type: 'ThemeDefinition',
-		default: 'monolithLight / monolithDark',
-		description: 'The theme to extend. It is never mutated.'
+		description:
+			'Required. The theme to extend, usually a pack theme such as monolithLight. It is never mutated.'
 	}
 ];
 

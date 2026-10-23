@@ -15,7 +15,7 @@
 	<Code
 		title="Signature"
 		lang="ts"
-		code={"import { defineTheme, type ThemeInput, type ThemeDefinition } from 'sveltier';\n\nfunction defineTheme(input?: ThemeInput, base?: ThemeDefinition): ThemeDefinition;"}
+		code={"import { defineTheme, type ThemeInput, type ThemeDefinition } from 'sveltier';\n\nfunction defineTheme(input: ThemeInput, base: ThemeDefinition): ThemeDefinition;"}
 	/>
 
 	<h2 id="parameters">Parameters</h2>
@@ -26,8 +26,8 @@
 
 	<h2 id="size">Size</h2>
 	<p>
-		<code>defineTheme()</code> carries the colour maths that computes <code>on-</code> colours (about
-		1.6 KB gzipped). The built-in theme packs do not need it; they ship precomputed values.
+		<code>defineTheme()</code> carries the colour maths that computes <code>on-</code> colours (under
+		1 KB gzipped). The built-in theme packs do not need it; they ship precomputed values.
 	</p>
 	<p>
 		More in <a href={resolve('theming/custom-themes')}>Custom themes</a>.

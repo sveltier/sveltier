@@ -2,10 +2,11 @@
 
 export const defaultsGlobal = `<script>
   import { DefaultsProvider, ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
-<ThemeProvider>
+<ThemeProvider themes={monolith}>
   <DefaultsProvider defaults={{ global: { density: 'compact', rounded: 'lg' } }}>
     {@render children()}
   </DefaultsProvider>

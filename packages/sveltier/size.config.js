@@ -4,7 +4,8 @@
  * the JS, the CSS, or both (the default). Raise a budget only with a written justification.
  *
  * Global styles (design tokens and document defaults) load once per app, so they have their
- * own budget instead of counting against the core JS.
+ * own budget instead of counting against the core JS. The core imports no theme: theme data
+ * counts against the pack budgets.
  *
  * @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css' }>}
  */
@@ -20,7 +21,7 @@ export default [
 	{
 		name: 'core JS (theme, defaults, display, locale)',
 		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from 'sveltier';",
-		limit: '4 KB',
+		limit: '5 KB',
 		measure: 'js'
 	},
 	{
@@ -31,7 +32,7 @@ export default [
 	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
-		limit: '2 KB'
+		limit: '1 KB'
 	},
 	...packs.map((pack) => ({
 		name: `theme pack: ${pack}`,

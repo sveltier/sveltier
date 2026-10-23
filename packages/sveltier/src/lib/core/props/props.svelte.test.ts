@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import SharedHarness from '../../../tests/fixtures/SharedHarness.svelte';
-import { monolith } from '../../themes/monolith.js';
+import { monolith, monolithLight } from '../../themes/monolith.js';
 import { defineTheme } from '../theme/define.js';
 
 const box = (id: 'outer' | 'inner') => page.getByTestId(id).element();
@@ -112,7 +112,7 @@ describe('shared props', () => {
 	});
 
 	it('supports custom colours from defineTheme through the theme stylesheet', async () => {
-		const brand = defineTheme({ colors: { brand: 'oklch(0.55 0.15 300)' } });
+		const brand = defineTheme({ colors: { brand: 'oklch(0.55 0.15 300)' } }, monolithLight);
 		await render(SharedHarness, {
 			themes: { ...monolith, brand },
 			theme: 'brand',

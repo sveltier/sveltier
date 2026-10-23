@@ -11,8 +11,8 @@
 >
 	<h2 id="define">Define a theme</h2>
 	<p>
-		Pass only what differs. Missing colours and contract variables come from Monolith light (or dark
-		when <code>dark: true</code>).
+		Pass only what differs, and the theme you extend as the second argument. Missing colours and
+		contract variables come from it.
 	</p>
 	<Code title="brand.ts" lang="ts" code={defineCustom} />
 	<ul>
@@ -29,7 +29,7 @@
 	</ul>
 
 	<h2 id="extend">Extend a theme pack</h2>
-	<p>Give <code>defineTheme()</code> a base to start from any theme:</p>
+	<p>Any pack, or any theme you defined, can be the base:</p>
 	<Code title="Aurora, teal" lang="ts" code={extendPack} />
 
 	<h2 id="contrast">Check contrast</h2>

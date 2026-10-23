@@ -23,13 +23,13 @@ agents.
 
 ## Themes
 
-| Theme        | Character                                                                  |
-| ------------ | -------------------------------------------------------------------------- |
-| **Monolith** | Quiet luxury with Swiss precision: monochrome, Geist. The default.         |
-| **Heritage** | Private banking, editorial: ivory, Oxford navy and brass, Instrument Serif |
-| **Aurora**   | Modern depth, dark first: frosted panels over an iris and mint glow        |
-| **Maison**   | Parisian couture house: noir, off-white, Bordeaux, Cormorant Garamond      |
-| **Milano**   | Milanese design: cashmere, espresso, Siena terracotta, Bodoni Moda         |
+| Theme        | Character                                                                    |
+| ------------ | ---------------------------------------------------------------------------- |
+| **Monolith** | Quiet luxury with Swiss precision: monochrome, Geist. The one to start with. |
+| **Heritage** | Private banking, editorial: ivory, Oxford navy and brass, Instrument Serif   |
+| **Aurora**   | Modern depth, dark first: frosted panels over an iris and mint glow          |
+| **Maison**   | Parisian couture house: noir, off-white, Bordeaux, Cormorant Garamond        |
+| **Milano**   | Milanese design: cashmere, espresso, Siena terracotta, Bodoni Moda           |
 
 Each comes in light and dark and sets type, shape, depth and motion as well as colour.
 

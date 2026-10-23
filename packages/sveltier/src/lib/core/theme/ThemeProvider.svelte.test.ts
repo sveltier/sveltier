@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import BareThemeProvider from '../../../tests/fixtures/BareThemeProvider.svelte';
 import NestedThemes from '../../../tests/fixtures/NestedThemes.svelte';
 import ThemedProbe from '../../../tests/fixtures/ThemedProbe.svelte';
 import ThemeProbe from '../../../tests/fixtures/ThemeProbe.svelte';
@@ -18,6 +19,12 @@ beforeEach(() => localStorage.clear());
 afterEach(() => vi.restoreAllMocks());
 
 describe('root ThemeProvider', () => {
+	it('requires themes and says what to pass', async () => {
+		await expect(render(BareThemeProvider)).rejects.toThrow(
+			/needs themes, for example themes={monolith}/
+		);
+	});
+
 	it('injects the theme stylesheet and marks <html> after mount', async () => {
 		await render(ThemedProbe);
 

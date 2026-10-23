@@ -1,25 +1,23 @@
-import { monolithDark, monolithLight } from '../../themes/monolith.js';
 import { withOnColors } from './resolve.js';
 import type { ThemeColors, ThemeDefinition, ThemeInput } from './types.js';
 
 /**
- * Builds a complete theme from a partial one. Missing colours and variables come from
- * `base`, or from Monolith (dark or light) when no base is given. `on-` colours are
- * recomputed for every colour you override, unless you pass them yourself.
+ * Builds a complete theme from the parts you change over `base`, the theme you extend.
+ * Missing colours and variables come from `base`. `on-` colours are recomputed for every
+ * colour you override, unless you pass them yourself. `base` is never mutated.
  *
  * @example
- * const midnight = defineTheme({ dark: true, colors: { primary: 'oklch(0.78 0.11 260)' } });
+ * import { monolithDark } from 'sveltier/themes/monolith';
+ * const midnight = defineTheme({ colors: { primary: 'oklch(0.78 0.11 260)' } }, monolithDark);
  */
-export function defineTheme(input: ThemeInput = {}, base?: ThemeDefinition): ThemeDefinition {
-	const dark = input.dark ?? base?.dark ?? false;
-	const from = base ?? (dark ? monolithDark : monolithLight);
+export function defineTheme(input: ThemeInput, base: ThemeDefinition): ThemeDefinition {
 	const overrides = input.colors ?? {};
-	const colors = { ...from.colors } as ThemeColors;
+	const colors = { ...base.colors } as ThemeColors;
 	for (const name of Object.keys(overrides)) delete colors[`on-${name}`];
 
 	return withOnColors({
-		dark,
+		dark: input.dark ?? base.dark,
 		colors: { ...colors, ...overrides } as ThemeColors,
-		variables: { ...from.variables, ...input.variables }
+		variables: { ...base.variables, ...input.variables }
 	});
 }

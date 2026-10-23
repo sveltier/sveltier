@@ -27,7 +27,7 @@ export const PACKS: Pack[] = [
 	{
 		id: 'monolith',
 		name: 'Monolith',
-		mood: 'Quiet luxury with Swiss precision. Monochrome, ink-black actions; colour only carries meaning. The default.',
+		mood: 'Quiet luxury with Swiss precision. Monochrome, ink-black actions; colour only carries meaning. The pack to start with.',
 		type: 'Geist for everything, Geist Mono for figures. Tight, confident headings.',
 		shape: 'Soft 5–21px corners, layered low shadows, near-invisible borders.',
 		motion: 'Crisp and short: 144–377ms, standard ease.',

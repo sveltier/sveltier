@@ -6,7 +6,7 @@
 	export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
 		/** "system" or a theme name. Nested providers inherit their parent's choice by default. */
 		theme?: ThemeChoice;
-		/** Root only. Registered themes, for example `monolith` or `{ ...monolith, ...maison }`. Defaults to Monolith. */
+		/** Root only, and required there. The registered themes, for example `monolith` or `{ ...monolith, ...maison }`. */
 		themes?: Record<string, ThemeDefinition>;
 		/** Root only. Theme used by "system" when the OS prefers light. Defaults to the first light theme. */
 		light?: string;
@@ -30,7 +30,6 @@
 	import '../../styles/tokens.css';
 	import '../../styles/base.css';
 	import './theme-provider.css';
-	import { monolith } from '../../themes/monolith.js';
 	import { hasThemeContext, setThemeContext, useTheme, type ThemeInstance } from './context.js';
 	import { THEME_ATTRIBUTE, themeCss, themeHead, themeScript } from './css.js';
 
@@ -50,7 +49,15 @@
 		...rest
 	}: ThemeProviderProps = $props();
 
-	const registry = $derived<Record<string, ThemeDefinition>>(parent?.themes ?? themes ?? monolith);
+	const registry = $derived.by(() => {
+		const registered = parent?.themes ?? themes;
+		if (!registered) {
+			throw new Error(
+				"[sveltier] The root <ThemeProvider> needs themes, for example themes={monolith} from 'sveltier/themes/monolith'."
+			);
+		}
+		return registered;
+	});
 	const lightName = $derived(parent?.light ?? light ?? first(registry, false));
 	const darkName = $derived(parent?.dark ?? dark ?? first(registry, true));
 	const choice = $derived<ThemeChoice>(theme ?? parent?.choice ?? 'system');

@@ -11,11 +11,12 @@ export const install = {
 export const setup = `<!-- src/routes/+layout.svelte -->
 <script>
   import { ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
-<!-- Monolith by default, light or dark following the OS -->
-<ThemeProvider>
+<!-- Monolith, light or dark following the OS -->
+<ThemeProvider themes={monolith}>
   {@render children()}
 </ThemeProvider>`;
 
@@ -28,9 +29,10 @@ mount(App, { target: document.getElementById('app')! });
 <!-- src/App.svelte -->
 <script>
   import { ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
 </script>
 
-<ThemeProvider>
+<ThemeProvider themes={monolith}>
   <h1>Hello</h1>
 </ThemeProvider>`;
 
@@ -64,7 +66,7 @@ export const toggle = `<script>
   {theme.isDark ? 'Light' : 'Dark'}
 </button>`;
 
-export const nested = `<ThemeProvider>
+export const nested = `<ThemeProvider themes={monolith}>
   <p>The page follows the user's choice.</p>
 
   <ThemeProvider theme="monolith-dark" withBackground class="card">
@@ -74,10 +76,11 @@ export const nested = `<ThemeProvider>
 
 export const bindTheme = `<script>
   import { ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
   let theme = $state('system');
 </script>
 
-<ThemeProvider bind:theme>…</ThemeProvider>
+<ThemeProvider themes={monolith} bind:theme>…</ThemeProvider>
 <p>Current choice: {theme}</p>`;
 
 export const fonts = `<!-- src/routes/+layout.svelte -->
@@ -85,14 +88,16 @@ export const fonts = `<!-- src/routes/+layout.svelte -->
   import '@fontsource-variable/geist';
   import '@fontsource-variable/geist-mono';
   import { ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
   let { children } = $props();
 </script>
 
-<ThemeProvider>{@render children()}</ThemeProvider>`;
+<ThemeProvider themes={monolith}>{@render children()}</ThemeProvider>`;
 
 export const cookie = `<!-- src/routes/+layout.svelte -->
 <script>
   import { ThemeProvider } from 'sveltier';
+  import { monolith } from 'sveltier/themes/monolith';
   let { data, children } = $props();
   let theme = $state(data.theme ?? 'system');
 
@@ -102,14 +107,14 @@ export const cookie = `<!-- src/routes/+layout.svelte -->
   });
 </script>
 
-<ThemeProvider bind:theme storageKey={false}>
+<ThemeProvider themes={monolith} bind:theme storageKey={false}>
   {@render children()}
 </ThemeProvider>
 
 // src/routes/+layout.server.ts
 export const load = ({ cookies }) => ({ theme: cookies.get('theme') });`;
 
-export const csp = `<ThemeProvider nonce={data.cspNonce}>…</ThemeProvider>
+export const csp = `<ThemeProvider themes={monolith} nonce={data.cspNonce}>…</ThemeProvider>
 
 // or allow the restore script by hash
 import { themeScript, monolith } from 'sveltier';
@@ -117,9 +122,10 @@ const script = themeScript('sv-theme', ['system', ...Object.keys(monolith)]);
 // sha256 of \`script\` goes into script-src`;
 
 export const defineCustom = `import { defineTheme } from 'sveltier';
+import { monolithLight } from 'sveltier/themes/monolith';
 
+// Extends Monolith light; everything you leave out comes from it.
 export const brand = defineTheme({
-  dark: false,
   colors: {
     primary: 'oklch(0.52 0.16 255)',   // on-primary is computed for you
     brand: 'oklch(0.62 0.17 35)'        // custom colour: --sv-color-brand, --sv-on-brand
@@ -128,7 +134,7 @@ export const brand = defineTheme({
     'radius-md': '13px',
     'font-display': "'Fraunces Variable', Georgia, serif"
   }
-});`;
+}, monolithLight);`;
 
 export const extendPack = `import { defineTheme } from 'sveltier';
 import { aurora, auroraDark } from 'sveltier/themes/aurora';

@@ -3,10 +3,11 @@
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import type { ThemeChoice, ThemeDefinition } from '../../lib/core/theme/types.js';
 	import { sharedClasses, type SharedClassProps } from '../../lib/core/props/classes.js';
+	import { monolith } from '../../lib/themes/monolith.js';
 	import './shared-box.css';
 
 	let {
-		themes,
+		themes = monolith,
 		theme = 'monolith-light',
 		outer = {},
 		inner = {}

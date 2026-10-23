@@ -57,14 +57,17 @@ describe('themeCss', () => {
 				fallback: 'system'
 			})
 		).toThrow(/invalid theme name/);
-		const evil = defineTheme({ colors: { primary: 'red}</style><script>alert(1)</script>' } });
+		const evil = defineTheme(
+			{ colors: { primary: 'red}</style><script>alert(1)</script>' } },
+			monolithLight
+		);
 		expect(() =>
 			themeCss({ themes: { evil }, light: 'evil', dark: 'evil', fallback: 'system' })
 		).toThrow(/unsafe value for "color-primary"/);
 	});
 
 	it('emits custom colours under --sv-color-*, with a colour class', () => {
-		const custom = defineTheme({ colors: { 'ui-brand': 'oklch(0.5 0.1 300)' } });
+		const custom = defineTheme({ colors: { 'ui-brand': 'oklch(0.5 0.1 300)' } }, monolithLight);
 		const out = themeCss({
 			themes: { custom },
 			light: 'custom',
@@ -89,7 +92,7 @@ describe('themeCss', () => {
 	});
 
 	it('rejects colour names that are not CSS identifiers', () => {
-		const bad = defineTheme({ colors: { 'brand name': 'oklch(0.5 0.1 300)' } });
+		const bad = defineTheme({ colors: { 'brand name': 'oklch(0.5 0.1 300)' } }, monolithLight);
 		expect(() =>
 			themeCss({ themes: { bad }, light: 'bad', dark: 'bad', fallback: 'system' })
 		).toThrow(/invalid colour or variable name "color-brand name"/);

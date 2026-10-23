@@ -1,9 +1,16 @@
 import { render } from 'svelte/server';
 import { describe, expect, it } from 'vitest';
+import BareThemeProvider from '../../../tests/fixtures/BareThemeProvider.svelte';
 import NestedThemes from '../../../tests/fixtures/NestedThemes.svelte';
 import ThemedProbe from '../../../tests/fixtures/ThemedProbe.svelte';
 
 describe('ThemeProvider on the server', () => {
+	it('requires themes at the root and says what to pass', () => {
+		expect(() => render(BareThemeProvider).body).toThrow(
+			"[sveltier] The root <ThemeProvider> needs themes, for example themes={monolith} from 'sveltier/themes/monolith'."
+		);
+	});
+
 	it('puts the stylesheet and the restore script in <head> and no wrapper in <body>', () => {
 		const { head, body } = render(ThemedProbe);
 

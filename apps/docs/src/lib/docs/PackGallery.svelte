@@ -11,7 +11,7 @@
 <div class="docs-packs">
 	{#each PACKS as pack (pack.id)}
 		<ThemeProvider theme="{pack.id}-light" withBackground class="docs-pack">
-			<span class="docs-label">{pack.id === 'monolith' ? 'Default' : 'Theme pack'}</span>
+			<span class="docs-label">{pack.id === 'monolith' ? 'Recommended' : 'Theme pack'}</span>
 			<h3 class="docs-pack__name">
 				<a href={resolve(`theme-packs/${pack.id}`)}>{pack.name}</a>
 			</h3>
