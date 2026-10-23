@@ -98,6 +98,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'Divider',
+		code: "export { Divider } from 'sveltier';",
+		limit: '0.6 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Most of it is what any Svelte component with rest props costs.
 		name: 'Icon',
 		code: "export { Icon } from 'sveltier';",

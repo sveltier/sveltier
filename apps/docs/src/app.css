@@ -1324,3 +1324,25 @@ a {
 	font-size: var(--sv-text-sm);
 	color: var(--sv-color-text-muted);
 }
+
+.docs-divider-stack {
+	display: grid;
+	gap: var(--sv-space-8);
+	max-inline-size: 21rem;
+}
+
+.docs-divider-row {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--sv-text-sm);
+}
+
+.docs-divider-toolbar {
+	display: flex;
+	gap: var(--sv-space-5);
+	align-items: center;
+	justify-self: start;
+	padding: var(--sv-space-3);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+}

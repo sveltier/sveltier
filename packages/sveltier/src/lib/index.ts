@@ -135,4 +135,5 @@ export {
 
 // Components
 export { Button, type ButtonDefaults, type ButtonProps } from './components/Button/index.js';
+export { Divider, type DividerProps } from './components/Divider/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
