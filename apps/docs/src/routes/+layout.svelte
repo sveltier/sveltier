@@ -1,7 +1,10 @@
 <script lang="ts">
+	import ThemeProviderSpike from '#lib/spike-theme/ThemeProviderSpike.svelte';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 </script>
 
-{@render children()}
+<ThemeProviderSpike>
+	{@render children()}
+</ThemeProviderSpike>

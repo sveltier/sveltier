@@ -5,8 +5,3 @@ build
 coverage
 test-results
 playwright-report
-# Approved visual reference, kept byte-for-byte.
-design/engraved-instrument-preview.html
-# Hand-maintained planning docs; keep the author's formatting.
-PLAN.md
-CLAUDE.md
