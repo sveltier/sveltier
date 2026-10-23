@@ -102,3 +102,18 @@ test('the anchored popover sits against its trigger and follows side and alignme
 	await page.keyboard.press('Escape');
 	await expect(popover).toBeHidden();
 });
+
+test('the listbox jumps by typing and selects with Enter', async ({ page }) => {
+	await open(page, '/primitives/keyboard');
+	const listbox = page.getByRole('listbox', { name: 'Account currency' });
+	await listbox.getByRole('option', { name: 'Euro' }).focus();
+	await page.keyboard.press('s');
+	await expect(listbox.getByRole('option', { name: 'Singapore dollar' })).toBeFocused();
+	await page.keyboard.press('s');
+	await expect(listbox.getByRole('option', { name: 'Swiss franc' })).toBeFocused();
+	await page.keyboard.press('Enter');
+	await expect(listbox.getByRole('option', { name: 'Swiss franc' })).toHaveAttribute(
+		'aria-selected',
+		'true'
+	);
+});

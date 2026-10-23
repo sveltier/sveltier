@@ -70,6 +70,11 @@ export default [
 		limit: '1 KB'
 	},
 	{
+		name: 'keymap and typeahead',
+		code: "export { keymap, typeahead } from 'sveltier';",
+		limit: '0.8 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

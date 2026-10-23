@@ -524,3 +524,39 @@ export const ANCHORED_OPTIONS: ApiRow[] = [
 		description: 'Move to the opposite side when there is not enough room.'
 	}
 ];
+
+export const KEYMAP_API: ApiRow[] = [
+	{
+		name: 'keymap(map)',
+		type: '(map: Record<string, KeyHandler>) => Attachment',
+		description:
+			'Calls the handler bound to a key combination and prevents the default when it ran. A handler returning false lets the event through.'
+	},
+	{
+		name: 'combinations',
+		type: "'Ctrl+Alt+Shift+Meta+Key'",
+		description:
+			'Modifiers in that order, then the event.key name. Shift is left out for characters ("?", not "Shift+/"). ArrowForward and ArrowBackward follow the writing direction.'
+	}
+];
+
+export const TYPEAHEAD_OPTIONS: ApiRow[] = [
+	{
+		name: 'items',
+		type: 'string',
+		default: "'[data-sv-item]'",
+		description: 'Selector for the items inside the container.'
+	},
+	{
+		name: 'timeout',
+		type: 'number',
+		default: '500',
+		description: 'How long typed characters keep building one search, in ms.'
+	},
+	{
+		name: 'onMatch',
+		type: '(item: HTMLElement) => void',
+		default: 'focus the item',
+		description: 'What a match does.'
+	}
+];

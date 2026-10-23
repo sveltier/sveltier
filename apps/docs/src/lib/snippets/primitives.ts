@@ -114,3 +114,37 @@ export const anchoredExample = `<script>
     …
   </div>
 {/if}`;
+
+export const keymapExample = `<script>
+  import { keymap } from 'sveltier';
+  let value = $state(50);
+  const step = (by) => () => (value = Math.min(100, Math.max(0, value + by)));
+</script>
+
+<!-- ArrowForward and ArrowBackward follow the writing direction. -->
+<div
+  role="slider"
+  tabindex="0"
+  aria-label="Allocation"
+  aria-valuenow={value}
+  {@attach keymap({
+    ArrowForward: step(1),
+    ArrowBackward: step(-1),
+    PageUp: step(10),
+    PageDown: step(-10),
+    Home: () => (value = 0),
+    End: () => (value = 100)
+  })}
+>
+  {value}%
+</div>`;
+
+export const typeaheadExample = `<script>
+  import { rovingFocus, typeahead } from 'sveltier';
+</script>
+
+<ul role="listbox" aria-label="Currency" {@attach rovingFocus({ orientation: 'vertical' })} {@attach typeahead()}>
+  <li role="option" data-sv-item aria-selected="true">Euro</li>
+  <li role="option" data-sv-item aria-selected="false">Pound sterling</li>
+  …
+</ul>`;

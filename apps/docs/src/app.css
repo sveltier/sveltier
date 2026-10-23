@@ -1145,3 +1145,32 @@ a {
 	color: var(--sv-color-text);
 	box-shadow: var(--sv-shadow);
 }
+
+.docs-listbox {
+	display: grid;
+	justify-self: start;
+	min-inline-size: 13rem;
+	margin: 0;
+	padding: var(--sv-space-3);
+	list-style: none;
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-surface);
+}
+
+.docs-listbox__option {
+	padding: var(--sv-space-5) var(--sv-space-13);
+	border-radius: calc(var(--sv-radius-md) - 2px);
+	font-size: var(--sv-text-sm);
+	cursor: pointer;
+}
+
+.docs-listbox__option[aria-selected='true'] {
+	background-color: color-mix(in oklch, var(--sv-color-primary) var(--sv-tonal-wash), transparent);
+	color: color-mix(
+		in oklch,
+		var(--sv-color-primary) var(--sv-tonal-text-mix),
+		var(--sv-color-text)
+	);
+	font-weight: var(--sv-weight-medium);
+}

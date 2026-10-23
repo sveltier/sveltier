@@ -103,3 +103,7 @@ export {
 	type AnchoredOptions,
 	type Side
 } from './primitives/anchored/anchored.js';
+
+// Primitives: keyboard
+export { combination, keymap, type KeyHandler } from './primitives/keyboard/keymap.js';
+export { typeahead, type TypeaheadOptions } from './primitives/keyboard/typeahead.js';
