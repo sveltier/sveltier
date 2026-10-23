@@ -49,3 +49,10 @@ test('the API table is generated from the types', async ({ page }) => {
 		'HTMLButtonElement | HTMLAnchorElement | null'
 	);
 });
+
+test('icons are hidden from assistive technology unless labelled', async ({ page }) => {
+	await open(page, '/components/icon');
+	await expect(page.getByRole('img', { name: 'Card payment' })).toBeVisible();
+	const decorative = page.locator('.sv-icon[aria-hidden="true"]');
+	expect(await decorative.count()).toBeGreaterThan(10);
+});

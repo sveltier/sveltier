@@ -98,6 +98,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Most of it is what any Svelte component with rest props costs.
+		name: 'Icon',
+		code: "export { Icon } from 'sveltier';",
+		limit: '1 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

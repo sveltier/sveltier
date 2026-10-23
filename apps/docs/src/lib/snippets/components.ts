@@ -42,3 +42,26 @@ export const buttonDefaults = `<UIProvider
 >
   <!-- Every Button below is tonal and round unless it says otherwise. -->
 </UIProvider>`;
+
+export const iconUsage = `<script>
+  import { Icon } from 'sveltier';
+  // Path-based sets export path strings, for example Material Design Icons.
+  import { mdiBank } from '@mdi/js';
+</script>
+
+<Icon path={mdiBank} />
+<Icon path={mdiBank} size="lg" color="primary" />`;
+
+export const iconCustom = `<script>
+  import { Icon } from 'sveltier';
+  import BankIcon from './BankIcon.svelte';
+</script>
+
+<!-- Any SVG or icon component, sized and coloured like a path icon. -->
+<Icon><BankIcon /></Icon>`;
+
+export const iconLabel = `<!-- Decorative: next to text that says the same thing. -->
+<Icon path={mdiCheck} /> Verified
+
+<!-- Meaningful on its own: give it a name. -->
+<Icon path={mdiCheck} label="Verified" color="success" />`;

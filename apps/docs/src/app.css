@@ -1316,3 +1316,11 @@ a {
 .docs-actions--baseline {
 	align-items: center;
 }
+
+.docs-icon-sample {
+	display: inline-flex;
+	gap: var(--sv-space-5);
+	align-items: center;
+	font-size: var(--sv-text-sm);
+	color: var(--sv-color-text-muted);
+}
