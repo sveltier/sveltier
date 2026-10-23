@@ -27,7 +27,7 @@ async function recordFrames(page: Page) {
 		const sample = () => {
 			const root = document.documentElement;
 			window.__frames.push(
-				root ? getComputedStyle(root).getPropertyValue('--sv-color-bg').trim() : ''
+				root ? getComputedStyle(root).getPropertyValue('--sv-color-background').trim() : ''
 			);
 			if (window.__frames.length < 90) requestAnimationFrame(sample);
 		};
@@ -55,7 +55,7 @@ async function blockAppJs(page: Page) {
 
 const htmlBg = (page: Page) =>
 	page.evaluate(() =>
-		getComputedStyle(document.documentElement).getPropertyValue('--sv-color-bg').trim()
+		getComputedStyle(document.documentElement).getPropertyValue('--sv-color-background').trim()
 	);
 
 test.describe('system preference without JavaScript', () => {
@@ -76,7 +76,7 @@ test.describe('system preference without JavaScript', () => {
 
 test('stored choice beats system preference before the app bundle runs', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'dark' });
-	await storeChoice(page, 'bone');
+	await storeChoice(page, 'bone-champagne');
 	await blockAppJs(page);
 	await page.goto('/');
 	expect(await htmlBg(page)).toBe(BONE_BG);
@@ -84,10 +84,10 @@ test('stored choice beats system preference before the app bundle runs', async (
 
 test('no frame shows the wrong theme through hydration', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'dark' });
-	await storeChoice(page, 'bone');
+	await storeChoice(page, 'bone-champagne');
 	await recordFrames(page);
 	await page.goto('/');
-	await expect(page.getByRole('button', { name: 'bone' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.getByRole('radio', { name: 'Bone', exact: true })).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 
 	const { frames, attrs } = await page.evaluate(() => ({
@@ -97,18 +97,18 @@ test('no frame shows the wrong theme through hydration', async ({ page }) => {
 	const painted = frames.filter((value) => value !== '');
 	expect(painted.length).toBeGreaterThan(0);
 	expect(new Set(painted)).toEqual(new Set([BONE_BG]));
-	expect(attrs.every((value) => value === 'bone')).toBe(true);
+	expect(attrs.every((value) => value === 'bone-champagne')).toBe(true);
 });
 
 test('a new choice persists across reloads without a flash', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'light' });
 	await page.goto('/');
-	await page.getByRole('button', { name: 'ink' }).click();
+	await page.getByRole('radio', { name: 'Ink', exact: true }).check();
 	expect(await htmlBg(page)).toBe(INK_BG);
 
 	await recordFrames(page);
 	await page.reload();
-	await expect(page.getByRole('button', { name: 'ink' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.getByRole('radio', { name: 'Ink', exact: true })).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 	const frames = await page.evaluate(() => window.__frames.filter((value) => value !== ''));
 	expect(new Set(frames)).toEqual(new Set([INK_BG]));

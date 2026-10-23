@@ -15,6 +15,10 @@
 		"sveltier": "workspace:*"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.14.0",
+		"@fontsource/hanken-grotesk": "^5.3.0",
+		"@fontsource/ibm-plex-mono": "^5.3.0",
+		"@fontsource/noto-serif-display": "^5.3.0",
 		"@playwright/test": "^1.64.1",
 		"@sveltejs/adapter-static": "^4.0.0",
 		"@sveltejs/kit": "^3.1.0",

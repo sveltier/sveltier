@@ -1,5 +1,3 @@
-export const version = '0.0.0';
-
 // Theme engine
 export { default as ThemeProvider } from './core/theme/ThemeProvider.svelte';
 export { useTheme, type ThemeInstance } from './core/theme/context.js';
