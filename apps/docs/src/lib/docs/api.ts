@@ -407,3 +407,41 @@ export const UI_PROVIDER_PROPS: ApiRow[] = [
 		description: 'The app.'
 	}
 ];
+
+export const FOCUS_TRAP_OPTIONS: ApiRow[] = [
+	{
+		name: 'initialFocus',
+		type: 'HTMLElement | SVGElement | string | false',
+		default: 'first tabbable',
+		description:
+			'Where focus goes when the trap starts, unless it is already inside: an element, a selector inside the container, or false to leave it. With nothing tabbable inside, the container itself takes focus.'
+	},
+	{
+		name: 'returnFocus',
+		type: 'boolean',
+		default: 'true',
+		description:
+			'Return focus to the element that had it when the trap started, if focus is still inside the trap or lost to the page.'
+	}
+];
+
+export const ROVING_FOCUS_OPTIONS: ApiRow[] = [
+	{
+		name: 'orientation',
+		type: "'horizontal' | 'vertical' | 'both'",
+		default: "'horizontal'",
+		description: 'Which arrow keys move. Left and right follow the writing direction.'
+	},
+	{
+		name: 'loop',
+		type: 'boolean',
+		default: 'true',
+		description: 'Wrap from the last item to the first and back.'
+	},
+	{
+		name: 'items',
+		type: 'string',
+		default: "'[data-sv-item]'",
+		description: 'Selector for the items inside the container.'
+	}
+];

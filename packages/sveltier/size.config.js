@@ -30,6 +30,17 @@ export default [
 		limit: '1 KB'
 	},
 	{
+		// Includes the full tabbable query (radio groups, positive tabindex, closed details).
+		name: 'focusTrap (with tabbable)',
+		code: "export { focusTrap } from 'sveltier';",
+		limit: '1.2 KB'
+	},
+	{
+		name: 'rovingFocus',
+		code: "export { rovingFocus } from 'sveltier';",
+		limit: '1 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -41,9 +52,10 @@ export default [
 	})),
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
-		// the engine, the shared props CSS and locale. It grows with every module by design.
+		// the engine, the shared props CSS, locale and the primitives. It grows with every module by
+		// design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
-		limit: '9 KB'
+		limit: '11 KB'
 	}
 ];

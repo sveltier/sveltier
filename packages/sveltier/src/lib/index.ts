@@ -78,3 +78,8 @@ export {
 	type MessageKey,
 	type Messages
 } from './core/locale/locale.js';
+
+// Primitives: focus
+export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
+export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
+export { isTabbable, tabbable, type FocusableElement } from './primitives/focus/tabbable.js';
