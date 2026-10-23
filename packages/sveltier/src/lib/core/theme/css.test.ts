@@ -21,7 +21,7 @@ describe('themeCss', () => {
 		expect(css).toContain(`--sv-color-primary:${monolithDark.colors.primary}`);
 		expect(css).toContain(`--sv-on-primary:${monolithDark.colors['on-primary']}`);
 		expect(css).toContain(`--sv-font-ui:${monolithLight.variables['font-ui']}`);
-		expect(css).toContain('--sv-duration-normal:220ms');
+		expect(css).toContain(`--sv-duration-normal:${monolithLight.variables['duration-normal']}`);
 	});
 
 	it('maps "system" and a bare <html> to prefers-color-scheme', () => {

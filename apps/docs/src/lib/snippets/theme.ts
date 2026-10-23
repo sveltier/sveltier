@@ -125,7 +125,7 @@ export const brand = defineTheme({
     brand: 'oklch(0.62 0.17 35)'        // custom colour: --sv-color-brand, --sv-on-brand
   },
   variables: {
-    'radius-md': '10px',
+    'radius-md': '13px',
     'font-display': "'Fraunces Variable', Georgia, serif"
   }
 });`;
@@ -151,7 +151,8 @@ export const contractCss = `.my-card {
 }
 
 .my-card h2 {
-  font: var(--sv-weight-display) 1.5rem/1.2 var(--sv-font-display);
+  font: var(--sv-weight-display) var(--sv-text-title) / var(--sv-leading-snug)
+    var(--sv-font-display);
   letter-spacing: var(--sv-tracking-display);
 }`;
 
@@ -164,7 +165,7 @@ export const tonal = `.badge {
 export const override = `/* Your styles are unlayered, so they win over every Sveltier layer
    without !important. */
 .sv-theme-provider--background {
-  padding: 2rem;
+  padding: var(--sv-space-34);
 }`;
 
 /** Usage of one theme pack, for its page. */
@@ -177,3 +178,15 @@ export const packUsage = (id: string): string => `<script>
 <ThemeProvider themes={${id}}>
   {@render children()}
 </ThemeProvider>`;
+
+export const goldenSplit = `/* 61.8% / 38.2% of the space left after the gap. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.618fr) minmax(0, 1fr);
+  gap: var(--sv-space-21);
+}
+
+/* The same split as a width. */
+.aside {
+  inline-size: var(--sv-golden-minor);
+}`;

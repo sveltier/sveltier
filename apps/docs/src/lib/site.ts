@@ -29,8 +29,8 @@ export const PACKS: Pack[] = [
 		name: 'Monolith',
 		mood: 'Quiet luxury with Swiss precision. Monochrome, ink-black actions; colour only carries meaning. The default.',
 		type: 'Geist for everything, Geist Mono for figures. Tight, confident headings.',
-		shape: 'Soft 6–16px corners, layered low shadows, near-invisible borders.',
-		motion: 'Crisp and short: 150–320ms, standard ease-out.',
+		shape: 'Soft 5–21px corners, layered low shadows, near-invisible borders.',
+		motion: 'Crisp and short: 144–377ms, standard ease.',
 		suits: 'SaaS, dashboards, developer and productivity tools, neo-banks.',
 		install: '@fontsource-variable/geist @fontsource-variable/geist-mono'
 	},
@@ -39,8 +39,8 @@ export const PACKS: Pack[] = [
 		name: 'Heritage',
 		mood: 'Private banking, editorial. Ivory paper, Oxford navy and brass, ruled lines.',
 		type: 'Instrument Serif for display and figures, Instrument Sans for interface, IBM Plex Mono for data.',
-		shape: 'Crisp 2–4px corners, hairline rules, small-caps labels, almost no shadow.',
-		motion: 'Calm and weighted: 160–380ms, long damped ease.',
+		shape: 'Crisp 2–5px corners, hairline rules, small-caps labels, almost no shadow.',
+		motion: 'Calm and weighted: 233–610ms, long damped ease.',
 		suits: 'Wealth management, premium commerce, publishing, legal and advisory products.',
 		install:
 			'@fontsource/instrument-serif @fontsource-variable/instrument-sans @fontsource/ibm-plex-mono'
@@ -50,8 +50,8 @@ export const PACKS: Pack[] = [
 		name: 'Aurora',
 		mood: 'Modern depth, dark first. Frosted panels over a soft iris and mint glow.',
 		type: 'Manrope for display and interface, JetBrains Mono for figures. Bold, rounded headings.',
-		shape: 'Generous 8–20px corners, translucent cards with blur, deep soft shadows.',
-		motion: 'Fluid: 160–420ms, expressive expo ease-out.',
+		shape: 'Generous 8–34px corners, translucent cards with blur, deep soft shadows.',
+		motion: 'Fluid: 144–377ms, expressive expo ease-out.',
 		suits: 'Consumer fintech, crypto, AI and creative tools, mobile-first apps.',
 		install: '@fontsource-variable/manrope @fontsource-variable/jetbrains-mono'
 	},
@@ -61,7 +61,7 @@ export const PACKS: Pack[] = [
 		mood: 'Parisian couture house. Noir and off-white, a single Bordeaux accent, nothing superfluous.',
 		type: 'Cormorant Garamond for display and figures, Jost for interface, DM Mono for data. Wide-tracked capitals.',
 		shape: 'Square corners everywhere, crisp hairlines, flat surfaces with no shadow.',
-		motion: 'Slow and composed: 200–450ms, gentle ease-in-out.',
+		motion: 'Slow and composed: 233–610ms, gentle ease-in-out.',
 		suits:
 			'Fashion and beauty, private clubs, hospitality, high-end retail and concierge services.',
 		install: '@fontsource-variable/cormorant-garamond @fontsource-variable/jost @fontsource/dm-mono'
@@ -71,8 +71,8 @@ export const PACKS: Pack[] = [
 		name: 'Milano',
 		mood: 'Milanese design. Cashmere cream, espresso brown and Siena terracotta; warm and tactile.',
 		type: 'Bodoni Moda for display and figures, Titillium Web for interface, IBM Plex Mono for data.',
-		shape: 'Pill-shaped controls, softly rounded 14–18px cards, warm diffused shadows.',
-		motion: 'Lively: 180–380ms with a light overshoot on moving parts.',
+		shape: 'Pill-shaped controls, softly rounded 13–21px cards, warm diffused shadows.',
+		motion: 'Lively: 144–377ms with a light overshoot on moving parts.',
 		suits: 'Lifestyle and design brands, food and travel, boutique banking, premium marketplaces.',
 		install: '@fontsource-variable/bodoni-moda @fontsource/titillium-web @fontsource/ibm-plex-mono'
 	}

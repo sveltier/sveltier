@@ -10,12 +10,12 @@ const shared = {
 	'font-data': "'Geist Mono Variable', ui-monospace, monospace",
 	'weight-display': 600,
 	'tracking-display': '-0.035em',
-	'radius-sm': '6px',
+	'radius-sm': '5px',
 	'radius-md': '8px',
-	'radius-lg': '12px',
-	'radius-xl': '16px',
+	'radius-lg': '13px',
+	'radius-xl': '21px',
 	'radius-full': '999px',
-	'label-size': '0.75rem',
+	'label-size': '0.7862rem',
 	'label-transform': 'none',
 	'label-tracking': '0',
 	'button-transform': 'none',
@@ -24,10 +24,10 @@ const shared = {
 	'surface-blur': '0px',
 	backdrop: 'none',
 	ornament: 'transparent',
-	ease: 'cubic-bezier(0.2, 0, 0, 1)',
-	'duration-fast': '150ms',
-	'duration-normal': '220ms',
-	'duration-slow': '320ms'
+	ease: 'cubic-bezier(0.236, 0, 0, 1)',
+	'duration-fast': '144ms',
+	'duration-normal': '233ms',
+	'duration-slow': '377ms'
 } satisfies Partial<ThemeVariables>;
 
 export const monolithLight: ThemeDefinition = {
@@ -60,7 +60,7 @@ export const monolithLight: ThemeDefinition = {
 	variables: {
 		...shared,
 		bevel: 'oklch(1 0 0 / 0)',
-		shadow: '0 1px 2px oklch(0.2 0.01 260 / 0.06), 0 12px 32px -16px oklch(0.2 0.01 260 / 0.22)'
+		shadow: '0 1px 2px oklch(0.2 0.01 260 / 0.06), 0 13px 34px -21px oklch(0.2 0.01 260 / 0.24)'
 	}
 };
 
@@ -94,7 +94,7 @@ export const monolithDark: ThemeDefinition = {
 	variables: {
 		...shared,
 		bevel: 'oklch(1 0 0 / 0.05)',
-		shadow: '0 1px 0 oklch(0 0 0 / 0.4), 0 16px 40px -20px oklch(0 0 0 / 0.7)'
+		shadow: '0 1px 0 oklch(0 0 0 / 0.4), 0 13px 34px -21px oklch(0 0 0 / 0.72)'
 	}
 };
 

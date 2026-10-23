@@ -28,7 +28,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'Overview', path: 'theming' },
 			{ title: 'Custom themes', path: 'theming/custom-themes' },
 			{ title: 'Theme contract', path: 'theming/contract' },
-			{ title: 'Colours', path: 'theming/colors' }
+			{ title: 'Colours', path: 'theming/colors' },
+			{ title: 'Design scale', path: 'theming/scale' }
 		]
 	},
 	{

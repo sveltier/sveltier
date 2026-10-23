@@ -2,48 +2,60 @@
  * Design tokens shared by every theme. Colour, type families, shape, depth and motion come
  * from the active theme (<ThemeProvider>) as --sv-color-*, --sv-on-* and the theme contract
  * variables (--sv-font-*, --sv-radius-*, --sv-shadow, --sv-ease, --sv-duration-*, ...).
+ *
+ * Every scale here derives from the golden ratio φ = 1.6180339887: sizes are powers of φ,
+ * spacing follows the Fibonacci sequence (whose ratios converge to φ).
  */
 @layer sv.tokens, sv.base, sv.components, sv.utilities;
 
 @layer sv.tokens {
 	:root {
-		/* Type scale (rem, so user font-size preferences apply). */
-		--sv-text-label: 0.65625rem; /* 10.5px */
-		--sv-text-xs: 0.75rem; /* 12px */
-		--sv-text-sm: 0.8125rem; /* 13px */
-		--sv-text-md: 0.875rem; /* 14px, body and controls */
-		--sv-text-lg: 1rem; /* 16px */
-		--sv-text-xl: 1.25rem; /* 20px */
-		--sv-text-title: 1.5rem; /* 24px */
-		--sv-text-headline: clamp(1.625rem, 1.2rem + 1.6vw, 2.125rem); /* 26–34px */
-		--sv-text-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem); /* 36–56px */
+		/* Type scale: 1rem × φ^(n/4), so user font-size preferences apply. */
+		--sv-text-label: 0.697rem; /* φ^-¾ ≈ 11.15px */
+		--sv-text-xs: 0.7862rem; /* φ^-½ ≈ 12.58px */
+		--sv-text-sm: 0.8867rem; /* φ^-¼ ≈ 14.19px, controls */
+		--sv-text-md: 1rem; /* 16px, body */
+		--sv-text-lg: 1.1278rem; /* φ^¼ ≈ 18.05px */
+		--sv-text-xl: 1.272rem; /* φ^½ ≈ 20.35px */
+		--sv-text-title: 1.618rem; /* φ ≈ 25.89px */
+		--sv-text-headline: clamp(1.8249rem, 1.6594rem + 0.7354vw, 2.3213rem); /* φ^1.25–φ^1.75 */
+		--sv-text-display: clamp(2.618rem, 2.0788rem + 2.397vw, 4.2361rem); /* φ²–φ³ */
 
 		--sv-weight-light: 300;
 		--sv-weight-regular: 400;
 		--sv-weight-medium: 500;
 		--sv-weight-semibold: 600;
 
-		--sv-leading-tight: 1.15;
-		--sv-leading-snug: 1.3;
-		--sv-leading-normal: 1.5;
+		--sv-leading-tight: 1.1278; /* φ^¼ */
+		--sv-leading-snug: 1.272; /* √φ */
+		--sv-leading-normal: 1.618; /* φ */
 
-		/* Spacing: the suffix is the size in px at the default 16px root. */
+		/* Spacing: Fibonacci, the suffix is the size in px at the default 16px root. */
 		--sv-space-2: 0.125rem;
-		--sv-space-4: 0.25rem;
-		--sv-space-6: 0.375rem;
+		--sv-space-3: 0.1875rem;
+		--sv-space-5: 0.3125rem;
 		--sv-space-8: 0.5rem;
-		--sv-space-10: 0.625rem;
-		--sv-space-12: 0.75rem;
-		--sv-space-14: 0.875rem;
-		--sv-space-16: 1rem;
-		--sv-space-18: 1.125rem;
-		--sv-space-20: 1.25rem;
-		--sv-space-24: 1.5rem;
-		--sv-space-28: 1.75rem;
-		--sv-space-32: 2rem;
-		--sv-space-40: 2.5rem;
-		--sv-space-48: 3rem;
-		--sv-space-64: 4rem;
+		--sv-space-13: 0.8125rem;
+		--sv-space-21: 1.3125rem;
+		--sv-space-34: 2.125rem;
+		--sv-space-55: 3.4375rem;
+		--sv-space-89: 5.5625rem;
+		--sv-space-144: 9rem;
+
+		/* Control heights: 1rem × φ^(k/2). md is φ² ≈ 41.9px. */
+		--sv-control-xs: 1.618rem; /* φ */
+		--sv-control-sm: 2.0582rem; /* φ^1.5 */
+		--sv-control-md: 2.618rem; /* φ² */
+		--sv-control-lg: 3.3302rem; /* φ^2.5 */
+		--sv-control-xl: 4.2361rem; /* φ³ */
+
+		/* Density moves a control one quarter step of φ. */
+		--sv-density-compact: 0.8867; /* φ^-¼ */
+		--sv-density-comfortable: 1.1278; /* φ^¼ */
+
+		/* The golden split, for two-column layouts: 61.8% / 38.2%. */
+		--sv-golden-major: 61.803%;
+		--sv-golden-minor: 38.197%;
 
 		/* Rules. */
 		--sv-hairline: 1px;
@@ -53,6 +65,7 @@
 		 * Tonal fills (selected chips, badges, alerts): the intent colour as a light wash, with
 		 * text mixed slightly toward the theme's text colour so it stays ≥ 4.5:1 on the wash:
 		 * color-mix(in oklch, <intent> var(--sv-tonal-text-mix), var(--sv-color-text)).
+		 * These follow the contrast tests rather than φ.
 		 */
 		--sv-tonal-wash: 12%;
 		--sv-tonal-text-mix: 80%;

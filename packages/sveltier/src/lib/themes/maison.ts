@@ -15,21 +15,21 @@ const shared = {
 	'radius-lg': '0px',
 	'radius-xl': '0px',
 	'radius-full': '0px',
-	'label-size': '0.6875rem',
+	'label-size': '0.697rem',
 	'label-transform': 'uppercase',
-	'label-tracking': '0.22em',
+	'label-tracking': '0.236em',
 	'button-transform': 'uppercase',
-	'button-tracking': '0.16em',
+	'button-tracking': '0.146em',
 	'surface-alpha': '100%',
 	'surface-blur': '0px',
 	backdrop: 'none',
 	ornament: 'transparent',
 	bevel: 'oklch(1 0 0 / 0)',
 	shadow: '0 0 0 oklch(0 0 0 / 0)',
-	ease: 'cubic-bezier(0.45, 0, 0.2, 1)',
-	'duration-fast': '200ms',
-	'duration-normal': '300ms',
-	'duration-slow': '450ms'
+	ease: 'cubic-bezier(0.382, 0, 0.236, 1)',
+	'duration-fast': '233ms',
+	'duration-normal': '377ms',
+	'duration-slow': '610ms'
 } satisfies Partial<ThemeVariables>;
 
 export const maisonLight: ThemeDefinition = {

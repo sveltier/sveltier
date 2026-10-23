@@ -70,5 +70,5 @@ test('reduced motion wins over theme durations', async ({ page }) => {
 	expect(parseFloat(await htmlVar(page, '--sv-duration-slow'))).toBeLessThan(1);
 
 	await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'no-preference' });
-	expect(await htmlVar(page, '--sv-duration-slow')).toBe('450ms');
+	expect(await htmlVar(page, '--sv-duration-slow')).toBe('610ms');
 });

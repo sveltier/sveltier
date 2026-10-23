@@ -12,22 +12,22 @@ const shared = {
 	'tracking-display': '-0.015em',
 	'radius-sm': '8px',
 	'radius-md': '999px',
-	'radius-lg': '14px',
-	'radius-xl': '18px',
+	'radius-lg': '13px',
+	'radius-xl': '21px',
 	'radius-full': '999px',
-	'label-size': '0.75rem',
+	'label-size': '0.7862rem',
 	'label-transform': 'none',
-	'label-tracking': '0.02em',
+	'label-tracking': '0.021em',
 	'button-transform': 'none',
 	'button-tracking': '0',
 	'surface-alpha': '100%',
 	'surface-blur': '0px',
 	backdrop: 'none',
 	ornament: 'transparent',
-	ease: 'cubic-bezier(0.34, 1.36, 0.64, 1)',
-	'duration-fast': '180ms',
-	'duration-normal': '260ms',
-	'duration-slow': '380ms'
+	ease: 'cubic-bezier(0.382, 1.382, 0.618, 1)',
+	'duration-fast': '144ms',
+	'duration-normal': '233ms',
+	'duration-slow': '377ms'
 } satisfies Partial<ThemeVariables>;
 
 export const milanoLight: ThemeDefinition = {
@@ -60,7 +60,7 @@ export const milanoLight: ThemeDefinition = {
 	variables: {
 		...shared,
 		bevel: 'oklch(1 0 0 / 0.7)',
-		shadow: '0 1px 2px oklch(0.35 0.04 50 / 0.08), 0 18px 40px -22px oklch(0.35 0.05 50 / 0.35)'
+		shadow: '0 1px 2px oklch(0.35 0.04 50 / 0.08), 0 21px 34px -21px oklch(0.35 0.05 50 / 0.34)'
 	}
 };
 
@@ -94,7 +94,7 @@ export const milanoDark: ThemeDefinition = {
 	variables: {
 		...shared,
 		bevel: 'oklch(1 0 0 / 0.06)',
-		shadow: '0 1px 0 oklch(0 0 0 / 0.35), 0 22px 48px -26px oklch(0 0 0 / 0.75)'
+		shadow: '0 1px 0 oklch(0 0 0 / 0.35), 0 21px 55px -34px oklch(0 0 0 / 0.75)'
 	}
 };
 

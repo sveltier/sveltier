@@ -12,21 +12,21 @@ const shared = {
 	'tracking-display': '-0.01em',
 	'radius-sm': '2px',
 	'radius-md': '3px',
-	'radius-lg': '4px',
-	'radius-xl': '4px',
+	'radius-lg': '5px',
+	'radius-xl': '5px',
 	'radius-full': '999px',
-	'label-size': '0.6875rem',
+	'label-size': '0.697rem',
 	'label-transform': 'uppercase',
-	'label-tracking': '0.14em',
+	'label-tracking': '0.146em',
 	'button-transform': 'none',
 	'button-tracking': '0',
 	'surface-alpha': '100%',
 	'surface-blur': '0px',
 	backdrop: 'none',
-	ease: 'cubic-bezier(0.22, 0.9, 0.24, 1)',
-	'duration-fast': '160ms',
-	'duration-normal': '260ms',
-	'duration-slow': '380ms'
+	ease: 'cubic-bezier(0.236, 0.854, 0.236, 1)',
+	'duration-fast': '233ms',
+	'duration-normal': '377ms',
+	'duration-slow': '610ms'
 } satisfies Partial<ThemeVariables>;
 
 export const heritageLight: ThemeDefinition = {
@@ -60,7 +60,7 @@ export const heritageLight: ThemeDefinition = {
 		...shared,
 		ornament: 'oklch(0.66 0.09 80)',
 		bevel: 'oklch(1 0 0 / 0.8)',
-		shadow: '0 1px 0 oklch(0.4 0.03 85 / 0.08), 0 18px 36px -28px oklch(0.3 0.04 258 / 0.35)'
+		shadow: '0 1px 0 oklch(0.4 0.03 85 / 0.08), 0 21px 34px -21px oklch(0.3 0.04 258 / 0.3)'
 	}
 };
 
@@ -95,7 +95,7 @@ export const heritageDark: ThemeDefinition = {
 		...shared,
 		ornament: 'oklch(0.70 0.09 80)',
 		bevel: 'oklch(1 0 0 / 0.06)',
-		shadow: '0 1px 0 oklch(0 0 0 / 0.4), 0 22px 44px -28px oklch(0 0 0 / 0.8)'
+		shadow: '0 1px 0 oklch(0 0 0 / 0.4), 0 21px 55px -34px oklch(0 0 0 / 0.8)'
 	}
 };
 

@@ -11,21 +11,21 @@ const shared = {
 	'weight-display': 700,
 	'tracking-display': '-0.03em',
 	'radius-sm': '8px',
-	'radius-md': '12px',
-	'radius-lg': '16px',
-	'radius-xl': '20px',
+	'radius-md': '13px',
+	'radius-lg': '21px',
+	'radius-xl': '34px',
 	'radius-full': '999px',
-	'label-size': '0.75rem',
+	'label-size': '0.7862rem',
 	'label-transform': 'none',
 	'label-tracking': '0',
 	'button-transform': 'none',
 	'button-tracking': '0',
 	'surface-blur': '18px',
 	ornament: 'transparent',
-	ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-	'duration-fast': '160ms',
-	'duration-normal': '240ms',
-	'duration-slow': '420ms'
+	ease: 'cubic-bezier(0.146, 1, 0.382, 1)',
+	'duration-fast': '144ms',
+	'duration-normal': '233ms',
+	'duration-slow': '377ms'
 } satisfies Partial<ThemeVariables>;
 
 export const auroraLight: ThemeDefinition = {
@@ -61,7 +61,7 @@ export const auroraLight: ThemeDefinition = {
 		backdrop:
 			'radial-gradient(60% 50% at 10% 0%, oklch(0.75 0.14 287 / 0.28), transparent 70%), radial-gradient(50% 45% at 100% 15%, oklch(0.85 0.10 168 / 0.30), transparent 70%)',
 		bevel: 'oklch(1 0 0 / 0.7)',
-		shadow: '0 1px 2px oklch(0.3 0.08 285 / 0.08), 0 20px 50px -24px oklch(0.4 0.15 285 / 0.28)'
+		shadow: '0 1px 2px oklch(0.3 0.08 285 / 0.08), 0 21px 55px -21px oklch(0.4 0.15 285 / 0.28)'
 	}
 };
 
@@ -98,7 +98,7 @@ export const auroraDark: ThemeDefinition = {
 		backdrop:
 			'radial-gradient(60% 50% at 10% 0%, oklch(0.55 0.2 287 / 0.38), transparent 70%), radial-gradient(50% 45% at 100% 15%, oklch(0.7 0.14 168 / 0.22), transparent 70%)',
 		bevel: 'oklch(1 0 0 / 0.08)',
-		shadow: 'inset 0 1px 0 oklch(1 0 0 / 0.06), 0 24px 60px -24px oklch(0.05 0.05 282 / 0.9)'
+		shadow: 'inset 0 1px 0 oklch(1 0 0 / 0.06), 0 21px 55px -21px oklch(0.05 0.05 282 / 0.9)'
 	}
 };
 
