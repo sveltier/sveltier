@@ -80,6 +80,14 @@ export default [
 		limit: '1.1 KB'
 	},
 	{
+		// Uniform and measured items, scroll adjustment, and jumps that wait for the viewport and
+		// stay on target while the rows around them are measured. Hidden viewports, border-box
+		// measurement and observation outside ResizeObserver's delivery add the last 0.3 KB.
+		name: 'virtualList',
+		code: "export { virtualList } from 'sveltier';",
+		limit: '1.8 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -96,6 +104,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '14 KB'
+		limit: '15 KB'
 	}
 ];

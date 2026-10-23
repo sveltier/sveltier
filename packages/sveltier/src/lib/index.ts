@@ -122,3 +122,13 @@ export {
 	type SpringPreset,
 	type TransitionOptions
 } from './primitives/motion/motion.js';
+
+// Primitives: virtual lists
+export {
+	virtualList,
+	type ScrollToIndexOptions,
+	type VirtualItem,
+	type VirtualKey,
+	type VirtualList,
+	type VirtualListOptions
+} from './primitives/virtual/virtual-list.svelte.js';

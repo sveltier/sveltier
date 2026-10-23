@@ -152,3 +152,32 @@ test('the springs land at once when the user prefers reduced motion', async ({ p
 	// Read once, without waiting: there is no animation to wait for.
 	expect(await values.allTextContents()).toEqual(['61.8%', '61.8%', '61.8%']);
 });
+
+test('the ledger keeps a few rows in the page and jumps to any of them', async ({ page }) => {
+	await open(page, '/primitives/virtual-lists');
+	const ledger = page.getByRole('region', { name: 'Transactions' });
+	const rows = ledger.getByRole('listitem');
+	await expect(rows.first()).toHaveAttribute('aria-posinset', '1');
+	expect(await rows.count()).toBeLessThan(30);
+	await page.getByRole('spinbutton', { name: 'Row' }).fill('50000');
+	await page.getByRole('button', { name: 'Go' }).click();
+	await expect(ledger.locator('[aria-posinset="50000"]')).toBeVisible();
+	await expect(rows.first()).not.toHaveAttribute('aria-posinset', '1');
+	expect(await rows.count()).toBeLessThan(30);
+});
+
+test('the activity log measures its entries all the way to the end', async ({ page }) => {
+	await open(page, '/primitives/virtual-lists');
+	const log = page.getByRole('region', { name: 'Activity log' });
+	await log.evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
+	await expect(log.locator('[aria-posinset="10000"]')).toBeVisible();
+	// Once measured, every entry starts where the one before it ends.
+	const gaps = () =>
+		log.locator('li').evaluateAll((items) =>
+			items.slice(1).map((item, i) => {
+				const previous = items[i]!.getBoundingClientRect();
+				return Math.round(Math.abs(item.getBoundingClientRect().top - previous.bottom));
+			})
+		);
+	await expect.poll(async () => Math.max(...(await gaps()))).toBe(0);
+});

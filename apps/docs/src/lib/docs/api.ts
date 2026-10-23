@@ -632,3 +632,67 @@ export const MOTION_API: ApiRow[] = [
 		description: 'An easing function from control points, as CSS defines them.'
 	}
 ];
+
+export const VIRTUAL_LIST_OPTIONS: ApiRow[] = [
+	{
+		name: 'count',
+		type: 'number',
+		description: 'How many items the list has.'
+	},
+	{
+		name: 'itemSize',
+		type: 'number | ((index: number) => number)',
+		description:
+			'Item height in px: one number when every item is as tall, or an estimate per index. Measured items use their measurement.'
+	},
+	{
+		name: 'overscan',
+		type: 'number',
+		default: '3',
+		description: 'Items rendered beyond each edge of the viewport, so fast scrolling shows no gaps.'
+	},
+	{
+		name: 'key',
+		type: '(index: number) => string | number',
+		default: 'the index',
+		description:
+			'A stable key per item, so measured heights follow items that move. It is read for every item when measurements change, so keep large data in $state.raw.'
+	},
+	{
+		name: 'ssrHeight',
+		type: 'number',
+		default: '0',
+		description: 'Viewport height in px assumed until the viewport is measured, as on the server.'
+	}
+];
+
+export const VIRTUAL_LIST_API: ApiRow[] = [
+	{
+		name: 'items',
+		type: 'VirtualItem[]',
+		description:
+			'The items to render, each with index, key, and start, size and end in px from the top of the list.'
+	},
+	{
+		name: 'totalSize',
+		type: 'number',
+		description: 'Height of all the items in px, for the element that holds them.'
+	},
+	{
+		name: 'viewport',
+		type: 'Attachment<HTMLElement>',
+		description:
+			"For the scrolling element. Turns off the browser's scroll anchoring there: the list keeps items steady itself."
+	},
+	{
+		name: 'measure',
+		type: 'Attachment<HTMLElement>',
+		description: 'For items whose height is measured. They need data-index={item.index}.'
+	},
+	{
+		name: 'scrollToIndex(index, options)',
+		type: "(index: number, options?: { align?: 'auto' | 'start' | 'center' | 'end' }) => void",
+		description:
+			'Scrolls the item into view at once and renders it in the same update, then keeps it in place while the rows around it are measured. auto moves as little as possible, and not at all when the item is in view. Indexes outside the list are ignored.'
+	}
+];
