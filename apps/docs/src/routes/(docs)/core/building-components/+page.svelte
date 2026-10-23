@@ -2,7 +2,7 @@
 	import { resolve } from '$app/paths';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { idsExample } from '#lib/snippets/core.js';
+	import { idsExample, rootElementExample } from '#lib/snippets/core.js';
 </script>
 
 <DocPage
@@ -36,5 +36,32 @@
 			Rendering several Svelte roots on one page? Give each its own <code>idPrefix</code> in
 			<code>render()</code> and <code>hydrate()</code>.
 		</li>
+	</ul>
+
+	<h2 id="root-element">The root element</h2>
+	<p>
+		Every component renders one root element and passes through the attributes it does not use, a
+		<code>class</code> and a bindable <code>ref</code>. <code>ElementProps</code> types this: the
+		component's own props, then every attribute of the element it does not redefine, so a shared
+		<code>size</code> or <code>color</code> never clashes with the HTML attribute of the same name.
+	</p>
+	<Code title="Delta.svelte" code={rootElementExample} />
+	<ul>
+		<li>
+			Destructure the own props, <code>class</code> and <code>ref</code>; the rest is everything
+			else.
+		</li>
+		<li>
+			Spread the rest first. Attributes the component controls (its classes, role and ARIA state)
+			come after the spread, so a stray attribute cannot break them; callbacks such as <code
+				>onclick</code
+			>
+			pass through.
+		</li>
+		<li>
+			Merge <code>class</code> last in an array: strings, arrays and objects all work, and the user's
+			classes follow the component's.
+		</li>
+		<li><code>ref</code> is <code>$bindable(null)</code> and set with <code>bind:this</code>.</li>
 	</ul>
 </DocPage>

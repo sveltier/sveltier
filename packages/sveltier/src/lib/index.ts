@@ -42,6 +42,7 @@ export {
 	type Variant
 } from './core/props/types.js';
 export { sharedClasses, type SharedClassProps } from './core/props/classes.js';
+export type { ElementProps } from './core/props/element.js';
 
 // Defaults
 export {
