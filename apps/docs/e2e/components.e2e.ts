@@ -135,3 +135,11 @@ test('a navigation list marks the row the user picked', async ({ page }) => {
 	await expect(nav.getByRole('button', { name: 'Loans' })).toBeDisabled();
 	expect(await nav.getByRole('listitem').count()).toBe(4);
 });
+
+test('a button group is a named set of buttons', async ({ page }) => {
+	await open(page, '/components/button-group');
+	const sort = page.getByRole('group', { name: 'Sort' });
+	await sort.getByRole('button', { name: 'Sort descending' }).click();
+	await expect(page.getByText('Sorted descending.')).toBeVisible();
+	await expect(page.getByRole('group', { name: 'Export' }).getByRole('button')).toHaveCount(3);
+});

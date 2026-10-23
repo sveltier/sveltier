@@ -138,6 +138,11 @@ export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/i
 export { Avatar, type AvatarDefaults, type AvatarProps } from './components/Avatar/index.js';
 export { Badge, type BadgeDefaults, type BadgeProps } from './components/Badge/index.js';
 export { Button, type ButtonDefaults, type ButtonProps } from './components/Button/index.js';
+export {
+	ButtonGroup,
+	type ButtonGroupDefaults,
+	type ButtonGroupProps
+} from './components/ButtonGroup/index.js';
 export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';

@@ -194,3 +194,12 @@ export const listUsage = `<script>
     {#snippet append()}$12,480.00{/snippet}
   </ListItem>
 </List>`;
+
+export const buttonGroupUsage = `<script>
+  import { Button, ButtonGroup } from 'sveltier';
+</script>
+
+<ButtonGroup aria-label="Export">
+  <Button onclick={exportCsv}>CSV</Button>
+  <Button onclick={exportPdf}>PDF</Button>
+</ButtonGroup>`;

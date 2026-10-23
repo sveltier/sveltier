@@ -117,6 +117,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'ButtonGroup',
+		code: "export { ButtonGroup } from 'sveltier';",
+		limit: '1 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'Card',
 		code: "export { Card } from 'sveltier';",
 		limit: '1.5 KB',
