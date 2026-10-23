@@ -136,3 +136,18 @@ export const progressUsage = `<script>
 <ProgressLinear value={uploaded} label="Uploading statement" />
 <ProgressCircular value={62} size="lg">62%</ProgressCircular>
 <ProgressCircular indeterminate label="Loading accounts" />`;
+
+export const skeletonUsage = `<script>
+  import { Skeleton } from 'sveltier';
+</script>
+
+<!-- aria-busy tells assistive technology to wait for the real content. -->
+<section aria-busy={loading}>
+  {#if loading}
+    <Skeleton type="circle" />
+    <Skeleton lines={2} />
+    <Skeleton type="rect" />
+  {:else}
+    …
+  {/if}
+</section>`;

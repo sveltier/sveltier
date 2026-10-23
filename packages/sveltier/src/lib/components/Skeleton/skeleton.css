@@ -1,0 +1,69 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-skeleton,
+	.sv-skeleton__line {
+		position: relative;
+		display: block;
+		overflow: hidden;
+		border-radius: var(--sv-radius-sm);
+		background-color: var(--sv-color-surface-raised);
+	}
+
+	/* Lines as tall as the text around them, a φ⁻¹ gap apart. */
+	.sv-skeleton--text {
+		display: grid;
+		gap: 0.618em;
+		overflow: visible;
+		background-color: transparent;
+	}
+
+	.sv-skeleton__line {
+		block-size: 1em;
+	}
+
+	.sv-skeleton__line:last-child:not(:first-child) {
+		inline-size: 61.8%;
+	}
+
+	.sv-skeleton--rect {
+		inline-size: 100%;
+		aspect-ratio: 1.618;
+		border-radius: var(--sv-radius-md);
+	}
+
+	.sv-skeleton--circle {
+		inline-size: var(--sv-size-height);
+		block-size: var(--sv-size-height);
+		border-radius: 50%;
+	}
+
+	/* A highlight sweeps across: transform only, and none under reduced motion. */
+	.sv-skeleton:not(.sv-skeleton--text)::after,
+	.sv-skeleton__line::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			color-mix(in oklch, var(--sv-color-surface) 61.8%, transparent),
+			transparent
+		);
+		transform: translateX(-100%);
+		animation: sv-skeleton-sweep 1618ms var(--sv-ease) infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-skeleton::after,
+		.sv-skeleton__line::after {
+			display: none;
+		}
+	}
+
+	@keyframes sv-skeleton-sweep {
+		to {
+			transform: translateX(100%);
+		}
+	}
+}

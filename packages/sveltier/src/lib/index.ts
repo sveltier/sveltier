@@ -148,3 +148,4 @@ export {
 	type ProgressLinearDefaults,
 	type ProgressLinearProps
 } from './components/Progress/index.js';
+export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';

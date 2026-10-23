@@ -99,3 +99,13 @@ test('a progress bar reports how far the upload has got', async ({ page }) => {
 		'aria-valuenow'
 	);
 });
+
+test('a skeleton holds the place of content while its region is busy', async ({ page }) => {
+	await open(page, '/components/skeleton');
+	const card = page.getByRole('region', { name: 'Latest transfer' });
+	await expect(card).toHaveAttribute('aria-busy', 'true');
+	await expect(card.locator('.sv-skeleton')).toHaveCount(3);
+	await page.getByRole('button', { name: 'Finish loading' }).click();
+	await expect(card).toHaveAttribute('aria-busy', 'false');
+	await expect(card).toContainText('Alex Morgan');
+});

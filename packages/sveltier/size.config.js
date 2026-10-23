@@ -143,6 +143,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'Skeleton',
+		code: "export { Skeleton } from 'sveltier';",
+		limit: '1.2 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

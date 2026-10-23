@@ -1363,3 +1363,28 @@ a {
 	gap: var(--sv-space-8);
 	max-inline-size: 21rem;
 }
+
+.docs-skeleton-card {
+	display: grid;
+	gap: var(--sv-space-13);
+	max-inline-size: 21rem;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+}
+
+.docs-skeleton-card__head {
+	display: flex;
+	gap: var(--sv-space-13);
+	align-items: center;
+}
+
+.docs-skeleton-card__lines {
+	flex: 1;
+}
+
+.docs-skeleton-card__amount {
+	margin: 0;
+	font-size: var(--sv-text-xl);
+}
