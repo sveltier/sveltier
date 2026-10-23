@@ -7,7 +7,8 @@
 	"scripts": {
 		"build": "svelte-package && publint --strict && attw --pack . --profile esm-only --quiet",
 		"dev": "svelte-package --watch",
-		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings"
+		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+		"size": "node scripts/size-bundle.js && size-limit"
 	},
 	"files": [
 		"dist",
@@ -31,10 +32,12 @@
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.5",
+		"@size-limit/file": "^14.3.0",
 		"@sveltejs/package": "^3.0.1",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@types/node": "^24.19.2",
 		"publint": "^0.3.25",
+		"size-limit": "^14.3.0",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.7",
 		"typescript": "~6.0.3",

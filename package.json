@@ -12,7 +12,8 @@
 		"check": "pnpm -r check",
 		"test": "pnpm -r test",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"size": "pnpm --filter sveltier size"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
