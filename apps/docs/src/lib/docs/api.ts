@@ -270,3 +270,36 @@ export const SHARED_TYPES: ApiRow[] = [
 		description: 'The allowed values, for building controls or validating input.'
 	}
 ];
+
+export const DISPLAY_INSTANCE: ApiRow[] = [
+	{
+		name: 'name',
+		type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'",
+		description: 'The current breakpoint.'
+	},
+	{
+		name: 'xs … xxl',
+		type: 'boolean',
+		description: 'Whether the viewport is within that breakpoint.'
+	},
+	{
+		name: 'smAndUp … xlAndUp',
+		type: 'boolean',
+		description: 'Whether the viewport is at that breakpoint or wider.'
+	},
+	{
+		name: 'smAndDown … xlAndDown',
+		type: 'boolean',
+		description: 'Whether the viewport is at that breakpoint or narrower.'
+	},
+	{
+		name: 'mobile',
+		type: 'boolean',
+		description: 'Whether the viewport is narrower than the mobile breakpoint (md by default).'
+	},
+	{
+		name: 'thresholds',
+		type: 'Readonly<DisplayThresholds>',
+		description: 'The minimum width in px of sm, md, lg, xl and xxl.'
+	}
+];

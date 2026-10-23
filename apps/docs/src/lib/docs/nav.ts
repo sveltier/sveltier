@@ -47,7 +47,8 @@ export const NAV: NavGroup[] = [
 		title: 'Core',
 		items: [
 			{ title: 'Defaults', path: 'core/defaults' },
-			{ title: 'Shared props', path: 'core/shared-props' }
+			{ title: 'Shared props', path: 'core/shared-props' },
+			{ title: 'Display', path: 'core/display' }
 		]
 	},
 	{
@@ -63,7 +64,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'themeCss and themeScript', path: 'api/theme-css' },
 			{ title: 'DefaultsProvider', path: 'api/defaults-provider' },
 			{ title: 'useDefaults', path: 'api/use-defaults' },
-			{ title: 'sharedClasses', path: 'api/shared-classes' }
+			{ title: 'sharedClasses', path: 'api/shared-classes' },
+			{ title: 'useDisplay', path: 'api/use-display' }
 		]
 	}
 ];

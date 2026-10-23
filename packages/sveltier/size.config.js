@@ -18,8 +18,8 @@ export default [
 		measure: 'css'
 	},
 	{
-		name: 'core JS (theme, defaults)',
-		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults } from 'sveltier';",
+		name: 'core JS (theme, defaults, display)',
+		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay } from 'sveltier';",
 		limit: '4 KB',
 		measure: 'js'
 	},

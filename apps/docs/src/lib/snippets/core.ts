@@ -135,3 +135,21 @@ function sharedClasses(props: SharedClassProps): string;
 
 sharedClasses({ variant: 'tonal', size: 'sm', color: 'success', rounded: true });
 // 'sv-variant-tonal sv-size-sm sv-color-success sv-rounded'`;
+
+export const displayExample = `<script>
+  import { useDisplay } from 'sveltier';
+
+  const display = useDisplay();
+  // Behaviour, not layout: fewer rows per page on small screens.
+  const pageSize = $derived(display.mdAndUp ? 50 : 20);
+</script>
+
+{#if display.mobile}
+  <MobileOrderTicket />
+{:else}
+  <OrderTicket />
+{/if}`;
+
+export const useDisplaySignature = `import { useDisplay, type DisplayInstance } from 'sveltier';
+
+function useDisplay(): DisplayInstance;`;

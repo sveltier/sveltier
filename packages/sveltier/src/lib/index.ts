@@ -54,3 +54,13 @@ export {
 	type DefaultsConfig,
 	type GlobalDefaults
 } from './core/defaults/context.js';
+
+// Display
+export {
+	BREAKPOINTS,
+	useDisplay,
+	type Breakpoint,
+	type DisplayInstance,
+	type DisplayOptions,
+	type DisplayThresholds
+} from './core/display/display.js';
