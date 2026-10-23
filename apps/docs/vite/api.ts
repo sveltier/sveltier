@@ -99,9 +99,16 @@ function rows(checker: ts.TypeChecker, symbol: ts.Symbol, at: ts.Node): ApiRow[]
 		});
 }
 
-// Every exported interface and type alias of the package by name, and the declaration files
-// they were read from.
-function extract(file = entry): [Record<string, ApiRow[]>, string[]] {
+interface Extracted {
+	/** Every exported interface and type alias of the package, by name. */
+	tables: Record<string, ApiRow[]>;
+	/** The JSDoc of each of them. */
+	descriptions: Record<string, string>;
+	/** The declaration files they were read from. */
+	files: string[];
+}
+
+function extract(file = entry): Extracted {
 	const program = ts.createProgram([file], {
 		target: ts.ScriptTarget.ES2022,
 		module: ts.ModuleKind.ESNext,
@@ -119,45 +126,57 @@ function extract(file = entry): [Record<string, ApiRow[]>, string[]] {
 		);
 	}
 	const tables: Record<string, ApiRow[]> = {};
+	const descriptions: Record<string, string> = {};
 	for (const exported of checker.getExportsOfModule(module)) {
 		const symbol =
 			exported.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(exported) : exported;
 		if (!(symbol.flags & (ts.SymbolFlags.Interface | ts.SymbolFlags.TypeAlias))) continue;
 		const table = rows(checker, symbol, source);
-		if (table.length > 0) tables[exported.getName()] = table;
+		if (table.length === 0) continue;
+		tables[exported.getName()] = table;
+		descriptions[exported.getName()] = ts
+			.displayPartsToString(symbol.getDocumentationComment(checker))
+			.trim();
 	}
 	const files = program
 		.getSourceFiles()
 		.map((sourceFile) => sourceFile.fileName)
 		.filter((name) => !external(name));
-	return [tables, files];
+	return { tables, descriptions, files };
 }
 
 /** Every exported interface and type alias of the package, by name. */
 export function extractApi(file = entry): Record<string, ApiRow[]> {
-	return extract(file)[0];
+	return extract(file).tables;
 }
+
+const ALL = 'virtual:sveltier-api';
 
 export function sveltierApi(): Plugin {
 	// Building the type program takes a moment, so it is built once and again only when the
 	// package's declarations change (the dev script rebuilds them in watch mode).
-	let tables: Record<string, ApiRow[]> | undefined;
-	let files: string[] = [];
-	const resolved = `\0${PREFIX}`;
+	let api: Extracted | undefined;
 	return {
 		name: 'sveltier-api',
-		resolveId: (id) => (id.startsWith(PREFIX) ? `\0${id}` : undefined),
+		resolveId: (id) => (id === ALL || id.startsWith(PREFIX) ? `\0${id}` : undefined),
 		load(id) {
-			if (!id.startsWith(resolved)) return;
-			const name = id.slice(resolved.length);
-			if (!tables) [tables, files] = extract();
-			for (const file of files) this.addWatchFile(file);
-			const table = tables[name];
+			if (!id.startsWith(`\0${ALL}`)) return;
+			api ??= extract();
+			for (const file of api.files) this.addWatchFile(file);
+			// Every table at once, for the machine-readable docs built on the server.
+			if (id === `\0${ALL}`) {
+				return [
+					`export const tables = ${JSON.stringify(api.tables)};`,
+					`export const descriptions = ${JSON.stringify(api.descriptions)};`
+				].join('\n');
+			}
+			const name = id.slice(`\0${PREFIX}`.length);
+			const table = api.tables[name];
 			if (!table) throw new Error(`[sveltier-api] The package exports no type named ${name}.`);
 			return `export default ${JSON.stringify(table)};`;
 		},
 		watchChange(id) {
-			if (files.includes(id)) tables = undefined;
+			if (api?.files.includes(id)) api = undefined;
 		}
 	};
 }
