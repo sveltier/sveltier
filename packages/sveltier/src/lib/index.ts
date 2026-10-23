@@ -1,5 +1,8 @@
 export const version = '0.0.0';
 
+// Theme engine
+export { defineTheme } from './core/theme/define.js';
+export { contrast, onColor, parseOklch, type Oklch } from './core/theme/color.js';
 export {
 	INTENT_COLORS,
 	NEUTRAL_COLORS,
