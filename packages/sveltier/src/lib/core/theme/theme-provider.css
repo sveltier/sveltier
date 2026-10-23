@@ -1,0 +1,13 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A theme scope only re-declares custom properties, which inherit through display: contents. */
+	.sv-theme-provider {
+		display: contents;
+	}
+
+	.sv-theme-provider--background {
+		display: block;
+		background-color: var(--sv-color-background);
+	}
+}

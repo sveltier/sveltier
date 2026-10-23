@@ -7,8 +7,18 @@
  */
 export default [
 	{
+		name: 'ThemeProvider + useTheme (with tokens and base CSS)',
+		code: "export { ThemeProvider, useTheme } from 'sveltier';",
+		limit: '3.5 KB'
+	},
+	{
+		name: 'defineTheme (custom themes, adds the colour maths)',
+		code: "export { defineTheme } from 'sveltier';",
+		limit: '1.5 KB'
+	},
+	{
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
-		limit: '1 KB'
+		limit: '6 KB'
 	}
 ];

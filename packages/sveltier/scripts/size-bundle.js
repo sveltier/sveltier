@@ -33,13 +33,21 @@ for (const entry of entries) {
 				{ find: /^sveltier\/(.*)$/, replacement: path.join(dist, '$1') }
 			]
 		},
+		// An app build (not library mode): library mode keeps whitespace in ES output, which a
+		// consumer's own production build would remove.
 		build: {
 			outDir: path.join(root, SIZE_DIR, 'out', id),
 			emptyOutDir: true,
 			minify: true,
 			cssMinify: true,
-			lib: { entry: entryFile, formats: ['es'], fileName: 'index' },
-			rolldownOptions: { external: [/^svelte($|\/)/] }
+			cssCodeSplit: false,
+			modulePreload: false,
+			rolldownOptions: {
+				input: entryFile,
+				preserveEntrySignatures: 'strict',
+				external: [/^svelte($|\/)/],
+				output: { entryFileNames: 'index.js', assetFileNames: 'index[extname]' }
+			}
 		}
 	});
 }
