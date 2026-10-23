@@ -1,0 +1,30 @@
+/* Minimal document defaults. Everything is in @layer sv.base, so any unlayered rule wins. */
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.base {
+	:root {
+		background-color: var(--sv-color-background);
+		-webkit-text-size-adjust: 100%;
+		text-size-adjust: 100%;
+	}
+
+	/* Every theme scope re-applies its text colour, so nested themes recolour their content. */
+	:root,
+	[data-sv-theme] {
+		color: var(--sv-color-text);
+	}
+
+	body {
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-md);
+		line-height: var(--sv-leading-normal);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	:focus-visible {
+		outline: var(--sv-focus-width) solid var(--sv-color-primary);
+		outline-offset: var(--sv-focus-offset);
+	}
+}
