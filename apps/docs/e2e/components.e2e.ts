@@ -68,3 +68,11 @@ test('a badge describes the button it is pinned to and hides at zero', async ({ 
 		'120 alerts'
 	);
 });
+
+test('an avatar falls back to its initials when the picture fails', async ({ page }) => {
+	await open(page, '/components/avatar');
+	await expect(page.getByRole('img', { name: 'Alex Morgan' }).locator('img')).toBeVisible();
+	const failed = page.getByRole('img', { name: 'Jamie Kerr' });
+	await expect(failed.locator('img')).toHaveCount(0);
+	await expect(failed).toHaveText('JK');
+});

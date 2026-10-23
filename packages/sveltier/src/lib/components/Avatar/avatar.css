@@ -1,0 +1,34 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* As tall as a control of its size; initials are φ⁻² of that. */
+	.sv-avatar {
+		position: relative;
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		inline-size: var(--sv-size-height);
+		block-size: var(--sv-size-height);
+		overflow: hidden;
+		border: var(--sv-hairline) solid var(--sv-variant-border);
+		border-radius: var(--sv-rounded, var(--sv-radius-full));
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-variant-shadow);
+		color: var(--sv-variant-fg);
+		font: var(--sv-weight-medium) calc(var(--sv-size-height) * 0.382) / 1 var(--sv-font-ui);
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		vertical-align: middle;
+		user-select: none;
+	}
+
+	.sv-avatar__image {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+	}
+}

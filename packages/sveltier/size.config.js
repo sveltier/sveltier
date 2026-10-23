@@ -98,6 +98,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'Avatar',
+		code: "export { Avatar } from 'sveltier';",
+		limit: '1.2 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Count, cap, dot and the spoken label; includes the shared visually hidden rule.
 		name: 'Badge',
 		code: "export { Badge } from 'sveltier';",
