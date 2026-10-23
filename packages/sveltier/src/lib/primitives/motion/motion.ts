@@ -1,4 +1,4 @@
-import { Spring, prefersReducedMotion, type SpringUpdateOptions } from 'svelte/motion';
+import { Spring, prefersReducedMotion } from 'svelte/motion';
 import type { TransitionConfig } from 'svelte/transition';
 import { cubicBezier } from './easing.js';
 
@@ -98,6 +98,9 @@ export const SPRINGS = {
 } as const;
 
 export type SpringPreset = keyof typeof SPRINGS;
+
+// The options of Spring.set, which older Svelte versions do not export as a named type.
+type SpringUpdateOptions = Parameters<Spring<unknown>['set']>[1];
 
 // A Svelte Spring whose updates are instant while the user prefers reduced motion.
 class ReducibleSpring<T> extends Spring<T> {
