@@ -48,7 +48,8 @@ export const NAV: NavGroup[] = [
 		items: [
 			{ title: 'Defaults', path: 'core/defaults' },
 			{ title: 'Shared props', path: 'core/shared-props' },
-			{ title: 'Display', path: 'core/display' }
+			{ title: 'Display', path: 'core/display' },
+			{ title: 'Locale', path: 'core/locale' }
 		]
 	},
 	{
@@ -65,7 +66,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'DefaultsProvider', path: 'api/defaults-provider' },
 			{ title: 'useDefaults', path: 'api/use-defaults' },
 			{ title: 'sharedClasses', path: 'api/shared-classes' },
-			{ title: 'useDisplay', path: 'api/use-display' }
+			{ title: 'useDisplay', path: 'api/use-display' },
+			{ title: 'useLocale', path: 'api/use-locale' }
 		]
 	}
 ];

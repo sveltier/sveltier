@@ -303,3 +303,54 @@ export const DISPLAY_INSTANCE: ApiRow[] = [
 		description: 'The minimum width in px of sm, md, lg, xl and xxl.'
 	}
 ];
+
+export const LOCALE_INSTANCE: ApiRow[] = [
+	{
+		name: 'locale',
+		type: 'string',
+		default: "'en-US'",
+		description: 'The BCP 47 locale used for formatting.'
+	},
+	{
+		name: 'currency',
+		type: 'string',
+		default: "'USD'",
+		description: 'The ISO 4217 currency of formatCurrency().'
+	},
+	{
+		name: 'timeZone',
+		type: 'string | undefined',
+		default: 'runtime zone',
+		description: 'The IANA time zone of formatDate().'
+	},
+	{
+		name: 't(key, values?)',
+		type: '(key: MessageKey, values?: Record<string, string | number>) => string',
+		description: 'A message, with {name} placeholders filled from values.'
+	},
+	{
+		name: 'formatNumber(value, options?)',
+		type: '(value: number | bigint, options?: Intl.NumberFormatOptions) => string',
+		description: 'A number in the locale.'
+	},
+	{
+		name: 'formatCurrency(value, currency?, options?)',
+		type: '(value: number | bigint, currency?: string, options?) => string',
+		description: 'Money, with the fraction digits of the currency (USD 2, JPY 0).'
+	},
+	{
+		name: 'formatPercent(value, options?)',
+		type: '(value: number, options?: Intl.NumberFormatOptions) => string',
+		description: 'A ratio as a percentage: 0.0184 is 2%, or 1.84% with two fraction digits.'
+	},
+	{
+		name: 'formatDate(value, options?)',
+		type: '(value: Date | number, options?: Intl.DateTimeFormatOptions) => string',
+		description: 'A date in the time zone setting, unless options.timeZone says otherwise.'
+	},
+	{
+		name: 'formatRelative(value, now?)',
+		type: '(value: Date | number, now?: Date | number) => string',
+		description: 'Time from now in the largest unit that fits: "5 minutes ago", "tomorrow".'
+	}
+];

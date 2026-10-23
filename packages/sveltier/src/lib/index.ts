@@ -64,3 +64,13 @@ export {
 	type DisplayOptions,
 	type DisplayThresholds
 } from './core/display/display.js';
+
+// Locale
+export {
+	MESSAGES,
+	useLocale,
+	type LocaleInstance,
+	type LocaleOptions,
+	type MessageKey,
+	type Messages
+} from './core/locale/locale.js';

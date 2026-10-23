@@ -153,3 +153,20 @@ export const displayExample = `<script>
 export const useDisplaySignature = `import { useDisplay, type DisplayInstance } from 'sveltier';
 
 function useDisplay(): DisplayInstance;`;
+
+export const localeExample = `<script lang="ts">
+  import { useLocale } from 'sveltier';
+
+  let { balance, change, updatedAt }: { balance: number; change: number; updatedAt: Date } =
+    $props();
+
+  const locale = useLocale();
+</script>
+
+<p>{locale.formatCurrency(balance)}</p>
+<p>{locale.formatPercent(change, { minimumFractionDigits: 2, signDisplay: 'exceptZero' })}</p>
+<time datetime={updatedAt.toISOString()}>{locale.formatRelative(updatedAt)}</time>`;
+
+export const useLocaleSignature = `import { useLocale, type LocaleInstance } from 'sveltier';
+
+function useLocale(): LocaleInstance;`;

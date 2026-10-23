@@ -18,8 +18,8 @@ export default [
 		measure: 'css'
 	},
 	{
-		name: 'core JS (theme, defaults, display)',
-		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay } from 'sveltier';",
+		name: 'core JS (theme, defaults, display, locale)',
+		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from 'sveltier';",
 		limit: '4 KB',
 		measure: 'js'
 	},
@@ -40,9 +40,9 @@ export default [
 	})),
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
-		// the engine and the shared props CSS. It grows with every module by design.
+		// the engine, the shared props CSS and locale. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
-		limit: '8 KB'
+		limit: '9 KB'
 	}
 ];
