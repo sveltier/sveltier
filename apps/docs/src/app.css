@@ -1357,3 +1357,9 @@ a {
 	background-color: var(--sv-color-surface-raised);
 	font: var(--sv-weight-medium) var(--sv-text-sm) / 1 var(--sv-font-ui);
 }
+
+.docs-progress-upload {
+	display: grid;
+	gap: var(--sv-space-8);
+	max-inline-size: 21rem;
+}

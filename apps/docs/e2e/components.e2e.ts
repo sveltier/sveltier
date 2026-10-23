@@ -88,3 +88,14 @@ test('filter chips toggle and removable chips go away', async ({ page }) => {
 	await expect(page.getByRole('button', { name: 'Remove GBP' })).toHaveCount(0);
 	await expect(page.getByRole('group', { name: 'Watched currencies' })).not.toContainText('GBP');
 });
+
+test('a progress bar reports how far the upload has got', async ({ page }) => {
+	await open(page, '/components/progress');
+	const bar = page.getByRole('progressbar', { name: 'Uploading statement' });
+	await expect(bar).toHaveAttribute('aria-valuenow', '0');
+	await page.getByRole('button', { name: 'Upload statement' }).click();
+	await expect(bar).toHaveAttribute('aria-valuenow', '100');
+	await expect(page.getByRole('progressbar', { name: 'Syncing transactions' })).not.toHaveAttribute(
+		'aria-valuenow'
+	);
+});

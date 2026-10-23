@@ -61,7 +61,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'Button', path: 'components/button' },
 			{ title: 'Chip', path: 'components/chip' },
 			{ title: 'Divider', path: 'components/divider' },
-			{ title: 'Icon', path: 'components/icon' }
+			{ title: 'Icon', path: 'components/icon' },
+			{ title: 'Progress', path: 'components/progress' }
 		]
 	},
 	{

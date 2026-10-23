@@ -140,3 +140,11 @@ export { Button, type ButtonDefaults, type ButtonProps } from './components/Butt
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
+export {
+	ProgressCircular,
+	ProgressLinear,
+	type ProgressCircularDefaults,
+	type ProgressCircularProps,
+	type ProgressLinearDefaults,
+	type ProgressLinearProps
+} from './components/Progress/index.js';

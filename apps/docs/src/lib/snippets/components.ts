@@ -128,3 +128,11 @@ export const chipClosable = `<script>
     {currency}
   </Chip>
 {/each}`;
+
+export const progressUsage = `<script>
+  import { ProgressCircular, ProgressLinear } from 'sveltier';
+</script>
+
+<ProgressLinear value={uploaded} label="Uploading statement" />
+<ProgressCircular value={62} size="lg">62%</ProgressCircular>
+<ProgressCircular indeterminate label="Loading accounts" />`;

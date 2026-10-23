@@ -131,6 +131,18 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		name: 'ProgressLinear',
+		code: "export { ProgressLinear } from 'sveltier';",
+		limit: '1.3 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'ProgressCircular',
+		code: "export { ProgressCircular } from 'sveltier';",
+		limit: '1.5 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'

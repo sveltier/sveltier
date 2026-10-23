@@ -1,0 +1,61 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* As wide as a control of its size is tall. */
+	.sv-progress-circular {
+		position: relative;
+		display: inline-grid;
+		flex: none;
+		place-items: center;
+		inline-size: var(--sv-size-height);
+		block-size: var(--sv-size-height);
+		color: var(--sv-color);
+		font: var(--sv-weight-medium) calc(var(--sv-size-height) * 0.236) / 1 var(--sv-font-ui);
+		font-variant-numeric: tabular-nums;
+		vertical-align: middle;
+	}
+
+	.sv-progress-circular__svg {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		fill: none;
+		stroke-width: 4;
+		transform: rotate(-90deg);
+	}
+
+	.sv-progress-circular__track {
+		stroke: color-mix(in oklch, currentColor var(--sv-tonal-wash), transparent);
+	}
+
+	.sv-progress-circular__arc {
+		stroke: currentColor;
+		stroke-linecap: round;
+	}
+
+	/* Indeterminate: a fixed arc that turns. A spinner that stops reads as frozen. */
+	.sv-progress-circular--indeterminate .sv-progress-circular__svg {
+		animation: sv-progress-turn 987ms linear infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-progress-circular--indeterminate .sv-progress-circular__svg {
+			animation-duration: 2961ms;
+		}
+	}
+
+	@keyframes sv-progress-turn {
+		from {
+			transform: rotate(-90deg);
+		}
+
+		to {
+			transform: rotate(270deg);
+		}
+	}
+
+	.sv-progress-circular__content {
+		position: relative;
+	}
+}
