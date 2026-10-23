@@ -8,7 +8,9 @@
 		"build": "svelte-package && node scripts/strip-css-imports-from-dts.js && publint --strict && attw --pack . --profile esm-only --ignore-rules internal-resolution-error --quiet",
 		"dev": "svelte-package --watch",
 		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
-		"size": "node scripts/size-bundle.js && size-limit"
+		"size": "node scripts/size-bundle.js && size-limit",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"files": [
 		"dist",
@@ -36,12 +38,16 @@
 		"@sveltejs/package": "^3.0.1",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@types/node": "^24.19.2",
+		"@vitest/browser-playwright": "^5.0.5",
+		"playwright": "^1.64.1",
 		"publint": "^0.3.25",
 		"size-limit": "^14.3.0",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.7",
 		"typescript": "~6.0.3",
-		"vite": "^8.3.5"
+		"vite": "^8.3.5",
+		"vitest": "^5.0.5",
+		"vitest-browser-svelte": "^3.1.0"
 	},
 	"keywords": [
 		"svelte",
