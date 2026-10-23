@@ -41,7 +41,9 @@ test('the API table is generated from the types', async ({ page }) => {
 	await open(page, '/components/button');
 	const table = page.getByRole('region', { name: 'Button props' });
 	const variant = table.getByRole('row').filter({ hasText: /^variant/ });
-	await expect(variant).toContainText("'flat' | 'tonal' | 'outlined' | 'text' | 'plain'");
+	await expect(variant).toContainText(
+		"'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'"
+	);
 	await expect(table.getByRole('row').filter({ hasText: /^loading/ })).toContainText('false');
 	await expect(table.getByRole('row').filter({ hasText: /^ref/ })).toContainText(
 		'HTMLButtonElement | HTMLAnchorElement | null'

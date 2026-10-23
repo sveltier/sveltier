@@ -19,7 +19,7 @@
 
 <DocPage
 	title="Button"
-	lede="Starts an action, or goes somewhere when it has a link. Five variants in any colour of the theme, sizes on the golden scale, and a loading state that keeps focus."
+	lede="Starts an action, or goes somewhere when it has a link. Six variants in any colour of the theme, sizes on the golden scale, and a loading state that keeps focus."
 >
 	<h2 id="usage">Usage</h2>
 	<p>
@@ -30,7 +30,8 @@
 
 	<h2 id="variants">Variants and colours</h2>
 	<p>
-		<code>flat</code> fills with the colour, <code>tonal</code> tints with it,
+		<code>elevated</code> sets the colour on a raised surface, <code>flat</code> fills with it,
+		<code>tonal</code> tints with it,
 		<code>outlined</code> adds a border, <code>text</code> is the colour alone, and
 		<code>plain</code> has no hover or press wash. Every pairing meets WCAG AA contrast in all five theme
 		packs, light and dark.

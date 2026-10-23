@@ -781,6 +781,7 @@ a {
 	border: var(--sv-hairline) solid var(--sv-variant-border);
 	border-radius: var(--sv-rounded, var(--sv-radius-md));
 	background-color: var(--sv-variant-bg);
+	box-shadow: var(--sv-variant-shadow);
 	color: var(--sv-variant-fg);
 	font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
 	letter-spacing: var(--sv-button-tracking);

@@ -1,8 +1,8 @@
 <script lang="ts">
-	// Every variant in a few colours: the same five weights in any colour of the theme.
+	// Every variant in a few colours: the same six weights in any colour of the theme.
 	import { Button, type Color, type Variant } from 'sveltier';
 
-	const VARIANTS: Variant[] = ['flat', 'tonal', 'outlined', 'text', 'plain'];
+	const VARIANTS: Variant[] = ['elevated', 'flat', 'tonal', 'outlined', 'text', 'plain'];
 	const COLORS: Color[] = ['primary', 'neutral', 'success', 'error'];
 </script>
 
