@@ -148,3 +148,51 @@ export const typeaheadExample = `<script>
   <li role="option" data-sv-item aria-selected="false">Pound sterling</li>
   …
 </ul>`;
+
+export const motionCss = `.panel {
+  transition:
+    opacity var(--sv-duration-normal) var(--sv-ease),
+    transform var(--sv-duration-normal) var(--sv-ease);
+}
+
+.panel[data-closed] {
+  opacity: 0;
+  transform: translateY(8px);
+}`;
+
+export const transitionExample = `<script>
+  import { rise } from 'sveltier';
+  let shown = $state(false);
+</script>
+
+<button aria-expanded={shown} onclick={() => (shown = !shown)}>Receipt</button>
+
+{#if shown}
+  <!-- Or in:pop out:fade, or rise with { distance: 13 }. -->
+  <div transition:rise>Transfer sent: €1,250.00</div>
+{/if}`;
+
+export const springExample = `<script>
+  import { spring } from 'sveltier';
+  const balance = spring(248190.35, 'gentle');
+</script>
+
+<button onclick={() => (balance.target += 1000)}>Deposit 1,000</button>
+
+<!-- target is where it is going; current is what to show. -->
+<p class="amount">{balance.current.toFixed(2)}</p>`;
+
+export const motionExample = `import { Tween } from 'svelte/motion';
+import { easing, motion } from 'sveltier';
+
+// element.animate() takes the theme's easing as it is.
+export function flash(cell: HTMLElement) {
+  const { fast, ease } = motion(cell);
+  cell.animate([{ opacity: 0.382 }, { opacity: 1 }], { duration: fast, easing: ease });
+}
+
+// Tween needs a function: easing() turns the curve into one.
+export function progress(element: HTMLElement) {
+  const { slow, ease } = motion(element);
+  return new Tween(0, { duration: slow, easing: easing(ease) });
+}`;

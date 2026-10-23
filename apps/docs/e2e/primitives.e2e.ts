@@ -117,3 +117,38 @@ test('the listbox jumps by typing and selects with Enter', async ({ page }) => {
 		'true'
 	);
 });
+
+test('the receipt mounts and unmounts with each transition', async ({ page }) => {
+	await open(page, '/primitives/motion');
+	const toggle = page.getByRole('button', { name: 'Receipt' });
+	const receipt = page.getByRole('group', { name: 'Transfer receipt' });
+	await expect(receipt).toBeVisible();
+	for (const kind of ['fade', 'pop', 'rise']) {
+		await page.getByRole('radio', { name: kind }).check();
+		await toggle.click();
+		await expect(receipt).toBeHidden();
+		await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+		await toggle.click();
+		await expect(receipt).toBeVisible();
+	}
+});
+
+test('the springs settle on the other side of the split', async ({ page }) => {
+	await open(page, '/primitives/motion');
+	const shares = page.getByRole('list', { name: 'Equity share by spring preset' });
+	await page.getByRole('button', { name: 'Rebalance' }).click();
+	for (const preset of ['snappy', 'standard', 'gentle']) {
+		await expect(shares.getByRole('listitem').filter({ hasText: preset })).toContainText('61.8%');
+	}
+});
+
+test('the springs land at once when the user prefers reduced motion', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await open(page, '/primitives/motion');
+	const values = page
+		.getByRole('list', { name: 'Equity share by spring preset' })
+		.locator('.docs-num');
+	await page.getByRole('button', { name: 'Rebalance' }).click();
+	// Read once, without waiting: there is no animation to wait for.
+	expect(await values.allTextContents()).toEqual(['61.8%', '61.8%', '61.8%']);
+});

@@ -60,7 +60,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'Layers', path: 'primitives/layers' },
 			{ title: 'Portal and modality', path: 'primitives/modality' },
 			{ title: 'Positioning', path: 'primitives/positioning' },
-			{ title: 'Keyboard', path: 'primitives/keyboard' }
+			{ title: 'Keyboard', path: 'primitives/keyboard' },
+			{ title: 'Motion', path: 'primitives/motion' }
 		]
 	},
 	{

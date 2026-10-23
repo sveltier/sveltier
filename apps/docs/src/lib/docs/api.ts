@@ -560,3 +560,75 @@ export const TYPEAHEAD_OPTIONS: ApiRow[] = [
 		description: 'What a match does.'
 	}
 ];
+
+export const TRANSITION_OPTIONS: ApiRow[] = [
+	{
+		name: 'duration',
+		type: 'number',
+		default: "the theme's normal duration",
+		description: 'Length in ms. Under reduced motion the theme duration is 0.01ms.'
+	},
+	{
+		name: 'delay',
+		type: 'number',
+		default: '0',
+		description: 'Wait before starting, in ms.'
+	},
+	{
+		name: 'distance',
+		type: 'number',
+		default: '8',
+		description: 'rise only: how far the element travels, in px.'
+	},
+	{
+		name: 'scale',
+		type: 'number',
+		default: '0.944',
+		description: 'pop only: the scale it grows from, 1 − φ⁻⁶.'
+	}
+];
+
+export const SPRING_API: ApiRow[] = [
+	{
+		name: 'spring(value, preset)',
+		type: '<T>(value: T, preset?: SpringPreset) => Spring<T>',
+		default: "'standard'",
+		description:
+			'A Svelte Spring with a preset. Set target to move it and render current. While the user prefers reduced motion, updates land at once unless set() is called with instant: false.'
+	},
+	{
+		name: 'snappy',
+		type: '{ stiffness: 0.236, damping: 0.764 }',
+		description: '1/φ³. Small, quick things: toggles, thumbs, indicators.'
+	},
+	{
+		name: 'standard',
+		type: '{ stiffness: 0.146, damping: 0.854 }',
+		description: "1/φ⁴, close to Svelte's own default. Most movement."
+	},
+	{
+		name: 'gentle',
+		type: '{ stiffness: 0.09, damping: 0.91 }',
+		description: '1/φ⁵. Large surfaces and numbers that count up or down.'
+	}
+];
+
+export const MOTION_API: ApiRow[] = [
+	{
+		name: 'motion(element)',
+		type: '(element: Element) => Motion',
+		description:
+			'The timing where the element is: fast, normal and slow in ms, and ease as a CSS easing. Call it in the browser, from an attachment, an effect or a handler.'
+	},
+	{
+		name: 'easing(ease)',
+		type: '(ease: string) => (t: number) => number',
+		description:
+			'A CSS easing as a function. Reads cubic-bezier() and the keywords; anything else falls back to ease.'
+	},
+	{
+		name: 'cubicBezier(x1, y1, x2, y2)',
+		type: '(x1: number, y1: number, x2: number, y2: number) => (t: number) => number',
+		description: 'An easing function from control points, as CSS defines them.'
+	}
+];

@@ -1174,3 +1174,68 @@ a {
 	);
 	font-weight: var(--sv-weight-medium);
 }
+
+/* Room for the receipt whether it is shown or not, so hiding it does not move the page. */
+.docs-motion-stage {
+	display: grid;
+	align-items: start;
+	min-block-size: var(--sv-space-144);
+}
+
+.docs-receipt {
+	display: grid;
+	gap: var(--sv-space-3);
+	justify-self: start;
+	min-inline-size: 15rem;
+	padding: var(--sv-space-13) var(--sv-space-21);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	box-shadow: var(--sv-shadow);
+	font-size: var(--sv-text-sm);
+}
+
+.docs-receipt__amount {
+	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-data);
+	font-variant-numeric: tabular-nums;
+}
+
+.docs-springs {
+	display: grid;
+	gap: var(--sv-space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.docs-spring {
+	display: grid;
+	grid-template-columns: 5rem minmax(0, 1fr) 4rem;
+	gap: var(--sv-space-13);
+	align-items: center;
+	font-size: var(--sv-text-sm);
+}
+
+.docs-spring__name {
+	font-family: var(--sv-font-data);
+	color: var(--sv-color-text-subtle);
+}
+
+.docs-spring__track {
+	overflow: hidden;
+	block-size: var(--sv-space-8);
+	border-radius: var(--sv-radius-sm);
+	background-color: var(--sv-color-surface-raised);
+}
+
+/* Scaled, not resized: only transform moves. It grows from the inline start. */
+.docs-spring__fill {
+	display: block;
+	block-size: 100%;
+	background-color: var(--sv-color-primary);
+	transform-origin: left;
+}
+
+.docs-spring__fill:dir(rtl) {
+	transform-origin: right;
+}

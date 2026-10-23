@@ -107,3 +107,18 @@ export {
 // Primitives: keyboard
 export { combination, keymap, type KeyHandler } from './primitives/keyboard/keymap.js';
 export { typeahead, type TypeaheadOptions } from './primitives/keyboard/typeahead.js';
+
+// Primitives: motion
+export { cubicBezier } from './primitives/motion/easing.js';
+export {
+	easing,
+	fade,
+	motion,
+	pop,
+	rise,
+	spring,
+	SPRINGS,
+	type Motion,
+	type SpringPreset,
+	type TransitionOptions
+} from './primitives/motion/motion.js';

@@ -75,6 +75,11 @@ export default [
 		limit: '0.8 KB'
 	},
 	{
+		name: 'motion (theme timing, transitions, springs)',
+		code: "export { motion, easing, cubicBezier, fade, rise, pop, spring, SPRINGS } from 'sveltier';",
+		limit: '1.1 KB'
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -91,6 +96,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '13 KB'
+		limit: '14 KB'
 	}
 ];
