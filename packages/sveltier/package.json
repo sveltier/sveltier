@@ -5,10 +5,9 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "svelte-package",
+		"build": "svelte-package && publint --strict && attw --pack . --profile esm-only --quiet",
 		"dev": "svelte-package --watch",
-		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
-		"lint:package": "publint --strict && attw --pack . --profile esm-only"
+		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings"
 	},
 	"files": [
 		"dist",
