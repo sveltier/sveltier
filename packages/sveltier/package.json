@@ -30,7 +30,7 @@
 		"./package.json": "./package.json"
 	},
 	"peerDependencies": {
-		"svelte": "^5.0.0"
+		"svelte": "^5.40.0"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "^0.18.5",
