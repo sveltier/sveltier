@@ -1,0 +1,52 @@
+{
+	"name": "sveltier",
+	"version": "0.0.0",
+	"description": "A Svelte 5 UI framework with the Engraved Instrument design language for premium fintech products.",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"build": "svelte-package",
+		"dev": "svelte-package --watch",
+		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+		"lint:package": "publint --strict && attw --pack . --profile esm-only"
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+	"devDependencies": {
+		"@arethetypeswrong/cli": "^0.18.5",
+		"@sveltejs/package": "^3.0.1",
+		"@sveltejs/vite-plugin-svelte": "^7.3.1",
+		"@types/node": "^24.19.2",
+		"publint": "^0.3.25",
+		"svelte": "^5.57.2",
+		"svelte-check": "^4.7.7",
+		"typescript": "~6.0.3",
+		"vite": "^8.3.5"
+	},
+	"keywords": [
+		"svelte",
+		"svelte5",
+		"ui",
+		"components",
+		"design-system",
+		"fintech"
+	]
+}
