@@ -1,17 +1,27 @@
 /**
- * Size budgets (gzip, JS + CSS that the entry pulls in, Svelte runtime excluded).
- * Each entry is bundled the way a consumer's Vite build would bundle it, then measured
- * by size-limit. Raise a budget only with a written justification.
+ * Size budgets (gzip, Svelte runtime excluded). Each entry is bundled the way a consumer's
+ * Vite build would bundle it, then measured by size-limit. `measure` picks what counts:
+ * the JS, the CSS, or both (the default). Raise a budget only with a written justification.
  *
- * @type {Array<{ name: string, code: string, limit: string }>}
+ * Global styles (design tokens and document defaults) load once per app, so they have their
+ * own budget instead of counting against the core JS.
+ *
+ * @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css' }>}
  */
 const packs = ['monolith', 'heritage', 'aurora', 'maison', 'milano'];
 
 export default [
 	{
-		name: 'ThemeProvider + useTheme (default Monolith, tokens and base CSS)',
-		code: "export { ThemeProvider, useTheme } from 'sveltier';",
-		limit: '3.5 KB'
+		name: 'global styles (tokens and base CSS)',
+		code: "import 'sveltier/styles/tokens.css';\nimport 'sveltier/styles/base.css';",
+		limit: '1.2 KB',
+		measure: 'css'
+	},
+	{
+		name: 'core JS (theme, defaults)',
+		code: "export { ThemeProvider, useTheme, DefaultsProvider, useDefaults } from 'sveltier';",
+		limit: '4 KB',
+		measure: 'js'
 	},
 	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
