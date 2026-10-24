@@ -11,8 +11,7 @@
 	lede="Add Sveltier to a Svelte 5 project. One package, no runtime dependencies, types included."
 >
 	<aside class="docs-note" aria-label="Status">
-		<strong>Pre-alpha.</strong> Sveltier is not published to npm yet. The commands below are how installation
-		will work from the first preview release.
+		<strong>Alpha.</strong> The API may still change between releases, so pin the version you install.
 	</aside>
 
 	<h2 id="requirements">Requirements</h2>

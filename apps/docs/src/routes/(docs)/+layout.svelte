@@ -36,7 +36,7 @@
 			</nav>
 		{/if}
 		<footer class="docs-foot">
-			Sveltier is pre-alpha. MIT licensed.
+			Sveltier is in alpha. MIT licensed.
 			<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
 		</footer>
 	</main>

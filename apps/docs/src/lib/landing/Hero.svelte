@@ -14,7 +14,7 @@
 		<div class="hero__inner">
 			<div class="hero__copy">
 				<img class="hero__mark" src={symbolFull} alt="" width="104" height="104" />
-				<p class="hero__eyebrow">Pre-alpha · Svelte 5 · Built for AI coding agents</p>
+				<p class="hero__eyebrow">Alpha · Svelte 5 · Built for AI coding agents</p>
 				<h1 id="hero-title">
 					Your agent writes it.
 					<span>Sveltier gets it right.</span>
