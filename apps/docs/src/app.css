@@ -22,6 +22,12 @@ body {
 	--docs-content-width: 42.36rem; /* 10φ³ */
 	--docs-toc-width: 12.72rem; /* 10√φ */
 	scroll-padding-top: calc(var(--docs-bar-height) + var(--sv-space-13));
+
+	/* Brand colours, fixed across themes: used only by the logo and the landing hero. */
+	--brand-orange: oklch(0.654 0.234 34.2); /* Svelte orange */
+	--brand-ember: oklch(0.603 0.204 35.5);
+	--brand-ink: oklch(0.206 0.014 61.8);
+	--brand-paper: oklch(0.98 0.013 63.9);
 }
 
 h1,
@@ -278,23 +284,35 @@ a {
 	text-decoration: none;
 }
 
-.docs-brand__mark {
-	inline-size: 21px;
-	block-size: 21px;
-	flex: none;
-	border-radius: var(--sv-radius-sm);
-	background: conic-gradient(
-		from 200deg,
-		var(--sv-color-primary),
-		color-mix(in oklch, var(--sv-color-primary) 40%, var(--sv-color-up)),
-		var(--sv-color-primary)
-	);
-	box-shadow: inset 0 1px 0 var(--sv-bevel);
+/* The logo: brand colours on the symbol and the i's dot; the wordmark follows the text colour. */
+.brand-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sv-space-5);
 }
 
-.docs-brand strong {
-	font: var(--sv-weight-display) var(--sv-text-xl) / 1 var(--sv-font-display);
-	letter-spacing: var(--sv-tracking-display);
+.brand-logo__mark {
+	inline-size: 2.0582rem; /* φ^1.5 */
+	block-size: 2.0582rem;
+	flex: none;
+}
+
+.brand-logo__top,
+.brand-logo__dot {
+	fill: var(--brand-orange);
+}
+
+.brand-logo__bottom {
+	fill: var(--brand-ember);
+}
+
+.brand-logo__word {
+	block-size: 1.1278rem; /* φ^¼ */
+	inline-size: auto;
+}
+
+.brand-logo__ink {
+	fill: currentColor;
 }
 
 .docs-bar__nav {

@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { useTheme } from 'sveltier';
+	import Logo from '../brand/Logo.svelte';
 	import Segmented from '../Segmented.svelte';
 	import { PACKS, parseChoice, type Mode, type PackId } from '../site.js';
 	import { useShell } from './shell.svelte.js';
@@ -47,8 +48,8 @@
 			</button>
 		{/if}
 		<a class="docs-brand" href={resolve('/')}>
-			<span class="docs-brand__mark" aria-hidden="true"></span>
-			<strong>Sveltier</strong>
+			<Logo />
+			<span class="docs-visually-hidden">Sveltier</span>
 		</a>
 		<nav class="docs-bar__nav" aria-label="Site">
 			<a
