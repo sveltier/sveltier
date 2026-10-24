@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-// The landing page: the agent replay, the five-language gallery and the design system figures.
+// The landing page: the agent replay, how agents use Sveltier, the design system figures and
+// the theme packs.
 
 test('the hero says what Sveltier is and where to start', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-		/Your agent writes it\.\s*Sveltier makes it beautiful\./
+		/Your agent writes it\.\s*Sveltier gets it right\./
 	);
 	await page.getByRole('link', { name: 'Get started' }).click();
 	await expect(page).toHaveURL(/\/getting-started\/installation$/);
@@ -63,30 +64,28 @@ test('reduced motion shows the finished replay at once', async ({ page }) => {
 	await expect(replay.locator('.replay__band.is-out')).toHaveCount(bands);
 });
 
-test('the preview takes any design language and mode', async ({ page }) => {
+test('the replay preview switches between light and dark', async ({ page }) => {
 	await page.goto('/');
 	const frame = page.locator('.replay__frame');
 	await expect(frame).toHaveAttribute('data-sv-theme', 'monolith-light');
 	await page
-		.getByRole('radiogroup', { name: 'Design language' })
-		.getByRole('radio', { name: 'Maison' })
-		.click();
-	await page
 		.getByRole('radiogroup', { name: 'Preview mode' })
 		.getByRole('radio', { name: 'Dark' })
 		.click();
-	await expect(frame).toHaveAttribute('data-sv-theme', 'maison-dark');
+	await expect(frame).toHaveAttribute('data-sv-theme', 'monolith-dark');
 	// The site itself keeps its theme.
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'system');
 });
 
-test('a theme tile applies its pack to the whole site', async ({ page }) => {
+test('a theme pack previews the same card and can theme the whole site', async ({ page }) => {
 	await page.goto('/');
 	await page
-		.getByRole('group', { name: 'Apply Heritage' })
-		.getByRole('button', { name: 'Dark' })
+		.getByRole('radiogroup', { name: 'Theme pack' })
+		.getByRole('radio', { name: 'Heritage' })
 		.click();
-	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'heritage-dark');
+	await expect(page.locator('.landing-pack')).toHaveAttribute('data-sv-theme', 'heritage-light');
+	await page.getByRole('button', { name: 'Use Heritage on this site' }).click();
+	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'heritage-light');
 });
 
 test('the design system figures come from the live theme and the size config', async ({ page }) => {

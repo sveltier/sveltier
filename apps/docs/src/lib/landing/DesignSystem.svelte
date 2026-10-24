@@ -1,6 +1,6 @@
 <script lang="ts">
-	// The design system behind the five languages: golden-ratio scales rendered from the live tokens,
-	// and WCAG contrast computed from whichever theme is active.
+	// The rules every component follows, whoever writes the code: golden-ratio scales rendered from
+	// the live tokens, and WCAG contrast computed from whichever theme is active.
 	import { Button, contrast, parseOklch, useTheme, type Size } from 'sveltier';
 	import { PACKS, THEMES } from '../site.js';
 
@@ -64,12 +64,13 @@
 
 <section class="landing-section" aria-labelledby="system-title">
 	<header class="landing-head">
-		<p class="landing-kicker">The design system</p>
-		<h2 id="system-title">One design system. Five design languages.</h2>
+		<p class="landing-kicker">Right by construction</p>
+		<h2 id="system-title">The design rules are built in</h2>
 		<p>
-			Material and Bootstrap each give you one look. Sveltier gives you rules: proportion from the
-			golden ratio, contrast from WCAG, interaction from the WAI-ARIA patterns. Five complete design
-			languages follow them. Every value below is read from the live tokens.
+			An agent picks components and props. Sveltier decides the spacing, type, sizes, motion and
+			contrast, from the golden ratio and WCAG, so what it builds is consistent without being told
+			how. Every theme is tested for contrast, so generated UI cannot ship unreadable text. Every
+			value below is read from the live tokens.
 		</p>
 	</header>
 

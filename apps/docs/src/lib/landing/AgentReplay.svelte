@@ -4,7 +4,7 @@
 	// Server-rendered finished; with motion allowed, CSS shows the start state until hydration.
 	import { onMount } from 'svelte';
 	import { Button, Icon, ProgressCircular, SegmentedControl, ThemeProvider } from 'sveltier';
-	import { PACKS, type Mode, type PackId } from '../site.js';
+	import type { Mode } from '../site.js';
 	import { EXAMPLES, type ExampleId } from './examples/index.js';
 	import { highlight } from './highlight.js';
 
@@ -24,14 +24,12 @@
 	const REPLAY = 'M12 4V1L7 5.5 12 10V6.5a5.5 5.5 0 1 1-5.5 5.5H4.5A7.5 7.5 0 1 0 12 4.5z';
 
 	const exampleOptions = EXAMPLES.map((item) => ({ value: item.id, label: item.label }));
-	const packOptions = PACKS.map((item) => ({ value: item.id, label: item.name }));
 	const modeOptions: Array<{ value: Mode; label: string }> = [
 		{ value: 'light', label: 'Light' },
 		{ value: 'dark', label: 'Dark' }
 	];
 
 	let exampleId = $state<ExampleId>('portfolio');
-	let pack = $state<PackId>('monolith');
 	let mode = $state<Mode>('light');
 	/** Position in the replay, 0 to 1. Finished on the server and under reduced motion. */
 	let t = $state(1);
@@ -128,10 +126,9 @@
 		bands = edges.slice(0, -1).map((top, index) => ({ top, height: edges[index + 1]! - top }));
 	}
 
-	// Re-measure when the example, the design language or the size changes (fonts, viewport).
+	// Re-measure when the example, the mode or the size changes (fonts, viewport).
 	$effect(() => {
 		void example.id;
-		void pack;
 		void mode;
 		if (!render) return;
 		measure();
@@ -232,7 +229,7 @@
 				></pre>
 		</div>
 		<div class="replay__preview">
-			<ThemeProvider theme="{pack}-{mode}" withBackground class="replay__frame">
+			<ThemeProvider theme="monolith-{mode}" withBackground class="replay__frame">
 				<div class="replay__render" bind:this={render}>
 					{#key example.id}<example.component />{/key}
 				</div>
@@ -257,14 +254,6 @@
 	</div>
 
 	<div class="replay__controls">
-		<div class="replay__scroll">
-			<SegmentedControl
-				options={packOptions}
-				bind:value={pack}
-				size="sm"
-				aria-label="Design language"
-			/>
-		</div>
 		<SegmentedControl options={modeOptions} bind:value={mode} size="sm" aria-label="Preview mode" />
 	</div>
 </div>

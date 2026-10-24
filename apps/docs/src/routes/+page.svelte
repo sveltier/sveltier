@@ -9,11 +9,11 @@
 	import TryAgent from '#lib/landing/TryAgent.svelte';
 	import '#lib/landing/landing.css';
 
-	const TITLE = 'Sveltier: a UI framework for Svelte 5, built for AI agents';
+	const TITLE = 'Sveltier: the UI framework for AI coding agents, on Svelte 5';
 	// Absolute, as link previews require; the origin comes from the prerender origin when deployed.
 	const socialCard = $derived(new URL(asset('social-card.png'), page.url.href).href);
 	const DESCRIPTION =
-		'Your agent writes it, Sveltier makes it beautiful: a typed UI framework for Svelte 5 with five design languages, golden-ratio scales and WCAG contrast built in.';
+		'A Svelte 5 UI framework built for AI coding agents: one typed vocabulary, docs generated from the types, and errors that say how to fix them. Accessible, consistent and polished by default.';
 </script>
 
 <svelte:head>
@@ -32,16 +32,16 @@
 <main class="landing" id="main">
 	<Hero />
 	<div class="docs-wrap landing-body">
-		<SameCode />
 		<AgentReady />
+		<TryAgent />
 		<DesignSystem />
 		<SizeBudget />
-		<TryAgent />
+		<SameCode />
 		<section class="landing-join" aria-labelledby="join-title">
 			<h2 id="join-title">Build it with us</h2>
 			<p>
 				Sveltier is pre-alpha and built in the open. Tell us which components your agents reach for
-				first, try the docs with your own agent, and help shape a design system for Svelte.
+				first, where they still get it wrong, and what would help them get it right.
 			</p>
 			<div class="hero__actions">
 				<a class="hero__cta" href="https://github.com/sveltier/sveltier" rel="external"
