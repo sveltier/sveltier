@@ -6,11 +6,10 @@
  * Global styles (design tokens and document defaults) load once per app, so they have their
  * own budget instead of counting against the core JS. The core imports no theme: theme data
  * counts against the pack budgets.
- *
- * @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css', external?: RegExp[] }>}
  */
 const packs = ['monolith', 'heritage', 'aurora', 'maison', 'milano'];
 
+/** @type {Array<{ name: string, code: string, limit: string, measure?: 'js' | 'css', external?: RegExp[] }>} */
 export default [
 	{
 		name: 'global styles (tokens and base CSS)',
