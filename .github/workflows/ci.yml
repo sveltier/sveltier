@@ -91,6 +91,8 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         if: env.HAS_CLOUDFLARE == 'true'
+        # An explicit bash runs with pipefail, so a failed deploy is not hidden behind tee.
+        shell: bash
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
