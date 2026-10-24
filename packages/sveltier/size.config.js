@@ -210,6 +210,15 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Parsing in the locale with its range and step checks (about 0.5 KB), stepping by keys and
+		// buttons on the step grid, two named buttons, and the hidden input that submits the plain
+		// number (2.6 KB of JS, 0.6 KB of CSS). The Field and the shared validation are measured apart.
+		name: 'NumberField',
+		code: "export { NumberField } from 'sveltier';",
+		limit: '3.3 KB',
+		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
+	},
+	{
 		// Its own code, with the growing fallback for browsers without field-sizing. The Field and
 		// the shared validation are measured in their own entries.
 		name: 'Textarea',
@@ -243,6 +252,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '29 KB'
+		limit: '31 KB'
 	}
 ];

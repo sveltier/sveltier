@@ -1,6 +1,7 @@
 import { afterAll, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
+import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
 import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
 
 // Tests resolve #dev to the development checks, as an app's dev server does. Each message is
@@ -21,6 +22,13 @@ describe('development checks in components', () => {
 		await render(TextFieldHarness, { variant: 'flat' as never });
 		expect(logged()).toContain(
 			`<Field> got variant="flat". Valid values: 'outlined' | 'tonal' | 'elevated' | 'text' | 'plain'.`
+		);
+	});
+
+	it('point a currency format of a number field to prepend', async () => {
+		await render(NumberFieldHarness, { format: { style: 'currency', currency: 'USD' } });
+		expect(logged()).toContain(
+			`<NumberField> got format.style="currency". Valid values: 'decimal'. Put a currency or a unit in prepend or append.`
 		);
 	});
 

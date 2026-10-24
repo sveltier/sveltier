@@ -172,6 +172,11 @@ export {
 	type ListProps
 } from './components/List/index.js';
 export {
+	NumberField,
+	type NumberFieldDefaults,
+	type NumberFieldProps
+} from './components/NumberField/index.js';
+export {
 	ProgressCircular,
 	ProgressLinear,
 	type ProgressCircularDefaults,

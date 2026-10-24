@@ -11,7 +11,14 @@ export const MESSAGES = {
 	tooLong: 'Enter no more than {max} characters',
 	typeEmail: 'Enter a valid email address',
 	typeUrl: 'Enter a valid web address',
-	patternMismatch: 'Enter a value in the requested format'
+	patternMismatch: 'Enter a value in the requested format',
+	badInput: 'Enter a number',
+	rangeUnderflow: 'Enter {min} or more',
+	rangeOverflow: 'Enter {max} or less',
+	stepMismatch: 'Enter a value in steps of {step}',
+	// The buttons of a number field.
+	increase: 'Increase',
+	decrease: 'Decrease'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

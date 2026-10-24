@@ -22,6 +22,7 @@ import {
 import {
 	fieldUsage,
 	formSvelteKit,
+	numberFieldUsage,
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
@@ -89,6 +90,12 @@ const FORMS: Entry[] = [
 		example: textFieldValidation
 	},
 	{ name: 'Textarea', path: 'forms/textarea', types: ['TextareaProps'], example: textareaUsage },
+	{
+		name: 'NumberField',
+		path: 'forms/number-field',
+		types: ['NumberFieldProps'],
+		example: numberFieldUsage
+	},
 	{
 		name: 'Field',
 		path: 'forms/field',
