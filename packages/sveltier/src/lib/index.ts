@@ -87,7 +87,7 @@ export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/code
 export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
 
 // Overlays: what an overlay hands to the control that opens it
-export type { TriggerAttributes } from './core/overlay/trigger.js';
+export { CLOSE_REASONS, type CloseReason, type TriggerAttributes } from './core/overlay/types.js';
 
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
@@ -160,13 +160,7 @@ export {
 	type CheckboxProps
 } from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
-export {
-	Dialog,
-	DIALOG_CLOSE_REASONS,
-	type DialogCloseReason,
-	type DialogDefaults,
-	type DialogProps
-} from './components/Dialog/index.js';
+export { Dialog, type DialogDefaults, type DialogProps } from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {
 	Field,
@@ -217,6 +211,13 @@ export {
 	type SegmentedControlOption,
 	type SegmentedControlProps
 } from './components/SegmentedControl/index.js';
+export {
+	Sheet,
+	SHEET_SIDES,
+	type SheetDefaults,
+	type SheetProps,
+	type SheetSide
+} from './components/Sheet/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
 export {
 	Slider,

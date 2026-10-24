@@ -991,6 +991,11 @@ a {
 	padding-inline-start: var(--sv-space-21);
 }
 
+/* Separate groups of choices, such as a radio group above a checkbox. */
+.docs-choices--groups {
+	gap: var(--sv-space-21);
+}
+
 /* Primitives demos */
 
 .docs-trap {

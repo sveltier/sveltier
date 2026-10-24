@@ -221,6 +221,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
+		name: 'Sheet',
+		code: "export { Sheet } from '@sveltier/ui';",
+		limit: '3 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'Skeleton',
 		code: "export { Skeleton } from '@sveltier/ui';",
 		limit: '1.2 KB',

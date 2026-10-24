@@ -2,11 +2,11 @@
 
 @layer sv.components {
 	/*
-	 * The <dialog> is the whole viewport: a scrim with the panel centred on it, so a press beside
-	 * the panel is a press outside it. The scrim comes with the theme: its ink over a light theme,
+	 * The <dialog> is the whole viewport: a scrim with the panel on it, so a press beside the panel
+	 * is a press outside it. The scrim comes with the theme: its ink over a light theme,
 	 * its background over a dark one, so custom themes get one in their own tone too.
 	 */
-	.sv-dialog {
+	.sv-modal {
 		position: fixed;
 		inset: 0;
 		box-sizing: border-box;
@@ -25,18 +25,18 @@
 		overscroll-behavior: contain;
 	}
 
-	.sv-dialog::backdrop {
+	.sv-modal::backdrop {
 		background: transparent;
 	}
 
 	/* The panel: a large surface, as wide as its size allows, as tall as the screen at most. */
-	.sv-dialog__panel {
-		--sv-dialog-pad: calc(var(--sv-space-21) * var(--sv-density));
+	.sv-modal__panel {
+		--sv-modal-pad: calc(var(--sv-space-21) * var(--sv-density));
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		inline-size: 100%;
-		max-inline-size: var(--sv-dialog-width);
+		max-inline-size: var(--sv-modal-width);
 		max-block-size: 100%;
 		border-radius: var(--sv-rounded, var(--sv-radius-xl));
 		background-color: var(--sv-color-surface);
@@ -47,36 +47,36 @@
 	}
 
 	/* Widths on a half step of φ: 21, 27, 34, 44 and 55rem. */
-	.sv-dialog__panel.sv-size-xs {
-		--sv-dialog-width: 21rem;
+	.sv-modal__panel.sv-size-xs {
+		--sv-modal-width: 21rem;
 	}
 
-	.sv-dialog__panel.sv-size-sm {
-		--sv-dialog-width: 27rem;
+	.sv-modal__panel.sv-size-sm {
+		--sv-modal-width: 27rem;
 	}
 
-	.sv-dialog__panel.sv-size-md {
-		--sv-dialog-width: 34rem;
+	.sv-modal__panel.sv-size-md {
+		--sv-modal-width: 34rem;
 	}
 
-	.sv-dialog__panel.sv-size-lg {
-		--sv-dialog-width: 44rem;
+	.sv-modal__panel.sv-size-lg {
+		--sv-modal-width: 44rem;
 	}
 
-	.sv-dialog__panel.sv-size-xl {
-		--sv-dialog-width: 55rem;
+	.sv-modal__panel.sv-size-xl {
+		--sv-modal-width: 55rem;
 	}
 
-	.sv-dialog__header {
+	.sv-modal__header {
 		display: flex;
 		flex: none;
 		gap: var(--sv-space-13);
 		align-items: flex-start;
-		padding: var(--sv-dialog-pad) var(--sv-dialog-pad) 0;
+		padding: var(--sv-modal-pad) var(--sv-modal-pad) 0;
 	}
 
 	/* The heading in the theme's display voice, as a Card title. */
-	.sv-dialog__title {
+	.sv-modal__title {
 		flex: 1;
 		min-inline-size: 0;
 		margin: 0;
@@ -84,7 +84,7 @@
 		letter-spacing: var(--sv-tracking-display);
 	}
 
-	.sv-dialog__close {
+	.sv-modal__close {
 		display: inline-grid;
 		flex: none;
 		place-items: center;
@@ -101,48 +101,48 @@
 	}
 
 	@media (hover: hover) {
-		.sv-dialog__close:hover {
+		.sv-modal__close:hover {
 			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
 		}
 	}
 
-	.sv-dialog__close svg {
+	.sv-modal__close svg {
 		inline-size: 1.272rem;
 		block-size: 1.272rem;
 	}
 
 	/* The body scrolls; the heading and the actions stay. */
-	.sv-dialog__body {
+	.sv-modal__body {
 		flex: 1;
 		min-block-size: 0;
-		padding: var(--sv-dialog-pad);
+		padding: var(--sv-modal-pad);
 		overflow-y: auto;
 		overscroll-behavior: contain;
 	}
 
-	.sv-dialog__header + .sv-dialog__body {
+	.sv-modal__header + .sv-modal__body {
 		padding-block-start: var(--sv-space-13);
 	}
 
-	.sv-dialog__actions {
+	.sv-modal__actions {
 		display: flex;
 		flex: none;
 		flex-wrap: wrap;
 		gap: var(--sv-space-8);
 		justify-content: flex-end;
-		padding: 0 var(--sv-dialog-pad) var(--sv-dialog-pad);
+		padding: 0 var(--sv-modal-pad) var(--sv-modal-pad);
 	}
 
-	.sv-dialog__header:last-child,
-	.sv-dialog__body:last-child {
-		padding-block-end: var(--sv-dialog-pad);
+	.sv-modal__header:last-child,
+	.sv-modal__body:last-child {
+		padding-block-end: var(--sv-modal-pad);
 	}
 
-	.sv-dialog--fullscreen {
+	.sv-modal--fullscreen {
 		padding: 0;
 	}
 
-	.sv-dialog--fullscreen > .sv-dialog__panel {
+	.sv-modal--fullscreen > .sv-modal__panel {
 		max-inline-size: none;
 		block-size: 100%;
 		border-radius: 0;

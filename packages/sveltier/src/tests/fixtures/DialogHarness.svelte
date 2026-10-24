@@ -3,13 +3,14 @@
 	// close reason shown, and a nested dialog to test the layer stack.
 	import Button from '../../lib/components/Button/Button.svelte';
 	import Dialog from '../../lib/components/Dialog/Dialog.svelte';
-	import type { DialogCloseReason, DialogProps } from '../../lib/components/Dialog/types.js';
+	import type { DialogProps } from '../../lib/components/Dialog/types.js';
+	import type { CloseReason } from '../../lib/core/overlay/types.js';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
 	let { open = $bindable(false), ...props }: Omit<DialogProps, 'title'> & { title?: string } =
 		$props();
-	let reason = $state<DialogCloseReason | ''>('');
+	let reason = $state<CloseReason | ''>('');
 	let nested = $state(false);
 </script>
 

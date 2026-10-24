@@ -17,7 +17,7 @@ describe('Dialog on the server', () => {
 			props: { title: 'Rename', id: 'rename', open: true, children: body }
 		});
 		expect(html).toMatch(/<dialog[^>]*aria-labelledby="rename-title"/);
-		expect(html).toContain('<h2 class="sv-dialog__title" id="rename-title">Rename</h2>');
+		expect(html).toContain('<h2 class="sv-modal__title" id="rename-title">Rename</h2>');
 		expect(html).toContain('<p>Body</p>');
 	});
 });

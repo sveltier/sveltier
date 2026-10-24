@@ -1,0 +1,61 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Sheets: the panel against one edge, the full length of it, rounded on its inner corners only.
+	 * A sheet from the start or the end is as wide as its size; one from the top or the bottom is
+	 * as wide as its size at most, and as tall as its content allows.
+	 */
+	.sv-modal:not(.sv-modal--center) {
+		padding: 0;
+	}
+
+	.sv-modal--start,
+	.sv-modal--end {
+		align-items: stretch;
+	}
+
+	.sv-modal--start {
+		justify-items: start;
+	}
+
+	.sv-modal--end {
+		justify-items: end;
+	}
+
+	.sv-modal--top {
+		align-items: start;
+	}
+
+	.sv-modal--bottom {
+		align-items: end;
+	}
+
+	:is(.sv-modal--start, .sv-modal--end) > .sv-modal__panel {
+		block-size: 100%;
+	}
+
+	:is(.sv-modal--top, .sv-modal--bottom) > .sv-modal__panel {
+		max-block-size: calc(100% - var(--sv-space-34));
+	}
+
+	.sv-modal--start > .sv-modal__panel {
+		border-start-start-radius: 0;
+		border-end-start-radius: 0;
+	}
+
+	.sv-modal--end > .sv-modal__panel {
+		border-start-end-radius: 0;
+		border-end-end-radius: 0;
+	}
+
+	.sv-modal--top > .sv-modal__panel {
+		border-start-start-radius: 0;
+		border-start-end-radius: 0;
+	}
+
+	.sv-modal--bottom > .sv-modal__panel {
+		border-end-start-radius: 0;
+		border-end-end-radius: 0;
+	}
+}

@@ -1,5 +1,14 @@
 import type { Attachment } from 'svelte/attachments';
 
+export const CLOSE_REASONS = ['escape', 'outside', 'focus', 'action'] as const;
+
+/**
+ * Why an overlay closed itself: `'escape'` (the Escape key), `'outside'` (a press outside it,
+ * on the backdrop of a modal), `'focus'` (focus moved out of a menu or a popover) or `'action'`
+ * (its close button, `close()` from its snippets, or a choice made in it).
+ */
+export type CloseReason = (typeof CLOSE_REASONS)[number];
+
 /**
  * What an overlay passes to its `trigger` snippet: the ARIA that ties the control to the
  * overlay, the handlers that open it, and an attachment that tells the overlay which element

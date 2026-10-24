@@ -89,7 +89,10 @@ export const NAV: NavGroup[] = [
 	},
 	{
 		title: 'Overlays',
-		items: [{ title: 'Dialog', path: 'overlays/dialog' }]
+		items: [
+			{ title: 'Dialog', path: 'overlays/dialog' },
+			{ title: 'Sheet', path: 'overlays/sheet' }
+		]
 	},
 	{
 		title: 'Primitives',

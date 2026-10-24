@@ -37,6 +37,20 @@ for (const colorScheme of ['light', 'dark'] as const) {
 	});
 }
 
+test('a sheet slides in from the end, keeps its choices, and closes on Escape', async ({
+	page
+}) => {
+	await open(page, '/overlays/sheet');
+	const trigger = page.getByRole('button', { name: 'Filters' });
+	await trigger.click();
+	const sheet = page.getByRole('dialog', { name: 'Filters' });
+	await sheet.getByRole('checkbox', { name: 'Pending payments only' }).check();
+	await page.keyboard.press('Escape');
+	await expect(sheet).toBeHidden();
+	await expect(trigger).toBeFocused();
+	await expect(page.getByText('pending = true')).toBeVisible();
+});
+
 test('a confirmation dialog runs its action and closes', async ({ page }) => {
 	await open(page, '/overlays/dialog');
 	await page.getByRole('button', { name: 'Delete card' }).click();
