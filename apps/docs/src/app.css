@@ -1425,3 +1425,19 @@ a {
 	margin: 0;
 	font-size: var(--sv-text-sm);
 }
+
+/* Error page */
+
+.docs-error {
+	display: grid;
+	justify-items: start;
+	gap: var(--sv-space-21);
+	padding-block: var(--sv-space-89);
+}
+
+.docs-error h1 {
+	font: var(--sv-weight-display) var(--sv-text-display) / var(--sv-leading-tight)
+		var(--sv-font-display);
+	letter-spacing: var(--sv-tracking-display);
+	text-wrap: balance;
+}

@@ -25,7 +25,11 @@ export default defineConfig(({ command }) => ({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			// A real 404 page: without one, Cloudflare treats the site as a single-page app and
+			// answers every unknown path with the home page and a 200.
+			adapter: adapter({ fallback: '404.html' }),
+			// The production origin, so prerendered absolute URLs (link previews) point at it.
+			paths: { origin: 'https://sveltier.com' }
 		})
 	]
 }));
