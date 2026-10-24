@@ -87,7 +87,11 @@ test('no frame shows the wrong theme through hydration', async ({ page }) => {
 	await storeChoice(page, 'monolith-light');
 	await recordFrames(page);
 	await page.goto('/');
-	await expect(page.getByRole('radio', { name: 'Light', exact: true })).toBeChecked();
+	await expect(
+		page
+			.getByRole('group', { name: 'Mode', exact: true })
+			.getByRole('radio', { name: 'Light', exact: true })
+	).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 
 	const { frames, attrs } = await page.evaluate(() => ({
@@ -103,12 +107,19 @@ test('no frame shows the wrong theme through hydration', async ({ page }) => {
 test('a new choice persists across reloads without a flash', async ({ page }) => {
 	await page.emulateMedia({ colorScheme: 'light' });
 	await page.goto('/');
-	await page.getByRole('radio', { name: 'Dark', exact: true }).check();
+	await page
+		.getByRole('group', { name: 'Mode', exact: true })
+		.getByRole('radio', { name: 'Dark', exact: true })
+		.check();
 	expect(await htmlBg(page)).toBe(DARK_BG);
 
 	await recordFrames(page);
 	await page.reload();
-	await expect(page.getByRole('radio', { name: 'Dark', exact: true })).toBeChecked();
+	await expect(
+		page
+			.getByRole('group', { name: 'Mode', exact: true })
+			.getByRole('radio', { name: 'Dark', exact: true })
+	).toBeChecked();
 	await page.waitForFunction(() => window.__frames.length >= 30);
 	const frames = await page.evaluate(() => window.__frames.filter((value) => value !== ''));
 	expect(new Set(frames)).toEqual(new Set([DARK_BG]));

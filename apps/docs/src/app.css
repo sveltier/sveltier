@@ -551,8 +551,7 @@ a {
 	margin-block-end: var(--sv-space-34);
 }
 
-.doc-head h1,
-.docs-hero h1 {
+.doc-head h1 {
 	font: var(--sv-weight-display) clamp(2.0582rem, 1.8714rem + 0.8296vw, 2.618rem) /
 		var(--sv-leading-tight) var(--sv-font-display); /* φ^1.5 – φ² */
 	letter-spacing: var(--sv-tracking-display);
@@ -857,82 +856,6 @@ a {
 
 .docs-foot a {
 	margin-inline-start: var(--sv-space-8);
-}
-
-/* Landing */
-
-.docs-landing {
-	display: grid;
-	gap: var(--sv-space-89);
-	padding-block: var(--sv-space-55) var(--sv-space-34);
-}
-
-.docs-landing > * {
-	min-inline-size: 0;
-}
-
-.docs-landing .docs-foot {
-	max-inline-size: none;
-}
-
-.docs-hero {
-	display: grid;
-	gap: var(--sv-space-21);
-	padding-block: var(--sv-space-34) var(--sv-space-13);
-}
-
-.docs-hero h1 {
-	font-size: var(--sv-text-display);
-}
-
-.docs-principles {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-	gap: var(--sv-space-21) var(--sv-space-34);
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.docs-principles li {
-	display: grid;
-	align-content: start;
-	gap: var(--sv-space-5);
-	padding-block-start: var(--sv-space-13);
-	border-block-start: var(--sv-hairline) solid var(--sv-color-border);
-}
-
-.docs-principles strong {
-	font: var(--sv-weight-display) var(--sv-text-title) / var(--sv-leading-snug)
-		var(--sv-font-display);
-	letter-spacing: var(--sv-tracking-display);
-}
-
-.docs-principles span {
-	color: var(--sv-color-text-muted);
-}
-
-.docs-section-head {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: var(--sv-space-8) var(--sv-space-21);
-	margin-block-end: var(--sv-space-21);
-	padding-block-end: var(--sv-space-13);
-	border-block-end: var(--sv-hairline) solid var(--sv-color-border-soft);
-}
-
-.docs-section-head h2 {
-	font: var(--sv-weight-display) var(--sv-text-headline) / var(--sv-leading-tight)
-		var(--sv-font-display);
-	letter-spacing: var(--sv-tracking-display);
-}
-
-.docs-section-head p {
-	max-inline-size: 58ch;
-	font-size: var(--sv-text-sm);
-	color: var(--sv-color-text-muted);
 }
 
 /* Theme packs */

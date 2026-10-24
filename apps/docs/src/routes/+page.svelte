@@ -1,76 +1,60 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import PackGallery from '#lib/docs/PackGallery.svelte';
+	import { asset } from '$app/paths';
+	import { page } from '$app/state';
+	import AgentReady from '#lib/landing/AgentReady.svelte';
+	import DesignSystem from '#lib/landing/DesignSystem.svelte';
+	import Hero from '#lib/landing/Hero.svelte';
+	import SameCode from '#lib/landing/SameCode.svelte';
+	import SizeBudget from '#lib/landing/SizeBudget.svelte';
+	import TryAgent from '#lib/landing/TryAgent.svelte';
+	import '#lib/landing/landing.css';
+
+	const TITLE = 'Sveltier: a UI framework for Svelte 5, built for AI agents';
+	// Absolute, as link previews require; the origin comes from the prerender origin when deployed.
+	const socialCard = $derived(new URL(asset('social-card.png'), page.url.href).href);
+	const DESCRIPTION =
+		'Your agent writes it, Sveltier makes it beautiful: a typed UI framework for Svelte 5 with five design languages, golden-ratio scales and WCAG contrast built in.';
 </script>
 
 <svelte:head>
-	<title>Sveltier: a UI framework for Svelte 5</title>
-	<meta
-		name="description"
-		content="Sveltier is a fast, typed UI framework for Svelte 5 with five built-in design languages and a zero-dependency theme engine."
-	/>
+	<title>{TITLE}</title>
+	<meta name="description" content={DESCRIPTION} />
+	<meta property="og:title" content={TITLE} />
+	<meta property="og:description" content={DESCRIPTION} />
+	<meta property="og:type" content="website" />
+	<meta property="og:image" content={socialCard} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:image" content={socialCard} />
 </svelte:head>
 
-<main class="docs-wrap docs-landing" id="main">
-	<section class="docs-hero" aria-labelledby="hero-title">
-		<span class="docs-label">Pre-alpha · Svelte 5</span>
-		<h1 id="hero-title">Five design languages. One engine.</h1>
-		<p class="docs-lede">
-			Sveltier is a UI framework for Svelte 5: one shared system for theme, defaults, density and
-			layout, a wide set of components built on it, and five design languages you switch with one
-			line. Made to be written quickly and correctly, by developers and by AI coding agents.
-		</p>
-		<div class="docs-actions">
-			<a class="docs-button docs-button--primary" href={resolve('getting-started/installation')}
-				>Get started</a
-			>
-			<a class="docs-button" href={resolve('theme-packs')}>Browse the themes</a>
-		</div>
-	</section>
-
-	<section aria-labelledby="principles-title">
-		<h2 class="docs-visually-hidden" id="principles-title">Principles</h2>
-		<ul class="docs-principles">
-			<li>
-				<strong>Fast</strong>
-				<span
-					>Zero runtime dependencies, a size budget on every entry, flash-free server rendering.</span
+<main class="landing" id="main">
+	<Hero />
+	<div class="docs-wrap landing-body">
+		<SameCode />
+		<AgentReady />
+		<DesignSystem />
+		<SizeBudget />
+		<TryAgent />
+		<section class="landing-join" aria-labelledby="join-title">
+			<h2 id="join-title">Build it with us</h2>
+			<p>
+				Sveltier is pre-alpha and built in the open. Tell us which components your agents reach for
+				first, try the docs with your own agent, and help shape a design system for Svelte.
+			</p>
+			<div class="hero__actions">
+				<a class="hero__cta" href="https://github.com/sveltier/sveltier" rel="external"
+					>Star on GitHub</a
 				>
-			</li>
-			<li>
-				<strong>Predictable</strong>
-				<span
-					>One prop vocabulary, strict types, a typed theme contract and errors that say how to fix
-					them.</span
+				<a class="hero__link" href="https://github.com/sveltier/sveltier/issues" rel="external"
+					>Open an issue</a
 				>
-			</li>
-			<li>
-				<strong>Accessible</strong>
-				<span
-					>Keyboard behaviour from the WAI-ARIA Authoring Practices; every theme passes WCAG
-					contrast checks.</span
-				>
-			</li>
-			<li>
-				<strong>Luxurious</strong>
-				<span
-					>Monolith, Heritage, Aurora, Maison and Milano: complete design languages, not colour
-					swaps.</span
-				>
-			</li>
-		</ul>
-	</section>
-
-	<section aria-labelledby="packs-title" class="docs-landing__packs">
-		<div class="docs-section-head">
-			<h2 id="packs-title">Five design languages</h2>
-			<p>Each tile is a nested <code>ThemeProvider</code>. Apply one to the whole site.</p>
-		</div>
-		<PackGallery />
-	</section>
-
-	<footer class="docs-foot">
-		Sveltier is pre-alpha. MIT licensed.
-		<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
-	</footer>
+			</div>
+		</section>
+		<footer class="docs-foot">
+			Sveltier is pre-alpha. MIT licensed.
+			<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
+		</footer>
+	</div>
 </main>

@@ -32,7 +32,11 @@ test('applying a pack themes the whole site and is remembered', async ({ page })
 
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'maison-dark');
 	await expect(page.getByRole('combobox', { name: 'Theme' })).toHaveValue('maison');
-	await expect(page.getByRole('radio', { name: 'Dark', exact: true })).toBeChecked();
+	await expect(
+		page
+			.getByRole('group', { name: 'Mode', exact: true })
+			.getByRole('radio', { name: 'Dark', exact: true })
+	).toBeChecked();
 	expect(await page.evaluate(() => localStorage.getItem('sv-theme'))).toBe('maison-dark');
 	expect(await htmlVar(page, '--sv-radius-md')).toBe('0px');
 
