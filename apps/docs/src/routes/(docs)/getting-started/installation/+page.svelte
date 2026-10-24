@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
+	import { pageHref } from '#lib/docs/href.js';
 	import { install } from '#lib/snippets/theme.js';
 </script>
 
@@ -61,6 +62,16 @@
 		<code>sveltier/themes/maison</code>; use <code>"moduleResolution": "bundler"</code> (the SvelteKit
 		and Vite default) so TypeScript resolves them.
 	</p>
+
+	<h2 id="agents">AI coding agents</h2>
+	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
+	<p>
+		Point your agent at <a href={pageHref('llms.txt')} data-sveltekit-reload>llms.txt</a>, an index
+		of these docs, or <a href={pageHref('llms-full.txt')} data-sveltekit-reload>llms-full.txt</a>:
+		setup, conventions and every component's props, generated from the same types your editor
+		checks.
+	</p>
+	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 
 	<h2 id="next">Next</h2>
 	<p>

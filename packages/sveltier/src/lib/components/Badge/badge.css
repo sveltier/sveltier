@@ -1,0 +1,57 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-badge {
+		position: relative;
+		display: inline-flex;
+		flex: none;
+		vertical-align: middle;
+	}
+
+	/*
+	 * A point at the top end corner of the content. The badge is centred on it by flex
+	 * alignment, overflowing evenly, so it follows the writing direction with no direction
+	 * selector (minifiers rewrite :dir() into language guesses for older browsers).
+	 */
+	.sv-badge__anchor {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: 0;
+		block-size: 0;
+		pointer-events: none;
+	}
+
+	.sv-badge--inline .sv-badge__anchor {
+		position: static;
+		display: contents;
+	}
+
+	/* A pill φ times its text. */
+	.sv-badge__badge {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		min-inline-size: 1.618em;
+		block-size: 1.618em;
+		padding-inline: 0.382em;
+		border-radius: var(--sv-radius-full);
+		background-color: var(--sv-variant-bg);
+		color: var(--sv-variant-fg);
+		font: var(--sv-weight-medium) var(--sv-text-label) / 1 var(--sv-font-ui);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.sv-badge__badge--dot {
+		min-inline-size: 0.618em;
+		inline-size: 0.618em;
+		block-size: 0.618em;
+		padding: 0;
+	}
+}

@@ -1,0 +1,67 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A track of the colour's tint, three px tall. */
+	.sv-progress-linear {
+		position: relative;
+		overflow: hidden;
+		block-size: var(--sv-space-3);
+		border-radius: var(--sv-radius-full);
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+	}
+
+	/* The bar fills by scaling from the start edge: transform only. */
+	.sv-progress-linear__bar {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: var(--sv-color);
+		transform-origin: left;
+		transition: transform var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	/* An attribute selector, as minifiers rewrite :dir() into language guesses. */
+	:where([dir='rtl']) .sv-progress-linear__bar {
+		transform-origin: right;
+	}
+
+	/* Indeterminate: a φ⁻² long bar crosses the track. */
+	.sv-progress-linear--indeterminate .sv-progress-linear__bar {
+		inset-inline-end: auto;
+		inline-size: 38.2%;
+		animation: sv-progress-cross 1618ms var(--sv-ease) infinite;
+		transition: none;
+	}
+
+	:where([dir='rtl']) .sv-progress-linear--indeterminate .sv-progress-linear__bar {
+		animation-direction: reverse;
+	}
+
+	@keyframes sv-progress-cross {
+		from {
+			transform: translateX(-100%);
+		}
+
+		to {
+			transform: translateX(261.8%);
+		}
+	}
+
+	/* Under reduced motion it pulses in place instead of moving. */
+	@media (prefers-reduced-motion: reduce) {
+		.sv-progress-linear--indeterminate .sv-progress-linear__bar {
+			inline-size: 100%;
+			animation: sv-progress-pulse 1618ms ease-in-out infinite alternate;
+		}
+	}
+
+	@keyframes sv-progress-pulse {
+		from {
+			opacity: 0.382;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+}

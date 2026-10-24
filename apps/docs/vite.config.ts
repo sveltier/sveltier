@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, type Alias } from 'vite';
+import { sveltierApi } from './vite/api.ts';
 
 const librarySource = fileURLToPath(new URL('../../packages/sveltier/src/lib', import.meta.url));
 
@@ -17,6 +18,7 @@ const devAliases: Alias[] = [
 export default defineConfig(({ command }) => ({
 	resolve: { alias: command === 'serve' ? devAliases : [] },
 	plugins: [
+		sveltierApi(),
 		sveltekit({
 			compilerOptions: {
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.

@@ -5,6 +5,7 @@
 	border: 1px solid var(--sv-variant-border);
 	border-radius: var(--sv-rounded, 3px);
 	background-color: var(--sv-variant-bg);
+	box-shadow: var(--sv-variant-shadow);
 	color: var(--sv-variant-fg);
 	font-size: var(--sv-size-text);
 }

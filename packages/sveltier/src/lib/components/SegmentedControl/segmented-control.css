@@ -1,0 +1,68 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Segments share the width of the widest, so the thumb moves one segment per step with
+	 * translate alone. The selected segment is painted by the variant classes.
+	 */
+	.sv-segmented {
+		--sv-segmented-pad: var(--sv-space-3);
+		position: relative;
+		isolation: isolate;
+		display: inline-grid;
+		grid-auto-columns: 1fr;
+		grid-auto-flow: column;
+		box-sizing: border-box;
+		max-inline-size: 100%;
+		block-size: calc(var(--sv-size-height) * var(--sv-density));
+		padding: var(--sv-segmented-pad);
+		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		background-color: var(--sv-color-surface-raised);
+		vertical-align: middle;
+	}
+
+	.sv-segmented__thumb {
+		position: absolute;
+		inset-block: var(--sv-segmented-pad);
+		inset-inline-start: var(--sv-segmented-pad);
+		z-index: -1;
+		inline-size: calc((100% - 2 * var(--sv-segmented-pad)) / var(--sv-segments));
+		border: var(--sv-hairline) solid var(--sv-variant-border);
+		border-radius: calc(var(--sv-rounded, var(--sv-radius-md)) - var(--sv-segmented-pad));
+		box-sizing: border-box;
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-variant-shadow);
+		translate: calc(var(--sv-segment) * 100%) 0;
+		transition: translate var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	/* An attribute selector, as minifiers rewrite :dir() into language guesses. */
+	:where([dir='rtl']) .sv-segmented__thumb {
+		translate: calc(var(--sv-segment) * -100%) 0;
+	}
+
+	.sv-segmented__option {
+		min-inline-size: 0;
+		margin: 0;
+		padding: 0 calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		overflow: hidden;
+		border: 0;
+		border-radius: calc(var(--sv-rounded, var(--sv-radius-md)) - var(--sv-segmented-pad));
+		background: transparent;
+		color: var(--sv-color-text-muted);
+		font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-segmented__option[aria-checked='true'] {
+		color: var(--sv-variant-fg);
+	}
+
+	.sv-segmented__option:disabled {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+}

@@ -1,0 +1,132 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Height and padding follow size and density; text follows size only. Colours come from
+	 * the variant classes, which read the colour class.
+	 */
+	.sv-button {
+		position: relative;
+		isolation: isolate;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.618em;
+		box-sizing: border-box;
+		block-size: calc(var(--sv-size-height) * var(--sv-density));
+		margin: 0;
+		padding: 0 calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		border: var(--sv-hairline) solid var(--sv-variant-border);
+		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-variant-shadow);
+		color: var(--sv-variant-fg);
+		font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
+		letter-spacing: var(--sv-button-tracking);
+		text-transform: var(--sv-button-transform);
+		text-decoration: none;
+		white-space: nowrap;
+		vertical-align: middle;
+		cursor: pointer;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+		transition: transform var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	/* The theme's bevel: a hairline of light along the top edge of filled buttons. */
+	.sv-button.sv-variant-flat {
+		box-shadow: inset 0 var(--sv-hairline) 0 var(--sv-bevel);
+	}
+
+	/* State layer: the foreground colour over the background, only its opacity changes. */
+	.sv-button::before {
+		content: '';
+		position: absolute;
+		inset: calc(var(--sv-hairline) * -1);
+		z-index: -1;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-button:where(:not(.sv-button--inert)):hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-button:where(:not(.sv-button--inert)):active::before {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-button:where(:not(.sv-button--inert)):active {
+		transform: translateY(var(--sv-press-offset));
+	}
+
+	.sv-button--inert {
+		cursor: not-allowed;
+	}
+
+	/* Muted at φ⁻². A loading button keeps its colour: it is busy, not unavailable. */
+	.sv-button--disabled {
+		opacity: 0.382;
+	}
+
+	.sv-button--block {
+		display: flex;
+		inline-size: 100%;
+	}
+
+	.sv-button--icon {
+		inline-size: calc(var(--sv-size-height) * var(--sv-density));
+		padding: 0;
+	}
+
+	.sv-button__prepend,
+	.sv-button__append {
+		display: inline-flex;
+	}
+
+	/* Icons are φ^½ of the text. */
+	:where(.sv-button) svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	/*
+	 * Loading: the label and icons turn transparent but keep their width and, for screen
+	 * readers, the name. The spinner is painted in the foreground colour.
+	 */
+	.sv-button--loading {
+		color: transparent;
+		cursor: wait;
+	}
+
+	.sv-button__loader {
+		position: absolute;
+		inset: 0;
+		box-sizing: border-box;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		margin: auto;
+		border: 0.146em solid var(--sv-variant-fg);
+		border-inline-end-color: transparent;
+		border-radius: 50%;
+		animation: sv-spin 987ms linear infinite;
+	}
+
+	/* A spinner that stops reads as a frozen interface, so it slows down instead. */
+	@media (prefers-reduced-motion: reduce) {
+		.sv-button__loader {
+			animation-duration: 2961ms;
+		}
+	}
+
+	@keyframes sv-spin {
+		to {
+			transform: rotate(1turn);
+		}
+	}
+}

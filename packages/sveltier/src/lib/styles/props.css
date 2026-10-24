@@ -13,13 +13,22 @@
 	}
 
 	/*
-	 * Variants: resting background, foreground and border. Hover and press mix the foreground
-	 * over the background by --sv-state-hover and --sv-state-press.
+	 * Variants: resting background, foreground, border and shadow. Hover and press mix the
+	 * foreground over the background by --sv-state-hover and --sv-state-press. Every variant
+	 * sets every variable, so nothing leaks in from a parent component.
 	 */
+	.sv-variant-elevated {
+		--sv-variant-bg: var(--sv-color-surface);
+		--sv-variant-fg: var(--sv-color);
+		--sv-variant-border: transparent;
+		--sv-variant-shadow: var(--sv-shadow);
+	}
+
 	.sv-variant-flat {
 		--sv-variant-bg: var(--sv-color);
 		--sv-variant-fg: var(--sv-on-color);
 		--sv-variant-border: transparent;
+		--sv-variant-shadow: none;
 	}
 
 	.sv-variant-tonal {
@@ -30,12 +39,14 @@
 			var(--sv-color-text)
 		);
 		--sv-variant-border: transparent;
+		--sv-variant-shadow: none;
 	}
 
 	.sv-variant-outlined {
 		--sv-variant-bg: transparent;
 		--sv-variant-fg: var(--sv-color);
 		--sv-variant-border: var(--sv-color);
+		--sv-variant-shadow: none;
 	}
 
 	.sv-variant-text,
@@ -43,6 +54,7 @@
 		--sv-variant-bg: transparent;
 		--sv-variant-fg: var(--sv-color);
 		--sv-variant-border: transparent;
+		--sv-variant-shadow: none;
 	}
 
 	/* Plain: no decoration in any state. */

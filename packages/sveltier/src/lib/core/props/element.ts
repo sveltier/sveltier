@@ -13,6 +13,8 @@ import type { ClassValue } from 'svelte/elements';
  */
 export type ElementProps<Element, Attributes, Own = object> = Own &
 	Omit<Attributes, keyof Own | 'class'> & {
+		/** Classes added after the component's own: a string, an array or an object. */
 		class?: ClassValue | null;
+		/** The root element, bindable with `bind:ref`. */
 		ref?: Element | null;
 	};

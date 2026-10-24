@@ -1,0 +1,33 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* φ^½ of the text: the same proportion as icons in buttons. */
+	.sv-icon {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		line-height: 1;
+		vertical-align: -0.236em;
+	}
+
+	/* Only an icon with its own size reads the shared size; otherwise it follows its text. */
+	.sv-icon:is(.sv-size-xs, .sv-size-sm, .sv-size-md, .sv-size-lg, .sv-size-xl) {
+		font-size: var(--sv-size-text);
+	}
+
+	.sv-icon--colored {
+		color: var(--sv-color);
+	}
+
+	.sv-icon > svg {
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
+	.sv-icon__paths {
+		fill: currentColor;
+	}
+}

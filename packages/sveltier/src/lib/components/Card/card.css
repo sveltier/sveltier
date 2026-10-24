@@ -1,0 +1,62 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Sections a φ step apart inside Fibonacci padding, both times the density. */
+	.sv-card {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--sv-space-13) * var(--sv-density));
+		box-sizing: border-box;
+		min-inline-size: 0;
+		padding: calc(var(--sv-space-21) * var(--sv-density));
+		border: var(--sv-hairline) solid var(--sv-variant-border);
+		border-radius: var(--sv-rounded, var(--sv-radius-lg));
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-variant-shadow);
+		color: var(--sv-variant-fg);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-normal);
+	}
+
+	/* A neutral outline is the theme's border, not the text colour. */
+	.sv-card.sv-variant-outlined.sv-color-neutral {
+		--sv-variant-border: var(--sv-color-border);
+	}
+
+	.sv-card__header {
+		display: flex;
+		gap: var(--sv-space-13);
+		align-items: center;
+	}
+
+	.sv-card__heading {
+		display: grid;
+		flex: 1;
+		gap: var(--sv-space-3);
+		min-inline-size: 0;
+	}
+
+	.sv-card__title {
+		margin: 0;
+		font: var(--sv-weight-display) var(--sv-text-lg) / var(--sv-leading-snug) var(--sv-font-display);
+		letter-spacing: var(--sv-tracking-display);
+	}
+
+	.sv-card__subtitle {
+		font-size: var(--sv-text-xs);
+	}
+
+	.sv-card__prepend,
+	.sv-card__append {
+		display: flex;
+		flex: none;
+		align-items: center;
+	}
+
+	.sv-card__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sv-space-8);
+		align-items: center;
+	}
+}

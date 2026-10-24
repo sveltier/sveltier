@@ -54,6 +54,25 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Components',
+		items: [
+			{ title: 'Alert', path: 'components/alert' },
+			{ title: 'Avatar', path: 'components/avatar' },
+			{ title: 'Badge', path: 'components/badge' },
+			{ title: 'Button', path: 'components/button' },
+			{ title: 'ButtonGroup', path: 'components/button-group' },
+			{ title: 'Card', path: 'components/card' },
+			{ title: 'Chip', path: 'components/chip' },
+			{ title: 'Divider', path: 'components/divider' },
+			{ title: 'Icon', path: 'components/icon' },
+			{ title: 'List', path: 'components/list' },
+			{ title: 'Progress', path: 'components/progress' },
+			{ title: 'SegmentedControl', path: 'components/segmented-control' },
+			{ title: 'Skeleton', path: 'components/skeleton' },
+			{ title: 'Tabs', path: 'components/tabs' }
+		]
+	},
+	{
 		title: 'Primitives',
 		items: [
 			{ title: 'Focus', path: 'primitives/focus' },

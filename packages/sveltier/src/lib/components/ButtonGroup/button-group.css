@@ -1,0 +1,39 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-button-group {
+		display: inline-flex;
+		isolation: isolate;
+		vertical-align: middle;
+		border-radius: var(--sv-rounded, var(--sv-radius-md));
+	}
+
+	/* Square inside; the group's own rounding on the outer corners. */
+	.sv-button-group > .sv-button {
+		border-radius: 0;
+	}
+
+	.sv-button-group > .sv-button:first-child {
+		border-start-start-radius: inherit;
+		border-end-start-radius: inherit;
+	}
+
+	.sv-button-group > .sv-button:last-child {
+		border-start-end-radius: inherit;
+		border-end-end-radius: inherit;
+	}
+
+	/* Neighbours share one border; the focused one is drawn on top. */
+	.sv-button-group > .sv-button + .sv-button {
+		margin-inline-start: calc(var(--sv-hairline) * -1);
+	}
+
+	.sv-button-group > .sv-button:focus-visible {
+		z-index: 1;
+	}
+
+	/* Filled and borderless buttons get a faint divider where they meet. */
+	.sv-button-group > .sv-button:not(.sv-variant-outlined) + .sv-button:not(.sv-variant-outlined) {
+		border-inline-start-color: color-mix(in oklch, var(--sv-variant-fg) 21%, transparent);
+	}
+}

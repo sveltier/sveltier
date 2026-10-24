@@ -1,0 +1,23 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-divider {
+		flex: none;
+		align-self: stretch;
+		block-size: 0;
+		margin: 0;
+		border: 0;
+		border-block-start: var(--sv-hairline) solid var(--sv-color-border);
+	}
+
+	/* Stretches in a flex row; standing alone in text, it is one line tall. */
+	.sv-divider--vertical {
+		display: inline-block;
+		inline-size: 0;
+		block-size: auto;
+		min-block-size: 1em;
+		border-block-start: 0;
+		border-inline-start: var(--sv-hairline) solid var(--sv-color-border);
+		vertical-align: middle;
+	}
+}

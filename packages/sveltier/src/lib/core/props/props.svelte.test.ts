@@ -9,7 +9,7 @@ const box = (id: 'outer' | 'inner') => page.getByTestId(id).element();
 const style = (id: 'outer' | 'inner') => getComputedStyle(box(id));
 
 /** How the current page paints `value` for `property`, for comparing serialised colours. */
-function paint(property: 'background-color' | 'color', value: string): string {
+function paint(property: 'background-color' | 'color' | 'box-shadow', value: string): string {
 	const probe = document.createElement('div');
 	probe.style.setProperty(property, value);
 	document.body.append(probe);
@@ -21,6 +21,27 @@ function paint(property: 'background-color' | 'color', value: string): string {
 const PX_PER_REM = 16;
 
 describe('shared props', () => {
+	it('elevated raises the colour as text on the surface, with the theme shadow', async () => {
+		await render(SharedHarness, { outer: { variant: 'elevated', color: 'primary' } });
+		expect(style('outer').backgroundColor).toBe(
+			paint('background-color', 'var(--sv-color-surface)')
+		);
+		expect(style('outer').color).toBe(paint('color', 'var(--sv-color-primary)'));
+		expect(style('outer').boxShadow).toBe(paint('box-shadow', 'var(--sv-shadow)'));
+		expect(style('outer').boxShadow).not.toBe('none');
+	});
+
+	it('every other variant has no shadow, also inside an elevated parent', async () => {
+		const screen = await render(SharedHarness, {
+			outer: { variant: 'elevated', color: 'primary' },
+			inner: { variant: 'flat', color: 'primary' }
+		});
+		for (const variant of ['flat', 'tonal', 'outlined', 'text', 'plain'] as const) {
+			await screen.rerender({ inner: { variant, color: 'primary' } });
+			expect(style('inner').boxShadow).toBe('none');
+		}
+	});
+
 	it('flat fills with the colour and writes in its on-colour', async () => {
 		await render(SharedHarness, { outer: { variant: 'flat', color: 'primary' } });
 		expect(style('outer').backgroundColor).toBe(

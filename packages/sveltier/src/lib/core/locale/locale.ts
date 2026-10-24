@@ -3,7 +3,8 @@ import { getContext, hasContext, setContext } from 'svelte';
 /** Built-in English messages: the labels and announcements of components. */
 export const MESSAGES = {
 	close: 'Close',
-	loading: 'Loading'
+	loading: 'Loading',
+	progress: 'Progress'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

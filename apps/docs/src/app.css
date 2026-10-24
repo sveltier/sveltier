@@ -565,8 +565,9 @@ a {
 	letter-spacing: var(--sv-tracking-display);
 }
 
-.doc-body ul,
-.doc-body ol {
+/* Prose lists only: lists inside demos are components and keep their own styles. */
+.doc-body > ul,
+.doc-body > ol {
 	display: grid;
 	gap: var(--sv-space-5);
 	margin: 0;
@@ -781,6 +782,7 @@ a {
 	border: var(--sv-hairline) solid var(--sv-variant-border);
 	border-radius: var(--sv-rounded, var(--sv-radius-md));
 	background-color: var(--sv-variant-bg);
+	box-shadow: var(--sv-variant-shadow);
 	color: var(--sv-variant-fg);
 	font: var(--sv-weight-medium) var(--sv-size-text) / 1 var(--sv-font-ui);
 	letter-spacing: var(--sv-button-tracking);
@@ -1236,7 +1238,8 @@ a {
 	transform-origin: left;
 }
 
-.docs-spring__fill:dir(rtl) {
+/* An attribute selector: minifiers rewrite :dir() into language guesses. */
+:where([dir='rtl']) .docs-spring__fill {
 	transform-origin: right;
 }
 
@@ -1299,4 +1302,126 @@ a {
 
 .docs-virtual-go input {
 	inline-size: 8rem;
+}
+
+/* Components demos */
+
+/* Variants down, colours across; scrolls sideways on a phone rather than squeezing. */
+.docs-button-grid {
+	display: grid;
+	grid-template-columns: repeat(5, max-content);
+	gap: var(--sv-space-13) var(--sv-space-8);
+	align-items: center;
+	overflow-x: auto;
+}
+
+.docs-actions--baseline {
+	align-items: center;
+}
+
+.docs-icon-sample {
+	display: inline-flex;
+	gap: var(--sv-space-5);
+	align-items: center;
+	font-size: var(--sv-text-sm);
+	color: var(--sv-color-text-muted);
+}
+
+.docs-divider-stack {
+	display: grid;
+	gap: var(--sv-space-8);
+	max-inline-size: 21rem;
+}
+
+.docs-divider-row {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--sv-text-sm);
+}
+
+.docs-divider-toolbar {
+	display: flex;
+	gap: var(--sv-space-5);
+	align-items: center;
+	justify-self: start;
+	padding: var(--sv-space-3);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+}
+
+.docs-badge-avatar {
+	display: inline-grid;
+	place-items: center;
+	inline-size: var(--sv-control-md);
+	block-size: var(--sv-control-md);
+	border-radius: var(--sv-radius-full);
+	background-color: var(--sv-color-surface-raised);
+	font: var(--sv-weight-medium) var(--sv-text-sm) / 1 var(--sv-font-ui);
+}
+
+.docs-progress-upload {
+	display: grid;
+	gap: var(--sv-space-8);
+	max-inline-size: 21rem;
+}
+
+.docs-skeleton-card {
+	display: grid;
+	gap: var(--sv-space-13);
+	max-inline-size: 21rem;
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+}
+
+.docs-skeleton-card__head {
+	display: flex;
+	gap: var(--sv-space-13);
+	align-items: center;
+}
+
+.docs-skeleton-card__lines {
+	flex: 1;
+}
+
+.docs-skeleton-card__amount {
+	margin: 0;
+	font-size: var(--sv-text-xl);
+}
+
+.docs-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: var(--sv-space-21);
+	align-items: start;
+}
+
+.docs-card-stack {
+	display: grid;
+	gap: var(--sv-space-13);
+}
+
+.docs-card-amount {
+	margin: 0;
+	font-size: var(--sv-text-xl);
+	font-variant-numeric: tabular-nums;
+}
+
+.docs-list-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--sv-space-21);
+	align-items: start;
+}
+
+.docs-list-panel {
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+}
+
+.docs-tabs-panel {
+	margin: 0;
+	font-size: var(--sv-text-sm);
 }

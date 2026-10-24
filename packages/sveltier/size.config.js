@@ -88,6 +88,105 @@ export default [
 		limit: '1.8 KB'
 	},
 	{
+		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
+		// locale) come with UIProvider or the first component and are measured above. About
+		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of
+		// CSS (five variants on one state layer, bevel, spinner): over the first 1.5 KB guess.
+		name: 'Button',
+		code: "export { Button } from 'sveltier';",
+		limit: '2.1 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'Alert',
+		code: "export { Alert } from 'sveltier';",
+		limit: '2 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'Avatar',
+		code: "export { Avatar } from 'sveltier';",
+		limit: '1.2 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Count, cap, dot and the spoken label; includes the shared visually hidden rule.
+		name: 'Badge',
+		code: "export { Badge } from 'sveltier';",
+		limit: '1.4 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'ButtonGroup',
+		code: "export { ButtonGroup } from 'sveltier';",
+		limit: '1 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'Card',
+		code: "export { Card } from 'sveltier';",
+		limit: '1.5 KB',
+		external: [/\/core\//]
+	},
+	{
+		// A tag, a toggle, an action and a link in one, with a close button and its own state layer.
+		name: 'Chip',
+		code: "export { Chip } from 'sveltier';",
+		limit: '2.3 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'Divider',
+		code: "export { Divider } from 'sveltier';",
+		limit: '0.6 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Most of it is what any Svelte component with rest props costs.
+		name: 'Icon',
+		code: "export { Icon } from 'sveltier';",
+		limit: '1 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'List and ListItem',
+		code: "export { List, ListItem } from 'sveltier';",
+		limit: '2 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'ProgressLinear',
+		code: "export { ProgressLinear } from 'sveltier';",
+		limit: '1.3 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'ProgressCircular',
+		code: "export { ProgressCircular } from 'sveltier';",
+		limit: '1.5 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Includes rovingFocus, which gives it one tab stop and arrow keys.
+		name: 'SegmentedControl',
+		code: "export { SegmentedControl } from 'sveltier';",
+		limit: '2.4 KB',
+		external: [/\/core\//]
+	},
+	{
+		name: 'Skeleton',
+		code: "export { Skeleton } from 'sveltier';",
+		limit: '1.2 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys.
+		name: 'Tabs',
+		code: "export { Tabs } from 'sveltier';",
+		limit: '2.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -104,6 +203,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '15 KB'
+		limit: '24 KB'
 	}
 ];

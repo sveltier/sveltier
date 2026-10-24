@@ -132,3 +132,41 @@ export {
 	type VirtualList,
 	type VirtualListOptions
 } from './primitives/virtual/virtual-list.svelte.js';
+
+// Components
+export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
+export { Avatar, type AvatarDefaults, type AvatarProps } from './components/Avatar/index.js';
+export { Badge, type BadgeDefaults, type BadgeProps } from './components/Badge/index.js';
+export { Button, type ButtonDefaults, type ButtonProps } from './components/Button/index.js';
+export {
+	ButtonGroup,
+	type ButtonGroupDefaults,
+	type ButtonGroupProps
+} from './components/ButtonGroup/index.js';
+export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
+export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
+export { Divider, type DividerProps } from './components/Divider/index.js';
+export { Icon, type IconProps } from './components/Icon/index.js';
+export {
+	List,
+	ListItem,
+	type ListDefaults,
+	type ListItemProps,
+	type ListProps
+} from './components/List/index.js';
+export {
+	ProgressCircular,
+	ProgressLinear,
+	type ProgressCircularDefaults,
+	type ProgressCircularProps,
+	type ProgressLinearDefaults,
+	type ProgressLinearProps
+} from './components/Progress/index.js';
+export {
+	SegmentedControl,
+	type SegmentedControlDefaults,
+	type SegmentedControlOption,
+	type SegmentedControlProps
+} from './components/SegmentedControl/index.js';
+export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
+export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';

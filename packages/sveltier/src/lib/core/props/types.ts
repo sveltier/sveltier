@@ -11,8 +11,11 @@ export type Density = (typeof DENSITIES)[number];
 export const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 export type Size = (typeof SIZES)[number];
 
-/** Visual weight: filled, tinted, outlined, text only, or no decoration at all. */
-export const VARIANTS = ['flat', 'tonal', 'outlined', 'text', 'plain'] as const;
+/**
+ * Visual weight: a raised surface, filled, tinted, outlined, text only, or no decoration at
+ * all.
+ */
+export const VARIANTS = ['elevated', 'flat', 'tonal', 'outlined', 'text', 'plain'] as const;
 export type Variant = (typeof VARIANTS)[number];
 
 /**
