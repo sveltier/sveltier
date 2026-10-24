@@ -996,6 +996,12 @@ a {
 	gap: var(--sv-space-21);
 }
 
+/* Fields stacked at the full width of their container, as in a popover. */
+.docs-fields {
+	display: grid;
+	gap: var(--sv-space-13);
+}
+
 /* Primitives demos */
 
 .docs-trap {

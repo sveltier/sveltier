@@ -42,6 +42,47 @@ export const sheetUsage = `<script>
 <!-- A sheet from the bottom, as on a phone. -->
 <Sheet title="Share the statement" side="bottom">…</Sheet>`;
 
+export const popoverUsage = `<script>
+  import { Button, NumberField, Popover } from '@sveltier/ui';
+  let from = $state(null);
+  let to = $state(null);
+</script>
+
+<Popover title="Amount range" size="sm">
+  {#snippet trigger(attributes)}
+    <Button {...attributes} variant="outlined">Amount</Button>
+  {/snippet}
+
+  <div class="range">
+    <NumberField label="From" min={0} bind:value={from} />
+    <NumberField label="To" min={0} bind:value={to} />
+  </div>
+
+  {#snippet actions({ close })}
+    <Button onclick={close}>Apply</Button>
+  {/snippet}
+</Popover>
+
+<style>
+  /* Fields stacked with the theme's spacing. */
+  .range {
+    display: grid;
+    gap: var(--sv-space-13);
+  }
+</style>`;
+
+export const popoverInfo = `<script>
+  import { Button, Popover } from '@sveltier/ui';
+</script>
+
+<!-- With text only, the panel itself takes focus: screen readers read it, Escape closes it. -->
+<Popover title="Pending payments" side="top" align="center">
+  {#snippet trigger(attributes)}
+    <Button {...attributes} variant="text">What is pending?</Button>
+  {/snippet}
+  A payment is pending until the receiving bank confirms it.
+</Popover>`;
+
 export const tooltipUsage = `<script>
   import { Button, Icon, Tooltip } from '@sveltier/ui';
   import { mdiContentCopy } from '@mdi/js';

@@ -290,6 +290,14 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// Its own code: the trigger wiring, focus in and back, and the panel with its widths. The
+		// placement, the layer stack and the motion are primitives, measured apart.
+		name: 'Popover',
+		code: "export { Popover } from '@sveltier/ui';",
+		limit: '2 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		// Its own code: hover with its delay and grace, focus, the toolbar warm-up and the CSS fade.
 		// Placement and the layer stack are primitives, measured apart.
 		name: 'Tooltip',
@@ -315,6 +323,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '39 KB'
+		limit: '40 KB'
 	}
 ];

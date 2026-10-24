@@ -41,6 +41,14 @@ for (const colorScheme of ['light', 'dark'] as const) {
 		expect(await violations(page)).toEqual([]);
 	});
 
+	test(`an open popover has no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/popover');
+		await page.getByRole('button', { name: 'Amount' }).click();
+		await expect(page.getByRole('dialog', { name: 'Amount range' })).toBeVisible();
+		expect(await violations(page)).toEqual([]);
+	});
+
 	test(`a shown tooltip has no axe violations (${colorScheme})`, async ({ page }) => {
 		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 		await open(page, '/overlays/tooltip');
@@ -84,4 +92,22 @@ test('a tooltip shows when the pointer rests on its button, and Escape hides it'
 	await expect(tooltip).toBeVisible();
 	await page.keyboard.press('Escape');
 	await expect(tooltip).toBeHidden();
+});
+
+test('a popover filters by amount, and Escape gives focus back to its trigger', async ({
+	page
+}) => {
+	await open(page, '/overlays/popover');
+	const trigger = page.getByRole('button', { name: 'Amount' });
+	await trigger.click();
+	const popover = page.getByRole('dialog', { name: 'Amount range' });
+	await expect(popover.getByRole('spinbutton', { name: 'From' })).toBeFocused();
+	await page.keyboard.type('100');
+	await popover.getByRole('button', { name: 'Apply' }).click();
+	await expect(popover).toBeHidden();
+	await expect(page.getByText('100 to ∞')).toBeVisible();
+	await trigger.click();
+	await page.keyboard.press('Escape');
+	await expect(popover).toBeHidden();
+	await expect(trigger).toBeFocused();
 });

@@ -16,8 +16,9 @@
 	<p>
 		The control is a <code>trigger</code> snippet, as with every overlay: spread the attributes it
 		receives onto your Button. <code>text</code> is all a tooltip holds; for links, buttons or
-		fields next to a control, use a popover. <code>side</code> and <code>align</code> place it, and it
-		moves to the opposite side when there is no room.
+		fields next to a control, use a <a href={resolve('overlays/popover')}>Popover</a>.
+		<code>side</code>
+		and <code>align</code> place it, and it moves to the opposite side when there is no room.
 	</p>
 	<TooltipDemo />
 	<Code title="Toolbar.svelte" code={tooltipUsage} />
