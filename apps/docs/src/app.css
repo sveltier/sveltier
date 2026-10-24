@@ -1420,3 +1420,8 @@ a {
 	color: var(--sv-color-text-muted);
 	font: var(--sv-weight-medium) var(--sv-text-xs) / var(--sv-leading-snug) var(--sv-font-ui);
 }
+
+/* Form demo: a readable width for a sign-up form. */
+.docs-form {
+	max-inline-size: 30rem;
+}

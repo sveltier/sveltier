@@ -66,3 +66,53 @@ export const fieldUsage = `<script>
     <input type="date" name="start" {...attributes} bind:value={start} />
   {/snippet}
 </Field>`;
+
+export const formUsage = `<script>
+  import { Button, Form, TextField } from 'sveltier';
+
+  let email = $state('');
+  let password = $state('');
+  let sending = $state(false);
+
+  // Called only when every field is valid.
+  async function signUp(event) {
+    event.preventDefault();
+    sending = true;
+    await createAccount({ email, password });
+    sending = false;
+  }
+</script>
+
+<Form onsubmit={signUp}>
+  <TextField label="Email" type="email" name="email" required bind:value={email} />
+  <TextField label="Password" type="password" name="password" minlength={8} required bind:value={password} />
+  <Button type="submit" loading={sending}>Create account</Button>
+</Form>`;
+
+export const formSvelteKit = `<script>
+  import { enhance } from '$app/forms';
+  import { fromAction } from 'svelte/attachments';
+  import { Button, Form, TextField } from 'sveltier';
+
+  // What the form action returned, such as { errors: { email: 'This email is taken' } }.
+  let { form } = $props();
+</script>
+
+<!-- Without JavaScript the form posts to the action as HTML does; with it, enhance sends it,
+     and only once every field is valid. -->
+<Form method="POST" action="?/signup" {@attach fromAction(enhance)}>
+  <TextField label="Email" type="email" name="email" required error={form?.errors?.email} />
+  <TextField label="Password" type="password" name="password" minlength={8} required />
+  <Button type="submit">Create account</Button>
+</Form>`;
+
+export const formMethods = `<script>
+  import { Button, Form } from 'sveltier';
+  let form;
+</script>
+
+<Form bind:this={form}>…</Form>
+
+<Button onclick={() => form.validate()}>Check</Button>  <!-- shows every message, returns true when valid -->
+<Button onclick={() => form.reset()}>Start over</Button>  <!-- values back to defaultValue, messages hidden -->
+<Button onclick={() => form.resetValidation()}>Hide messages</Button>`;

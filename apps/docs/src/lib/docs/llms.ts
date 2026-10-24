@@ -19,7 +19,7 @@ import {
 	skeletonUsage,
 	tabsUsage
 } from '#lib/snippets/components.js';
-import { fieldUsage, textFieldValidation } from '#lib/snippets/forms.js';
+import { fieldUsage, formSvelteKit, textFieldValidation } from '#lib/snippets/forms.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -76,6 +76,7 @@ const COMPONENTS: Entry[] = [
 ];
 
 const FORMS: Entry[] = [
+	{ name: 'Form', path: 'forms/form', types: ['FormProps'], example: formSvelteKit },
 	{
 		name: 'TextField',
 		path: 'forms/text-field',

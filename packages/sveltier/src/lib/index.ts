@@ -83,6 +83,9 @@ export {
 // Errors
 export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/codes.js';
 
+// Forms: validation types shared by every form control
+export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
+
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
@@ -159,6 +162,7 @@ export {
 	type FieldProps,
 	type FieldVariant
 } from './components/Field/index.js';
+export { Form, type FormProps } from './components/Form/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
 export {
 	List,

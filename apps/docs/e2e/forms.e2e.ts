@@ -68,3 +68,25 @@ test('a field labels and describes a control of your own', async ({ page }) => {
 	await expect(date).toHaveAccessibleDescription('The first payment goes out on this day');
 	await expect(date).toHaveJSProperty('required', true);
 });
+
+test('a form stops an invalid submission and focuses the first problem', async ({ page }) => {
+	await open(page, '/forms/form');
+	const email = page.getByRole('textbox', { name: 'Email' });
+	await email.fill('ada');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(email).toBeFocused();
+	await expect(email).toHaveAccessibleDescription('Enter a valid email address');
+	await expect(page.getByLabel('Password')).toHaveAccessibleDescription('Required');
+});
+
+test('a valid form submits, and the server answer shows on its field', async ({ page }) => {
+	await open(page, '/forms/form');
+	const email = page.getByRole('textbox', { name: 'Email' });
+	await email.fill('ada@example.com');
+	await page.getByLabel('Password').fill('correct horse');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(email).toHaveAccessibleDescription('An account with this email already exists');
+	await email.fill('grace@example.com');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(page.getByText('Account created for grace@example.com.')).toBeVisible();
+});

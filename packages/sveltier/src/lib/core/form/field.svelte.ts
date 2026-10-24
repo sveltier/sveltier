@@ -1,3 +1,4 @@
+import { getFormContext } from './context.js';
 import type { FieldError, Rule, ValidateOn } from './types.js';
 
 type Control = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
@@ -40,6 +41,7 @@ export function readError(error: FieldError | undefined): string | boolean {
  * timing (`validateOn`) only decides when it is shown. Call during component initialisation.
  */
 export function createField<T>(options: FieldOptions<T>): FieldState {
+	const form = getFormContext();
 	let shown = $state(false);
 	let dirty = false;
 
@@ -55,13 +57,28 @@ export function createField<T>(options: FieldOptions<T>): FieldState {
 		return undefined;
 	});
 	const outside = $derived(readError(options.error()));
-	const mode = $derived(options.validateOn() ?? 'blur');
+	const mode = $derived(options.validateOn() ?? form?.validateOn ?? 'blur');
 
 	// A plain <form> refuses to submit with the same words. Errors from outside are left out,
 	// so a server's answer never blocks submitting again.
 	$effect(() => {
 		options.control()?.setCustomValidity(problem ?? '');
 	});
+
+	// In a Form, the field takes part in its submit and reset.
+	$effect(() =>
+		form?.register({
+			validate() {
+				shown = true;
+				return problem === undefined;
+			},
+			resetValidation() {
+				shown = false;
+				dirty = false;
+			},
+			control: options.control
+		})
+	);
 
 	return {
 		get error() {

@@ -90,6 +90,13 @@ export interface FieldContentProps {
  * A label, a box for a control, and its hint or error. Wrap your own control in it: the
  * children snippet receives the id, ARIA links and state to spread onto the control. Other
  * attributes go to the root element.
+ *
+ * @example
+ * <Field label="Start date" hint="The first payment goes out on this day" required>
+ *   {#snippet children(attributes)}
+ *     <input type="date" name="start" {...attributes} bind:value={start} />
+ *   {/snippet}
+ * </Field>
  */
 export type FieldProps = ElementProps<
 	HTMLDivElement,

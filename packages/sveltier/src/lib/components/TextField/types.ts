@@ -48,5 +48,16 @@ type TextFieldOwnProps = Partial<TextFieldDefaults> &
  * A single line of text with a label, a hint and validation. `class` and `style` apply to the
  * field; `id`, `ref` and every other attribute (`name`, `placeholder`, `autocomplete`,
  * `minlength`, `pattern`, events) go to the `<input>`.
+ *
+ * @example
+ * <TextField
+ *   label="Username"
+ *   name="username"
+ *   required
+ *   minlength={3}
+ *   rules={[(value) => /^[a-z0-9_]+$/.test(value) || 'Use lowercase letters, digits and _']}
+ *   error={form?.errors?.username}
+ *   bind:value={username}
+ * />
  */
 export type TextFieldProps = ElementProps<HTMLInputElement, HTMLInputAttributes, TextFieldOwnProps>;

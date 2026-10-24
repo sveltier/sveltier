@@ -88,10 +88,10 @@ export default [
 	},
 	{
 		// Shared by every form control: when a message shows, the HTML constraints with their
-		// messages, and the native validity kept in step.
+		// messages, the native validity kept in step, and joining the Form around it.
 		name: 'form validation (shared by the form controls)',
 		code: "export { createField } from 'sveltier/core/form/field.svelte.js';\nexport { textConstraintMessage } from 'sveltier/core/form/constraints.js';",
-		limit: '0.8 KB'
+		limit: '0.85 KB'
 	},
 	{
 		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
@@ -154,6 +154,14 @@ export default [
 		name: 'Field',
 		code: "export { Field } from 'sveltier';",
 		limit: '2.55 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Submit and reset handling, the field registry and the disabled defaults; the fields
+		// themselves are measured in their own entries.
+		name: 'Form',
+		code: "export { Form } from 'sveltier';",
+		limit: '1.1 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -227,6 +235,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '28 KB'
+		limit: '28.5 KB'
 	}
 ];
