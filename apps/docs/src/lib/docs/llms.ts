@@ -18,6 +18,7 @@ import {
 	skeletonUsage,
 	tabsUsage
 } from '#lib/snippets/components.js';
+import { fieldUsage, textFieldValidation } from '#lib/snippets/forms.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -73,6 +74,21 @@ const COMPONENTS: Entry[] = [
 	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps'], example: tabsUsage }
 ];
 
+const FORMS: Entry[] = [
+	{
+		name: 'TextField',
+		path: 'forms/text-field',
+		types: ['TextFieldProps'],
+		example: textFieldValidation
+	},
+	{
+		name: 'Field',
+		path: 'forms/field',
+		types: ['FieldProps', 'FieldControlAttributes'],
+		example: fieldUsage
+	}
+];
+
 const PRIMITIVES: Entry[] = [
 	{ name: 'focusTrap', path: 'primitives/focus', types: ['FocusTrapOptions'] },
 	{ name: 'rovingFocus', path: 'primitives/focus', types: ['RovingFocusOptions'] },
@@ -95,7 +111,8 @@ const CONVENTIONS = `Install \`sveltier\`, wrap the app in \`UIProvider\` with a
 
 - Every component takes the same names for the same things: \`variant\` (elevated, flat, tonal, outlined, text, plain), \`size\` (xs to xl), \`density\` (compact, default, comfortable), \`color\` (an intent such as primary or error, neutral, or a custom colour), \`rounded\`, \`disabled\`, \`loading\`.
 - Content goes in snippets (\`children\`, \`prepend\`, \`append\`, \`actions\`), events are callback props (\`onclick\`), and two-way values use \`bind:\` (\`bind:value\`, \`bind:selected\`, \`bind:open\`).
-- Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`.
+- Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
+- Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.`;
 
 /** The first sentence of a description, on one line. */
@@ -131,7 +148,10 @@ function section(entry: Entry, link: (path: string) => string): string {
 /** llms.txt: every docs page, with what each component is. */
 export function llmsIndex(link: (path: string) => string): string {
 	const described = new Map(
-		COMPONENTS.map((entry) => [entry.path, sentence(descriptions[entry.types[0]!] ?? '')])
+		[...COMPONENTS, ...FORMS].map((entry) => [
+			entry.path,
+			sentence(descriptions[entry.types[0]!] ?? '')
+		])
 	);
 	const groups = NAV.map((group) => {
 		const items = group.items.map((item) => {
@@ -179,6 +199,9 @@ export function llmsFull(link: (path: string) => string): string {
 		'## Components',
 		'',
 		...COMPONENTS.flatMap((entry) => [section(entry, link), '']),
+		'## Forms',
+		'',
+		...FORMS.flatMap((entry) => [section(entry, link), '']),
 		'## Primitives',
 		'',
 		'Behaviour for your own components: attachments (`{@attach focusTrap()}`) and helpers.',

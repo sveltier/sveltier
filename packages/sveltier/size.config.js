@@ -87,6 +87,13 @@ export default [
 		limit: '1.8 KB'
 	},
 	{
+		// Shared by every form control: when a message shows, the HTML constraints with their
+		// messages, and the native validity kept in step.
+		name: 'form validation (shared by the form controls)',
+		code: "export { createField } from 'sveltier/core/form/field.svelte.js';\nexport { textConstraintMessage } from 'sveltier/core/form/constraints.js';",
+		limit: '0.8 KB'
+	},
+	{
 		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
 		// locale) come with UIProvider or the first component and are measured above. About
 		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of
@@ -141,6 +148,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Label, box, hint and error with the ARIA links (1.35 KB of JS), and five variants with
+		// their focus and invalid states (1.15 KB of CSS). Every boxed field draws in it.
+		name: 'Field',
+		code: "export { Field } from 'sveltier';",
+		limit: '2.5 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Most of it is what any Svelte component with rest props costs.
 		name: 'Icon',
 		code: "export { Icon } from 'sveltier';",
@@ -186,6 +201,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code. The Field it draws in and the validation it shares with the other form
+		// controls are measured in their own entries.
+		name: 'TextField',
+		code: "export { TextField } from 'sveltier';",
+		limit: '1.1 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -197,11 +220,11 @@ export default [
 	})),
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
-		// the engine, the shared props CSS, locale, the primitives and the bundler's dynamic import
-		// helper. It grows with every module by design.
+		// the engine, the shared props CSS, locale, the primitives, the components, the form
+		// fields and the bundler's dynamic import helper. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '24 KB'
+		limit: '26 KB'
 	}
 ];

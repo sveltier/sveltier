@@ -73,6 +73,13 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Forms',
+		items: [
+			{ title: 'TextField', path: 'forms/text-field' },
+			{ title: 'Field', path: 'forms/field' }
+		]
+	},
+	{
 		title: 'Primitives',
 		items: [
 			{ title: 'Focus', path: 'primitives/focus' },

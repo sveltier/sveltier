@@ -154,6 +154,18 @@ a {
 	gap: var(--sv-space-8);
 }
 
+/* A field and a button in a row, aligned on the box. */
+.docs-field-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--sv-space-8);
+}
+
+.docs-field-row > .sv-field {
+	flex: 1 1 12rem;
+}
+
 .docs-icon-button {
 	display: inline-grid;
 	place-items: center;

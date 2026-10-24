@@ -6,7 +6,8 @@
 		download: 'M12 4v11M7 10l5 5 5-5M5 20h14',
 		send: 'M4 12l16-8-6 16-3-7z',
 		close: 'M6 6l12 12M18 6L6 18',
-		check: 'M5 12l5 5 9-10'
+		check: 'M5 12l5 5 9-10',
+		search: 'M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM20 20l-4.9-4.9'
 	};
 
 	export type GlyphName = keyof typeof PATHS;
