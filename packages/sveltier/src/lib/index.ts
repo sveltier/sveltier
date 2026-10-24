@@ -34,6 +34,7 @@ export { milano, milanoDark, milanoLight } from './themes/milano.js';
 // Shared props
 export {
 	DENSITIES,
+	ROUNDED,
 	SIZES,
 	VARIANTS,
 	type Color,
@@ -151,6 +152,7 @@ export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {
 	Field,
+	FIELD_VARIANTS,
 	type FieldContentProps,
 	type FieldControlAttributes,
 	type FieldDefaults,

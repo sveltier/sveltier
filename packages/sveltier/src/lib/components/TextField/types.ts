@@ -12,8 +12,10 @@ declare module '../../core/defaults/context.js' {
 	}
 }
 
+export const TEXT_FIELD_TYPES = ['text', 'email', 'password', 'search', 'tel', 'url'] as const;
+
 /** The kinds of single-line text. Numbers and dates have their own fields. */
-export type TextFieldType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
+export type TextFieldType = (typeof TEXT_FIELD_TYPES)[number];
 
 type TextFieldOwnProps = Partial<TextFieldDefaults> &
 	FieldContentProps & {

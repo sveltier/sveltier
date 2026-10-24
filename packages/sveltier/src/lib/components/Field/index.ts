@@ -1,4 +1,5 @@
 export { default as Field } from './Field.svelte';
+export { FIELD_VARIANTS } from './types.js';
 export type {
 	FieldContentProps,
 	FieldControlAttributes,

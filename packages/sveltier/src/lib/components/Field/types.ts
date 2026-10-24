@@ -4,12 +4,15 @@ import type { FieldError } from '../../core/form/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { Color, Density, Rounded, Size } from '../../core/props/types.js';
 
+/** The variants a boxed field takes, a subset of the shared `VARIANTS`. */
+export const FIELD_VARIANTS = ['outlined', 'tonal', 'elevated', 'text', 'plain'] as const;
+
 /**
- * How a field's box is drawn, a subset of the shared variants: `outlined` (a border), `tonal`
- * (a wash with a rule under it), `elevated` (a surface with a shadow), `text` (only the rule)
- * and `plain` (nothing, for a field inside another component).
+ * How a field's box is drawn: `outlined` (a border), `tonal` (a wash with a rule under it),
+ * `elevated` (a surface with a shadow), `text` (only the rule) and `plain` (nothing, for a field
+ * inside another component).
  */
-export type FieldVariant = 'outlined' | 'tonal' | 'elevated' | 'text' | 'plain';
+export type FieldVariant = (typeof FIELD_VARIANTS)[number];
 
 /** The Field props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface FieldDefaults {

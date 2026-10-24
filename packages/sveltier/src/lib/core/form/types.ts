@@ -9,12 +9,14 @@
  */
 export type Rule<T> = (value: T) => true | string;
 
+export const VALIDATE_ON = ['blur', 'input', 'submit'] as const;
+
 /**
  * When a field shows its message: `'blur'` once the user has changed the value and leaves the
  * field, `'input'` from the first change, `'submit'` when the form is submitted. Once shown, the
  * message follows every change, so fixing the value clears it at once.
  */
-export type ValidateOn = 'blur' | 'input' | 'submit';
+export type ValidateOn = (typeof VALIDATE_ON)[number];
 
 /**
  * An error from outside the field, such as the server's answer: a message, a list of messages
