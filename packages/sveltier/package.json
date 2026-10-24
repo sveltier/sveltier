@@ -1,14 +1,14 @@
 {
 	"name": "sveltier",
-	"version": "0.0.0",
-	"description": "A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free SSR theming.",
+	"version": "0.1.0-alpha.0",
+	"description": "The UI framework for AI coding agents, on Svelte 5: one typed vocabulary, docs generated from the types, and errors that say how to fix them.",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/sveltier/sveltier.git",
 		"directory": "packages/sveltier"
 	},
-	"homepage": "https://github.com/sveltier/sveltier#readme",
+	"homepage": "https://sveltier.com",
 	"bugs": {
 		"url": "https://github.com/sveltier/sveltier/issues"
 	},
@@ -76,6 +76,10 @@
 		"ui",
 		"components",
 		"design-system",
+		"ai",
+		"agents",
+		"llms",
+		"accessibility",
 		"fintech"
 	]
 }

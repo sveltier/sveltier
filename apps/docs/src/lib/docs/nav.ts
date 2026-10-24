@@ -77,6 +77,9 @@ export const NAV: NavGroup[] = [
 		items: [
 			{ title: 'Form and validation', path: 'forms/form' },
 			{ title: 'TextField', path: 'forms/text-field' },
+			{ title: 'Textarea', path: 'forms/textarea' },
+			{ title: 'NumberField', path: 'forms/number-field' },
+			{ title: 'NativeSelect', path: 'forms/native-select' },
 			{ title: 'Field', path: 'forms/field' }
 		]
 	},

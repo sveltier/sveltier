@@ -1,0 +1,74 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Digits keep one width, so numbers that change or stack line up. */
+	.sv-number-field .sv-field__control {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-number-field .sv-field__append {
+		align-self: stretch;
+	}
+
+	.sv-number-field__steps {
+		display: flex;
+		align-items: center;
+		gap: var(--sv-space-2);
+		margin-inline-end: calc(var(--sv-size-height) * var(--sv-density) * -0.146);
+	}
+
+	/* Square, φ⁻¹ of the field's height, and never under 24px (WCAG 2.5.8). */
+	.sv-number-field__step {
+		--sv-step: max(1.5rem, calc(var(--sv-size-height) * var(--sv-density) * 0.618));
+		position: relative;
+		display: grid;
+		place-items: center;
+		inline-size: var(--sv-step);
+		block-size: var(--sv-step);
+		padding: 0;
+		border: 0;
+		border-radius: var(--sv-radius-sm);
+		background: none;
+		color: var(--sv-color-text-muted);
+		cursor: pointer;
+	}
+
+	/* The state layer, as on a Button: only its opacity changes. */
+	.sv-number-field__step::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-number-field__step:enabled:hover {
+			color: var(--sv-color-text);
+		}
+
+		.sv-number-field__step:enabled:hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-number-field__step:enabled:active::before {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-number-field__step:disabled {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	.sv-number-field__step svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.75;
+		stroke-linecap: round;
+	}
+}

@@ -210,6 +210,32 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code: the options with the placeholder and the reset target, and the arrow, an
+		// inline SVG mask in the CSS. The Field and the shared validation are measured apart.
+		name: 'NativeSelect',
+		code: "export { NativeSelect } from 'sveltier';",
+		limit: '1.8 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
+		// Parsing in the locale with its range and step checks (about 0.5 KB), stepping by keys and
+		// buttons on the step grid, two named buttons, and the hidden input that submits the plain
+		// number (2.6 KB of JS, 0.6 KB of CSS). The Field and the shared validation are measured apart.
+		name: 'NumberField',
+		code: "export { NumberField } from 'sveltier';",
+		limit: '3.3 KB',
+		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
+	},
+	{
+		// Its own code, with the growing fallback for browsers without field-sizing, and the radius
+		// cap that keeps it from turning oval in a theme with pill controls (about 20 B). The Field
+		// and the shared validation are measured in their own entries.
+		name: 'Textarea',
+		code: "export { Textarea } from 'sveltier';",
+		limit: '1.55 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		// Its own code. The Field it draws in and the validation it shares with the other form
 		// controls are measured in their own entries.
 		name: 'TextField',
@@ -235,6 +261,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '28.5 KB'
+		limit: '32 KB'
 	}
 ];

@@ -41,7 +41,7 @@
 		return valid;
 	}
 
-	/** Resets the values to their `defaultValue` and hides every message. */
+	/** Puts every field back to the value it started with, and hides every message. */
 	export function reset(): void {
 		ref?.reset();
 	}

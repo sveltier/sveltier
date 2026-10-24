@@ -172,6 +172,17 @@ export {
 	type ListProps
 } from './components/List/index.js';
 export {
+	NativeSelect,
+	type NativeSelectDefaults,
+	type NativeSelectOption,
+	type NativeSelectProps
+} from './components/NativeSelect/index.js';
+export {
+	NumberField,
+	type NumberFieldDefaults,
+	type NumberFieldProps
+} from './components/NumberField/index.js';
+export {
 	ProgressCircular,
 	ProgressLinear,
 	type ProgressCircularDefaults,
@@ -187,6 +198,11 @@ export {
 } from './components/SegmentedControl/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
+export {
+	Textarea,
+	type TextareaDefaults,
+	type TextareaProps
+} from './components/Textarea/index.js';
 export {
 	TextField,
 	type TextFieldDefaults,

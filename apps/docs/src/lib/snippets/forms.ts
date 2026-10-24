@@ -114,5 +114,60 @@ export const formMethods = `<script>
 <Form bind:this={form}>…</Form>
 
 <Button onclick={() => form.validate()}>Check</Button>  <!-- shows every message, returns true when valid -->
-<Button onclick={() => form.reset()}>Start over</Button>  <!-- values back to defaultValue, messages hidden -->
+<Button onclick={() => form.reset()}>Start over</Button>  <!-- every field back to its starting value, messages hidden -->
 <Button onclick={() => form.resetValidation()}>Hide messages</Button>`;
+
+export const textareaUsage = `<script>
+  import { Textarea } from 'sveltier';
+  let note = $state('');
+</script>
+
+<!-- Grows with its text from 2 to 8 lines, then scrolls. -->
+<Textarea
+  label="Note to the payee"
+  name="note"
+  hint="They see it on their statement"
+  maxlength={280}
+  rows={2}
+  autoGrow
+  maxRows={8}
+  bind:value={note}
+/>`;
+
+export const numberFieldUsage = `<script>
+  import { NumberField } from 'sveltier';
+  let quantity = $state(1);
+  let amount = $state(null);
+</script>
+
+<NumberField label="Quantity" name="quantity" min={1} max={99} step={1} bind:value={quantity} />
+
+<!-- Digits only in format: the currency goes in prepend, so the text stays editable. -->
+<NumberField
+  label="Amount"
+  name="amount"
+  min={0}
+  format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+  required
+  bind:value={amount}
+>
+  {#snippet prepend()}USD{/snippet}
+</NumberField>`;
+
+export const nativeSelectUsage = `<script>
+  import { NativeSelect } from 'sveltier';
+  let country = $state(null);
+</script>
+
+<NativeSelect
+  label="Country"
+  name="country"
+  placeholder="Choose a country"
+  required
+  options={[
+    { value: 'gb', label: 'United Kingdom' },
+    { value: 'jp', label: 'Japan' },
+    { value: 'vn', label: 'Vietnam' }
+  ]}
+  bind:value={country}
+/>`;

@@ -90,3 +90,37 @@ test('a valid form submits, and the server answer shows on its field', async ({ 
 	await page.getByRole('button', { name: 'Create account' }).click();
 	await expect(page.getByText('Account created for grace@example.com.')).toBeVisible();
 });
+
+test('a textarea grows with its text', async ({ page }) => {
+	await open(page, '/forms/textarea');
+	const note = page.getByRole('textbox', { name: 'Note to the payee' });
+	const start = (await note.boundingBox())!.height;
+	await note.fill('One\nTwo\nThree\nFour');
+	await expect.poll(async () => (await note.boundingBox())!.height).toBeGreaterThan(start);
+	await expect(page.getByText('18 / 280 characters in the note.')).toBeVisible();
+});
+
+test('a number field reads the locale format and steps with the keys', async ({ page }) => {
+	await open(page, '/forms/number-field');
+	const amount = page.getByRole('spinbutton', { name: 'Amount' });
+	await amount.fill('1234.5');
+	await amount.press('Tab');
+	await expect(amount).toHaveValue('1,234.50');
+	await expect(page.getByText('amount = 1234.5')).toBeVisible();
+	const quantity = page.getByRole('spinbutton', { name: 'Quantity' });
+	await quantity.focus();
+	await quantity.press('ArrowUp');
+	await expect(quantity).toHaveValue('2');
+	await quantity.press('End');
+	await expect(quantity).toHaveValue('99');
+});
+
+test('a native select keeps the type of its values', async ({ page }) => {
+	await open(page, '/forms/native-select');
+	await page.getByRole('combobox', { name: 'Repeat' }).selectOption({ label: 'Every year' });
+	await expect(page.getByText('days = 365')).toBeVisible();
+	const country = page.getByRole('combobox', { name: 'Country' });
+	await expect(page.getByText('country = null')).toBeVisible();
+	await country.selectOption({ label: 'Vietnam' });
+	await expect(page.getByText('country = "vn"')).toBeVisible();
+});
