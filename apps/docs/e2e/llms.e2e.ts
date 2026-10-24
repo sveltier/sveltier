@@ -10,6 +10,8 @@ test('llms.txt indexes every docs page', async ({ request }) => {
 	expect(text).toContain('## Components');
 	// Models drift to Svelte 4 syntax, so the index says what not to write.
 	expect(text).toContain('Never write Svelte 4 syntax: no `export let`');
+	// Hand-written CSS keeps to the theme, pill-shaped controls included.
+	expect(text).toContain('`min(var(--sv-radius-md), var(--sv-radius-lg))`');
 	expect(text).toContain(
 		'- [Button](./components/button): A button, or a link that looks like one'
 	);

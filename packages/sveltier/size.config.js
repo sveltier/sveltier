@@ -227,11 +227,12 @@ export default [
 		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
 	},
 	{
-		// Its own code, with the growing fallback for browsers without field-sizing. The Field and
-		// the shared validation are measured in their own entries.
+		// Its own code, with the growing fallback for browsers without field-sizing, and the radius
+		// cap that keeps it from turning oval in a theme with pill controls (about 20 B). The Field
+		// and the shared validation are measured in their own entries.
 		name: 'Textarea',
 		code: "export { Textarea } from 'sveltier';",
-		limit: '1.5 KB',
+		limit: '1.55 KB',
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{

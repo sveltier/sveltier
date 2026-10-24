@@ -1109,7 +1109,8 @@ a {
 	padding: var(--sv-space-3);
 	list-style: none;
 	border: var(--sv-hairline) solid var(--sv-color-border);
-	border-radius: var(--sv-radius-md);
+	/* A box that grows with its content: the control radius, never rounder than a card. */
+	border-radius: min(var(--sv-radius-md), var(--sv-radius-lg));
 	background-color: var(--sv-color-surface);
 }
 
@@ -1202,7 +1203,7 @@ a {
 	overflow-y: auto;
 	block-size: calc(var(--sv-space-144) * 2 + var(--sv-space-89));
 	border: var(--sv-hairline) solid var(--sv-color-border);
-	border-radius: var(--sv-radius-md);
+	border-radius: min(var(--sv-radius-md), var(--sv-radius-lg));
 	background-color: var(--sv-color-surface);
 	overscroll-behavior: contain;
 }

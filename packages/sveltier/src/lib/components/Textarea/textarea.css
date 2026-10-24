@@ -10,6 +10,8 @@
 		--sv-textarea-pad: calc(
 			(var(--sv-size-height) * var(--sv-density) - 2 * var(--sv-hairline) - 1lh) / 2
 		);
+		/* The control radius, never rounder than a card, even where controls are pills. */
+		--sv-field-radius: min(var(--sv-radius-md), var(--sv-radius-lg));
 		align-items: flex-start;
 		line-height: var(--sv-leading-normal);
 	}

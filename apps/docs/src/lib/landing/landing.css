@@ -683,7 +683,8 @@
 	margin: 0;
 	padding: var(--sv-space-13);
 	overflow-x: auto;
-	border-radius: var(--sv-radius-md);
+	/* The control radius, never rounder than a card, even where controls are pills. */
+	border-radius: min(var(--sv-radius-md), var(--sv-radius-lg));
 	background-color: var(--sv-color-surface-raised);
 	color: var(--sv-color-text);
 	font: var(--sv-text-xs) / 1.6 var(--sv-font-data);

@@ -136,7 +136,8 @@ const CONVENTIONS = `Install \`sveltier\`, wrap the app in \`UIProvider\` with a
 - Content goes in snippets (\`children\`, \`prepend\`, \`append\`, \`actions\`), events are callback props (\`onclick\`), and two-way values use \`bind:\` (\`bind:value\`, \`bind:selected\`, \`bind:open\`).
 - Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
-- Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.`;
+- Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
+- Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.`;
 
 /** The first sentence of a description, on one line. */
 const sentence = (text: string) => {

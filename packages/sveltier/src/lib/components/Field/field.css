@@ -41,7 +41,8 @@
 		min-block-size: calc(var(--sv-size-height) * var(--sv-density));
 		padding-inline: calc(var(--sv-size-height) * var(--sv-density) * 0.382);
 		border: var(--sv-hairline) solid var(--sv-field-border);
-		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		/* A control that grows to several lines sets --sv-field-radius, so it never turns oval. */
+		border-radius: var(--sv-rounded, var(--sv-field-radius, var(--sv-radius-md)));
 		color: var(--sv-color-text);
 		font-size: var(--sv-size-text);
 		line-height: var(--sv-leading-snug);

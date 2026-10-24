@@ -10,7 +10,8 @@
 		padding: calc(var(--sv-space-13) * var(--sv-density))
 			calc(var(--sv-space-21) * var(--sv-density));
 		border: var(--sv-hairline) solid var(--sv-variant-border);
-		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		/* The control radius, never rounder than a card, even where controls are pills. */
+		border-radius: var(--sv-rounded, min(var(--sv-radius-md), var(--sv-radius-lg)));
 		background-color: var(--sv-variant-bg);
 		box-shadow: var(--sv-variant-shadow);
 		color: var(--sv-variant-fg);
