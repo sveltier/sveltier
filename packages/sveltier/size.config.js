@@ -290,6 +290,16 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// Its own code: the entries grouped under their headings (2 KB of JS, most of it the compiled
+		// rows with their icon and shortcut), the trigger's arrow keys, choosing and closing, and
+		// 0.8 KB of CSS. Roving focus, typeahead, placement, the layer stack and the motion are
+		// primitives, measured apart.
+		name: 'Menu',
+		code: "export { Menu } from '@sveltier/ui';",
+		limit: '2.9 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		// Its own code: the trigger wiring, focus in and back, and the panel with its widths. The
 		// placement, the layer stack and the motion are primitives, measured apart.
 		name: 'Popover',
@@ -323,6 +333,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '40 KB'
+		limit: '41 KB'
 	}
 ];

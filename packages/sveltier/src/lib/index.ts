@@ -181,6 +181,15 @@ export {
 	type ListProps
 } from './components/List/index.js';
 export {
+	Menu,
+	type MenuAction,
+	type MenuDefaults,
+	type MenuHeading,
+	type MenuItem,
+	type MenuProps,
+	type MenuSeparator
+} from './components/Menu/index.js';
+export {
 	NativeSelect,
 	type NativeSelectDefaults,
 	type NativeSelectOption,

@@ -83,6 +83,51 @@ export const popoverInfo = `<script>
   A payment is pending until the receiving bank confirms it.
 </Popover>`;
 
+export const menuUsage = `<script>
+  import { Button, Menu } from '@sveltier/ui';
+  import { mdiDelete, mdiDownload, mdiPencil } from '@mdi/js';
+
+  function run(value) {
+    // …
+  }
+</script>
+
+<Menu
+  items={[
+    { label: 'Rename', value: 'rename', icon: mdiPencil, shortcut: 'F2' },
+    { label: 'Move to savings', value: 'move', disabled: true },
+    { heading: 'Export' },
+    { label: 'Statement as PDF', value: 'pdf', icon: mdiDownload },
+    { separator: true },
+    { label: 'Close account', value: 'close', icon: mdiDelete, danger: true }
+  ]}
+  onselect={(item) => run(item.value)}
+>
+  {#snippet trigger(attributes)}
+    <Button {...attributes} variant="outlined">Account actions</Button>
+  {/snippet}
+</Menu>`;
+
+export const menuIconButton = `<script>
+  import { Button, Icon, Menu, Tooltip } from '@sveltier/ui';
+  import { mdiDotsHorizontal } from '@mdi/js';
+
+  let { items, onselect } = $props();
+</script>
+
+<!-- One icon button: a tooltip that names its purpose, and the menu it opens. -->
+<Tooltip text="More actions">
+  {#snippet trigger(tooltip)}
+    <Menu {items} {onselect} align="end">
+      {#snippet trigger(menu)}
+        <Button {...tooltip} {...menu} icon variant="text" aria-label="More">
+          <Icon path={mdiDotsHorizontal} />
+        </Button>
+      {/snippet}
+    </Menu>
+  {/snippet}
+</Tooltip>`;
+
 export const tooltipUsage = `<script>
   import { Button, Icon, Tooltip } from '@sveltier/ui';
   import { mdiContentCopy } from '@mdi/js';

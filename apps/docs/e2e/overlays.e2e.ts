@@ -49,6 +49,14 @@ for (const colorScheme of ['light', 'dark'] as const) {
 		expect(await violations(page)).toEqual([]);
 	});
 
+	test(`an open menu has no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/menu');
+		await page.getByRole('button', { name: 'Account actions' }).click();
+		await expect(page.getByRole('menu', { name: 'Account actions' })).toBeVisible();
+		expect(await violations(page)).toEqual([]);
+	});
+
 	test(`a shown tooltip has no axe violations (${colorScheme})`, async ({ page }) => {
 		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 		await open(page, '/overlays/tooltip');
@@ -110,4 +118,18 @@ test('a popover filters by amount, and Escape gives focus back to its trigger', 
 	await page.keyboard.press('Escape');
 	await expect(popover).toBeHidden();
 	await expect(trigger).toBeFocused();
+});
+
+test('a menu opens from the keyboard and runs the chosen action', async ({ page }) => {
+	await open(page, '/overlays/menu');
+	const trigger = page.getByRole('button', { name: 'Account actions' });
+	await trigger.focus();
+	await page.keyboard.press('ArrowDown');
+	const menu = page.getByRole('menu', { name: 'Account actions' });
+	await expect(menu.getByRole('menuitem', { name: /^Rename/ })).toBeFocused();
+	await page.keyboard.press('ArrowDown');
+	await page.keyboard.press('Enter');
+	await expect(menu).toBeHidden();
+	await expect(trigger).toBeFocused();
+	await expect(page.getByText('"duplicate"')).toBeVisible();
 });

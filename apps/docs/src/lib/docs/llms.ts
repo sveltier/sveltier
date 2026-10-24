@@ -31,7 +31,13 @@ import {
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
-import { dialogUsage, popoverUsage, sheetUsage, tooltipUsage } from '#lib/snippets/overlays.js';
+import {
+	dialogUsage,
+	menuUsage,
+	popoverUsage,
+	sheetUsage,
+	tooltipUsage
+} from '#lib/snippets/overlays.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -139,6 +145,12 @@ const OVERLAYS: Entry[] = [
 	},
 	{ name: 'Sheet', path: 'overlays/sheet', types: ['SheetProps'], example: sheetUsage },
 	{ name: 'Popover', path: 'overlays/popover', types: ['PopoverProps'], example: popoverUsage },
+	{
+		name: 'Menu',
+		path: 'overlays/menu',
+		types: ['MenuProps', 'MenuAction'],
+		example: menuUsage
+	},
 	{ name: 'Tooltip', path: 'overlays/tooltip', types: ['TooltipProps'], example: tooltipUsage }
 ];
 

@@ -1,0 +1,103 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A raised surface of rows, as wide as its longest item within a short line. */
+	.sv-menu {
+		--sv-menu-pad: var(--sv-space-5);
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		min-inline-size: 13rem;
+		max-inline-size: min(21rem, 100vw - 2 * var(--sv-space-8));
+		max-block-size: calc(100dvh - 2 * var(--sv-space-8));
+		padding: var(--sv-menu-pad);
+		overflow: auto;
+		overscroll-behavior: contain;
+		border: var(--sv-hairline) solid var(--sv-color-border-soft);
+		border-radius: var(--sv-radius-lg);
+		outline: none;
+		background-color: var(--sv-color-surface);
+		box-shadow: var(--sv-shadow);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	/* A row a small control tall, rounded to sit inside the menu's corner. */
+	.sv-menu__item {
+		display: flex;
+		gap: var(--sv-space-13);
+		align-items: center;
+		box-sizing: border-box;
+		inline-size: 100%;
+		min-block-size: calc(var(--sv-control-sm) * var(--sv-density));
+		margin: 0;
+		padding: calc(var(--sv-space-5) * var(--sv-density)) var(--sv-space-8);
+		border: 0;
+		border-radius: max(0px, var(--sv-radius-lg) - var(--sv-menu-pad));
+		outline: none;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-align: start;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* The pointer focuses the item under it, so one highlight serves both. */
+	.sv-menu__item:focus {
+		background-color: color-mix(in oklch, currentColor var(--sv-state-press), transparent);
+	}
+
+	.sv-menu__item:disabled {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	.sv-menu__item--danger {
+		color: var(--sv-color-error);
+	}
+
+	.sv-menu__item svg {
+		flex: none;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	.sv-menu__label {
+		flex: 1;
+		min-inline-size: 0;
+		overflow-wrap: anywhere;
+	}
+
+	.sv-menu__shortcut {
+		margin-inline-start: auto;
+		color: var(--sv-color-text-muted);
+		font: inherit;
+		font-size: var(--sv-text-xs);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-menu__item--danger .sv-menu__shortcut {
+		color: inherit;
+	}
+
+	.sv-menu__separator {
+		flex: none;
+		block-size: var(--sv-hairline);
+		margin-block: var(--sv-menu-pad);
+		margin-inline: calc(-1 * var(--sv-menu-pad));
+		background-color: var(--sv-color-border-soft);
+	}
+
+	/* The theme's label voice, muted, above the items it names. */
+	.sv-menu__heading {
+		padding: var(--sv-space-8) var(--sv-space-8) var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-label-size);
+		font-weight: var(--sv-weight-medium);
+		letter-spacing: var(--sv-label-tracking);
+		text-transform: var(--sv-label-transform);
+	}
+}
