@@ -114,3 +114,12 @@ test('a number field reads the locale format and steps with the keys', async ({ 
 	await quantity.press('End');
 	await expect(quantity).toHaveValue('99');
 });
+
+test('a native select keeps the type of its values', async ({ page }) => {
+	await open(page, '/forms/native-select');
+	await page.getByRole('combobox', { name: 'Repeat' }).selectOption({ label: 'Every year' });
+	await expect(page.getByText('days = 365')).toBeVisible();
+	const country = page.getByRole('combobox', { name: 'Country' });
+	await country.selectOption({ label: 'Vietnam' });
+	await expect(page.getByText('country = vn')).toBeVisible();
+});

@@ -1,0 +1,45 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-native-select > .sv-field__box {
+		cursor: pointer;
+	}
+
+	/* Room at the end for the arrow, which the text never runs under. */
+	.sv-native-select .sv-field__control {
+		padding-inline-end: calc(1.272em + var(--sv-space-8));
+		text-overflow: ellipsis;
+		cursor: inherit;
+	}
+
+	/* The placeholder reads as one, as in a text field; the list keeps the text colour. */
+	.sv-native-select--empty .sv-field__control {
+		color: var(--sv-color-text-subtle);
+	}
+
+	.sv-native-select .sv-field__control option {
+		color: var(--sv-color-text);
+	}
+
+	/*
+	 * The arrow: a mask filled with the muted text colour. It lets presses through to the select,
+	 * so the whole box opens the list.
+	 */
+	.sv-native-select > .sv-field__box::before {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		inset-inline-end: calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		margin-block: auto;
+		background-color: var(--sv-color-text-muted);
+		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+			center / contain no-repeat;
+		pointer-events: none;
+	}
+
+	.sv-native-select:where(.sv-variant-text, .sv-variant-plain) > .sv-field__box::before {
+		inset-inline-end: 0;
+	}
+}

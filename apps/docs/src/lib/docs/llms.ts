@@ -22,6 +22,7 @@ import {
 import {
 	fieldUsage,
 	formSvelteKit,
+	nativeSelectUsage,
 	numberFieldUsage,
 	textareaUsage,
 	textFieldValidation
@@ -95,6 +96,12 @@ const FORMS: Entry[] = [
 		path: 'forms/number-field',
 		types: ['NumberFieldProps'],
 		example: numberFieldUsage
+	},
+	{
+		name: 'NativeSelect',
+		path: 'forms/native-select',
+		types: ['NativeSelectProps'],
+		example: nativeSelectUsage
 	},
 	{
 		name: 'Field',

@@ -153,3 +153,21 @@ export const numberFieldUsage = `<script>
 >
   {#snippet prepend()}USD{/snippet}
 </NumberField>`;
+
+export const nativeSelectUsage = `<script>
+  import { NativeSelect } from 'sveltier';
+  let country = $state(null);
+</script>
+
+<NativeSelect
+  label="Country"
+  name="country"
+  placeholder="Choose a country"
+  required
+  options={[
+    { value: 'gb', label: 'United Kingdom' },
+    { value: 'jp', label: 'Japan' },
+    { value: 'vn', label: 'Vietnam' }
+  ]}
+  bind:value={country}
+/>`;

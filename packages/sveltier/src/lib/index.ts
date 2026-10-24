@@ -172,6 +172,12 @@ export {
 	type ListProps
 } from './components/List/index.js';
 export {
+	NativeSelect,
+	type NativeSelectDefaults,
+	type NativeSelectOption,
+	type NativeSelectProps
+} from './components/NativeSelect/index.js';
+export {
 	NumberField,
 	type NumberFieldDefaults,
 	type NumberFieldProps
