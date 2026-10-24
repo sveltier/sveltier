@@ -13,10 +13,14 @@ function check(ok: unknown, code: ErrorCode, message: string): asserts ok {
 	if (!ok) throw sveltierError(code, message);
 }
 
-/** `{color-scheme:…;--sv-color-x:…;--sv-on-x:…;--sv-var:…}` for one theme. */
+/** `{color-scheme:…;--sv-color-scrim:…;--sv-color-x:…;--sv-on-x:…;--sv-var:…}` for one theme. */
 function block(theme: ThemeDefinition | undefined, name: string, registered: string): string {
 	check(theme, 'SV1002', `Unknown theme "${name}". Registered: ${registered}.`);
-	let out = `color-scheme:${theme.dark ? 'dark' : 'light'}`;
+	// The veil behind modal layers: the theme's ink over a light theme, its background over a
+	// dark one. Written here, where the mode is known: bundlers rewrite CSS light-dark() into
+	// variables that only their own color-scheme rules set, and these themes are set at runtime.
+	const scrim = theme.dark ? 'var(--sv-color-background) 61.8%' : 'var(--sv-color-text) 38.2%';
+	let out = `color-scheme:${theme.dark ? 'dark' : 'light'};--sv-color-scrim:color-mix(in oklch,${scrim},transparent)`;
 	const entries = [
 		...Object.entries(theme.colors).map(([k, v]) => [k.startsWith('on-') ? k : `color-${k}`, v]),
 		...Object.entries(theme.variables)

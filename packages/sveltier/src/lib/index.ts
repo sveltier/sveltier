@@ -86,6 +86,9 @@ export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/code
 // Forms: validation types shared by every form control
 export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
 
+// Overlays: what an overlay hands to the control that opens it
+export type { TriggerAttributes } from './core/overlay/trigger.js';
+
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
@@ -157,6 +160,13 @@ export {
 	type CheckboxProps
 } from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
+export {
+	Dialog,
+	DIALOG_CLOSE_REASONS,
+	type DialogCloseReason,
+	type DialogDefaults,
+	type DialogProps
+} from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {
 	Field,

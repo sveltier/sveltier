@@ -115,10 +115,10 @@ export const ERROR_CODES = {
 	},
 	SV5001: {
 		kind: 'warning',
-		title: 'Field without an accessible name',
+		title: 'Field or dialog without an accessible name',
 		cause:
-			'Assistive technology announces a form control by its name, and this control has no label, `aria-label` or `aria-labelledby`.',
-		fix: 'Give the field a `label`, or name the control with `aria-label`, or with `aria-labelledby` when its label is visible elsewhere.'
+			'Assistive technology announces a form control or a dialog by its name, and this one has no label, title, `aria-label` or `aria-labelledby`.',
+		fix: 'Give a field a `label` and a dialog a `title`, or name it with `aria-label`, or with `aria-labelledby` when its name is visible elsewhere.'
 	}
 } as const satisfies Record<`SV${number}`, ErrorEntry>;
 

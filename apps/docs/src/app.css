@@ -586,7 +586,8 @@ a {
 	min-inline-size: 0;
 }
 
-.doc-body h2 {
+/* Section headings of the page only: a heading inside a demo belongs to its component. */
+.doc-body > h2 {
 	margin-block-start: var(--sv-space-34);
 	padding-block-start: var(--sv-space-13);
 	border-block-start: var(--sv-hairline) solid var(--sv-color-border-soft);

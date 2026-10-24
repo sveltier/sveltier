@@ -38,17 +38,21 @@ export function checkValue(
 	);
 }
 
-/** Warns when a form control has no accessible name: no label with text, and no ARIA name. */
+/**
+ * Warns when a form control or a dialog has no accessible name: no label with text, and no ARIA
+ * name. `give` names what to add, as the message says it ("a label", "a title").
+ */
 export function warnUnnamed(
 	component: string,
-	control: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null | undefined
+	element: (HTMLElement & { labels?: NodeListOf<HTMLLabelElement> | null }) | null | undefined,
+	give = 'a label'
 ): void {
-	if (!control) return;
+	if (!element) return;
 	// A label that wraps the control but holds no text names nothing.
-	if ([...(control.labels ?? [])].some((label) => label.textContent?.trim())) return;
-	if (control.getAttribute('aria-label') || control.getAttribute('aria-labelledby')) return;
+	if ([...(element.labels ?? [])].some((label) => label.textContent?.trim())) return;
+	if (element.getAttribute('aria-label') || element.getAttribute('aria-labelledby')) return;
 	warn(
 		'SV5001',
-		`<${component}> has no accessible name. Give it a label, or name it with aria-label or aria-labelledby.`
+		`<${component}> has no accessible name. Give it ${give}, or name it with aria-label or aria-labelledby.`
 	);
 }

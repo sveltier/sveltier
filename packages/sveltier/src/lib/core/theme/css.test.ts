@@ -25,6 +25,15 @@ describe('themeCss', () => {
 		expect(css).toContain(`--sv-duration-normal:${monolithLight.variables['duration-normal']}`);
 	});
 
+	it('gives each theme a scrim in its own tone: the ink over light, the background over dark', () => {
+		expect(css).toContain(
+			'[data-sv-theme="monolith-light"]{color-scheme:light;--sv-color-scrim:color-mix(in oklch,var(--sv-color-text) 38.2%,transparent)'
+		);
+		expect(css).toContain(
+			'[data-sv-theme="monolith-dark"]{color-scheme:dark;--sv-color-scrim:color-mix(in oklch,var(--sv-color-background) 61.8%,transparent)'
+		);
+	});
+
 	it('maps "system" and a bare <html> to prefers-color-scheme', () => {
 		expect(css).toContain(
 			'@media (prefers-color-scheme:dark){[data-sv-theme="system"],:root:not([data-sv-theme]){color-scheme:dark;'

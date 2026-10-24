@@ -150,6 +150,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code. The primitives it stands on (focus trap, layer stack, scroll lock, motion)
+		// are shared by every overlay and measured in their own entries.
+		name: 'Dialog',
+		code: "export { Dialog } from '@sveltier/ui';",
+		limit: '2.7 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'Divider',
 		code: "export { Divider } from '@sveltier/ui';",
 		limit: '0.6 KB',
@@ -292,6 +300,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '36 KB'
+		limit: '38 KB'
 	}
 ];
