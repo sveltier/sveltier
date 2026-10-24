@@ -210,6 +210,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code, with the growing fallback for browsers without field-sizing. The Field and
+		// the shared validation are measured in their own entries.
+		name: 'Textarea',
+		code: "export { Textarea } from 'sveltier';",
+		limit: '1.5 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		// Its own code. The Field it draws in and the validation it shares with the other form
 		// controls are measured in their own entries.
 		name: 'TextField',
@@ -235,6 +243,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '28.5 KB'
+		limit: '29 KB'
 	}
 ];

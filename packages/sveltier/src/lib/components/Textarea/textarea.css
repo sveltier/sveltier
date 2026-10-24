@@ -1,0 +1,33 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Several lines start at the top of the box, at the height a one-line field gives its text, so
+	 * a Textarea lines up with a TextField beside it. Lines are spaced for reading.
+	 */
+	.sv-textarea > .sv-field__box {
+		/* Half of what the box's height leaves around one line, inside its two borders. */
+		--sv-textarea-pad: calc(
+			(var(--sv-size-height) * var(--sv-density) - 2 * var(--sv-hairline) - 1lh) / 2
+		);
+		align-items: flex-start;
+		line-height: var(--sv-leading-normal);
+	}
+
+	.sv-textarea .sv-field__control {
+		padding-block: var(--sv-textarea-pad);
+		resize: vertical;
+	}
+
+	.sv-textarea :where(.sv-field__prepend, .sv-field__append) {
+		padding-block: var(--sv-textarea-pad);
+	}
+
+	/* Growing: at least `rows` lines, at most `maxRows`, then it scrolls. */
+	.sv-textarea--grow .sv-field__control {
+		field-sizing: content;
+		min-block-size: calc(var(--sv-textarea-rows) * 1lh + 2 * var(--sv-textarea-pad));
+		max-block-size: calc(var(--sv-textarea-max) * 1lh + 2 * var(--sv-textarea-pad));
+		resize: none;
+	}
+}

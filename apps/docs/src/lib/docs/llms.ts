@@ -19,7 +19,12 @@ import {
 	skeletonUsage,
 	tabsUsage
 } from '#lib/snippets/components.js';
-import { fieldUsage, formSvelteKit, textFieldValidation } from '#lib/snippets/forms.js';
+import {
+	fieldUsage,
+	formSvelteKit,
+	textareaUsage,
+	textFieldValidation
+} from '#lib/snippets/forms.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -83,6 +88,7 @@ const FORMS: Entry[] = [
 		types: ['TextFieldProps'],
 		example: textFieldValidation
 	},
+	{ name: 'Textarea', path: 'forms/textarea', types: ['TextareaProps'], example: textareaUsage },
 	{
 		name: 'Field',
 		path: 'forms/field',

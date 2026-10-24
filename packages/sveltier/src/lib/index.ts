@@ -188,6 +188,11 @@ export {
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
 export {
+	Textarea,
+	type TextareaDefaults,
+	type TextareaProps
+} from './components/Textarea/index.js';
+export {
 	TextField,
 	type TextFieldDefaults,
 	type TextFieldProps,

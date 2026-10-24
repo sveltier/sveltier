@@ -116,3 +116,20 @@ export const formMethods = `<script>
 <Button onclick={() => form.validate()}>Check</Button>  <!-- shows every message, returns true when valid -->
 <Button onclick={() => form.reset()}>Start over</Button>  <!-- values back to defaultValue, messages hidden -->
 <Button onclick={() => form.resetValidation()}>Hide messages</Button>`;
+
+export const textareaUsage = `<script>
+  import { Textarea } from 'sveltier';
+  let note = $state('');
+</script>
+
+<!-- Grows with its text from 2 to 8 lines, then scrolls. -->
+<Textarea
+  label="Note to the payee"
+  name="note"
+  hint="They see it on their statement"
+  maxlength={280}
+  rows={2}
+  autoGrow
+  maxRows={8}
+  bind:value={note}
+/>`;

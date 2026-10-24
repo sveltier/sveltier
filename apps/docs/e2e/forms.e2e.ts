@@ -90,3 +90,12 @@ test('a valid form submits, and the server answer shows on its field', async ({ 
 	await page.getByRole('button', { name: 'Create account' }).click();
 	await expect(page.getByText('Account created for grace@example.com.')).toBeVisible();
 });
+
+test('a textarea grows with its text', async ({ page }) => {
+	await open(page, '/forms/textarea');
+	const note = page.getByRole('textbox', { name: 'Note to the payee' });
+	const start = (await note.boundingBox())!.height;
+	await note.fill('One\nTwo\nThree\nFour');
+	await expect.poll(async () => (await note.boundingBox())!.height).toBeGreaterThan(start);
+	await expect(page.getByText('18 / 280 characters in the note.')).toBeVisible();
+});
