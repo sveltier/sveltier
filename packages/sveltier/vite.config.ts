@@ -17,10 +17,11 @@ export default defineConfig({
 				test: {
 					name: 'browser',
 					include: ['src/**/*.svelte.test.ts'],
-					// One file at a time: every file runs in an iframe of the same page, and only one
-					// frame holds focus. Files in parallel took it from each other, so focus set on
-					// mount could land nowhere (seen in Firefox in CI). It costs seconds per engine.
+					// Focus is one per page, and every file runs in an iframe of the same page. Files run
+					// one at a time so they cannot take focus from each other, and each test first gives
+					// its frame focus, which Firefox needs before focus() takes effect in it.
 					fileParallelism: false,
+					setupFiles: ['src/tests/setup-browser.ts'],
 					browser: {
 						enabled: true,
 						headless: true,
