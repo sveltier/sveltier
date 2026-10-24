@@ -33,6 +33,7 @@
 		<NativeSelect label="Repeat" name="days" options={FREQUENCIES} bind:value={days} />
 	</div>
 	<p class="docs-dim">
-		Bound values: <code>country = {country}</code>, <code>days = {days}</code> (a number)
+		Bound values: <code>country = {JSON.stringify(country)}</code>,
+		<code>days = {JSON.stringify(days)}</code>
 	</p>
 </div>

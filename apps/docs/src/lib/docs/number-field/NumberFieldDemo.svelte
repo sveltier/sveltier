@@ -30,6 +30,7 @@
 		</NumberField>
 	</div>
 	<p class="docs-dim">
-		Bound values: <code>quantity = {quantity}</code>, <code>amount = {amount}</code>
+		Bound values: <code>quantity = {JSON.stringify(quantity)}</code>,
+		<code>amount = {JSON.stringify(amount)}</code>
 	</p>
 </div>
