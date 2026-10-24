@@ -43,9 +43,12 @@ describe('RadioGroup', () => {
 
 	it('needs a choice when required, says so, and submits the chosen value', async () => {
 		await render(RadioGroupHarness, { required: true });
-		await page.getByRole('button', { name: 'Send' }).click();
-		await expect.element(shown('submitted')).toHaveTextContent('');
-		await expect.element(radio('Every day')).toHaveFocus();
+		// checkValidity() refuses the form without the browser's bubble, which in Firefox on Linux
+		// swallows the next click, even in the next test.
+		const first = radio('Every day').element() as HTMLInputElement;
+		expect(first.form?.checkValidity()).toBe(false);
+		// The first radio carries the group's message, and is the one a Form focuses.
+		expect(first.validationMessage).toBe('Required');
 		await page.getByText('Every week').click();
 		await page.getByRole('button', { name: 'Send' }).click();
 		await expect.element(shown('submitted')).toHaveTextContent('payout=7');

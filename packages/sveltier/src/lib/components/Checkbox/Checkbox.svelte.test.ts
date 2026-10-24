@@ -48,8 +48,9 @@ describe('Checkbox', () => {
 
 	it('must be checked when required, and submits its value once it is', async () => {
 		await render(CheckboxHarness, { required: true, value: 'yes' });
-		await page.getByRole('button', { name: 'Send' }).click();
-		await expect.element(shown('submitted')).toHaveTextContent('');
+		// checkValidity() refuses the form without the browser's bubble, which in Firefox on Linux
+		// swallows the next click, even in the next test.
+		expect(input().form?.checkValidity()).toBe(false);
 		expect(input().validationMessage).toBe('Required');
 		await box().click();
 		await page.getByRole('button', { name: 'Send' }).click();

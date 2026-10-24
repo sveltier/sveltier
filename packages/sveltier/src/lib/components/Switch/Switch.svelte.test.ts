@@ -56,8 +56,9 @@ describe('Switch', () => {
 		await control().click();
 		await expect.element(control()).toHaveAttribute('aria-invalid', 'true');
 		await expect.element(control()).toHaveAccessibleDescription('Required');
-		await page.getByRole('button', { name: 'Send' }).click();
-		await expect.element(shown('submitted')).toHaveTextContent('');
+		// checkValidity() refuses the form without the browser's bubble, which in Firefox on Linux
+		// swallows the next click, even in the next test.
+		expect(input().form?.checkValidity()).toBe(false);
 		await control().click();
 		await page.getByRole('button', { name: 'Send' }).click();
 		await expect.element(shown('submitted')).toHaveTextContent('biometrics=yes');
