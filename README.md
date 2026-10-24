@@ -1,51 +1,31 @@
 # Sveltier
 
-A UI framework for Svelte 5: one shared system for theme, defaults, density, variants, layout
-and locale, a wide set of components built on it, and five built-in design languages you
-switch with one line. Made to be written quickly and correctly, by developers and by AI coding
-agents.
+The UI framework for AI coding agents, on Svelte 5: one typed vocabulary across every component,
+docs generated from the types, and errors that say how to fix them. Accessible, consistent and
+polished by default, with five built-in design languages behind one theme engine.
 
-> **Status: pre-alpha.** The foundations (packaging, SSR theming, the theme engine and its five
-> themes, testing) are in place. Components come next.
+> **Status: alpha.** Install it with `npm install sveltier`. The API may still change between
+> releases.
+
+- Docs: [sveltier.com](https://sveltier.com)
+- For agents: [llms.txt](https://sveltier.com/llms.txt) and
+  [llms-full.txt](https://sveltier.com/llms-full.txt)
+- What the package offers and how to set it up: [packages/sveltier](./packages/sveltier#readme)
 
 ## Principles
 
+- **Built for agents**: props tables and `llms.txt` come from the TypeScript types, shared props
+  are literal types whose errors list the valid values, and every library error has a stable
+  code and a fix.
 - **Fast**: zero runtime dependencies, a gzip size budget on every entry checked in CI, and
   flash-free server rendering.
 - **Predictable**: Svelte 5 only (runes, snippets, callback props, `$bindable`, attachments),
-  one prop vocabulary across components, strict types, a typed theme contract, and errors
-  that say how to fix them.
+  one prop vocabulary across components, and a typed theme contract.
 - **Accessible by default**: keyboard and ARIA behaviour follow the WAI-ARIA Authoring
   Practices; every built-in theme passes WCAG contrast checks in light and dark.
 - **Overridable CSS**: plain CSS in cascade layers (`sv.tokens`, `sv.base`, `sv.components`,
   `sv.utilities`), so your own styles win without `!important`. Colours are `oklch()` custom
   properties (`--sv-*`).
-
-## Themes
-
-| Theme        | Character                                                                    |
-| ------------ | ---------------------------------------------------------------------------- |
-| **Monolith** | Quiet luxury with Swiss precision: monochrome, Geist. The one to start with. |
-| **Heritage** | Private banking, editorial: ivory, Oxford navy and brass, Instrument Serif   |
-| **Aurora**   | Modern depth, dark first: frosted panels over an iris and mint glow          |
-| **Maison**   | Parisian couture house: noir, off-white, Bordeaux, Cormorant Garamond        |
-| **Milano**   | Milanese design: cashmere, espresso, Siena terracotta, Bodoni Moda           |
-
-Each comes in light and dark and sets type, shape, depth and motion as well as colour.
-
-```svelte
-<script>
-	import { ThemeProvider } from 'sveltier';
-	import { maison } from 'sveltier/themes/maison';
-	let { children } = $props();
-</script>
-
-<ThemeProvider themes={maison}>
-	{@render children()}
-</ThemeProvider>
-```
-
-Fonts are not bundled; each theme lists its families and falls back to system fonts.
 
 ## Repository
 
