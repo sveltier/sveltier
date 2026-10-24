@@ -215,3 +215,14 @@ export const checkboxSelectAll = `<script>
     }
   />
 {/each}`;
+
+export const switchUsage = `<script>
+  import { Switch } from 'sveltier';
+  let notifications = $state(true);
+</script>
+
+<Switch
+  label="Payment notifications"
+  hint="Money in and out, as it happens"
+  bind:checked={notifications}
+/>`;

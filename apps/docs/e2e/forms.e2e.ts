@@ -142,6 +142,16 @@ test('a select-all checkbox shows a dash for part of its list and checks it all'
 	await expect(all).not.toBeChecked();
 });
 
+test('a switch is announced as one and toggles with Space', async ({ page }) => {
+	await open(page, '/forms/switch');
+	const biometrics = page.getByRole('switch', { name: 'Sign in with biometrics' });
+	await biometrics.focus();
+	await page.keyboard.press('Space');
+	await expect(biometrics).toBeChecked();
+	await expect(page.getByText('biometrics = true')).toBeVisible();
+	await expect(page.getByRole('switch', { name: 'Round up card payments' })).toBeDisabled();
+});
+
 test('a checkbox whose label holds a link is named by the whole label', async ({ page }) => {
 	await open(page, '/forms/checkbox');
 	const licence = page.getByRole('checkbox', { name: 'I accept the licence terms' });

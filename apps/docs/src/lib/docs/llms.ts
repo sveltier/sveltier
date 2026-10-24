@@ -25,6 +25,7 @@ import {
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	switchUsage,
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
@@ -105,6 +106,7 @@ const FORMS: Entry[] = [
 		example: nativeSelectUsage
 	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
+	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },
 	{
 		name: 'Field',
 		path: 'forms/field',

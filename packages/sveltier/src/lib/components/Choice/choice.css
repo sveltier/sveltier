@@ -64,12 +64,12 @@
 		--sv-on-color: var(--sv-on-error);
 	}
 
-	/* Muted at φ⁻², as a disabled Button. */
-	.sv-choice--disabled {
-		opacity: 0.382;
-	}
-
+	/*
+	 * The control and its label are muted at φ⁻², as a disabled Button. The hint stays legible:
+	 * it often says why the control is off.
+	 */
 	.sv-choice--disabled > .sv-choice__row {
+		opacity: 0.382;
 		cursor: not-allowed;
 	}
 }

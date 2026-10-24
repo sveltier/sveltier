@@ -211,6 +211,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code with the label row it shares with Checkbox; the validation is measured apart.
+		name: 'Switch',
+		code: "export { Switch } from 'sveltier';",
+		limit: '2.7 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys.
 		name: 'Tabs',
 		code: "export { Tabs } from 'sveltier';",

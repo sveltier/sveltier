@@ -1,0 +1,118 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A track as tall as a line of the label and φ times as wide, with the theme's round radius
+	 * (square in a square theme). The thumb travels the difference.
+	 */
+	.sv-switch {
+		--sv-switch-block: 1.272em;
+		--sv-switch-inline: calc(var(--sv-switch-block) * 1.618);
+		--sv-switch-pad: calc(var(--sv-switch-block) * 0.146);
+		--sv-switch-travel: calc(var(--sv-switch-inline) - var(--sv-switch-block));
+		--sv-choice-control: var(--sv-switch-inline);
+	}
+
+	/*
+	 * The native input lies over the drawn track, invisible, so focus, keys and forms stay native.
+	 * The track sits on the first line of the label.
+	 */
+	.sv-switch__control {
+		position: relative;
+		display: inline-flex;
+		flex: none;
+		margin-block-start: calc((1lh - var(--sv-switch-block)) / 2);
+	}
+
+	.sv-switch__input {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: inherit;
+	}
+
+	/* Transparent borders turn visible in forced colours, where backgrounds are dropped. */
+	.sv-switch__track {
+		position: relative;
+		box-sizing: border-box;
+		inline-size: var(--sv-switch-inline);
+		block-size: var(--sv-switch-block);
+		border: var(--sv-hairline) solid transparent;
+		border-radius: var(--sv-radius-full);
+		background-color: var(--sv-color-border-strong);
+		pointer-events: none;
+	}
+
+	/* The fill (before) fades in under the thumb; the state layer (after) sits over both. */
+	.sv-switch__track::before,
+	.sv-switch__track::after {
+		content: '';
+		position: absolute;
+		inset: calc(var(--sv-hairline) * -1);
+		border-radius: inherit;
+		opacity: 0;
+	}
+
+	.sv-switch__track::before {
+		background-color: var(--sv-color);
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-switch__track::after {
+		background-color: var(--sv-color-text);
+	}
+
+	.sv-switch__thumb {
+		position: absolute;
+		inset-block-start: calc(var(--sv-switch-pad) - var(--sv-hairline));
+		inset-inline-start: calc(var(--sv-switch-pad) - var(--sv-hairline));
+		box-sizing: border-box;
+		inline-size: calc(var(--sv-switch-block) - 2 * var(--sv-switch-pad));
+		block-size: calc(var(--sv-switch-block) - 2 * var(--sv-switch-pad));
+		border: var(--sv-hairline) solid transparent;
+		border-radius: var(--sv-radius-full);
+		background-color: var(--sv-color-surface);
+		transition: translate var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-switch__input:checked + .sv-switch__track::before {
+		opacity: 1;
+	}
+
+	.sv-switch__input:checked + .sv-switch__track::after {
+		background-color: var(--sv-on-color);
+	}
+
+	.sv-switch__input:checked + .sv-switch__track .sv-switch__thumb {
+		translate: var(--sv-switch-travel) 0;
+		background-color: var(--sv-on-color);
+	}
+
+	/* An attribute selector, as minifiers rewrite :dir() into language guesses. */
+	:where([dir='rtl']) .sv-switch__input:checked + .sv-switch__track .sv-switch__thumb {
+		translate: calc(var(--sv-switch-travel) * -1) 0;
+	}
+
+	/* Hover and press mix a layer over the track. The disabled guard adds no weight. */
+	@media (hover: hover) {
+		:where(.sv-switch:not(.sv-choice--disabled)) > .sv-choice__row:hover .sv-switch__track::after {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	:where(.sv-switch:not(.sv-choice--disabled)) > .sv-choice__row:active .sv-switch__track::after {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-switch__input:focus-visible + .sv-switch__track {
+		outline: var(--sv-focus-width) solid var(--sv-color);
+		outline-offset: var(--sv-focus-offset);
+	}
+
+	.sv-choice--invalid > .sv-choice__row .sv-switch__track {
+		background-color: var(--sv-color-error);
+	}
+}
