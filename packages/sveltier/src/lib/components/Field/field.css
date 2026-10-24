@@ -146,9 +146,11 @@
 		block-size: 1.272em;
 	}
 
+	/* Padding, not margin: an app's paragraph reset (p { margin: 0 }) would win over a layer. */
 	.sv-field__hint,
 	.sv-field__error {
-		margin: var(--sv-space-5) 0 0;
+		margin: 0;
+		padding-block-start: var(--sv-space-5);
 		font-size: var(--sv-text-xs);
 		line-height: var(--sv-leading-snug);
 	}

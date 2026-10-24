@@ -124,3 +124,76 @@ test('a native select keeps the type of its values', async ({ page }) => {
 	await country.selectOption({ label: 'Vietnam' });
 	await expect(page.getByText('country = "vn"')).toBeVisible();
 });
+
+test('a select-all checkbox shows a dash for part of its list and checks it all', async ({
+	page
+}) => {
+	await open(page, '/forms/checkbox');
+	const all = page.getByRole('checkbox', { name: 'All documents' });
+	const dashed = () => all.evaluate((input: HTMLInputElement) => input.indeterminate);
+	expect(await dashed()).toBe(true);
+	await all.click();
+	await expect(page.getByRole('checkbox', { name: 'Tax forms' })).toBeChecked();
+	await expect(
+		page.getByText('chosen = ["Statements","Tax forms","Trade confirmations"]')
+	).toBeVisible();
+	await page.getByRole('checkbox', { name: 'Statements' }).click();
+	expect(await dashed()).toBe(true);
+	await expect(all).not.toBeChecked();
+});
+
+test('a radio group keeps number values and moves the choice with the arrow keys', async ({
+	page
+}) => {
+	await open(page, '/forms/radio-group');
+	await expect(page.getByText('days = null')).toBeVisible();
+	const daily = page.getByRole('radio', { name: 'Every day' });
+	await daily.check();
+	await expect(page.getByText('days = 1')).toBeVisible();
+	await daily.press('ArrowDown');
+	await expect(page.getByRole('radio', { name: 'Every Monday' })).toBeChecked();
+	await expect(page.getByText('days = 7')).toBeVisible();
+	await expect(page.getByRole('radiogroup', { name: 'Statement format' })).toBeVisible();
+});
+
+test('a slider reads labelled ticks as words, and checks its rule when let go', async ({
+	page
+}) => {
+	await open(page, '/forms/slider');
+	const risk = page.getByRole('slider', { name: 'Risk' });
+	await expect(risk).toHaveAttribute('aria-valuetext', 'Balanced');
+	await risk.focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(risk).toHaveAttribute('aria-valuetext', 'Bold');
+	await expect(page.getByText('risk = 100')).toBeVisible();
+	const share = page.getByRole('slider', { name: 'Share in stocks' });
+	await share.focus();
+	await page.keyboard.press('End');
+	await expect(share).toHaveAttribute('aria-valuetext', '100%');
+	await expect(share).toHaveAccessibleDescription('Keep it at 80% or under');
+});
+
+test('a switch is announced as one and toggles with Space', async ({ page }) => {
+	await open(page, '/forms/switch');
+	const biometrics = page.getByRole('switch', { name: 'Sign in with biometrics' });
+	await biometrics.focus();
+	await page.keyboard.press('Space');
+	await expect(biometrics).toBeChecked();
+	await expect(page.getByText('biometrics = true')).toBeVisible();
+	await expect(page.getByRole('switch', { name: 'Round up card payments' })).toBeDisabled();
+});
+
+test('a checkbox whose label holds a link is named by the whole label', async ({ page }) => {
+	await open(page, '/forms/checkbox');
+	const licence = page.getByRole('checkbox', { name: 'I accept the licence terms' });
+	// The start of the label, away from the link, which would navigate instead.
+	await page
+		.locator('.docs-demo')
+		.getByText('I accept the')
+		.click({ position: { x: 4, y: 4 } });
+	await expect(licence).toBeChecked();
+	await expect(page.getByRole('link', { name: 'licence terms' })).toHaveAttribute(
+		'href',
+		/LICENSE$/
+	);
+});

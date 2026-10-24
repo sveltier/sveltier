@@ -1,0 +1,139 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A fieldset without the browser's frame; the rows come from the shared choice styles. */
+	.sv-radio-group {
+		--sv-radio-size: 1.272em;
+		--sv-radio-border: calc(var(--sv-hairline) * 1.5);
+		--sv-choice-control: var(--sv-radio-size);
+		min-inline-size: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	/* The question, in the theme's label voice, as a field's label. */
+	.sv-radio-group__legend {
+		margin-block-end: var(--sv-space-5);
+		padding: 0;
+		font-size: var(--sv-label-size);
+		font-weight: var(--sv-weight-medium);
+		letter-spacing: var(--sv-label-tracking);
+		text-transform: var(--sv-label-transform);
+	}
+
+	.sv-radio-group__options {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.sv-radio-group--inline > .sv-radio-group__options {
+		flex-flow: row wrap;
+		column-gap: var(--sv-space-21);
+	}
+
+	.sv-radio-group__option--disabled > .sv-choice__row {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	/*
+	 * A radio is round in every theme, square ones included, so it never passes for a checkbox.
+	 * The native input lies over the drawn circle, invisible.
+	 */
+	.sv-radio__control {
+		position: relative;
+		display: inline-flex;
+		flex: none;
+		margin-block-start: calc((1lh - var(--sv-radio-size)) / 2);
+	}
+
+	.sv-radio__input {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: inherit;
+	}
+
+	.sv-radio__circle {
+		position: relative;
+		display: grid;
+		place-items: center;
+		box-sizing: border-box;
+		inline-size: var(--sv-radio-size);
+		block-size: var(--sv-radio-size);
+		border: var(--sv-radio-border) solid var(--sv-color-border-strong);
+		border-radius: 50%;
+		background-color: var(--sv-color-surface);
+		pointer-events: none;
+	}
+
+	/* The dot (before) scales in; the state layer (after) covers the circle. */
+	.sv-radio__circle::before {
+		content: '';
+		inline-size: 50%;
+		block-size: 50%;
+		border-radius: 50%;
+		background-color: var(--sv-color);
+		transform: scale(0);
+		transition: transform var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-radio__circle::after {
+		content: '';
+		position: absolute;
+		inset: calc(var(--sv-radio-border) * -1);
+		border-radius: 50%;
+		background-color: var(--sv-color-text);
+		opacity: 0;
+	}
+
+	.sv-radio__input:checked + .sv-radio__circle {
+		border-color: var(--sv-color);
+	}
+
+	.sv-radio__input:checked + .sv-radio__circle::before {
+		transform: none;
+	}
+
+	/* Hover and press mix a layer over the circle. The disabled guard adds no weight. */
+	@media (hover: hover) {
+		:where(.sv-radio-group__option:not(.sv-radio-group__option--disabled))
+			> .sv-choice__row:hover
+			.sv-radio__circle {
+			border-color: var(--sv-color-text-muted);
+		}
+
+		:where(.sv-radio-group__option:not(.sv-radio-group__option--disabled))
+			> .sv-choice__row:hover
+			.sv-radio__circle::after {
+			opacity: var(--sv-state-hover);
+		}
+
+		:where(.sv-radio-group__option:not(.sv-radio-group__option--disabled))
+			> .sv-choice__row:hover
+			.sv-radio__input:checked
+			+ .sv-radio__circle {
+			border-color: var(--sv-color);
+		}
+	}
+
+	:where(.sv-radio-group__option:not(.sv-radio-group__option--disabled))
+		> .sv-choice__row:active
+		.sv-radio__circle::after {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-radio__input:focus-visible + .sv-radio__circle {
+		outline: var(--sv-focus-width) solid var(--sv-color);
+		outline-offset: var(--sv-focus-offset);
+	}
+
+	.sv-choice--invalid .sv-choice__row .sv-radio__circle {
+		border-color: var(--sv-color-error);
+	}
+}

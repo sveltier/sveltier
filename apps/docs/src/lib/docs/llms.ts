@@ -20,10 +20,14 @@ import {
 	tabsUsage
 } from '#lib/snippets/components.js';
 import {
+	checkboxUsage,
 	fieldUsage,
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	radioGroupUsage,
+	sliderUsage,
+	switchUsage,
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
@@ -102,6 +106,20 @@ const FORMS: Entry[] = [
 		path: 'forms/native-select',
 		types: ['NativeSelectProps'],
 		example: nativeSelectUsage
+	},
+	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
+	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },
+	{
+		name: 'RadioGroup',
+		path: 'forms/radio-group',
+		types: ['RadioGroupProps', 'RadioGroupOption'],
+		example: radioGroupUsage
+	},
+	{
+		name: 'Slider',
+		path: 'forms/slider',
+		types: ['SliderProps', 'SliderTick'],
+		example: sliderUsage
 	},
 	{
 		name: 'Field',

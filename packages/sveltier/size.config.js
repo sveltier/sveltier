@@ -135,6 +135,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code with the label row it shares with Switch: the label, hint and error beside
+		// the control. The validation it shares with the other form controls is measured apart.
+		name: 'Checkbox',
+		code: "export { Checkbox } from 'sveltier';",
+		limit: '2.85 KB',
+		external: [/\/core\//]
+	},
+	{
 		// A tag, a toggle, an action and a link in one, with a close button and its own state layer.
 		name: 'Chip',
 		code: "export { Chip } from 'sveltier';",
@@ -190,6 +198,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code with the row styles it shares with Checkbox and Switch; the arrow keys are
+		// the platform's. The validation is measured apart.
+		name: 'RadioGroup',
+		code: "export { RadioGroup } from 'sveltier';",
+		limit: '2.9 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Includes rovingFocus, which gives it one tab stop and arrow keys.
 		name: 'SegmentedControl',
 		code: "export { SegmentedControl } from 'sveltier';",
@@ -200,6 +216,21 @@ export default [
 		name: 'Skeleton',
 		code: "export { Skeleton } from 'sveltier';",
 		limit: '1.2 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Its own code: the label row with the value, the range styled for both engine families and
+		// the ticks. The validation is measured apart.
+		name: 'Slider',
+		code: "export { Slider } from 'sveltier';",
+		limit: '3 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Its own code with the label row it shares with Checkbox; the validation is measured apart.
+		name: 'Switch',
+		code: "export { Switch } from 'sveltier';",
+		limit: '2.7 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -261,6 +292,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '32 KB'
+		limit: '36 KB'
 	}
 ];

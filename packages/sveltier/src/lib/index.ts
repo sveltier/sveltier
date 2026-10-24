@@ -151,6 +151,11 @@ export {
 	type ButtonGroupProps
 } from './components/ButtonGroup/index.js';
 export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
+export {
+	Checkbox,
+	type CheckboxDefaults,
+	type CheckboxProps
+} from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {
@@ -191,12 +196,25 @@ export {
 	type ProgressLinearProps
 } from './components/Progress/index.js';
 export {
+	RadioGroup,
+	type RadioGroupDefaults,
+	type RadioGroupOption,
+	type RadioGroupProps
+} from './components/RadioGroup/index.js';
+export {
 	SegmentedControl,
 	type SegmentedControlDefaults,
 	type SegmentedControlOption,
 	type SegmentedControlProps
 } from './components/SegmentedControl/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
+export {
+	Slider,
+	type SliderDefaults,
+	type SliderProps,
+	type SliderTick
+} from './components/Slider/index.js';
+export { Switch, type SwitchDefaults, type SwitchProps } from './components/Switch/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
 export {
 	Textarea,

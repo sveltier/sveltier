@@ -1,6 +1,7 @@
 import { afterAll, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
+import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
 import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
 
@@ -37,5 +38,12 @@ describe('development checks in components', () => {
 		expect(logged()).not.toContain('SV5001');
 		await render(TextFieldHarness, { label: undefined });
 		await expect.poll(logged).toContain('[sveltier SV5001] <TextField> has no accessible name.');
+	});
+
+	it('warn about a checkbox whose label holds no text, though the label element is there', async () => {
+		await render(CheckboxHarness);
+		expect(logged()).not.toContain('<Checkbox> has no accessible name');
+		await render(CheckboxHarness, { label: undefined });
+		await expect.poll(logged).toContain('[sveltier SV5001] <Checkbox> has no accessible name.');
 	});
 });

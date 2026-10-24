@@ -1,0 +1,75 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A control beside its label, with a hint or an error under them. The row is the label, so a
+	 * press anywhere on it toggles the control. It is at least 24px tall (WCAG 2.5.8) and grows
+	 * with the size and density. The control sets --sv-choice-control to its width, so the
+	 * messages line up with the label text.
+	 */
+	.sv-choice {
+		--sv-choice-gap: 0.618em;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		min-inline-size: 0;
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-size-text);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-choice__row {
+		display: inline-flex;
+		gap: var(--sv-choice-gap);
+		align-items: flex-start;
+		max-inline-size: 100%;
+		padding-block: max(
+			0px,
+			(max(1.5rem, var(--sv-size-height) * var(--sv-density) * 0.618) - 1lh) / 2
+		);
+		cursor: pointer;
+	}
+
+	.sv-choice__label {
+		min-inline-size: 0;
+	}
+
+	.sv-choice__required {
+		margin-inline-start: 0.236em;
+		color: var(--sv-color-error);
+	}
+
+	.sv-choice__messages {
+		padding-inline-start: calc(var(--sv-choice-control) + var(--sv-choice-gap));
+	}
+
+	.sv-choice__hint,
+	.sv-choice__error {
+		margin: 0;
+		font-size: var(--sv-text-xs);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-choice__hint {
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-choice__error {
+		color: var(--sv-color-error);
+	}
+
+	.sv-choice--invalid {
+		--sv-color: var(--sv-color-error);
+		--sv-on-color: var(--sv-on-error);
+	}
+
+	/*
+	 * The control and its label are muted at φ⁻², as a disabled Button. The hint stays legible:
+	 * it often says why the control is off.
+	 */
+	.sv-choice--disabled > .sv-choice__row {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+}

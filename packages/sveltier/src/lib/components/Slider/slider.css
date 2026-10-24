@@ -1,0 +1,206 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A label row with the value at its end, the platform's range input, ticks and a hint or an
+	 * error. The thumb is φ⁻¹·⁵ of the control height and the track a quarter of the thumb. The
+	 * filled part ends under the thumb's centre, which travels the track less one thumb.
+	 */
+	.sv-slider {
+		--sv-slider-thumb: calc(var(--sv-size-height) * 0.472);
+		--sv-slider-track: calc(var(--sv-slider-thumb) * 0.236);
+		--sv-slider-fill: calc(
+			var(--sv-slider-thumb) / 2 + var(--sv-slider-fraction) * (100% - var(--sv-slider-thumb))
+		);
+		display: flex;
+		flex-direction: column;
+		min-inline-size: 0;
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-size-text);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-slider--invalid {
+		--sv-color: var(--sv-color-error);
+	}
+
+	.sv-slider__header {
+		display: flex;
+		gap: var(--sv-space-8);
+		align-items: baseline;
+		justify-content: space-between;
+	}
+
+	/* The theme's label voice, as a field's label. */
+	.sv-slider__label {
+		font-size: var(--sv-label-size);
+		font-weight: var(--sv-weight-medium);
+		letter-spacing: var(--sv-label-tracking);
+		text-transform: var(--sv-label-transform);
+	}
+
+	.sv-slider__value {
+		font-weight: var(--sv-weight-medium);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* The input is the press target, at least 24px tall. */
+	.sv-slider__input {
+		box-sizing: border-box;
+		inline-size: 100%;
+		block-size: max(1.5rem, var(--sv-size-height) * var(--sv-density) * 0.618);
+		margin: 0;
+		padding: 0;
+		border-radius: var(--sv-radius-sm);
+		background: transparent;
+		cursor: pointer;
+		appearance: none;
+	}
+
+	.sv-slider__input:focus-visible {
+		outline-color: var(--sv-color);
+	}
+
+	.sv-slider__input:disabled {
+		cursor: not-allowed;
+	}
+
+	/* Chromium and Safari: the filled part is a gradient on the track. */
+	.sv-slider__input::-webkit-slider-runnable-track {
+		block-size: var(--sv-slider-track);
+		border-radius: var(--sv-radius-full);
+		background: linear-gradient(
+			to right,
+			var(--sv-color) var(--sv-slider-fill),
+			var(--sv-color-border-strong) var(--sv-slider-fill)
+		);
+	}
+
+	/* An attribute selector, as minifiers rewrite :dir() into language guesses. */
+	:where([dir='rtl']) .sv-slider__input::-webkit-slider-runnable-track {
+		background: linear-gradient(
+			to left,
+			var(--sv-color) var(--sv-slider-fill),
+			var(--sv-color-border-strong) var(--sv-slider-fill)
+		);
+	}
+
+	.sv-slider__input::-webkit-slider-thumb {
+		box-sizing: border-box;
+		inline-size: var(--sv-slider-thumb);
+		block-size: var(--sv-slider-thumb);
+		margin-block-start: calc((var(--sv-slider-track) - var(--sv-slider-thumb)) / 2);
+		border: calc(var(--sv-hairline) * 2) solid var(--sv-color);
+		border-radius: var(--sv-radius-full);
+		background: var(--sv-color-surface);
+		appearance: none;
+	}
+
+	/* Firefox draws the filled part itself. */
+	.sv-slider__input::-moz-range-track {
+		block-size: var(--sv-slider-track);
+		border-radius: var(--sv-radius-full);
+		background: var(--sv-color-border-strong);
+	}
+
+	.sv-slider__input::-moz-range-progress {
+		block-size: var(--sv-slider-track);
+		border-radius: var(--sv-radius-full);
+		background: var(--sv-color);
+	}
+
+	.sv-slider__input::-moz-range-thumb {
+		box-sizing: border-box;
+		inline-size: var(--sv-slider-thumb);
+		block-size: var(--sv-slider-thumb);
+		border: calc(var(--sv-hairline) * 2) solid var(--sv-color);
+		border-radius: var(--sv-radius-full);
+		background: var(--sv-color-surface);
+	}
+
+	/* Hover and press: a halo in the accent around the thumb. */
+	@media (hover: hover) {
+		.sv-slider__input:enabled:hover::-webkit-slider-thumb {
+			box-shadow: 0 0 0 calc(var(--sv-slider-thumb) * 0.382)
+				color-mix(in oklch, var(--sv-color) var(--sv-state-hover), transparent);
+		}
+
+		.sv-slider__input:enabled:hover::-moz-range-thumb {
+			box-shadow: 0 0 0 calc(var(--sv-slider-thumb) * 0.382)
+				color-mix(in oklch, var(--sv-color) var(--sv-state-hover), transparent);
+		}
+	}
+
+	.sv-slider__input:enabled:active::-webkit-slider-thumb {
+		box-shadow: 0 0 0 calc(var(--sv-slider-thumb) * 0.382)
+			color-mix(in oklch, var(--sv-color) var(--sv-state-press), transparent);
+	}
+
+	.sv-slider__input:enabled:active::-moz-range-thumb {
+		box-shadow: 0 0 0 calc(var(--sv-slider-thumb) * 0.382)
+			color-mix(in oklch, var(--sv-color) var(--sv-state-press), transparent);
+	}
+
+	/*
+	 * Ticks share one grid cell, each pushed along by the same distance as the thumb's centre.
+	 * They are as wide as nothing, so a label centres on its tick; the end labels lean inwards.
+	 */
+	.sv-slider__ticks {
+		display: grid;
+	}
+
+	.sv-slider__tick {
+		display: flex;
+		flex-direction: column;
+		grid-area: 1 / 1;
+		align-items: center;
+		inline-size: 0;
+		margin-inline-start: calc(
+			var(--sv-slider-thumb) / 2 + var(--sv-slider-at) * (100% - var(--sv-slider-thumb))
+		);
+	}
+
+	.sv-slider__tick--start {
+		align-items: flex-start;
+	}
+
+	.sv-slider__tick--end {
+		align-items: flex-end;
+	}
+
+	.sv-slider__tick::before {
+		content: '';
+		inline-size: var(--sv-hairline);
+		block-size: 0.382em;
+		background-color: var(--sv-color-border-strong);
+	}
+
+	.sv-slider__tick-label {
+		margin-block-start: var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+		white-space: nowrap;
+	}
+
+	/* Padding, not margin: an app's paragraph reset (p { margin: 0 }) would win over a layer. */
+	.sv-slider__hint,
+	.sv-slider__error {
+		margin: 0;
+		padding-block-start: var(--sv-space-5);
+		font-size: var(--sv-text-xs);
+	}
+
+	.sv-slider__hint {
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-slider__error {
+		color: var(--sv-color-error);
+	}
+
+	/* The hint stays legible when the slider is off: it often says why. */
+	.sv-slider--disabled > :is(.sv-slider__header, .sv-slider__input, .sv-slider__ticks) {
+		opacity: 0.382;
+	}
+}

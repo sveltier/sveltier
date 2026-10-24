@@ -38,12 +38,14 @@ export function checkValue(
 	);
 }
 
-/** Warns when a form control has no accessible name. */
+/** Warns when a form control has no accessible name: no label with text, and no ARIA name. */
 export function warnUnnamed(
 	component: string,
 	control: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null | undefined
 ): void {
-	if (!control || control.labels?.length) return;
+	if (!control) return;
+	// A label that wraps the control but holds no text names nothing.
+	if ([...(control.labels ?? [])].some((label) => label.textContent?.trim())) return;
 	if (control.getAttribute('aria-label') || control.getAttribute('aria-labelledby')) return;
 	warn(
 		'SV5001',

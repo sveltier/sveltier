@@ -171,3 +171,104 @@ export const nativeSelectUsage = `<script>
   ]}
   bind:value={country}
 />`;
+
+export const checkboxUsage = `<script>
+  import { Checkbox } from 'sveltier';
+  let receipt = $state(true);
+  let accepted = $state(false);
+</script>
+
+<Checkbox
+  label="Email me a receipt"
+  name="receipt"
+  hint="Sent after every transfer"
+  bind:checked={receipt}
+/>
+
+<!-- A label with a link in it is a snippet. -->
+<Checkbox name="licence" required bind:checked={accepted}>
+  {#snippet label()}
+    I accept the <a href="/licence">licence terms</a>
+  {/snippet}
+</Checkbox>`;
+
+export const checkboxSelectAll = `<script>
+  import { Checkbox } from 'sveltier';
+
+  const DOCUMENTS = ['Statements', 'Tax forms', 'Trade confirmations'];
+  let chosen = $state(['Statements']);
+  const all = $derived(chosen.length === DOCUMENTS.length);
+</script>
+
+<!-- Checked when every document is, a dash when only some are. -->
+<Checkbox
+  label="All documents"
+  bind:checked={() => all, (on) => (chosen = on ? [...DOCUMENTS] : [])}
+  indeterminate={chosen.length > 0 && !all}
+/>
+{#each DOCUMENTS as document (document)}
+  <Checkbox
+    label={document}
+    bind:checked={
+      () => chosen.includes(document),
+      (on) => (chosen = on ? [...chosen, document] : chosen.filter((d) => d !== document))
+    }
+  />
+{/each}`;
+
+export const radioGroupUsage = `<script>
+  import { RadioGroup } from 'sveltier';
+  let days = $state(null);
+</script>
+
+<RadioGroup
+  label="Pay out"
+  name="payout"
+  required
+  options={[
+    { value: 1, label: 'Every day' },
+    { value: 7, label: 'Every Monday', hint: 'Fewer, larger transfers' },
+    { value: 30, label: 'On the first of the month', disabled: true }
+  ]}
+  bind:value={days}
+/>`;
+
+export const sliderUsage = `<script>
+  import { Slider } from 'sveltier';
+  let risk = $state(50);
+  let share = $state(40);
+</script>
+
+<!-- On a labelled tick, the slider reads out the tick's label. -->
+<Slider
+  label="Risk"
+  name="risk"
+  step={50}
+  ticks={[
+    { value: 0, label: 'Careful' },
+    { value: 50, label: 'Balanced' },
+    { value: 100, label: 'Bold' }
+  ]}
+  bind:value={risk}
+/>
+
+<Slider
+  label="Share in stocks"
+  name="share"
+  step={10}
+  ticks
+  format={(value) => \`\${value}%\`}
+  rules={[(value) => value <= 80 || 'Keep it at 80% or under']}
+  bind:value={share}
+/>`;
+
+export const switchUsage = `<script>
+  import { Switch } from 'sveltier';
+  let notifications = $state(true);
+</script>
+
+<Switch
+  label="Payment notifications"
+  hint="Money in and out, as it happens"
+  bind:checked={notifications}
+/>`;
