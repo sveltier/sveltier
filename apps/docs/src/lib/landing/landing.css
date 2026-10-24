@@ -41,12 +41,17 @@
 	pointer-events: none;
 }
 
+/*
+ * Still, on purpose. Animating each lane gave every one of them its own compositing layer, about
+ * twenty nearly the size of the screen, and the hero fell to some ten frames a second.
+ */
 .hero__art .brand-stripes {
 	position: absolute;
 	inset-block-start: -8%;
 	inset-inline-end: -22%;
 	inline-size: max(56rem, 96%);
 	block-size: auto;
+	opacity: 0.75;
 }
 
 .hero__art::after {
@@ -66,8 +71,6 @@
 	stroke-width: 5;
 	stroke-linecap: round;
 	stroke: var(--brand-orange);
-	animation: lane-glow 6.18s var(--sv-ease) infinite;
-	animation-delay: calc(var(--lane) * -0.377s);
 }
 
 .brand-stripes__lane:nth-child(4n + 2) {
@@ -80,16 +83,6 @@
 
 .brand-stripes__lane:nth-child(4n) {
 	stroke: oklch(0.3 0.08 40);
-}
-
-@keyframes lane-glow {
-	0%,
-	100% {
-		opacity: 0.5;
-	}
-	50% {
-		opacity: 1;
-	}
 }
 
 .hero__inner {
@@ -207,9 +200,8 @@
 	padding: var(--sv-space-13);
 	border: var(--sv-hairline) solid color-mix(in oklch, var(--brand-paper) 14%, transparent);
 	border-radius: 1.3125rem;
-	background-color: oklch(0.24 0.014 60 / 0.88);
-	-webkit-backdrop-filter: blur(13px);
-	backdrop-filter: blur(13px);
+	/* Nearly opaque instead of a backdrop blur, which was redrawn on every frame of a scroll. */
+	background-color: oklch(0.24 0.014 60 / 0.94);
 	box-shadow: 0 34px 89px -21px oklch(0 0 0 / 0.6);
 }
 
@@ -288,8 +280,10 @@
 	animation: caret-blink 1s steps(1) infinite;
 }
 
+/* Hidden animations stop, so a finished replay leaves the hero still. */
 .replay__caret.is-done {
 	visibility: hidden;
+	animation: none;
 }
 
 @keyframes caret-blink {
@@ -473,6 +467,10 @@
 	opacity: 0;
 }
 
+.replay__band.is-out::after {
+	animation: none;
+}
+
 /* Measured: each band covers one block of the preview. */
 .replay__bands.is-measured {
 	display: block;
@@ -559,7 +557,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.brand-stripes__lane,
 	.replay__caret,
 	.replay__band::after {
 		animation: none;

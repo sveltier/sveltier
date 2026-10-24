@@ -51,6 +51,27 @@ test.describe('the agent replay', () => {
 			replay.locator('.replay__frame').getByRole('heading', { name: 'Production' })
 		).toBeVisible();
 	});
+
+	// An endless animation keeps the browser redrawing the hero, which made scrolling past it slow.
+	test('leaves the hero still once it has played', async ({ page }) => {
+		await page.goto('/');
+		// Once hydrated, the replay starts over; every step is done when it ends.
+		const replay = page.locator('.replay[data-live]');
+		await expect(replay).toBeVisible();
+		await expect(replay.locator('.replay__step[data-state="done"]')).toHaveCount(4, {
+			timeout: 15_000
+		});
+		const running = await page.evaluate(() => {
+			const hero = document.querySelector('.hero');
+			return document
+				.getAnimations()
+				.filter((animation) => animation.playState === 'running')
+				.map((animation) => (animation.effect as KeyframeEffect | null)?.target)
+				.filter((target) => target && hero?.contains(target))
+				.map((target) => target!.getAttribute('class'));
+		});
+		expect(running).toEqual([]);
+	});
 });
 
 test('reduced motion shows the finished replay at once', async ({ page }) => {

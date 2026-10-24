@@ -8,7 +8,7 @@
 <svg class="brand-stripes" viewBox="-760 -560 1520 1120" aria-hidden="true" focusable="false">
 	<g transform="skewX(-10)">
 		{#each LANES as d, index (index)}
-			<path {d} class="brand-stripes__lane" style:--lane={index} />
+			<path {d} class="brand-stripes__lane" />
 		{/each}
 	</g>
 </svg>
