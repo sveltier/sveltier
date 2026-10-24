@@ -221,10 +221,11 @@ export default [
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
 		// the engine, the shared props CSS, locale, the primitives, the components, the form
-		// fields and the bundler's dynamic import helper. It grows with every module by design.
+		// fields, the error registry (about 1.3 KB of text, which apps only load if they import
+		// it) and the bundler's dynamic import helper. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '26 KB'
+		limit: '28 KB'
 	}
 ];

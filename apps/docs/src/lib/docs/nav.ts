@@ -107,7 +107,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'useDefaults', path: 'api/use-defaults' },
 			{ title: 'sharedClasses', path: 'api/shared-classes' },
 			{ title: 'useDisplay', path: 'api/use-display' },
-			{ title: 'useLocale', path: 'api/use-locale' }
+			{ title: 'useLocale', path: 'api/use-locale' },
+			{ title: 'Errors', path: 'errors' }
 		]
 	}
 ];

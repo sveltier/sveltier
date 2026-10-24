@@ -21,6 +21,6 @@ describe('Chip on the server', () => {
 	it('says what is wrong with a closable button', () => {
 		expect(
 			() => render(Chip, { props: { closable: true, href: '/eur', children: label } }).body
-		).toThrow('[sveltier] Chip: a closable chip cannot also be a button or a link.');
+		).toThrow('[sveltier SV4001] Chip: a closable chip cannot also be a button or a link');
 	});
 });

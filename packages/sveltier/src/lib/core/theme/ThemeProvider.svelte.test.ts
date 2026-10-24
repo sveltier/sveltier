@@ -21,7 +21,7 @@ afterEach(() => vi.restoreAllMocks());
 describe('root ThemeProvider', () => {
 	it('requires themes and says what to pass', async () => {
 		await expect(render(BareThemeProvider)).rejects.toThrow(
-			/needs themes, for example themes={monolith}/
+			/SV1001\] The root <ThemeProvider> has no themes/
 		);
 	});
 
@@ -130,6 +130,8 @@ describe('nested ThemeProvider', () => {
 
 describe('useTheme', () => {
 	it('throws a helpful error outside a provider', async () => {
-		await expect(render(ThemeProbe)).rejects.toThrow(/inside a <ThemeProvider>/);
+		await expect(render(ThemeProbe)).rejects.toThrow(
+			/SV1007\] useTheme\(\) was called outside a <ThemeProvider>/
+		);
 	});
 });

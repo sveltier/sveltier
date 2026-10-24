@@ -44,7 +44,7 @@ describe('display on the server', () => {
 
 	it('rejects thresholds that do not increase', () => {
 		expect(() => createDisplay({ thresholds: { md: 500 } })).toThrow(
-			'[sveltier] Display thresholds must increase from sm to xxl.'
+			'[sveltier SV2001] Display thresholds must increase from sm to xxl; got 600, 500, 1280, 1920, 2560.'
 		);
 	});
 

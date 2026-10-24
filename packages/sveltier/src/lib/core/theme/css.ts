@@ -1,3 +1,5 @@
+import type { ErrorCode } from '../errors/codes.js';
+import { sveltierError } from '../errors/errors.js';
 import type { ThemeChoice, ThemeDefinition } from './types.js';
 
 export const THEME_ATTRIBUTE = 'data-sv-theme';
@@ -7,21 +9,29 @@ const KEY = /^[a-z][\w-]*$/i;
 const UNSAFE = /[<>{};]/;
 const NONCE = /^[\w+/=-]+$/;
 
-function check(ok: unknown, message: string): asserts ok {
-	if (!ok) throw new Error(`[sveltier] ${message}`);
+function check(ok: unknown, code: ErrorCode, message: string): asserts ok {
+	if (!ok) throw sveltierError(code, message);
 }
 
 /** `{color-scheme:…;--sv-color-x:…;--sv-on-x:…;--sv-var:…}` for one theme. */
-function block(theme: ThemeDefinition | undefined, name: string): string {
-	check(theme, `unknown theme "${name}"`);
+function block(theme: ThemeDefinition | undefined, name: string, registered: string): string {
+	check(theme, 'SV1002', `Unknown theme "${name}". Registered: ${registered}.`);
 	let out = `color-scheme:${theme.dark ? 'dark' : 'light'}`;
 	const entries = [
 		...Object.entries(theme.colors).map(([k, v]) => [k.startsWith('on-') ? k : `color-${k}`, v]),
 		...Object.entries(theme.variables)
 	];
 	for (const [key, value] of entries) {
-		check(KEY.test(key), `invalid colour or variable name "${key}"`);
-		check(!UNSAFE.test(String(value)), `unsafe value for "${key}"`);
+		check(
+			KEY.test(key),
+			'SV1003',
+			`Invalid colour or variable name "${key}". Use letters, digits, - and _, starting with a letter.`
+		);
+		check(
+			!UNSAFE.test(String(value)),
+			'SV1004',
+			`Unsafe value for "${key}": it contains <, >, {, } or ;. Use a plain CSS value.`
+		);
 		out += `;--sv-${key}:${value}`;
 	}
 	return `{${out}}`;
@@ -48,15 +58,20 @@ export function themeCss({ themes, light, dark, fallback }: ThemeCssOptions): st
 	const bare = `:root:not([${THEME_ATTRIBUTE}])`;
 	const system = attr('system') + (fallback === 'system' ? `,${bare}` : '');
 	const colors = new Set<string>();
+	const registered = Object.keys(themes).join(', ');
 	let css = '';
 	for (const [name, theme] of Object.entries(themes)) {
-		check(NAME.test(name), `invalid theme name "${name}"`);
-		css += attr(name) + block(theme, name);
+		check(
+			NAME.test(name),
+			'SV1005',
+			`Invalid theme name "${name}". Use letters, digits, - and _, starting with a letter; "system" is reserved.`
+		);
+		css += attr(name) + block(theme, name, registered);
 		for (const key in theme.colors) if (key.startsWith('on-')) colors.add(key.slice(3));
 	}
-	css += `@media (prefers-color-scheme:light){${system}${block(themes[light], light)}}`;
-	css += `@media (prefers-color-scheme:dark){${system}${block(themes[dark], dark)}}`;
-	if (fallback !== 'system') css += bare + block(themes[fallback], fallback);
+	css += `@media (prefers-color-scheme:light){${system}${block(themes[light], light, registered)}}`;
+	css += `@media (prefers-color-scheme:dark){${system}${block(themes[dark], dark, registered)}}`;
+	if (fallback !== 'system') css += bare + block(themes[fallback], fallback, registered);
 	let classes = '';
 	for (const color of colors) {
 		classes += `.sv-color-${color}{--sv-color:var(--sv-color-${color});--sv-on-color:var(--sv-on-${color})}`;
@@ -75,7 +90,11 @@ export function themeScript(storageKey: string, choices: string[]): string {
 
 /** Markup for `<svelte:head>`: the theme stylesheet, then the optional script. */
 export function themeHead(css: string, script: string, nonce?: string): string {
-	check(nonce === undefined || NONCE.test(nonce), 'invalid nonce');
+	check(
+		nonce === undefined || NONCE.test(nonce),
+		'SV1006',
+		'Invalid nonce. Pass the base64 nonce of your Content Security Policy as it is.'
+	);
 	const attr = nonce ? ` nonce="${nonce}"` : '';
 	return `<style id="sv-theme"${attr}>${css}</style>${script && `<script${attr}>${script}</script>`}`;
 }

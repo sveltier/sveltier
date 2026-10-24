@@ -84,6 +84,6 @@ describe('Chip', () => {
 	it('refuses to be closable and a button at once', async () => {
 		await expect(async () => {
 			await render(ChipHarness, { closable: true, onclick: () => {} });
-		}).rejects.toThrow('[sveltier] Chip: a closable chip cannot also be a button or a link.');
+		}).rejects.toThrow('[sveltier SV4001] Chip: a closable chip cannot also be a button or a link');
 	});
 });

@@ -79,6 +79,9 @@ export {
 	type Messages
 } from './core/locale/locale.js';
 
+// Errors
+export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/codes.js';
+
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';

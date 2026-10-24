@@ -56,11 +56,11 @@ describe('virtualList on the server', () => {
 	it('says what to fix when the item size cannot work', () => {
 		const list = virtualList(() => ({ count: 4, itemSize: 0 }));
 		expect(() => list.items).toThrow(
-			'[sveltier] virtualList: itemSize must be a positive number of px.'
+			'[sveltier SV3002] virtualList: itemSize must be a positive number of px; got 0.'
 		);
 		const estimated = virtualList(() => ({ count: 4, itemSize: () => Number.NaN }));
 		expect(() => estimated.items).toThrow(
-			'[sveltier] virtualList: itemSize must return a positive number of px.'
+			'[sveltier SV3002] virtualList: itemSize(0) returned NaN; it must return a positive number of px.'
 		);
 	});
 });

@@ -1394,3 +1394,21 @@ a {
 	letter-spacing: var(--sv-tracking-display);
 	text-wrap: balance;
 }
+
+/* Errors page */
+
+.docs-error-sample {
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border-soft);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.docs-error-code {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--sv-space-8);
+}

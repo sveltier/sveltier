@@ -1,6 +1,7 @@
 // The docs for AI agents: llms.txt (an index) and llms-full.txt (the reference), in the
 // llms.txt format. Built on the server from the same sources as the pages: the navigation,
 // the code samples, and the API tables and descriptions generated from the package's types.
+import { ERROR_CODES } from 'sveltier';
 import { descriptions, tables } from 'virtual:sveltier-api';
 import {
 	alertUsage,
@@ -206,6 +207,14 @@ export function llmsFull(link: (path: string) => string): string {
 		'',
 		'Behaviour for your own components: attachments (`{@attach focusTrap()}`) and helpers.',
 		'',
-		...PRIMITIVES.flatMap((entry) => [section(entry, link), ''])
+		...PRIMITIVES.flatMap((entry) => [section(entry, link), '']),
+		'## Errors',
+		'',
+		`Thrown messages start with \`[sveltier SVxxxx]\`, say what to do, and link to ${link('errors')}.`,
+		'',
+		...Object.entries(ERROR_CODES).map(
+			([code, entry]) => `- \`${code}\` ${entry.title}. ${entry.cause} Fix: ${entry.fix}`
+		),
+		''
 	].join('\n');
 }
