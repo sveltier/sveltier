@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A panel that keeps focus while it is open, and gives it back when it closes.
-	import { focusTrap } from 'sveltier';
+	import { focusTrap } from '@sveltier/ui';
 
 	let open = $state(false);
 	let opener = $state<HTMLButtonElement>();

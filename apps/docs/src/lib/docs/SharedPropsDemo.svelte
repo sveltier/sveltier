@@ -10,7 +10,7 @@
 		type Density,
 		type Rounded,
 		type Size
-	} from 'sveltier';
+	} from '@sveltier/ui';
 	import Segmented from '../Segmented.svelte';
 
 	const COLORS: Color[] = [...INTENT_COLORS, 'neutral'];

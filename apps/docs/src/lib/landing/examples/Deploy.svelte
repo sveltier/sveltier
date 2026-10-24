@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { Alert, Button, Card, Chip, Icon, List, ListItem, ProgressLinear, Tabs } from 'sveltier';
+	import {
+		Alert,
+		Button,
+		Card,
+		Chip,
+		Icon,
+		List,
+		ListItem,
+		ProgressLinear,
+		Tabs
+	} from '@sveltier/ui';
 
 	const CHECK = 'M3.5 12.6 5.3 10.8l4.1 4.1 9.3-9.3 1.8 1.8L9.4 18.5z';
 	const tabs = [

@@ -2,7 +2,7 @@
 	// How Sveltier meets the way coding agents work: they find what they need in the package,
 	// get it right the first time through types, fix themselves from coded errors, and get
 	// keyboard and ARIA behaviour without being asked.
-	import { Alert, Avatar, Button, Chip, SegmentedControl, Tabs, type Variant } from 'sveltier';
+	import { Alert, Avatar, Button, Chip, SegmentedControl, Tabs, type Variant } from '@sveltier/ui';
 	import BUTTON_PROPS from 'virtual:sveltier-api/ButtonProps';
 
 	const VARIANTS = (['elevated', 'flat', 'tonal', 'outlined', 'text'] as const).map((value) => ({

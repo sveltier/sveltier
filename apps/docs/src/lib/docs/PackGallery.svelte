@@ -1,7 +1,7 @@
 <script lang="ts">
 	// The five packs as nested ThemeProviders, each able to theme the whole site.
 	import { resolve } from '$app/paths';
-	import { ThemeProvider, useTheme } from 'sveltier';
+	import { ThemeProvider, useTheme } from '@sveltier/ui';
 	import { PACKS } from '../site.js';
 
 	// Captured here, under the root provider; inside a tile useTheme() would see the tile.

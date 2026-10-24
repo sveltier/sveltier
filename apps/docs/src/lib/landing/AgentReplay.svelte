@@ -3,7 +3,7 @@
 	// by, the source streams in and the real component appears behind fading skeleton bands.
 	// Server-rendered finished; with motion allowed, CSS shows the start state until hydration.
 	import { onMount } from 'svelte';
-	import { Button, Icon, ProgressCircular, SegmentedControl, ThemeProvider } from 'sveltier';
+	import { Button, Icon, ProgressCircular, SegmentedControl, ThemeProvider } from '@sveltier/ui';
 	import type { Mode } from '../site.js';
 	import { EXAMPLES, type ExampleId } from './examples/index.js';
 	import { highlight } from './highlight.js';

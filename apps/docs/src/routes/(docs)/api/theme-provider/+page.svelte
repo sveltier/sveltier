@@ -15,7 +15,7 @@
 	<Code
 		title="Import"
 		lang="ts"
-		code={"import { ThemeProvider, type ThemeProviderProps } from 'sveltier';"}
+		code={"import { ThemeProvider, type ThemeProviderProps } from '@sveltier/ui';"}
 	/>
 
 	<h2 id="props">Props</h2>

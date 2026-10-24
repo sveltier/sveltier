@@ -30,7 +30,7 @@ test.describe('the agent replay', () => {
 		const replay = page.locator('.replay');
 		await expect(replay.getByText('svelte-check: 0 errors')).toBeVisible({ timeout: 15_000 });
 		await expect(replay.getByRole('region', { name: 'Portfolio.svelte' })).toContainText(
-			"import { Avatar, Card, Chip, List, ListItem, SegmentedControl } from 'sveltier';"
+			"import { Avatar, Card, Chip, List, ListItem, SegmentedControl } from '@sveltier/ui';"
 		);
 		const preview = replay.locator('.replay__frame');
 		await expect(preview.getByRole('heading', { name: 'Portfolio' })).toBeVisible();

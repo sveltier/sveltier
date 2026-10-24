@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A radio group: one tab stop, arrows move focus, and focus selects, as the APG pattern says.
-	import { rovingFocus } from 'sveltier';
+	import { rovingFocus } from '@sveltier/ui';
 
 	const RANGES = ['1D', '1W', '1M', '1Y', 'All'];
 	let range = $state('1W');

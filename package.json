@@ -7,13 +7,13 @@
 		"node": ">=22.17.0"
 	},
 	"scripts": {
-		"dev": "pnpm --filter sveltier build && pnpm --parallel --filter sveltier --filter @sveltier/docs dev",
+		"dev": "pnpm --filter @sveltier/ui build && pnpm --parallel --filter @sveltier/ui --filter @sveltier/docs dev",
 		"build": "pnpm -r build",
 		"check": "pnpm -r check",
 		"test": "pnpm -r test",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"size": "pnpm --filter sveltier size"
+		"size": "pnpm --filter @sveltier/ui size"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A sign-up form against a pretend server: it checks on submit, focuses the first problem,
 	// shows the server's own answer, and lets you choose when the messages appear.
-	import { Button, Form, SegmentedControl, TextField, type ValidateOn } from 'sveltier';
+	import { Button, Form, SegmentedControl, TextField, type ValidateOn } from '@sveltier/ui';
 
 	const TIMINGS: Array<{ value: ValidateOn; label: string }> = [
 		{ value: 'blur', label: 'On blur' },

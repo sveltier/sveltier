@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A listbox: one tab stop, arrows and typeahead move focus, Enter or Space selects.
-	import { keymap, rovingFocus, typeahead } from 'sveltier';
+	import { keymap, rovingFocus, typeahead } from '@sveltier/ui';
 
 	const CURRENCIES = [
 		'Australian dollar',

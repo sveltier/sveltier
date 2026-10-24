@@ -1,7 +1,7 @@
 // Code samples for the Components pages.
 
 export const buttonUsage = `<script>
-  import { Button } from 'sveltier';
+  import { Button } from '@sveltier/ui';
 </script>
 
 <Button onclick={() => (open = true)}>New transfer</Button>
@@ -16,7 +16,7 @@ export const buttonIcons = `<Button>
 <Button icon variant="text" aria-label="Close"><CloseIcon /></Button>`;
 
 export const buttonLoading = `<script>
-  import { Button } from 'sveltier';
+  import { Button } from '@sveltier/ui';
   let paying = $state(false);
 
   async function pay() {
@@ -44,7 +44,7 @@ export const buttonDefaults = `<UIProvider
 </UIProvider>`;
 
 export const iconUsage = `<script>
-  import { Icon } from 'sveltier';
+  import { Icon } from '@sveltier/ui';
   // Path-based sets export path strings, for example Material Design Icons.
   import { mdiBank } from '@mdi/js';
 </script>
@@ -53,7 +53,7 @@ export const iconUsage = `<script>
 <Icon path={mdiBank} size="lg" color="primary" />`;
 
 export const iconCustom = `<script>
-  import { Icon } from 'sveltier';
+  import { Icon } from '@sveltier/ui';
   import BankIcon from './BankIcon.svelte';
 </script>
 
@@ -67,7 +67,7 @@ export const iconLabel = `<!-- Decorative: next to text that says the same thing
 <Icon path={mdiCheck} label="Verified" color="success" />`;
 
 export const dividerUsage = `<script>
-  import { Divider } from 'sveltier';
+  import { Divider } from '@sveltier/ui';
 </script>
 
 <p>Available</p>
@@ -82,7 +82,7 @@ export const dividerUsage = `<script>
 </div>`;
 
 export const badgeUsage = `<script>
-  import { Badge, Button, Icon } from 'sveltier';
+  import { Badge, Button, Icon } from '@sveltier/ui';
 </script>
 
 <!-- The button is described by the badge's text, so the count is heard on focus. -->
@@ -96,7 +96,7 @@ export const badgeUsage = `<script>
 Savings <Badge content="New" />`;
 
 export const avatarUsage = `<script>
-  import { Avatar } from 'sveltier';
+  import { Avatar } from '@sveltier/ui';
 </script>
 
 <!-- A name is shown next to it, so the avatar is decorative. -->
@@ -106,7 +106,7 @@ export const avatarUsage = `<script>
 <Avatar src={user.photo} alt="Alex Morgan" size="lg">AM</Avatar>`;
 
 export const chipFilter = `<script>
-  import { Chip } from 'sveltier';
+  import { Chip } from '@sveltier/ui';
   let card = $state(true);
   let transfer = $state(false);
 </script>
@@ -115,7 +115,7 @@ export const chipFilter = `<script>
 <Chip bind:selected={transfer}>Transfer</Chip>`;
 
 export const chipClosable = `<script>
-  import { Chip } from 'sveltier';
+  import { Chip } from '@sveltier/ui';
   let currencies = $state(['EUR', 'GBP', 'USD']);
 </script>
 
@@ -130,7 +130,7 @@ export const chipClosable = `<script>
 {/each}`;
 
 export const progressUsage = `<script>
-  import { ProgressCircular, ProgressLinear } from 'sveltier';
+  import { ProgressCircular, ProgressLinear } from '@sveltier/ui';
 </script>
 
 <ProgressLinear value={uploaded} label="Uploading statement" />
@@ -138,7 +138,7 @@ export const progressUsage = `<script>
 <ProgressCircular indeterminate label="Loading accounts" />`;
 
 export const skeletonUsage = `<script>
-  import { Skeleton } from 'sveltier';
+  import { Skeleton } from '@sveltier/ui';
 </script>
 
 <!-- aria-busy tells assistive technology to wait for the real content. -->
@@ -153,7 +153,7 @@ export const skeletonUsage = `<script>
 </section>`;
 
 export const alertUsage = `<script>
-  import { Alert, Button } from 'sveltier';
+  import { Alert, Button } from '@sveltier/ui';
 </script>
 
 <Alert type="error" title="Payment declined">
@@ -166,7 +166,7 @@ export const alertUsage = `<script>
 <Alert type="success" closable>Transfer sent.</Alert>`;
 
 export const cardUsage = `<script>
-  import { Avatar, Button, Card } from 'sveltier';
+  import { Avatar, Button, Card } from '@sveltier/ui';
 </script>
 
 <Card title="Savings" subtitle="Instant access" level={3}>
@@ -179,7 +179,7 @@ export const cardUsage = `<script>
 </Card>`;
 
 export const listUsage = `<script>
-  import { List, ListItem } from 'sveltier';
+  import { List, ListItem } from '@sveltier/ui';
 </script>
 
 <nav aria-label="Banking">
@@ -196,7 +196,7 @@ export const listUsage = `<script>
 </List>`;
 
 export const buttonGroupUsage = `<script>
-  import { Button, ButtonGroup } from 'sveltier';
+  import { Button, ButtonGroup } from '@sveltier/ui';
 </script>
 
 <ButtonGroup aria-label="Export">
@@ -205,7 +205,7 @@ export const buttonGroupUsage = `<script>
 </ButtonGroup>`;
 
 export const segmentedUsage = `<script>
-  import { SegmentedControl } from 'sveltier';
+  import { SegmentedControl } from '@sveltier/ui';
   let range = $state('1M');
 </script>
 
@@ -220,7 +220,7 @@ export const segmentedUsage = `<script>
 />`;
 
 export const tabsUsage = `<script>
-  import { Tabs } from 'sveltier';
+  import { Tabs } from '@sveltier/ui';
   let section = $state('overview');
 </script>
 

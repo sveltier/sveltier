@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constraints, then rules, then an answer from the server, which clears when the user types.
-	import { Button, TextField } from 'sveltier';
+	import { Button, TextField } from '@sveltier/ui';
 
 	const TAKEN = ['ada', 'grace', 'alan'];
 	const rules = [

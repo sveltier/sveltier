@@ -7,7 +7,7 @@ import ThemedProbe from '../../../tests/fixtures/ThemedProbe.svelte';
 describe('ThemeProvider on the server', () => {
 	it('requires themes at the root and says what to pass', () => {
 		expect(() => render(BareThemeProvider).body).toThrow(
-			"[sveltier SV1001] The root <ThemeProvider> has no themes. Pass one, for example themes={monolith} from 'sveltier/themes/monolith'. https://sveltier.com/errors#SV1001"
+			"[sveltier SV1001] The root <ThemeProvider> has no themes. Pass one, for example themes={monolith} from '@sveltier/ui/themes/monolith'. https://sveltier.com/errors#SV1001"
 		);
 	});
 

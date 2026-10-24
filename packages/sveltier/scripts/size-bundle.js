@@ -29,8 +29,8 @@ for (const entry of entries) {
 		plugins: [svelte({ configFile: false, compilerOptions: { runes: true } })],
 		resolve: {
 			alias: [
-				{ find: /^sveltier$/, replacement: path.join(dist, 'index.js') },
-				{ find: /^sveltier\/(.*)$/, replacement: path.join(dist, '$1') }
+				{ find: /^@sveltier\/ui$/, replacement: path.join(dist, 'index.js') },
+				{ find: /^@sveltier\/ui\/(.*)$/, replacement: path.join(dist, '$1') }
 			]
 		},
 		// An app build (not library mode): library mode keeps whitespace in ES output, which a

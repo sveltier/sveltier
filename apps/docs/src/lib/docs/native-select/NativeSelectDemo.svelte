@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A country with a placeholder and a required choice, and a payment frequency with numbers as
 	// values.
-	import { NativeSelect } from 'sveltier';
+	import { NativeSelect } from '@sveltier/ui';
 
 	const COUNTRIES = [
 		{ value: 'gb', label: 'United Kingdom' },

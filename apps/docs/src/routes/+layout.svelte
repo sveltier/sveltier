@@ -21,7 +21,7 @@
 	import AppBar from '#lib/docs/AppBar.svelte';
 	import { createShell } from '#lib/docs/shell.svelte.js';
 	import { THEMES, type PackId } from '#lib/site.js';
-	import { UIProvider } from 'sveltier';
+	import { UIProvider } from '@sveltier/ui';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();

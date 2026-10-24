@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A modal sheet built from primitives alone: portal, focus trap, inert page, scroll lock and
 	// dismissal.
-	import { Portal, dismissable, focusTrap, inertOthers, scrollLock } from 'sveltier';
+	import { Portal, dismissable, focusTrap, inertOthers, scrollLock } from '@sveltier/ui';
 
 	let open = $state(false);
 	let opener = $state<HTMLButtonElement>();

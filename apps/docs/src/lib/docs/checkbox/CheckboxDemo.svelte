@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A receipt preference with a hint and licence terms with a link in the label, beside a
 	// "select all" box over three documents.
-	import { Checkbox } from 'sveltier';
+	import { Checkbox } from '@sveltier/ui';
 
 	const DOCUMENTS = ['Statements', 'Tax forms', 'Trade confirmations'];
 

@@ -41,7 +41,7 @@ importers:
 
   apps/docs:
     dependencies:
-      sveltier:
+      '@sveltier/ui':
         specifier: workspace:*
         version: link:../../packages/sveltier
     devDependencies:

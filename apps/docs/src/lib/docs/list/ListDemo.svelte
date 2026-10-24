@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Accounts with balances, and a navigation list that marks the current page.
-	import { Avatar, Icon, List, ListItem } from 'sveltier';
+	import { Avatar, Icon, List, ListItem } from '@sveltier/ui';
 
 	const HOME = 'M4 21V9l8-6 8 6v12h-6v-6h-4v6zm2-2h2v-6h8v6h2V10l-6-4.5L6 10z';
 	const CARD = 'M3 6h18v12H3zm2 2v2h14V8zm0 5v3h14v-3z';

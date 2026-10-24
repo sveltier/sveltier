@@ -24,7 +24,7 @@ export {
 	type ThemeVariables
 } from './core/theme/types.js';
 
-// Built-in themes, also importable one by one from 'sveltier/themes/<name>'
+// Built-in themes, also importable one by one from '@sveltier/ui/themes/<name>'
 export { monolith, monolithDark, monolithLight } from './themes/monolith.js';
 export { heritage, heritageDark, heritageLight } from './themes/heritage.js';
 export { aurora, auroraDark, auroraLight } from './themes/aurora.js';

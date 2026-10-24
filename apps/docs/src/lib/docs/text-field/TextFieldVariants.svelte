@@ -1,6 +1,6 @@
 <script lang="ts">
 	// The five ways to draw a field, from a full border to nothing at all.
-	import { TextField, type FieldVariant } from 'sveltier';
+	import { TextField, type FieldVariant } from '@sveltier/ui';
 
 	const VARIANTS: FieldVariant[] = ['outlined', 'tonal', 'elevated', 'text', 'plain'];
 </script>

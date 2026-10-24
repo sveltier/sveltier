@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Theming, kept short: the replay's card in one theme pack at a time, and a button that gives
 	// the whole site that pack. The card's code never changes.
-	import { SegmentedControl, ThemeProvider, useTheme } from 'sveltier';
+	import { SegmentedControl, ThemeProvider, useTheme } from '@sveltier/ui';
 	import { PACKS, type PackId } from '../site.js';
 	import Portfolio from './examples/Portfolio.svelte';
 

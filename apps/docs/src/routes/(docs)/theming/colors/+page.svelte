@@ -2,7 +2,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { tonal } from '#lib/snippets/theme.js';
-	import { contrast, INTENT_COLORS, NEUTRAL_COLORS, parseOklch, useTheme } from 'sveltier';
+	import { contrast, INTENT_COLORS, NEUTRAL_COLORS, parseOklch, useTheme } from '@sveltier/ui';
 
 	const theme = useTheme();
 	const colors = $derived(theme.current.colors);

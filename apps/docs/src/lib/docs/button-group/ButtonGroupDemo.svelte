@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Joined actions: an outlined set, a tonal set with icons, and a pill of flat buttons.
-	import { Button, ButtonGroup, Icon } from 'sveltier';
+	import { Button, ButtonGroup, Icon } from '@sveltier/ui';
 
 	const UP = 'M12 5 5 12l1.4 1.4 4.6-4.6V19h2V8.8l4.6 4.6L19 12z';
 	const DOWN = 'M12 19 5 12l1.4-1.4 4.6 4.6V5h2v10.2l4.6-4.6L19 12z';

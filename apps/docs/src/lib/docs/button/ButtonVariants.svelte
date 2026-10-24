@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Every variant in a few colours: the same six weights in any colour of the theme.
-	import { Button, type Color, type Variant } from 'sveltier';
+	import { Button, type Color, type Variant } from '@sveltier/ui';
 
 	const VARIANTS: Variant[] = ['elevated', 'flat', 'tonal', 'outlined', 'text', 'plain'];
 	const COLORS: Color[] = ['primary', 'neutral', 'success', 'error'];

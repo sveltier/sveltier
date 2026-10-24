@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Icons before and after the label, and icon buttons, which need a label of their own.
-	import { Button } from 'sveltier';
+	import { Button } from '@sveltier/ui';
 	import Glyph from './Glyph.svelte';
 </script>
 

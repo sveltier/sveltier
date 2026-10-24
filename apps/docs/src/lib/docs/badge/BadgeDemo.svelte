@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Counts and dots on buttons, capped counts, and badges standing in a line.
-	import { Badge, Button, Icon } from 'sveltier';
+	import { Badge, Button, Icon } from '@sveltier/ui';
 
 	const BELL = 'M12 3a6 6 0 0 0-6 6v4l-2 3v1h16v-1l-2-3V9a6 6 0 0 0-6-6zm-2 15a2 2 0 0 0 4 0z';
 	const MAIL = 'M3 6h18v12H3zm2 2v.5l7 4.5 7-4.5V8zm0 2.9V16h14v-5.1l-7 4.5z';

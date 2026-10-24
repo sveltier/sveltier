@@ -2,16 +2,16 @@
 // cannot appear inside a Svelte <script> block.
 
 export const install = {
-	pnpm: 'pnpm add sveltier',
-	npm: 'npm install sveltier',
-	yarn: 'yarn add sveltier',
-	bun: 'bun add sveltier'
+	pnpm: 'pnpm add @sveltier/ui',
+	npm: 'npm install @sveltier/ui',
+	yarn: 'yarn add @sveltier/ui',
+	bun: 'bun add @sveltier/ui'
 };
 
 export const setup = `<!-- src/routes/+layout.svelte -->
 <script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { children } = $props();
 </script>
 
@@ -28,8 +28,8 @@ mount(App, { target: document.getElementById('app')! });
 
 <!-- src/App.svelte -->
 <script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
 </script>
 
 <UIProvider themes={monolith}>
@@ -37,8 +37,8 @@ mount(App, { target: document.getElementById('app')! });
 </UIProvider>`;
 
 export const pack = `<script>
-  import { UIProvider } from 'sveltier';
-  import { maison } from 'sveltier/themes/maison';
+  import { UIProvider } from '@sveltier/ui';
+  import { maison } from '@sveltier/ui/themes/maison';
   let { children } = $props();
 </script>
 
@@ -47,7 +47,7 @@ export const pack = `<script>
 </UIProvider>`;
 
 export const severalPacks = `<script>
-  import { UIProvider, monolith, milano } from 'sveltier';
+  import { UIProvider, monolith, milano } from '@sveltier/ui';
 </script>
 
 <!-- "system" switches between monolith-light and monolith-dark;
@@ -58,7 +58,7 @@ export const severalPacks = `<script>
 </UIProvider>`;
 
 export const toggle = `<script>
-  import { useTheme } from 'sveltier';
+  import { useTheme } from '@sveltier/ui';
   const theme = useTheme();
 </script>
 
@@ -75,8 +75,8 @@ export const nested = `<UIProvider themes={monolith}>
 </UIProvider>`;
 
 export const bindTheme = `<script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let theme = $state('system');
 </script>
 
@@ -87,8 +87,8 @@ export const fonts = `<!-- src/routes/+layout.svelte -->
 <script>
   import '@fontsource-variable/geist';
   import '@fontsource-variable/geist-mono';
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { children } = $props();
 </script>
 
@@ -96,8 +96,8 @@ export const fonts = `<!-- src/routes/+layout.svelte -->
 
 export const cookie = `<!-- src/routes/+layout.svelte -->
 <script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { data, children } = $props();
   let theme = $state(data.theme ?? 'system');
 
@@ -117,12 +117,12 @@ export const load = ({ cookies }) => ({ theme: cookies.get('theme') });`;
 export const csp = `<UIProvider themes={monolith} nonce={data.cspNonce}>…</UIProvider>
 
 // or allow the restore script by hash
-import { themeScript, monolith } from 'sveltier';
+import { themeScript, monolith } from '@sveltier/ui';
 const script = themeScript('sv-theme', ['system', ...Object.keys(monolith)]);
 // sha256 of \`script\` goes into script-src`;
 
-export const defineCustom = `import { defineTheme } from 'sveltier';
-import { monolithLight } from 'sveltier/themes/monolith';
+export const defineCustom = `import { defineTheme } from '@sveltier/ui';
+import { monolithLight } from '@sveltier/ui/themes/monolith';
 
 // Extends Monolith light; everything you leave out comes from it.
 export const brand = defineTheme({
@@ -136,15 +136,15 @@ export const brand = defineTheme({
   }
 }, monolithLight);`;
 
-export const extendPack = `import { defineTheme } from 'sveltier';
-import { aurora, auroraDark } from 'sveltier/themes/aurora';
+export const extendPack = `import { defineTheme } from '@sveltier/ui';
+import { aurora, auroraDark } from '@sveltier/ui/themes/aurora';
 
 // Aurora with a teal primary; everything else is Aurora's.
 const teal = defineTheme({ colors: { primary: 'oklch(0.78 0.11 190)' } }, auroraDark);
 
 const themes = { ...aurora, 'aurora-teal': teal };`;
 
-export const checkContrast = `import { contrast, parseOklch } from 'sveltier';
+export const checkContrast = `import { contrast, parseOklch } from '@sveltier/ui';
 
 const ratio = contrast(parseOklch(theme.colors.text)!, parseOklch(theme.colors.background)!);
 // ≥ 4.5 for body text (WCAG 1.4.3)`;
@@ -176,8 +176,8 @@ export const override = `/* Your styles are unlayered, so they win over every Sv
 
 /** Usage of one theme pack, for its page. */
 export const packUsage = (id: string): string => `<script>
-  import { UIProvider } from 'sveltier';
-  import { ${id} } from 'sveltier/themes/${id}';
+  import { UIProvider } from '@sveltier/ui';
+  import { ${id} } from '@sveltier/ui/themes/${id}';
   let { children } = $props();
 </script>
 

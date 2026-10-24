@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A chart range picker, a flat variant in the primary colour, and a disabled option.
-	import { SegmentedControl } from 'sveltier';
+	import { SegmentedControl } from '@sveltier/ui';
 
 	const RANGES = [
 		{ value: '1D', label: '1D' },

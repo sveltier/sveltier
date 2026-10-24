@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Account settings that apply at once: two switches and one that waits on verification.
-	import { Switch } from 'sveltier';
+	import { Switch } from '@sveltier/ui';
 
 	let notifications = $state(true);
 	let biometrics = $state(false);

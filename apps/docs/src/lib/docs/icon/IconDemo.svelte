@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Path icons at every size and in the theme's colours, inline in text, and labelled.
-	import { Icon, type Color, type Size } from 'sveltier';
+	import { Icon, type Color, type Size } from '@sveltier/ui';
 
 	// Simple geometric shapes on a 24-unit grid, drawn for these docs.
 	const PLUS = 'M11 5h2v14h-2zM5 11h14v2H5z';

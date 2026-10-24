@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, Card, Chip, List, ListItem, SegmentedControl } from 'sveltier';
+	import { Avatar, Card, Chip, List, ListItem, SegmentedControl } from '@sveltier/ui';
 
 	type Period = '1D' | '1W' | '1M' | '1Y';
 

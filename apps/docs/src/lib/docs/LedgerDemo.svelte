@@ -1,6 +1,6 @@
 <script lang="ts">
 	// 100,000 transactions in a scrolling region; only the rows in view exist in the page.
-	import { useLocale, virtualList } from 'sveltier';
+	import { useLocale, virtualList } from '@sveltier/ui';
 
 	const COUNT = 100_000;
 	const MERCHANTS = [

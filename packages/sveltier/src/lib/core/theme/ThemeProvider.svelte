@@ -55,7 +55,7 @@
 		if (!registered) {
 			throw sveltierError(
 				'SV1001',
-				"The root <ThemeProvider> has no themes. Pass one, for example themes={monolith} from 'sveltier/themes/monolith'."
+				"The root <ThemeProvider> has no themes. Pass one, for example themes={monolith} from '@sveltier/ui/themes/monolith'."
 			);
 		}
 		return registered;

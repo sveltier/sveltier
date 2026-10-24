@@ -3,7 +3,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { CONTRACT_DOCS } from '#lib/docs/contract.js';
 	import { contractCss } from '#lib/snippets/theme.js';
-	import { THEME_VARIABLES, useTheme } from 'sveltier';
+	import { THEME_VARIABLES, useTheme } from '@sveltier/ui';
 
 	const theme = useTheme();
 	const variables = $derived(theme.current.variables);

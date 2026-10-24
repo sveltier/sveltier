@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A receipt that mounts and unmounts with the theme's timing, with a choice of transition.
-	import { fade, pop, rise, type TransitionOptions } from 'sveltier';
+	import { fade, pop, rise, type TransitionOptions } from '@sveltier/ui';
 	import Segmented from '../Segmented.svelte';
 
 	const TRANSITIONS = { fade, rise, pop };

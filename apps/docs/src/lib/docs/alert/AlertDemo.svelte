@@ -1,6 +1,6 @@
 <script lang="ts">
 	// The four types, a closable alert that can come back, and an alert with an action.
-	import { Alert, Button } from 'sveltier';
+	import { Alert, Button } from '@sveltier/ui';
 
 	let open = $state(true);
 </script>

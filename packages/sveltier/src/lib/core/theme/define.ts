@@ -7,7 +7,7 @@ import type { ThemeColors, ThemeDefinition, ThemeInput } from './types.js';
  * colour you override, unless you pass them yourself. `base` is never mutated.
  *
  * @example
- * import { monolithDark } from 'sveltier/themes/monolith';
+ * import { monolithDark } from '@sveltier/ui/themes/monolith';
  * const midnight = defineTheme({ colors: { primary: 'oklch(0.78 0.11 260)' } }, monolithDark);
  */
 export function defineTheme(input: ThemeInput, base: ThemeDefinition): ThemeDefinition {

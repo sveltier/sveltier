@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Initials in the theme's colours, every size, an image with its fallback, and a status dot.
-	import { Avatar, Badge, Icon, type Color, type Size } from 'sveltier';
+	import { Avatar, Badge, Icon, type Color, type Size } from '@sveltier/ui';
 
 	const SIZES: Size[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 	const PEOPLE: Array<{ initials: string; color: Color }> = [

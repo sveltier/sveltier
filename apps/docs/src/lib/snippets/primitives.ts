@@ -1,7 +1,7 @@
 // Code samples for the Primitives pages.
 
 export const attachIntro = `<script>
-  import { focusTrap } from 'sveltier';
+  import { focusTrap } from '@sveltier/ui';
   let open = $state(false);
 </script>
 
@@ -9,7 +9,7 @@ export const attachIntro = `<script>
 <div {@attach open && focusTrap()}>…</div>`;
 
 export const trapExample = `<script>
-  import { focusTrap } from 'sveltier';
+  import { focusTrap } from '@sveltier/ui';
   let open = $state(false);
   let opener = $state();
 </script>
@@ -31,7 +31,7 @@ export const trapExample = `<script>
 {/if}`;
 
 export const rovingExample = `<script>
-  import { rovingFocus } from 'sveltier';
+  import { rovingFocus } from '@sveltier/ui';
 </script>
 
 <div role="toolbar" aria-label="Chart" {@attach rovingFocus()}>
@@ -41,13 +41,13 @@ export const rovingExample = `<script>
   <button type="button" data-sv-item>1Y</button>
 </div>`;
 
-export const tabbableExample = `import { isTabbable, tabbable } from 'sveltier';
+export const tabbableExample = `import { isTabbable, tabbable } from '@sveltier/ui';
 
 const stops = tabbable(dialog); // what Tab reaches, in Tab order
 isTabbable(button); // false when disabled, hidden, inert, or tabindex="-1"`;
 
 export const dismissExample = `<script>
-  import { dismissable } from 'sveltier';
+  import { dismissable } from '@sveltier/ui';
   let open = $state(false);
   let trigger = $state();
 </script>
@@ -62,7 +62,7 @@ export const dismissExample = `<script>
 {/if}`;
 
 export const portalExample = `<script>
-  import { Portal } from 'sveltier';
+  import { Portal } from '@sveltier/ui';
 </script>
 
 <!-- Rendered at the end of <body>, or in the element target names. -->
@@ -71,7 +71,7 @@ export const portalExample = `<script>
 </Portal>`;
 
 export const modalExample = `<script>
-  import { Portal, dismissable, focusTrap, inertOthers, scrollLock } from 'sveltier';
+  import { Portal, dismissable, focusTrap, inertOthers, scrollLock } from '@sveltier/ui';
   let open = $state(false);
   let opener = $state();
 </script>
@@ -96,7 +96,7 @@ export const modalExample = `<script>
 {/if}`;
 
 export const anchoredExample = `<script>
-  import { anchored, dismissable } from 'sveltier';
+  import { anchored, dismissable } from '@sveltier/ui';
   let open = $state(false);
   let trigger = $state();
 </script>
@@ -116,7 +116,7 @@ export const anchoredExample = `<script>
 {/if}`;
 
 export const keymapExample = `<script>
-  import { keymap } from 'sveltier';
+  import { keymap } from '@sveltier/ui';
   let value = $state(50);
   const step = (by) => () => (value = Math.min(100, Math.max(0, value + by)));
 </script>
@@ -140,7 +140,7 @@ export const keymapExample = `<script>
 </div>`;
 
 export const typeaheadExample = `<script>
-  import { rovingFocus, typeahead } from 'sveltier';
+  import { rovingFocus, typeahead } from '@sveltier/ui';
 </script>
 
 <ul role="listbox" aria-label="Currency" {@attach rovingFocus({ orientation: 'vertical' })} {@attach typeahead()}>
@@ -161,7 +161,7 @@ export const motionCss = `.panel {
 }`;
 
 export const transitionExample = `<script>
-  import { rise } from 'sveltier';
+  import { rise } from '@sveltier/ui';
   let shown = $state(false);
 </script>
 
@@ -173,7 +173,7 @@ export const transitionExample = `<script>
 {/if}`;
 
 export const springExample = `<script>
-  import { spring } from 'sveltier';
+  import { spring } from '@sveltier/ui';
   const balance = spring(248190.35, 'gentle');
 </script>
 
@@ -183,7 +183,7 @@ export const springExample = `<script>
 <p class="amount">{balance.current.toFixed(2)}</p>`;
 
 export const motionExample = `import { Tween } from 'svelte/motion';
-import { easing, motion } from 'sveltier';
+import { easing, motion } from '@sveltier/ui';
 
 // element.animate() takes the theme's easing as it is.
 export function flash(cell: HTMLElement) {
@@ -198,7 +198,7 @@ export function progress(element: HTMLElement) {
 }`;
 
 export const virtualExample = `<script>
-  import { virtualList } from 'sveltier';
+  import { virtualList } from '@sveltier/ui';
   let { transactions } = $props();
 
   // Read through a function, so the list follows transactions.length.
@@ -221,7 +221,7 @@ export const virtualExample = `<script>
 </style>`;
 
 export const measuredExample = `<script>
-  import { virtualList } from 'sveltier';
+  import { virtualList } from '@sveltier/ui';
   let { entries } = $props();
 
   const list = virtualList(() => ({
@@ -247,7 +247,7 @@ export const measuredExample = `<script>
 </div>`;
 
 export const activeDescendantExample = `<script>
-  import { keymap, virtualList } from 'sveltier';
+  import { keymap, virtualList } from '@sveltier/ui';
   let { options } = $props();
 
   const id = $props.id();

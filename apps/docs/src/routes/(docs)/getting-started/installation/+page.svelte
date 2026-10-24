@@ -58,7 +58,7 @@
 	<h2 id="typescript">TypeScript</h2>
 	<p>
 		Types ship with the package. Theme packs are also available as subpath imports such as
-		<code>sveltier/themes/maison</code>; use <code>"moduleResolution": "bundler"</code> (the SvelteKit
+		<code>@sveltier/ui/themes/maison</code>; use <code>"moduleResolution": "bundler"</code> (the SvelteKit
 		and Vite default) so TypeScript resolves them.
 	</p>
 

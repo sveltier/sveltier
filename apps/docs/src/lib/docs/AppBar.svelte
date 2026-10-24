@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { useTheme } from 'sveltier';
+	import { useTheme } from '@sveltier/ui';
 	import Logo from '../brand/Logo.svelte';
 	import Segmented from '../Segmented.svelte';
 	import { PACKS, parseChoice, type Mode, type PackId } from '../site.js';

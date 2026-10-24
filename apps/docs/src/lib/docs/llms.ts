@@ -1,7 +1,7 @@
 // The docs for AI agents: llms.txt (an index) and llms-full.txt (the reference), in the
 // llms.txt format. Built on the server from the same sources as the pages: the navigation,
 // the code samples, and the API tables and descriptions generated from the package's types.
-import { ERROR_CODES } from 'sveltier';
+import { ERROR_CODES } from '@sveltier/ui';
 import { descriptions, tables } from 'virtual:sveltier-api';
 import {
 	alertUsage,
@@ -147,7 +147,7 @@ const PRIMITIVES: Entry[] = [
 const SUMMARY =
 	'A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free server-side theming.';
 
-const CONVENTIONS = `Install \`sveltier\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`sveltier/themes/monolith\`), and import components from \`sveltier\`.
+const CONVENTIONS = `Install \`sveltier\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`@sveltier/ui/themes/monolith\`), and import components from \`sveltier\`.
 
 - Svelte 5 only: runes (\`$state\`, \`$derived\`, \`$effect\`, \`$props\`, \`$bindable\`), snippets and callback props. Never write Svelte 4 syntax: no \`export let\`, no \`on:click\` (use \`onclick\`), no \`<slot>\` (use snippets and \`{@render}\`), no \`createEventDispatcher\`, no \`$:\`. Svelte's own tools for agents, including an MCP server and an autofixer, are listed at https://svelte.dev/docs/ai.
 - Every component takes the same names for the same things: \`variant\` (elevated, flat, tonal, outlined, text, plain), \`size\` (xs to xl), \`density\` (compact, default, comfortable), \`color\` (an intent such as primary or error, neutral, or a custom colour), \`rounded\`, \`disabled\`, \`loading\`.

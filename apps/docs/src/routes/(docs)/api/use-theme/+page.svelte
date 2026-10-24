@@ -11,7 +11,7 @@
 	<Code
 		title="Signature"
 		lang="ts"
-		code={"import { useTheme, type ThemeInstance } from 'sveltier';\n\nfunction useTheme(): ThemeInstance;"}
+		code={"import { useTheme, type ThemeInstance } from '@sveltier/ui';\n\nfunction useTheme(): ThemeInstance;"}
 	/>
 	<p>
 		Call it during component initialisation, inside a <code>ThemeProvider</code>. Outside one it

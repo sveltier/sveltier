@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Loading keeps the button where it was, focused, and ignores presses until it is done.
-	import { Button } from 'sveltier';
+	import { Button } from '@sveltier/ui';
 
 	let paying = $state(false);
 	let paid = $state(0);

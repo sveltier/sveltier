@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Account sections as tabs, with a panel for the selected one.
-	import { Tabs, type TabsItem } from 'sveltier';
+	import { Tabs, type TabsItem } from '@sveltier/ui';
 
 	const ITEMS: TabsItem[] = [
 		{ value: 'overview', label: 'Overview' },

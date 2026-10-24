@@ -1,8 +1,8 @@
 // Code samples for the Core pages (defaults, shared props, display, locale, UIProvider).
 
 export const defaultsGlobal = `<script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { children } = $props();
 </script>
 
@@ -11,8 +11,8 @@ export const defaultsGlobal = `<script>
 </UIProvider>`;
 
 export const appOptions = `<script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { children } = $props();
 </script>
 
@@ -34,8 +34,8 @@ export const displayOptions = `<!-- +layout.svelte: your own thresholds, and the
 </UIProvider>`;
 
 export const localeOptions = `<script>
-  import { UIProvider } from 'sveltier';
-  import { monolith } from 'sveltier/themes/monolith';
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
   let { children } = $props();
   // A user setting: changing it reformats every amount in the app.
   let currency = $state('EUR');
@@ -55,16 +55,16 @@ export const defaultsNested = `<DefaultsProvider defaults={{ global: { size: 'sm
 </DefaultsProvider>`;
 
 export const defaultsRegister = `// src/app.d.ts, or any .d.ts file in your project
-import type { Color, Size } from 'sveltier';
+import type { Color, Size } from '@sveltier/ui';
 
-declare module 'sveltier' {
+declare module '@sveltier/ui' {
   interface ComponentDefaults {
     PriceTag: { size: Size; color: Color; showSign: boolean };
   }
 }`;
 
 export const defaultsComponent = `<script lang="ts">
-  import { useDefaults, type Color, type ComponentDefaults, type Size } from 'sveltier';
+  import { useDefaults, type Color, type ComponentDefaults, type Size } from '@sveltier/ui';
 
   interface Props {
     value: number;
@@ -88,7 +88,7 @@ export const defaultsComponent = `<script lang="ts">
   {p.showSign && value > 0 ? '+' : ''}{value}
 </span>`;
 
-export const useDefaultsSignature = `import { useDefaults } from 'sveltier';
+export const useDefaultsSignature = `import { useDefaults } from '@sveltier/ui';
 
 function useDefaults<T extends object>(
   name: string,
@@ -103,7 +103,7 @@ export const sharedComponent = `<script lang="ts">
     type ComponentDefaults,
     type Size,
     type Variant
-  } from 'sveltier';
+  } from '@sveltier/ui';
 
   interface Props {
     label: string;
@@ -140,16 +140,16 @@ export const sharedComponent = `<script lang="ts">
 </style>`;
 
 export const sharedRegister = `// app.d.ts
-import type { Color, Size, Variant } from 'sveltier';
+import type { Color, Size, Variant } from '@sveltier/ui';
 
-declare module 'sveltier' {
+declare module '@sveltier/ui' {
   interface ComponentDefaults {
     Pill: { variant: Variant; size: Size; color: Color };
   }
 }`;
 
 export const customColor = `// themes.ts: add the colour to every theme you register
-import { defineTheme, monolithDark, monolithLight } from 'sveltier';
+import { defineTheme, monolithDark, monolithLight } from '@sveltier/ui';
 
 export const themes = {
   'brand-light': defineTheme({ colors: { brand: 'oklch(0.55 0.15 300)' } }, monolithLight),
@@ -157,13 +157,13 @@ export const themes = {
 };
 
 // app.d.ts: make it a valid \`color\`
-declare module 'sveltier' {
+declare module '@sveltier/ui' {
   interface CustomColors {
     brand: true;
   }
 }`;
 
-export const sharedClassesSignature = `import { sharedClasses, type SharedClassProps, type Variant } from 'sveltier';
+export const sharedClassesSignature = `import { sharedClasses, type SharedClassProps, type Variant } from '@sveltier/ui';
 
 function sharedClasses(
   props: SharedClassProps,
@@ -175,7 +175,7 @@ sharedClasses({ variant: 'tonal', size: 'sm', color: 'success', rounded: true },
 // 'sv-variant-tonal sv-size-sm sv-color-success sv-rounded'`;
 
 export const displayExample = `<script>
-  import { useDisplay } from 'sveltier';
+  import { useDisplay } from '@sveltier/ui';
 
   const display = useDisplay();
   // Behaviour, not layout: fewer rows per page on small screens.
@@ -188,12 +188,12 @@ export const displayExample = `<script>
   <OrderTicket />
 {/if}`;
 
-export const useDisplaySignature = `import { useDisplay, type DisplayInstance } from 'sveltier';
+export const useDisplaySignature = `import { useDisplay, type DisplayInstance } from '@sveltier/ui';
 
 function useDisplay(): DisplayInstance;`;
 
 export const localeExample = `<script lang="ts">
-  import { useLocale } from 'sveltier';
+  import { useLocale } from '@sveltier/ui';
 
   let { balance, change, updatedAt }: { balance: number; change: number; updatedAt: Date } =
     $props();
@@ -205,7 +205,7 @@ export const localeExample = `<script lang="ts">
 <p>{locale.formatPercent(change, { minimumFractionDigits: 2, signDisplay: 'exceptZero' })}</p>
 <time datetime={updatedAt.toISOString()}>{locale.formatRelative(updatedAt)}</time>`;
 
-export const useLocaleSignature = `import { useLocale, type LocaleInstance } from 'sveltier';
+export const useLocaleSignature = `import { useLocale, type LocaleInstance } from '@sveltier/ui';
 
 function useLocale(): LocaleInstance;`;
 
@@ -223,7 +223,7 @@ export const idsExample = `<script lang="ts">
 
 export const rootElementExample = `<script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements';
-  import type { ElementProps } from 'sveltier';
+  import type { ElementProps } from '@sveltier/ui';
 
   // Own props first; every other <span> attribute passes through.
   export type DeltaProps = ElementProps<
@@ -234,7 +234,7 @@ export const rootElementExample = `<script lang="ts" module>
 </script>
 
 <script lang="ts">
-  import { useLocale } from 'sveltier';
+  import { useLocale } from '@sveltier/ui';
 
   let { value, class: className, ref = $bindable(null), ...rest }: DeltaProps = $props();
   const locale = useLocale();
