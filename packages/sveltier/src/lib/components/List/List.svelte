@@ -30,7 +30,7 @@
 	role="list"
 	class={[
 		'sv-list',
-		sharedClasses({ density: p.density, color: p.color }),
+		sharedClasses({ density: p.density, color: p.color }, 'List'),
 		p.nav && 'sv-list--nav',
 		className
 	]}

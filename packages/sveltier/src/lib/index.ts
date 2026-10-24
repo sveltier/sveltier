@@ -34,6 +34,7 @@ export { milano, milanoDark, milanoLight } from './themes/milano.js';
 // Shared props
 export {
 	DENSITIES,
+	ROUNDED,
 	SIZES,
 	VARIANTS,
 	type Color,
@@ -78,6 +79,12 @@ export {
 	type MessageKey,
 	type Messages
 } from './core/locale/locale.js';
+
+// Errors
+export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/codes.js';
+
+// Forms: validation types shared by every form control
+export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
 
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
@@ -146,6 +153,16 @@ export {
 export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
+export {
+	Field,
+	FIELD_VARIANTS,
+	type FieldContentProps,
+	type FieldControlAttributes,
+	type FieldDefaults,
+	type FieldProps,
+	type FieldVariant
+} from './components/Field/index.js';
+export { Form, type FormProps } from './components/Form/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
 export {
 	List,
@@ -170,3 +187,9 @@ export {
 } from './components/SegmentedControl/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
+export {
+	TextField,
+	type TextFieldDefaults,
+	type TextFieldProps,
+	type TextFieldType
+} from './components/TextField/index.js';

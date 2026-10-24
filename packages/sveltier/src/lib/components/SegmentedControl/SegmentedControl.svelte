@@ -47,7 +47,7 @@
 	bind:this={ref}
 	{...rest}
 	role="radiogroup"
-	class={['sv-segmented', sharedClasses(p), className]}
+	class={['sv-segmented', sharedClasses(p, 'SegmentedControl'), className]}
 	style:--sv-segments={options.length}
 	style:--sv-segment={index}
 	{@attach rovingFocus({ orientation: 'horizontal' })}

@@ -73,6 +73,14 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Forms',
+		items: [
+			{ title: 'Form and validation', path: 'forms/form' },
+			{ title: 'TextField', path: 'forms/text-field' },
+			{ title: 'Field', path: 'forms/field' }
+		]
+	},
+	{
 		title: 'Primitives',
 		items: [
 			{ title: 'Focus', path: 'primitives/focus' },
@@ -100,7 +108,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'useDefaults', path: 'api/use-defaults' },
 			{ title: 'sharedClasses', path: 'api/shared-classes' },
 			{ title: 'useDisplay', path: 'api/use-display' },
-			{ title: 'useLocale', path: 'api/use-locale' }
+			{ title: 'useLocale', path: 'api/use-locale' },
+			{ title: 'Errors', path: 'errors' }
 		]
 	}
 ];

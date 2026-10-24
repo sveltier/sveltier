@@ -58,7 +58,7 @@
 		bind:this={ref}
 		{...rest}
 		role={type === 'warning' || type === 'error' ? 'alert' : 'status'}
-		class={['sv-alert', sharedClasses(p), className]}
+		class={['sv-alert', sharedClasses(p, 'Alert'), className]}
 	>
 		{#if prepend}
 			<span class="sv-alert__icon">{@render prepend()}</span>

@@ -213,9 +213,9 @@ export const DEFAULTS_TYPES: ApiRow[] = [
 export const SHARED_CLASSES: ApiRow[] = [
 	{
 		name: 'variant',
-		type: "'flat' | 'tonal' | 'outlined' | 'text' | 'plain'",
+		type: "'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'",
 		description:
-			'sv-variant-<variant>: sets --sv-variant-bg, --sv-variant-fg and --sv-variant-border from the colour. plain also sets --sv-state-hover and --sv-state-press to 0%.'
+			'sv-variant-<variant>: sets --sv-variant-bg, --sv-variant-fg, --sv-variant-border and --sv-variant-shadow from the colour. plain also sets --sv-state-hover and --sv-state-press to 0%.'
 	},
 	{
 		name: 'color',

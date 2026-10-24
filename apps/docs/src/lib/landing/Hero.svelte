@@ -14,15 +14,15 @@
 		<div class="hero__inner">
 			<div class="hero__copy">
 				<img class="hero__mark" src={symbolFull} alt="" width="104" height="104" />
-				<p class="hero__eyebrow">Pre-alpha · Svelte 5 · Built for AI agents</p>
+				<p class="hero__eyebrow">Pre-alpha · Svelte 5 · Built for AI coding agents</p>
 				<h1 id="hero-title">
 					Your agent writes it.
-					<span>Sveltier makes it beautiful.</span>
+					<span>Sveltier gets it right.</span>
 				</h1>
 				<p class="hero__lede">
-					A UI framework for Svelte 5. Your coding agent writes intent, like a tonal chip or a
-					compact list. Sveltier supplies the craft: golden-ratio spacing, WCAG contrast and
-					keyboard behaviour from the WAI-ARIA patterns, in five design languages.
+					The UI framework for coding agents. One typed vocabulary they cannot misuse, docs
+					generated from the types they read, and errors that tell them the fix. What they build
+					comes out accessible, consistent and polished, whichever model wrote it.
 				</p>
 				<div class="hero__actions">
 					<a class="hero__cta" href={resolve('getting-started/installation')}>Get started</a>

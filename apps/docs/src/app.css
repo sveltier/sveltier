@@ -154,6 +154,18 @@ a {
 	gap: var(--sv-space-8);
 }
 
+/* A field and a button in a row, aligned on the box. */
+.docs-field-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--sv-space-8);
+}
+
+.docs-field-row > .sv-field {
+	flex: 1 1 12rem;
+}
+
 .docs-icon-button {
 	display: inline-grid;
 	place-items: center;
@@ -1381,4 +1393,35 @@ a {
 		var(--sv-font-display);
 	letter-spacing: var(--sv-tracking-display);
 	text-wrap: balance;
+}
+
+/* Errors page */
+
+.docs-error-sample {
+	padding: var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border-soft);
+	border-radius: var(--sv-radius-lg);
+	background-color: var(--sv-color-surface);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.docs-error-code {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--sv-space-8);
+}
+
+.docs-error-kind {
+	padding: var(--sv-space-2) var(--sv-space-8);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-full);
+	color: var(--sv-color-text-muted);
+	font: var(--sv-weight-medium) var(--sv-text-xs) / var(--sv-leading-snug) var(--sv-font-ui);
+}
+
+/* Form demo: a readable width for a sign-up form. */
+.docs-form {
+	max-inline-size: 30rem;
 }

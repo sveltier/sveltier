@@ -1,0 +1,16 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Fields stack at one rhythm and take the full width; buttons keep their own width. A class
+	 * on the form changes the layout, for example to a row for a search bar.
+	 */
+	.sv-form {
+		display: grid;
+		gap: var(--sv-space-21);
+	}
+
+	.sv-form > :where(.sv-button) {
+		justify-self: start;
+	}
+}

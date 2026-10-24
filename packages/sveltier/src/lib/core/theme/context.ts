@@ -1,4 +1,5 @@
 import { getContext, hasContext, setContext } from 'svelte';
+import { sveltierError } from '../errors/errors.js';
 import type { ThemeChoice, ThemeDefinition } from './types.js';
 
 /** The nearest `<ThemeProvider>`, as seen by `useTheme()`. All fields are reactive. */
@@ -31,7 +32,11 @@ export const setThemeContext = (theme: ThemeInstance): ThemeInstance => setConte
 
 /** Returns the nearest theme. Must be called during component initialisation. */
 export function useTheme(): ThemeInstance {
-	if (!hasContext(KEY))
-		throw new Error('[sveltier] useTheme() must be called inside a <ThemeProvider>.');
+	if (!hasContext(KEY)) {
+		throw sveltierError(
+			'SV1007',
+			'useTheme() was called outside a <ThemeProvider>. Call it in a component inside <UIProvider> or <ThemeProvider>.'
+		);
+	}
 	return getContext<ThemeInstance>(KEY);
 }

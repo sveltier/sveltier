@@ -4,7 +4,14 @@ import { getContext, hasContext, setContext } from 'svelte';
 export const MESSAGES = {
 	close: 'Close',
 	loading: 'Loading',
-	progress: 'Progress'
+	progress: 'Progress',
+	// Validation: the HTML constraints of form fields.
+	required: 'Required',
+	tooShort: 'Enter at least {min} characters',
+	tooLong: 'Enter no more than {max} characters',
+	typeEmail: 'Enter a valid email address',
+	typeUrl: 'Enter a valid web address',
+	patternMismatch: 'Enter a value in the requested format'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

@@ -30,6 +30,7 @@
 	import '../../styles/tokens.css';
 	import '../../styles/base.css';
 	import './theme-provider.css';
+	import { sveltierError } from '../errors/errors.js';
 	import { hasThemeContext, setThemeContext, useTheme, type ThemeInstance } from './context.js';
 	import { THEME_ATTRIBUTE, themeCss, themeHead, themeScript } from './css.js';
 
@@ -52,8 +53,9 @@
 	const registry = $derived.by(() => {
 		const registered = parent?.themes ?? themes;
 		if (!registered) {
-			throw new Error(
-				"[sveltier] The root <ThemeProvider> needs themes, for example themes={monolith} from 'sveltier/themes/monolith'."
+			throw sveltierError(
+				'SV1001',
+				"The root <ThemeProvider> has no themes. Pass one, for example themes={monolith} from 'sveltier/themes/monolith'."
 			);
 		}
 		return registered;
@@ -133,7 +135,13 @@
 			return darkName;
 		},
 		set(next) {
-			if (!isChoice(next)) throw new Error(`[sveltier] unknown theme "${next}"`);
+			if (!isChoice(next)) {
+				const names = Object.keys(registry).join(', ');
+				throw sveltierError(
+					'SV1002',
+					`Unknown theme "${next}". Registered: ${names}, or "system".`
+				);
+			}
 			theme = next;
 			try {
 				if (persist) localStorage.setItem(persist, next);

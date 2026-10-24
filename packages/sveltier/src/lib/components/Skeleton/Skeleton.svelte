@@ -23,7 +23,7 @@
 	class={[
 		'sv-skeleton',
 		`sv-skeleton--${type}`,
-		type === 'circle' && sharedClasses({ size }),
+		type === 'circle' && sharedClasses({ size }, 'Skeleton'),
 		className
 	]}
 >

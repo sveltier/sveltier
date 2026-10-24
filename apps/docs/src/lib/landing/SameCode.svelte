@@ -1,46 +1,38 @@
 <script lang="ts">
-	// The replay's portfolio card, unchanged, in every theme pack. Each tile can theme the site.
-	import { resolve } from '$app/paths';
-	import { ThemeProvider, useTheme } from 'sveltier';
-	import { PACKS } from '../site.js';
+	// Theming, kept short: the replay's card in one theme pack at a time, and a button that gives
+	// the whole site that pack. The card's code never changes.
+	import { SegmentedControl, ThemeProvider, useTheme } from 'sveltier';
+	import { PACKS, type PackId } from '../site.js';
 	import Portfolio from './examples/Portfolio.svelte';
 
-	// Captured here, under the root provider; inside a tile useTheme() would see the tile.
+	// Captured here, under the root provider; inside the preview useTheme() would see the preview.
 	const root = useTheme();
+	const options = PACKS.map((item) => ({ value: item.id, label: item.name }));
+
+	let pack = $state<PackId>('maison');
+	const name = $derived(PACKS.find((item) => item.id === pack)?.name ?? pack);
 </script>
 
-<section class="landing-section" aria-labelledby="same-title">
+<section class="landing-section" aria-labelledby="theming-title">
 	<header class="landing-head">
-		<p class="landing-kicker">Five design languages</p>
-		<h2 id="same-title">Same code. Five finished looks.</h2>
+		<p class="landing-kicker">Theming</p>
+		<h2 id="theming-title">Change the look, keep the code</h2>
 		<p>
-			The portfolio card from the replay, unchanged, in every theme pack: type, shape, colour and
-			motion all change, the code does not. Each tile is a nested <code>ThemeProvider</code>; apply
-			one to the whole site.
+			Sveltier ships with five theme packs. Switch the pack at the root, and every component changes
+			its type, shape, colour and motion, while the code your agent wrote stays the same.
 		</p>
 	</header>
-	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-	<div class="landing-packs" role="region" aria-label="Theme packs" tabindex="0">
-		{#each PACKS as pack (pack.id)}
-			<ThemeProvider theme="{pack.id}-light" withBackground class="landing-pack">
-				<div class="landing-pack__head">
-					<h3><a href={resolve(`theme-packs/${pack.id}`)}>{pack.name}</a></h3>
-					<div class="landing-pack__apply" role="group" aria-label="Apply {pack.name}">
-						{#each ['light', 'dark'] as const as mode (mode)}
-							{@const name = `${pack.id}-${mode}`}
-							<button
-								type="button"
-								class="docs-button"
-								aria-pressed={root.choice === name}
-								onclick={() => root.set(name)}
-							>
-								{mode === 'light' ? 'Light' : 'Dark'}
-							</button>
-						{/each}
-					</div>
-				</div>
-				<Portfolio />
-			</ThemeProvider>
-		{/each}
+	<div class="landing-theming">
+		<div class="landing-theming__controls">
+			<div class="landing-scroll">
+				<SegmentedControl {options} bind:value={pack} size="sm" aria-label="Theme pack" />
+			</div>
+			<button type="button" class="docs-button" onclick={() => root.set(`${pack}-light`)}>
+				Use {name} on this site
+			</button>
+		</div>
+		<ThemeProvider theme="{pack}-light" withBackground class="landing-pack">
+			<Portfolio />
+		</ThemeProvider>
 	</div>
 </section>

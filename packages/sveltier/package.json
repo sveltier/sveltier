@@ -14,7 +14,7 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "svelte-package && node scripts/strip-css-imports-from-dts.js && publint --strict && attw --pack . --profile esm-only --ignore-rules internal-resolution-error --quiet",
+		"build": "svelte-package && node scripts/check-dev-imports.js && node scripts/strip-css-imports-from-dts.js && publint --strict && attw --pack . --profile esm-only --ignore-rules internal-resolution-error --quiet",
 		"dev": "svelte-package --watch",
 		"check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
 		"size": "node scripts/size-bundle.js && size-limit",
@@ -42,6 +42,13 @@
 		},
 		"./styles/*.css": "./dist/styles/*.css",
 		"./package.json": "./package.json"
+	},
+	"imports": {
+		"#dev": {
+			"types": "./src/lib/dev/off.ts",
+			"development": "./dist/dev/on.js",
+			"import": "./dist/dev/off.js"
+		}
 	},
 	"peerDependencies": {
 		"svelte": "^5.40.0"

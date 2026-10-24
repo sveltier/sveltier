@@ -1,5 +1,6 @@
 import { getContext, hasContext, setContext } from 'svelte';
 import { MediaQuery } from 'svelte/reactivity';
+import { sveltierError } from '../errors/errors.js';
 
 /** Breakpoints, from the narrowest viewport to the widest. */
 export const BREAKPOINTS = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const;
@@ -46,7 +47,10 @@ export function createDisplay({
 	const thresholds: DisplayThresholds = { ...DEFAULT_THRESHOLDS, ...custom };
 	const widths = BREAKPOINTS.slice(1).map((name) => thresholds[name as keyof DisplayThresholds]);
 	if (widths.some((width, i) => i > 0 && width <= widths[i - 1]!)) {
-		throw new Error('[sveltier] Display thresholds must increase from sm to xxl.');
+		throw sveltierError(
+			'SV2001',
+			`Display thresholds must increase from sm to xxl; got ${widths.join(', ')}.`
+		);
 	}
 	const queries = widths.map((min) => new MediaQuery(`(min-width: ${min}px)`, ssrWidth >= min));
 	// Whether the viewport is at breakpoint `i` or wider; every viewport is at least xs.

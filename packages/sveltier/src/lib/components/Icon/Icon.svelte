@@ -23,7 +23,12 @@
 	role={label ? 'img' : undefined}
 	aria-label={label}
 	aria-hidden={label ? undefined : 'true'}
-	class={['sv-icon', sharedClasses({ size, color }), color && 'sv-icon--colored', className]}
+	class={[
+		'sv-icon',
+		sharedClasses({ size, color }, 'Icon'),
+		color && 'sv-icon--colored',
+		className
+	]}
 >
 	{#if path}
 		<svg class="sv-icon__paths" {viewBox} aria-hidden="true"><path d={path} /></svg>

@@ -1,0 +1,92 @@
+import { expect, test, type Page } from '@playwright/test';
+
+/** Opens a page and waits until it has hydrated: the root theme is applied after mount. */
+async function open(page: Page, path: string) {
+	await page.goto(path);
+	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', /.+/);
+}
+
+// The form demos, driven like a user would, in every engine.
+
+test('a text field shows its message when the user leaves it, and clears it once fixed', async ({
+	page
+}) => {
+	await open(page, '/forms/text-field');
+	const email = page.getByRole('textbox', { name: 'Email' });
+	await email.fill('ada');
+	await expect(email).toHaveAccessibleDescription('Receipts go to this address');
+	await email.press('Tab');
+	await expect(page.getByLabel('Password')).toBeFocused();
+	await expect(email).toHaveAccessibleDescription('Enter a valid email address');
+	await expect(email).toHaveAttribute('aria-invalid', 'true');
+	await email.fill('ada@example.com');
+	await expect(email).toHaveAccessibleDescription('Receipts go to this address');
+	await expect(email).not.toHaveAttribute('aria-invalid');
+});
+
+test('a rule speaks after the constraints, with its own words', async ({ page }) => {
+	await open(page, '/forms/text-field');
+	const password = page.getByLabel('Password');
+	await password.fill('short');
+	// The reveal button is inside the field, so moving to it is not leaving the field.
+	await password.press('Tab');
+	await expect(page.getByRole('button', { name: 'Show' })).toBeFocused();
+	await expect(password).toHaveAccessibleDescription('At least 8 characters, with a digit');
+	await page.keyboard.press('Tab');
+	await expect(password).toHaveAccessibleDescription('Enter at least 8 characters');
+	await password.fill('long enough');
+	await expect(password).toHaveAccessibleDescription('Include at least one digit');
+	await password.fill('long enough 1');
+	await expect(password).toHaveAccessibleDescription('At least 8 characters, with a digit');
+});
+
+test('a server answer shows at once and clears when the user types', async ({ page }) => {
+	await open(page, '/forms/text-field');
+	const username = page.getByRole('textbox', { name: 'Username' });
+	await username.fill('ada');
+	await page.getByRole('button', { name: 'Check' }).click();
+	await expect(username).toHaveAccessibleDescription('“ada” is taken');
+	await username.fill('ada_lovelace');
+	await expect(username).toHaveAccessibleDescription(/^Lowercase letters/);
+});
+
+test('the field variants are typed and listed in the API table', async ({ page }) => {
+	await open(page, '/forms/text-field');
+	const table = page.getByRole('region', { name: 'TextField props' });
+	await expect(table.getByRole('row').filter({ hasText: /^variant/ })).toContainText(
+		"'outlined' | 'tonal' | 'elevated' | 'text' | 'plain'"
+	);
+	await expect(table.getByRole('row').filter({ hasText: /^ref/ })).toContainText(
+		'HTMLInputElement | null'
+	);
+});
+
+test('a field labels and describes a control of your own', async ({ page }) => {
+	await open(page, '/forms/field');
+	const date = page.getByLabel('Start date');
+	await expect(date).toHaveAttribute('type', 'date');
+	await expect(date).toHaveAccessibleDescription('The first payment goes out on this day');
+	await expect(date).toHaveJSProperty('required', true);
+});
+
+test('a form stops an invalid submission and focuses the first problem', async ({ page }) => {
+	await open(page, '/forms/form');
+	const email = page.getByRole('textbox', { name: 'Email' });
+	await email.fill('ada');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(email).toBeFocused();
+	await expect(email).toHaveAccessibleDescription('Enter a valid email address');
+	await expect(page.getByLabel('Password')).toHaveAccessibleDescription('Required');
+});
+
+test('a valid form submits, and the server answer shows on its field', async ({ page }) => {
+	await open(page, '/forms/form');
+	const email = page.getByRole('textbox', { name: 'Email' });
+	await email.fill('ada@example.com');
+	await page.getByLabel('Password').fill('correct horse');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(email).toHaveAccessibleDescription('An account with this email already exists');
+	await email.fill('grace@example.com');
+	await page.getByRole('button', { name: 'Create account' }).click();
+	await expect(page.getByText('Account created for grace@example.com.')).toBeVisible();
+});

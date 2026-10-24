@@ -1,6 +1,7 @@
 <script lang="ts">
 	// A tag, a filter, an action or a link, as a compact pill. See ChipProps for the props.
 	import { useDefaults } from '../../core/defaults/context.js';
+	import { sveltierError } from '../../core/errors/errors.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import './chip.css';
@@ -43,8 +44,9 @@
 		const element = href != null ? 'a' : toggle || onclick ? 'button' : 'span';
 		// A close button inside a button or a link would nest one control in another.
 		if (closable && element !== 'span') {
-			throw new Error(
-				'[sveltier] Chip: a closable chip cannot also be a button or a link. Put the action in a Button next to it.'
+			throw sveltierError(
+				'SV4001',
+				'Chip: a closable chip cannot also be a button or a link, since its close button would sit inside it. Put the action in a Button next to the chip.'
 			);
 		}
 		return element;
@@ -77,7 +79,7 @@
 	aria-pressed={toggle ? selected : undefined}
 	class={[
 		'sv-chip',
-		sharedClasses({ ...p, variant: selected ? 'flat' : p.variant }),
+		sharedClasses({ ...p, variant: selected ? 'flat' : p.variant }, 'Chip'),
 		action && 'sv-chip--action',
 		p.disabled && 'sv-chip--disabled',
 		className

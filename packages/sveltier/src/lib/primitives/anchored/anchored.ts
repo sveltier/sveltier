@@ -1,10 +1,14 @@
 import type { Attachment } from 'svelte/attachments';
 
+export const SIDES = ['top', 'bottom', 'start', 'end'] as const;
+export const ALIGNS = ['start', 'center', 'end'] as const;
+export const PHYSICAL_SIDES = ['top', 'bottom', 'left', 'right'] as const;
+
 /** Side of the anchor. `start` and `end` follow the writing direction. */
-export type Side = 'top' | 'bottom' | 'start' | 'end';
+export type Side = (typeof SIDES)[number];
 /** Alignment along that side, following the writing direction. */
-export type Align = 'start' | 'center' | 'end';
-export type PhysicalSide = 'top' | 'bottom' | 'left' | 'right';
+export type Align = (typeof ALIGNS)[number];
+export type PhysicalSide = (typeof PHYSICAL_SIDES)[number];
 
 export interface AnchoredOptions {
 	/** The element to place against. Nothing happens until it exists. */

@@ -42,7 +42,7 @@
 	aria-valuenow={indeterminate ? undefined : percent}
 	class={[
 		'sv-progress-circular',
-		sharedClasses(p),
+		sharedClasses(p, 'ProgressCircular'),
 		indeterminate && 'sv-progress-circular--indeterminate',
 		className
 	]}

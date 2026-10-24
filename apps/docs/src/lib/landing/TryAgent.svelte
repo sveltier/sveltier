@@ -34,8 +34,8 @@
 		<h2 id="try-title">Run the replay with your own agent</h2>
 		<p>
 			Paste this into Claude Code, Cursor or any coding agent. It points the agent at
-			<code>llms-full.txt</code>: setup, conventions and every component's props, generated from the
-			same types your editor checks.
+			<code>llms-full.txt</code>: setup, conventions, every component's props and every error code,
+			generated from the same types your editor checks.
 		</p>
 	</header>
 	<figure class="landing-card landing-prompt">

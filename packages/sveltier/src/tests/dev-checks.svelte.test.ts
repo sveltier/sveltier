@@ -1,0 +1,33 @@
+import { afterAll, describe, expect, it, vi } from 'vitest';
+import { render } from 'vitest-browser-svelte';
+import ButtonHarness from './fixtures/ButtonHarness.svelte';
+import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
+
+// Tests resolve #dev to the development checks, as an app's dev server does. Each message is
+// logged once per page, so every case here uses its own message.
+const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+const logged = () => warn.mock.calls.flat().join('\n');
+afterAll(() => warn.mockRestore());
+
+describe('development checks in components', () => {
+	it('name the intent when a colour is given as the variant', async () => {
+		await render(ButtonHarness, { variant: 'primary' as never });
+		expect(logged()).toContain(
+			`[sveltier SV2002] <Button> got variant="primary". Valid values: 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'. To colour it, use color="primary". https://sveltier.com/errors#SV2002`
+		);
+	});
+
+	it('check a field variant against the variants fields take', async () => {
+		await render(TextFieldHarness, { variant: 'flat' as never });
+		expect(logged()).toContain(
+			`<Field> got variant="flat". Valid values: 'outlined' | 'tonal' | 'elevated' | 'text' | 'plain'.`
+		);
+	});
+
+	it('warn about a field without an accessible name, and not about a labelled one', async () => {
+		await render(TextFieldHarness);
+		expect(logged()).not.toContain('SV5001');
+		await render(TextFieldHarness, { label: undefined });
+		await expect.poll(logged).toContain('[sveltier SV5001] <TextField> has no accessible name.');
+	});
+});

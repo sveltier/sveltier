@@ -1,5 +1,6 @@
 import { untrack } from 'svelte';
 import type { Attachment } from 'svelte/attachments';
+import { sveltierError } from '../../core/errors/errors.js';
 
 export type VirtualKey = string | number;
 
@@ -93,7 +94,10 @@ class Virtualizer implements VirtualList {
 	#config = $derived.by(() => {
 		const { count, itemSize, overscan = 3, key, ssrHeight = 0 } = this.#options();
 		if (typeof itemSize === 'number' && !(itemSize > 0)) {
-			throw new Error('[sveltier] virtualList: itemSize must be a positive number of px.');
+			throw sveltierError(
+				'SV3002',
+				`virtualList: itemSize must be a positive number of px; got ${itemSize}.`
+			);
 		}
 		return {
 			count: Number.isFinite(count) ? Math.max(0, Math.trunc(count)) : 0,
@@ -124,7 +128,10 @@ class Virtualizer implements VirtualList {
 		if (typeof itemSize === 'number') return itemSize;
 		const size = itemSize(index);
 		if (!(size > 0)) {
-			throw new Error('[sveltier] virtualList: itemSize must return a positive number of px.');
+			throw sveltierError(
+				'SV3002',
+				`virtualList: itemSize(${index}) returned ${size}; it must return a positive number of px.`
+			);
 		}
 		return size;
 	}
@@ -227,7 +234,10 @@ class Virtualizer implements VirtualList {
 
 	measure: Attachment<HTMLElement> = (element) => {
 		if (element.dataset.index === undefined) {
-			throw new Error('[sveltier] virtualList: measured items need data-index={item.index}.');
+			throw sveltierError(
+				'SV3003',
+				'virtualList: a measured item has no data-index. Add data-index={item.index} next to {@attach list.measure}.'
+			);
 		}
 		this.#queued.add(element);
 		if (!this.#observing) this.#observing = requestAnimationFrame(() => this.#observeQueued());

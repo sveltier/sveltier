@@ -22,7 +22,10 @@ export type Variant = (typeof VARIANTS)[number];
  * Corner rounding. `true` keeps the theme's radius, `false` / `'none'` removes it,
  * `sm`–`xl` pick a theme radius, `'full'` makes a pill whatever the theme.
  */
-export type Rounded = boolean | 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export const ROUNDED = [true, false, 'none', 'sm', 'md', 'lg', 'xl', 'full'] as const;
+// Literal props are read from a const list, so a type error lists the valid values instead of
+// the alias name ("Type '"pill"' is not assignable to type 'boolean | "none" | …'").
+export type Rounded = (typeof ROUNDED)[number];
 
 /**
  * Custom colours added with `defineTheme()`. Register them here by declaration merging to
@@ -42,7 +45,11 @@ export interface CustomColors {}
  * A component's colour: an intent, `neutral` (the text colour, with the background as its
  * on-colour), or a custom colour registered in `CustomColors`.
  */
-export type Color = IntentColor | 'neutral' | Extract<keyof CustomColors, string>;
+// The conditional re-creates the union without its alias name, so a type error lists every
+// colour, custom ones included, instead of saying only "Color".
+export type Color = IntentColor | 'neutral' | Extract<keyof CustomColors, string> extends infer C
+	? C
+	: never;
 
 /** Props shared by every component that supports them. */
 export interface SharedProps {

@@ -1,6 +1,7 @@
 import type { Attachment } from 'svelte/attachments';
 
-export type DismissReason = 'escape' | 'outside' | 'focus';
+export const DISMISS_REASONS = ['escape', 'outside', 'focus'] as const;
+export type DismissReason = (typeof DISMISS_REASONS)[number];
 
 type Elements = Array<Element | null | undefined>;
 

@@ -48,7 +48,7 @@ describe('themeCss', () => {
 				dark: 'a"]{}',
 				fallback: 'system'
 			})
-		).toThrow(/invalid theme name/);
+		).toThrow(/SV1005\] Invalid theme name/);
 		expect(() =>
 			themeCss({
 				themes: { system: monolithDark },
@@ -56,14 +56,14 @@ describe('themeCss', () => {
 				dark: 'system',
 				fallback: 'system'
 			})
-		).toThrow(/invalid theme name/);
+		).toThrow(/SV1005\] Invalid theme name/);
 		const evil = defineTheme(
 			{ colors: { primary: 'red}</style><script>alert(1)</script>' } },
 			monolithLight
 		);
 		expect(() =>
 			themeCss({ themes: { evil }, light: 'evil', dark: 'evil', fallback: 'system' })
-		).toThrow(/unsafe value for "color-primary"/);
+		).toThrow(/SV1004\] Unsafe value for "color-primary"/);
 	});
 
 	it('emits custom colours under --sv-color-*, with a colour class', () => {
@@ -95,12 +95,12 @@ describe('themeCss', () => {
 		const bad = defineTheme({ colors: { 'brand name': 'oklch(0.5 0.1 300)' } }, monolithLight);
 		expect(() =>
 			themeCss({ themes: { bad }, light: 'bad', dark: 'bad', fallback: 'system' })
-		).toThrow(/invalid colour or variable name "color-brand name"/);
+		).toThrow(/SV1003\] Invalid colour or variable name "color-brand name"/);
 	});
 
 	it('rejects unknown light, dark or fallback names', () => {
 		expect(() => themeCss({ themes, light: 'paper', dark, fallback: 'system' })).toThrow(
-			/unknown theme "paper"/
+			/SV1002\] Unknown theme "paper"\. Registered: /
 		);
 	});
 });
@@ -122,7 +122,7 @@ describe('themeHead', () => {
 		expect(themeHead('a{}', 'x()', 'abc123+/=')).toBe(
 			'<style id="sv-theme" nonce="abc123+/=">a{}</style><script nonce="abc123+/=">x()</script>'
 		);
-		expect(() => themeHead('a{}', '', '" onload="x')).toThrow(/invalid nonce/);
+		expect(() => themeHead('a{}', '', '" onload="x')).toThrow(/SV1006\] Invalid nonce/);
 	});
 
 	it('omits the script when there is none', () => {

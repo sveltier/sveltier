@@ -87,6 +87,13 @@ export default [
 		limit: '1.8 KB'
 	},
 	{
+		// Shared by every form control: when a message shows, the HTML constraints with their
+		// messages, the native validity kept in step, and joining the Form around it.
+		name: 'form validation (shared by the form controls)',
+		code: "export { createField } from 'sveltier/core/form/field.svelte.js';\nexport { textConstraintMessage } from 'sveltier/core/form/constraints.js';",
+		limit: '0.85 KB'
+	},
+	{
 		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
 		// locale) come with UIProvider or the first component and are measured above. About
 		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of
@@ -141,6 +148,23 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Label, box, hint and error with the ARIA links (1.35 KB of JS), and five variants with
+		// their focus and invalid states (1.15 KB of CSS). Every boxed field draws in it. The list
+		// of field variants it hands to the development checks adds the last few bytes.
+		name: 'Field',
+		code: "export { Field } from 'sveltier';",
+		limit: '2.55 KB',
+		external: [/\/core\//]
+	},
+	{
+		// Submit and reset handling, the field registry and the disabled defaults; the fields
+		// themselves are measured in their own entries.
+		name: 'Form',
+		code: "export { Form } from 'sveltier';",
+		limit: '1.1 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Most of it is what any Svelte component with rest props costs.
 		name: 'Icon',
 		code: "export { Icon } from 'sveltier';",
@@ -186,6 +210,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code. The Field it draws in and the validation it shares with the other form
+		// controls are measured in their own entries.
+		name: 'TextField',
+		code: "export { TextField } from 'sveltier';",
+		limit: '1.1 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from 'sveltier';",
 		limit: '1 KB'
@@ -197,11 +229,12 @@ export default [
 	})),
 	{
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
-		// the engine, the shared props CSS, locale, the primitives and the bundler's dynamic import
-		// helper. It grows with every module by design.
+		// the engine, the shared props CSS, locale, the primitives, the components, the form
+		// fields, the error registry (about 1.3 KB of text, which apps only load if they import
+		// it) and the bundler's dynamic import helper. It grows with every module by design.
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '24 KB'
+		limit: '28.5 KB'
 	}
 ];

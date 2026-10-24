@@ -12,6 +12,7 @@
 	// Renders its children as a separate root in another part of the document, with the same
 	// contexts. Moving the element itself would break how Svelte removes it later.
 	import { getAllContexts, mount, unmount } from 'svelte';
+	import { sveltierError } from '../../core/errors/errors.js';
 	import { hasThemeContext, useTheme } from '../../core/theme/context.js';
 	import PortalContent from './PortalContent.svelte';
 
@@ -22,7 +23,12 @@
 
 	$effect(() => {
 		const parent = typeof target === 'string' ? document.querySelector(target) : target;
-		if (!parent) throw new Error(`[sveltier] Portal: no element matches "${target}".`);
+		if (!parent) {
+			throw sveltierError(
+				'SV3001',
+				`Portal: no element matches "${target}". Render the target first, or pass the element itself.`
+			);
+		}
 		const root = mount(PortalContent, { target: parent, props: { children, theme }, context });
 		return () => {
 			void unmount(root);

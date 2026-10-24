@@ -39,10 +39,15 @@ function literals(checker: ts.TypeChecker, alias: ts.Symbol | undefined): string
 	if (ts.isIndexedAccessTypeNode(node)) {
 		const list = checker.getTypeFromTypeNode(node.objectType);
 		if (!checker.isTupleType(list)) return;
-		return checker
+		const members = checker
 			.getTypeArguments(list as ts.TypeReference)
-			.map((element) => checker.typeToString(element).replace(/^"(.*)"$/, "'$1'"))
-			.join(' | ');
+			.map((element) => checker.typeToString(element).replace(/^"(.*)"$/, "'$1'"));
+		// A list that holds both booleans reads as `boolean`, as it would in a written union.
+		if (members.includes('true') && members.includes('false')) {
+			members.splice(members.indexOf('true'), 1, 'boolean');
+			members.splice(members.indexOf('false'), 1);
+		}
+		return members.join(' | ');
 	}
 }
 
