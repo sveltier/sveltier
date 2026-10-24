@@ -8,6 +8,8 @@ test('llms.txt indexes every docs page', async ({ request }) => {
 	const text = await response.text();
 	expect(text).toMatch(/^# Sveltier\n\n> /);
 	expect(text).toContain('## Components');
+	// Models drift to Svelte 4 syntax, so the index says what not to write.
+	expect(text).toContain('Never write Svelte 4 syntax: no `export let`');
 	expect(text).toContain(
 		'- [Button](./components/button): A button, or a link that looks like one'
 	);
