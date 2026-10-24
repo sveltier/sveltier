@@ -113,6 +113,13 @@ export const ERROR_CODES = {
 			'A closable chip contains a close button, and a button cannot be placed inside another button or a link.',
 		fix: 'Keep the chip `closable` and put its action in a `Button` next to it, or remove `closable`.'
 	},
+	SV4002: {
+		kind: 'warning',
+		title: 'Tooltip on a control without an accessible name',
+		cause:
+			'A tooltip describes the control it is on; it does not name it. A control with no text, `aria-label` or `aria-labelledby`, such as an icon-only button, is announced without a name.',
+		fix: 'Give the control `aria-label`, as every icon-only button needs, or visible text. The tooltip can then say more than the name.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field or dialog without an accessible name',

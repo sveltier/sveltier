@@ -7,6 +7,14 @@ async function open(page: Page, path: string) {
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', /.+/);
 }
 
+/** The WCAG 2.2 A/AA violations on the page as it is. */
+async function violations(page: Page) {
+	const results = await new AxeBuilder({ page })
+		.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+		.analyze();
+	return results.violations.map((v) => `${v.id}: ${v.help}`);
+}
+
 // The overlay demos, driven like a user would, in every engine.
 
 test('a dialog opens from its trigger, focuses its field, and gives focus back on Escape', async ({
@@ -23,17 +31,22 @@ test('a dialog opens from its trigger, focuses its field, and gives focus back o
 	await expect(trigger).toBeFocused();
 });
 
-// The page sweep sees the dialogs closed; this checks one open, in both colour schemes.
+// The page sweep sees every overlay closed; these check them open, in both colour schemes.
 for (const colorScheme of ['light', 'dark'] as const) {
 	test(`an open dialog has no axe violations (${colorScheme})`, async ({ page }) => {
 		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 		await open(page, '/overlays/dialog');
 		await page.getByRole('button', { name: 'Delete card' }).click();
 		await expect(page.getByRole('dialog', { name: 'Delete this card?' })).toBeVisible();
-		const results = await new AxeBuilder({ page })
-			.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-			.analyze();
-		expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
+		expect(await violations(page)).toEqual([]);
+	});
+
+	test(`a shown tooltip has no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/tooltip');
+		await page.getByRole('button', { name: 'Freeze card' }).hover();
+		await expect(page.getByRole('tooltip')).toBeVisible();
+		expect(await violations(page)).toEqual([]);
 	});
 }
 
@@ -58,4 +71,17 @@ test('a confirmation dialog runs its action and closes', async ({ page }) => {
 	await dialog.getByRole('button', { name: 'Delete' }).click();
 	await expect(dialog).toBeHidden();
 	await expect(page.getByText('deleted = true')).toBeVisible();
+});
+
+test('a tooltip shows when the pointer rests on its button, and Escape hides it', async ({
+	page
+}) => {
+	await open(page, '/overlays/tooltip');
+	const copy = page.locator('.docs-demo').getByRole('button', { name: 'Copy', exact: true });
+	await expect(copy).toHaveAccessibleDescription('Copy the IBAN');
+	await copy.hover();
+	const tooltip = page.getByRole('tooltip', { name: 'Copy the IBAN' });
+	await expect(tooltip).toBeVisible();
+	await page.keyboard.press('Escape');
+	await expect(tooltip).toBeHidden();
 });

@@ -42,6 +42,43 @@ export const sheetUsage = `<script>
 <!-- A sheet from the bottom, as on a phone. -->
 <Sheet title="Share the statement" side="bottom">…</Sheet>`;
 
+export const tooltipUsage = `<script>
+  import { Button, Icon, Tooltip } from '@sveltier/ui';
+  import { mdiContentCopy } from '@mdi/js';
+</script>
+
+<!-- The tooltip describes the button; aria-label still names it. -->
+<Tooltip text="Copy the IBAN">
+  {#snippet trigger(attributes)}
+    <Button {...attributes} icon variant="text" aria-label="Copy"><Icon path={mdiContentCopy} /></Button>
+  {/snippet}
+</Tooltip>
+
+<Tooltip text="Blocks new card payments until you unfreeze it." side="bottom">
+  {#snippet trigger(attributes)}
+    <Button {...attributes} variant="outlined">Freeze card</Button>
+  {/snippet}
+</Tooltip>`;
+
+export const tooltipWithDialog = `<script>
+  import { Button, Dialog, Icon, TextField, Tooltip } from '@sveltier/ui';
+  import { mdiPencil } from '@mdi/js';
+</script>
+
+<!-- One control, two overlays: spread both sets of attributes onto it. -->
+<Dialog title="Rename the account">
+  {#snippet trigger(dialog)}
+    <Tooltip text="Rename the account">
+      {#snippet trigger(tooltip)}
+        <Button {...dialog} {...tooltip} icon variant="text" aria-label="Rename">
+          <Icon path={mdiPencil} />
+        </Button>
+      {/snippet}
+    </Tooltip>
+  {/snippet}
+  <TextField label="Account name" />
+</Dialog>`;
+
 export const dialogControlled = `<script>
   import { Dialog, TextField } from '@sveltier/ui';
 

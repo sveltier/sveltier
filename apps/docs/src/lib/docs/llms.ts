@@ -31,7 +31,7 @@ import {
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
-import { dialogUsage, sheetUsage } from '#lib/snippets/overlays.js';
+import { dialogUsage, sheetUsage, tooltipUsage } from '#lib/snippets/overlays.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -137,7 +137,8 @@ const OVERLAYS: Entry[] = [
 		types: ['DialogProps', 'TriggerAttributes'],
 		example: dialogUsage
 	},
-	{ name: 'Sheet', path: 'overlays/sheet', types: ['SheetProps'], example: sheetUsage }
+	{ name: 'Sheet', path: 'overlays/sheet', types: ['SheetProps'], example: sheetUsage },
+	{ name: 'Tooltip', path: 'overlays/tooltip', types: ['TooltipProps'], example: tooltipUsage }
 ];
 
 const PRIMITIVES: Entry[] = [

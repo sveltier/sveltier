@@ -290,6 +290,14 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// Its own code: hover with its delay and grace, focus, the toolbar warm-up and the CSS fade.
+		// Placement and the layer stack are primitives, measured apart.
+		name: 'Tooltip',
+		code: "export { Tooltip } from '@sveltier/ui';",
+		limit: '1.65 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from '@sveltier/ui';",
 		limit: '1 KB'
@@ -307,6 +315,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '38 KB'
+		limit: '39 KB'
 	}
 ];

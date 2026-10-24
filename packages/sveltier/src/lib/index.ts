@@ -238,3 +238,4 @@ export {
 	type TextFieldProps,
 	type TextFieldType
 } from './components/TextField/index.js';
+export { Tooltip, type TooltipDefaults, type TooltipProps } from './components/Tooltip/index.js';

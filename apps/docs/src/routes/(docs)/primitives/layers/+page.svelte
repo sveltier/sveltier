@@ -28,6 +28,11 @@
 		<code>event.preventDefault()</code> and the layer stays open.
 	</p>
 	<p>
+		A <code>transient</code> layer, such as a tooltip, holds nothing the user works in. Escape still closes
+		it first, but a press outside closes it and goes on to the layer beneath, so a tooltip never costs
+		an extra press to leave a dialog.
+	</p>
+	<p>
 		Sveltier's floating components put their layer in the top layer with
 		<code>popover="manual"</code> and leave dismissal to this stack, so a popover inside a sheet inside
 		a dialog behaves the same at every level.

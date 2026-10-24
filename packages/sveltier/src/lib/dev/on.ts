@@ -56,3 +56,25 @@ export function warnUnnamed(
 		`<${component}> has no accessible name. Give it ${give}, or name it with aria-label or aria-labelledby.`
 	);
 }
+
+/**
+ * Warns when a tooltip describes a control that has no accessible name: a description names
+ * nothing, so an icon-only button would be announced as just "button".
+ */
+export function warnNamelessTrigger(
+	component: string,
+	element: HTMLElement & { labels?: NodeListOf<HTMLLabelElement> | null }
+): void {
+	if (
+		element.textContent?.trim() ||
+		element.querySelector('img[alt]:not([alt=""])') ||
+		['aria-label', 'aria-labelledby', 'title'].some((name) => element.getAttribute(name)) ||
+		[...(element.labels ?? [])].some((label) => label.textContent?.trim())
+	) {
+		return;
+	}
+	warn(
+		'SV4002',
+		`<${component}> describes a control that has no accessible name. A tooltip adds a description, not a name: give the control aria-label, as every icon-only button needs, or visible text.`
+	);
+}
