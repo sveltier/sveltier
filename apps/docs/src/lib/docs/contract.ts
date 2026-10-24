@@ -12,7 +12,7 @@ export const CONTRACT_DOCS: Record<ThemeVariable, string> = {
 	'label-tracking': 'Letter spacing of small labels.',
 	'button-transform': 'Casing of button text.',
 	'button-tracking': 'Letter spacing of button text.',
-	'radius-sm': 'Small radius: small parts such as skeleton lines and stepper buttons.',
+	'radius-sm': 'Small radius: checkboxes, skeleton lines and stepper buttons.',
 	'radius-md':
 		'Control radius: buttons, one-line fields, segmented controls, navigation rows. It may be a pill, so a box that grows with its content (a textarea, an alert) takes the smaller of radius-md and radius-lg.',
 	'radius-lg': 'Surface radius: cards, and the most a box that grows with its content takes.',

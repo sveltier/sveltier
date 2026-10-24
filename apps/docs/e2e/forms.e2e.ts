@@ -124,3 +124,35 @@ test('a native select keeps the type of its values', async ({ page }) => {
 	await country.selectOption({ label: 'Vietnam' });
 	await expect(page.getByText('country = "vn"')).toBeVisible();
 });
+
+test('a select-all checkbox shows a dash for part of its list and checks it all', async ({
+	page
+}) => {
+	await open(page, '/forms/checkbox');
+	const all = page.getByRole('checkbox', { name: 'All documents' });
+	const dashed = () => all.evaluate((input: HTMLInputElement) => input.indeterminate);
+	expect(await dashed()).toBe(true);
+	await all.click();
+	await expect(page.getByRole('checkbox', { name: 'Tax forms' })).toBeChecked();
+	await expect(
+		page.getByText('chosen = ["Statements","Tax forms","Trade confirmations"]')
+	).toBeVisible();
+	await page.getByRole('checkbox', { name: 'Statements' }).click();
+	expect(await dashed()).toBe(true);
+	await expect(all).not.toBeChecked();
+});
+
+test('a checkbox whose label holds a link is named by the whole label', async ({ page }) => {
+	await open(page, '/forms/checkbox');
+	const licence = page.getByRole('checkbox', { name: 'I accept the licence terms' });
+	// The start of the label, away from the link, which would navigate instead.
+	await page
+		.locator('.docs-demo')
+		.getByText('I accept the')
+		.click({ position: { x: 4, y: 4 } });
+	await expect(licence).toBeChecked();
+	await expect(page.getByRole('link', { name: 'licence terms' })).toHaveAttribute(
+		'href',
+		/LICENSE$/
+	);
+});

@@ -151,6 +151,11 @@ export {
 	type ButtonGroupProps
 } from './components/ButtonGroup/index.js';
 export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
+export {
+	Checkbox,
+	type CheckboxDefaults,
+	type CheckboxProps
+} from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {

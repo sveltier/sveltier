@@ -979,6 +979,17 @@ a {
 	border-radius: var(--sv-radius-lg);
 }
 
+/* Checkboxes and switches in a column; a nested group sits under its parent's label. */
+.docs-choices {
+	display: grid;
+	align-content: start;
+	justify-items: start;
+}
+
+.docs-choices--nested {
+	padding-inline-start: var(--sv-space-21);
+}
+
 /* Primitives demos */
 
 .docs-trap {

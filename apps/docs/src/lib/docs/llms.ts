@@ -20,6 +20,7 @@ import {
 	tabsUsage
 } from '#lib/snippets/components.js';
 import {
+	checkboxUsage,
 	fieldUsage,
 	formSvelteKit,
 	nativeSelectUsage,
@@ -103,6 +104,7 @@ const FORMS: Entry[] = [
 		types: ['NativeSelectProps'],
 		example: nativeSelectUsage
 	},
+	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{
 		name: 'Field',
 		path: 'forms/field',

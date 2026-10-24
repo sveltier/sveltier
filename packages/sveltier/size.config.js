@@ -135,6 +135,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code with the label row it shares with Switch: the label, hint and error beside
+		// the control. The validation it shares with the other form controls is measured apart.
+		name: 'Checkbox',
+		code: "export { Checkbox } from 'sveltier';",
+		limit: '2.85 KB',
+		external: [/\/core\//]
+	},
+	{
 		// A tag, a toggle, an action and a link in one, with a close button and its own state layer.
 		name: 'Chip',
 		code: "export { Chip } from 'sveltier';",
@@ -261,6 +269,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '32 KB'
+		limit: '34 KB'
 	}
 ];

@@ -80,6 +80,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'Textarea', path: 'forms/textarea' },
 			{ title: 'NumberField', path: 'forms/number-field' },
 			{ title: 'NativeSelect', path: 'forms/native-select' },
+			{ title: 'Checkbox', path: 'forms/checkbox' },
 			{ title: 'Field', path: 'forms/field' }
 		]
 	},

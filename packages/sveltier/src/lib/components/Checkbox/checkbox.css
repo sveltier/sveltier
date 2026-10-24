@@ -1,0 +1,138 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* The box is as tall as a line of the label, 1.272em with the label's √φ line height. */
+	.sv-checkbox {
+		--sv-checkbox-size: 1.272em;
+		--sv-checkbox-border: calc(var(--sv-hairline) * 1.5);
+		--sv-choice-control: var(--sv-checkbox-size);
+	}
+
+	/*
+	 * The native input lies over the drawn box, invisible, so focus, keys, forms and autofill stay
+	 * native. The box sits on the first line of the label.
+	 */
+	.sv-checkbox__control {
+		position: relative;
+		display: inline-flex;
+		flex: none;
+		margin-block-start: calc((1lh - var(--sv-checkbox-size)) / 2);
+	}
+
+	.sv-checkbox__input {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: inherit;
+	}
+
+	/* Never rounder than a quarter of its side, so a checkbox does not pass for a radio. */
+	.sv-checkbox__box {
+		position: relative;
+		display: grid;
+		place-items: center;
+		box-sizing: border-box;
+		inline-size: var(--sv-checkbox-size);
+		block-size: var(--sv-checkbox-size);
+		border: var(--sv-checkbox-border) solid var(--sv-color-border-strong);
+		border-radius: min(var(--sv-radius-sm), var(--sv-checkbox-size) * 0.236);
+		background-color: var(--sv-color-surface);
+		color: var(--sv-on-color);
+		pointer-events: none;
+	}
+
+	/* The fill (before) and the state layer (after) cover the border. */
+	.sv-checkbox__box::before,
+	.sv-checkbox__box::after {
+		content: '';
+		position: absolute;
+		inset: calc(var(--sv-checkbox-border) * -1);
+		border-radius: inherit;
+		opacity: 0;
+	}
+
+	.sv-checkbox__box::before {
+		background-color: var(--sv-color);
+		transform: scale(0.618);
+	}
+
+	.sv-checkbox__box::after {
+		background-color: var(--sv-color-text);
+	}
+
+	.sv-checkbox__mark {
+		position: relative;
+		inline-size: 100%;
+		block-size: 100%;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 3;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		opacity: 0;
+		transform: scale(0.618);
+	}
+
+	/* A check scales in with its fill; nothing else moves. */
+	.sv-checkbox__box::before,
+	.sv-checkbox__mark {
+		transition:
+			opacity var(--sv-duration-fast) var(--sv-ease),
+			transform var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-checkbox__input:checked + .sv-checkbox__box::before,
+	.sv-checkbox__input:checked + .sv-checkbox__box .sv-checkbox__mark,
+	.sv-checkbox--indeterminate .sv-checkbox__box::before,
+	.sv-checkbox--indeterminate .sv-checkbox__mark {
+		opacity: 1;
+		transform: none;
+	}
+
+	.sv-checkbox__input:checked + .sv-checkbox__box::after,
+	.sv-checkbox--indeterminate .sv-checkbox__box::after {
+		background-color: var(--sv-on-color);
+	}
+
+	/* The dash stands in for the check while the state is indeterminate. */
+	.sv-checkbox__dash,
+	.sv-checkbox--indeterminate .sv-checkbox__check {
+		display: none;
+	}
+
+	.sv-checkbox--indeterminate .sv-checkbox__dash {
+		display: inline;
+	}
+
+	/*
+	 * Hover and press mix the mark's colour over the box, as they do over a flat Button. The
+	 * disabled guard adds no weight, so an invalid box keeps its error border under the pointer.
+	 */
+	@media (hover: hover) {
+		:where(.sv-checkbox:not(.sv-choice--disabled)) > .sv-choice__row:hover .sv-checkbox__box {
+			border-color: var(--sv-color-text-muted);
+		}
+
+		:where(.sv-checkbox:not(.sv-choice--disabled))
+			> .sv-choice__row:hover
+			.sv-checkbox__box::after {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	:where(.sv-checkbox:not(.sv-choice--disabled)) > .sv-choice__row:active .sv-checkbox__box::after {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-checkbox__input:focus-visible + .sv-checkbox__box {
+		outline: var(--sv-focus-width) solid var(--sv-color);
+		outline-offset: var(--sv-focus-offset);
+	}
+
+	.sv-choice--invalid > .sv-choice__row .sv-checkbox__box {
+		border-color: var(--sv-color-error);
+	}
+}
