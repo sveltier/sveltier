@@ -1,0 +1,84 @@
+name: Release
+
+# Stages @sveltier/ui on npm from the commit it runs on, through npm trusted publishing: GitHub's
+# OIDC token stands in for an npm token, and npm signs provenance on its own. The staged version
+# stays private until a maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with
+# `npm stage approve <stage-id>`. Run it by hand on main (Actions > Release > Run workflow) once
+# the pull request that bumps the version is merged.
+on:
+  workflow_dispatch:
+    inputs:
+      dist-tag:
+        description: The npm dist-tag the version gets once it is approved
+        type: choice
+        options: [latest, alpha, next]
+        default: latest
+
+permissions:
+  contents: read
+  # Trusted publishing and provenance.
+  id-token: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  # Must match the playwright version in package.json, as in CI.
+  PLAYWRIGHT_VERSION: 1.64.1
+
+jobs:
+  stage:
+    name: Build, test and stage
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
+    steps:
+      - name: Refuse to release from a branch other than main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Run the Release workflow on main, not on $GITHUB_REF_NAME."
+          exit 1
+
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Refuse a version that is already on npm
+        working-directory: packages/sveltier
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "@sveltier/ui@$version" version > /dev/null 2>&1; then
+            echo "::error::@sveltier/ui@$version is already on npm. Bump the version in a pull request first."
+            exit 1
+          fi
+          echo "Staging @sveltier/ui@$version" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check the Playwright version matches the container
+        run: test "$(pnpm --filter @sveltier/ui exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
+
+      # The build runs publint and attw on the package as it will be published.
+      - name: Build and test the package
+        run: |
+          pnpm --filter @sveltier/ui build
+          pnpm --filter @sveltier/ui test
+
+      # Staged publishing needs npm 11.15.0 or later; Node 22 ships an older npm.
+      - name: Stage on npm
+        working-directory: packages/sveltier
+        env:
+          DIST_TAG: ${{ inputs.dist-tag }}
+        run: |
+          npx --yes npm@11.21.0 stage publish --tag "$DIST_TAG"
+          echo "Staged under the dist-tag \`$DIST_TAG\`. Approve it with 2FA on npmjs.com (Staged Packages), or with \`npm stage approve <stage-id>\` using the id in this step's log." >> "$GITHUB_STEP_SUMMARY"
