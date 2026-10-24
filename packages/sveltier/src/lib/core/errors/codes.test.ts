@@ -23,18 +23,19 @@ const used = new Set(
 );
 
 describe('error codes', () => {
-	it('documents every code the library throws', () => {
+	it('documents every code the library throws or warns with', () => {
 		const documented = Object.keys(ERROR_CODES);
 		expect([...used].filter((code) => !documented.includes(code))).toEqual([]);
 	});
 
-	it('throws every code it documents', () => {
+	it('uses every code it documents', () => {
 		expect(Object.keys(ERROR_CODES).filter((code) => !used.has(code))).toEqual([]);
 	});
 
 	it('explains each code in full sentences', () => {
 		for (const [code, entry] of Object.entries(ERROR_CODES)) {
 			expect(code).toMatch(/^SV[1-5]\d{3}$/);
+			expect(['error', 'warning']).toContain(entry.kind);
 			expect(entry.title).not.toMatch(/\.$/);
 			expect(entry.cause).toMatch(/\.$/);
 			expect(entry.fix).toMatch(/\.$/);

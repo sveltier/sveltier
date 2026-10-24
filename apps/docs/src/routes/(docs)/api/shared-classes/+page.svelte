@@ -17,6 +17,12 @@
 		It returns classes only for the props you pass, in a fixed order, and imports the stylesheet
 		that defines them. Use it in <code>$derived</code> or directly in the <code>class</code> attribute.
 	</p>
+	<p>
+		In development, a value outside its list logs a warning that names <code>component</code>, gives
+		the valid values and, for a colour passed as the variant, the prop it belongs to. A component
+		that takes only some variants passes them as <code>variants</code>. Production builds leave the
+		check out. See <a href={resolve('errors')}>Errors</a>.
+	</p>
 
 	<h2 id="props">Props and classes</h2>
 	<ApiTable label="sharedClasses props" rows={SHARED_CLASSES} />

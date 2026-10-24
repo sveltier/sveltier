@@ -65,7 +65,7 @@
 	aria-disabled={(inert && !native) || undefined}
 	class={[
 		'sv-button',
-		sharedClasses(p),
+		sharedClasses(p, 'Button'),
 		inert && 'sv-button--inert',
 		p.disabled && 'sv-button--disabled',
 		p.block && 'sv-button--block',

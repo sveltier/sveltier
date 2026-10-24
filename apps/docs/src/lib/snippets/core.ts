@@ -163,11 +163,15 @@ declare module 'sveltier' {
   }
 }`;
 
-export const sharedClassesSignature = `import { sharedClasses, type SharedClassProps } from 'sveltier';
+export const sharedClassesSignature = `import { sharedClasses, type SharedClassProps, type Variant } from 'sveltier';
 
-function sharedClasses(props: SharedClassProps): string;
+function sharedClasses(
+  props: SharedClassProps,
+  component?: string, // named in development warnings
+  variants?: readonly Variant[] // the variants this component takes, all by default
+): string;
 
-sharedClasses({ variant: 'tonal', size: 'sm', color: 'success', rounded: true });
+sharedClasses({ variant: 'tonal', size: 'sm', color: 'success', rounded: true }, 'MyPill');
 // 'sv-variant-tonal sv-size-sm sv-color-success sv-rounded'`;
 
 export const displayExample = `<script>

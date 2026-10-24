@@ -79,7 +79,7 @@
 	aria-pressed={toggle ? selected : undefined}
 	class={[
 		'sv-chip',
-		sharedClasses({ ...p, variant: selected ? 'flat' : p.variant }),
+		sharedClasses({ ...p, variant: selected ? 'flat' : p.variant }, 'Chip'),
 		action && 'sv-chip--action',
 		p.disabled && 'sv-chip--disabled',
 		className

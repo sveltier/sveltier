@@ -32,7 +32,7 @@
 	aria-valuenow={indeterminate ? undefined : percent}
 	class={[
 		'sv-progress-linear',
-		sharedClasses({ color: p.color }),
+		sharedClasses({ color: p.color }, 'ProgressLinear'),
 		indeterminate && 'sv-progress-linear--indeterminate',
 		className
 	]}

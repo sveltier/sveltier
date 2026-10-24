@@ -210,10 +210,11 @@ export function llmsFull(link: (path: string) => string): string {
 		...PRIMITIVES.flatMap((entry) => [section(entry, link), '']),
 		'## Errors',
 		'',
-		`Thrown messages start with \`[sveltier SVxxxx]\`, say what to do, and link to ${link('errors')}.`,
+		`Messages start with \`[sveltier SVxxxx]\`, say what to do, and link to ${link('errors')}. Errors are thrown in every build; warnings are logged in development only.`,
 		'',
 		...Object.entries(ERROR_CODES).map(
-			([code, entry]) => `- \`${code}\` ${entry.title}. ${entry.cause} Fix: ${entry.fix}`
+			([code, entry]) =>
+				`- \`${code}\` ${entry.kind === 'warning' ? '(development warning) ' : ''}${entry.title}. ${entry.cause} Fix: ${entry.fix}`
 		),
 		''
 	].join('\n');

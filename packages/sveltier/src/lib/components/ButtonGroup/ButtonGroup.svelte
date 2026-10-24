@@ -55,7 +55,7 @@
 	bind:this={ref}
 	{...rest}
 	role="group"
-	class={['sv-button-group', sharedClasses({ rounded: p.rounded }), className]}
+	class={['sv-button-group', sharedClasses({ rounded: p.rounded }, 'ButtonGroup'), className]}
 >
 	{@render children?.()}
 </div>

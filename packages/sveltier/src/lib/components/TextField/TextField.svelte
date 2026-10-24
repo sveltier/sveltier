@@ -1,11 +1,12 @@
 <script lang="ts">
 	// A single line of text in a Field, with validation. See TextFieldProps for the props.
+	import { checkValue, DEV, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { textConstraintMessage } from '../../core/form/constraints.js';
 	import { createField } from '../../core/form/field.svelte.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
-	import type { TextFieldDefaults, TextFieldProps } from './types.js';
+	import { TEXT_FIELD_TYPES, type TextFieldDefaults, type TextFieldProps } from './types.js';
 
 	let {
 		variant,
@@ -64,6 +65,14 @@
 		validateOn: () => validateOn,
 		control: () => ref
 	});
+
+	// The Field checks the variant; the input's own props are checked here, once it exists.
+	if (DEV) {
+		$effect(() => {
+			checkValue('TextField', 'type', type, TEXT_FIELD_TYPES);
+			warnUnnamed('TextField', ref);
+		});
+	}
 
 	// Leaving means focus went outside the field, not to a button in it.
 	function leave(event: FocusEvent) {

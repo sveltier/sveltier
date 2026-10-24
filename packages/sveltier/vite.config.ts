@@ -1,9 +1,14 @@
+import { fileURLToPath } from 'node:url';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	plugins: [svelte({ configFile: false, compilerOptions: { runes: true } })],
+	// Tests run the development checks from source; builds resolve #dev through package.json.
+	resolve: {
+		alias: { '#dev': fileURLToPath(new URL('./src/lib/dev/on.ts', import.meta.url)) }
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

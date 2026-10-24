@@ -37,7 +37,7 @@
 	role={alt ? 'img' : undefined}
 	aria-label={alt || undefined}
 	aria-hidden={alt ? undefined : 'true'}
-	class={['sv-avatar', sharedClasses(p), className]}
+	class={['sv-avatar', sharedClasses(p, 'Avatar'), className]}
 >
 	{#if image}
 		<img class="sv-avatar__image" src={image} alt="" onerror={() => (failed = image)} />

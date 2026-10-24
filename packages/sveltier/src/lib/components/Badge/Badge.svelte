@@ -42,7 +42,7 @@
 			<span
 				class={[
 					'sv-badge__badge',
-					sharedClasses({ variant: 'flat', color: p.color }),
+					sharedClasses({ variant: 'flat', color: p.color }, 'Badge'),
 					dot && 'sv-badge__badge--dot'
 				]}>{dot ? '' : shown}</span
 			>

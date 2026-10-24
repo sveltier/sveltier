@@ -52,7 +52,7 @@
 	bind:this={ref}
 	{...rest}
 	id={prefix}
-	class={['sv-tabs', sharedClasses(p), p.grow && 'sv-tabs--grow', className]}
+	class={['sv-tabs', sharedClasses(p, 'Tabs'), p.grow && 'sv-tabs--grow', className]}
 >
 	<div
 		role="tablist"

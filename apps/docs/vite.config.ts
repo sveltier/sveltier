@@ -12,7 +12,9 @@ const librarySource = fileURLToPath(new URL('../../packages/sveltier/src/lib', i
 const devAliases: Alias[] = [
 	{ find: /^sveltier$/, replacement: `${librarySource}/index.ts` },
 	{ find: /^sveltier\/themes\/(.+)$/, replacement: `${librarySource}/themes/$1.ts` },
-	{ find: /^sveltier\/styles\/(.+)$/, replacement: `${librarySource}/styles/$1` }
+	{ find: /^sveltier\/styles\/(.+)$/, replacement: `${librarySource}/styles/$1` },
+	// The library's development checks; builds take #dev from the package's import map.
+	{ find: /^#dev$/, replacement: `${librarySource}/dev/on.ts` }
 ];
 
 export default defineConfig(({ command }) => ({

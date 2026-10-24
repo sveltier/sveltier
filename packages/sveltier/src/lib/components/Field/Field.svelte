@@ -4,7 +4,7 @@
 	import { readError } from '../../core/form/field.svelte.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import './field.css';
-	import type { FieldDefaults, FieldProps } from './types.js';
+	import { FIELD_VARIANTS, type FieldDefaults, type FieldProps } from './types.js';
 
 	let {
 		variant,
@@ -60,7 +60,7 @@
 	{...rest}
 	class={[
 		'sv-field',
-		sharedClasses(p),
+		sharedClasses(p, 'Field', FIELD_VARIANTS),
 		shown !== false && 'sv-field--invalid',
 		p.disabled && 'sv-field--disabled',
 		readonly && 'sv-field--readonly',

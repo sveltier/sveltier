@@ -31,7 +31,7 @@
 	const p = $derived(resolve({ variant, color, density, rounded }));
 </script>
 
-<div bind:this={ref} {...rest} class={['sv-card', sharedClasses(p), className]}>
+<div bind:this={ref} {...rest} class={['sv-card', sharedClasses(p, 'Card'), className]}>
 	{#if title || subtitle || prepend || append}
 		<div class="sv-card__header">
 			{#if prepend}<div class="sv-card__prepend">{@render prepend()}</div>{/if}

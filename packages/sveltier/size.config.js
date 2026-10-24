@@ -149,10 +149,11 @@ export default [
 	},
 	{
 		// Label, box, hint and error with the ARIA links (1.35 KB of JS), and five variants with
-		// their focus and invalid states (1.15 KB of CSS). Every boxed field draws in it.
+		// their focus and invalid states (1.15 KB of CSS). Every boxed field draws in it. The list
+		// of field variants it hands to the development checks adds the last few bytes.
 		name: 'Field',
 		code: "export { Field } from 'sveltier';",
-		limit: '2.5 KB',
+		limit: '2.55 KB',
 		external: [/\/core\//]
 	},
 	{

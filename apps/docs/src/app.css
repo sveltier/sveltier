@@ -1412,3 +1412,11 @@ a {
 	align-items: baseline;
 	gap: var(--sv-space-8);
 }
+
+.docs-error-kind {
+	padding: var(--sv-space-2) var(--sv-space-8);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-full);
+	color: var(--sv-color-text-muted);
+	font: var(--sv-weight-medium) var(--sv-text-xs) / var(--sv-leading-snug) var(--sv-font-ui);
+}
