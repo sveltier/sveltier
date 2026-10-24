@@ -1,5 +1,6 @@
 <script lang="ts">
 	// A single line of text in a Field, with validation. See TextFieldProps for the props.
+	import { untrack } from 'svelte';
 	import { checkValue, DEV, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { textConstraintMessage } from '../../core/form/constraints.js';
@@ -44,6 +45,9 @@
 	});
 	const p = $derived(resolve({ variant, color, size, density, rounded, disabled }));
 	const locale = useLocale();
+	// A form reset goes back to the text the field started with, as it does for a form rendered on
+	// the server. A defaultValue of the app's own wins.
+	const initial = untrack(() => value ?? '');
 
 	const field = createField<string>({
 		value: () => value ?? '',
@@ -99,6 +103,7 @@
 	{#snippet children(attributes)}
 		<input
 			bind:this={ref}
+			defaultValue={initial}
 			{...rest}
 			{...attributes}
 			aria-describedby={[describedBy, attributes['aria-describedby']].filter(Boolean).join(' ') ||

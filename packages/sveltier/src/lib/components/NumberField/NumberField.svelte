@@ -37,7 +37,6 @@
 		append,
 		id,
 		'aria-describedby': describedBy,
-		oninput,
 		onkeydown,
 		class: className,
 		style,
@@ -64,8 +63,10 @@
 			? ''
 			: locale.formatNumber(number, format ?? { maximumFractionDigits: 20 });
 
-	// What the input shows, and what it means: a number, null for empty, NaN for not a number.
-	let text = $state(untrack(() => show(value ?? null)));
+	// What the input shows, and what it means: a number, null for empty, NaN for not a number. A
+	// form reset goes back to the text the field started with.
+	const initial = untrack(() => show(value ?? null));
+	let text = $state(initial);
 	let parsed = $state<number | null>(untrack(() => value ?? null));
 
 	// A value set from outside, not typed, is written in the locale format.
@@ -115,11 +116,12 @@
 	const inert = $derived(p.disabled || readonly);
 	const current = $derived(parsed !== null && Number.isFinite(parsed) ? parsed : null);
 
-	function typed(event: Event & { currentTarget: EventTarget & HTMLInputElement }) {
-		const number = parseNumber(event.currentTarget.value, locale.locale);
+	// Called for typing and for a form reset alike, so the value always follows the text.
+	function read(next: string) {
+		text = next;
+		const number = parseNumber(next, locale.locale);
 		parsed = number;
 		if (number === null || Number.isFinite(number)) value = number;
-		(oninput as ((event: Event) => void) | null | undefined)?.(event);
 	}
 
 	/** Sets a number the keys or buttons chose, within min and max. */
@@ -223,6 +225,7 @@
 	{#snippet children(attributes)}
 		<input
 			bind:this={ref}
+			defaultValue={initial}
 			{...rest}
 			{...attributes}
 			aria-describedby={[describedBy, attributes['aria-describedby']].filter(Boolean).join(' ') ||
@@ -235,8 +238,7 @@
 			aria-valuemin={min}
 			aria-valuemax={max}
 			aria-valuetext={current === null ? undefined : text}
-			bind:value={text}
-			oninput={typed}
+			bind:value={() => text, read}
 			onkeydown={keydown}
 		/>
 		{#if name}<input type="hidden" {name} value={current ?? ''} />{/if}

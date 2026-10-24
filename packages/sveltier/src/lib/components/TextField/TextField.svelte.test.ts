@@ -192,3 +192,13 @@ describe('TextField', () => {
 		await expect.poll(accent).toBe('1');
 	});
 });
+
+describe('TextField in a form', () => {
+	it('goes back to the text it started with on a form reset', async () => {
+		await render(TextFieldHarness, { inForm: true, value: 'ada@example.com' });
+		await input().fill('grace@example.com');
+		element().form?.reset();
+		await expect.element(page.getByTestId('value')).toHaveTextContent('ada@example.com');
+		expect(element().value).toBe('ada@example.com');
+	});
+});

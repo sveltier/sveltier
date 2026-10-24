@@ -102,3 +102,14 @@ describe('NumberField', () => {
 		expect(increase.disabled).toBe(true);
 	});
 });
+
+describe('NumberField in a form', () => {
+	it('goes back to the number it started with on a form reset', async () => {
+		await render(NumberFieldHarness, { value: 1234.5 });
+		await input().fill('99');
+		await expect.element(value()).toHaveTextContent('99');
+		element().form?.reset();
+		await expect.element(value()).toHaveTextContent('1234.5');
+		expect(element().value).toBe('1,234.5');
+	});
+});

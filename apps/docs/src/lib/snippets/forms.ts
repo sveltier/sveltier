@@ -114,7 +114,7 @@ export const formMethods = `<script>
 <Form bind:this={form}>…</Form>
 
 <Button onclick={() => form.validate()}>Check</Button>  <!-- shows every message, returns true when valid -->
-<Button onclick={() => form.reset()}>Start over</Button>  <!-- values back to defaultValue, messages hidden -->
+<Button onclick={() => form.reset()}>Start over</Button>  <!-- every field back to its starting value, messages hidden -->
 <Button onclick={() => form.resetValidation()}>Hide messages</Button>`;
 
 export const textareaUsage = `<script>
