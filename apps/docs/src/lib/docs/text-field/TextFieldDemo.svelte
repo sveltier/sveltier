@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A sign-up pair: an email with its hint, and a password with a rule and a reveal button.
-	import { Button, TextField } from 'sveltier';
+	import { Button, TextField } from '@sveltier/ui';
 
 	let email = $state('');
 	let password = $state('');

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Three springs chase the same target, one per preset.
-	import { spring, type SpringPreset } from 'sveltier';
+	import { spring, type SpringPreset } from '@sveltier/ui';
 
 	const PRESETS: SpringPreset[] = ['snappy', 'standard', 'gentle'];
 	// Rebalancing swaps the golden split: 38.2% and 61.8%.

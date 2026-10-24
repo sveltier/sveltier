@@ -1,7 +1,7 @@
 // Code samples for the form pages, shown on the pages and in llms-full.txt.
 
 export const textFieldUsage = `<script>
-  import { TextField } from 'sveltier';
+  import { TextField } from '@sveltier/ui';
   let email = $state('');
 </script>
 
@@ -16,7 +16,7 @@ export const textFieldUsage = `<script>
 />`;
 
 export const textFieldValidation = `<script>
-  import { TextField } from 'sveltier';
+  import { TextField } from '@sveltier/ui';
 
   // The result of a SvelteKit form action, with the server's own errors.
   let { form } = $props();
@@ -40,7 +40,7 @@ export const textFieldValidation = `<script>
 />`;
 
 export const textFieldAffixes = `<script>
-  import { Button, Icon, TextField } from 'sveltier';
+  import { Button, Icon, TextField } from '@sveltier/ui';
   let visible = $state(false);
 </script>
 
@@ -57,7 +57,7 @@ export const textFieldAffixes = `<script>
 </TextField>`;
 
 export const fieldUsage = `<script>
-  import { Field } from 'sveltier';
+  import { Field } from '@sveltier/ui';
   let start = $state('');
 </script>
 
@@ -68,7 +68,7 @@ export const fieldUsage = `<script>
 </Field>`;
 
 export const formUsage = `<script>
-  import { Button, Form, TextField } from 'sveltier';
+  import { Button, Form, TextField } from '@sveltier/ui';
 
   let email = $state('');
   let password = $state('');
@@ -92,7 +92,7 @@ export const formUsage = `<script>
 export const formSvelteKit = `<script>
   import { enhance } from '$app/forms';
   import { fromAction } from 'svelte/attachments';
-  import { Button, Form, TextField } from 'sveltier';
+  import { Button, Form, TextField } from '@sveltier/ui';
 
   // What the form action returned, such as { errors: { email: 'This email is taken' } }.
   let { form } = $props();
@@ -107,7 +107,7 @@ export const formSvelteKit = `<script>
 </Form>`;
 
 export const formMethods = `<script>
-  import { Button, Form } from 'sveltier';
+  import { Button, Form } from '@sveltier/ui';
   let form;
 </script>
 
@@ -118,7 +118,7 @@ export const formMethods = `<script>
 <Button onclick={() => form.resetValidation()}>Hide messages</Button>`;
 
 export const textareaUsage = `<script>
-  import { Textarea } from 'sveltier';
+  import { Textarea } from '@sveltier/ui';
   let note = $state('');
 </script>
 
@@ -135,7 +135,7 @@ export const textareaUsage = `<script>
 />`;
 
 export const numberFieldUsage = `<script>
-  import { NumberField } from 'sveltier';
+  import { NumberField } from '@sveltier/ui';
   let quantity = $state(1);
   let amount = $state(null);
 </script>
@@ -155,7 +155,7 @@ export const numberFieldUsage = `<script>
 </NumberField>`;
 
 export const nativeSelectUsage = `<script>
-  import { NativeSelect } from 'sveltier';
+  import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);
 </script>
 
@@ -173,7 +173,7 @@ export const nativeSelectUsage = `<script>
 />`;
 
 export const checkboxUsage = `<script>
-  import { Checkbox } from 'sveltier';
+  import { Checkbox } from '@sveltier/ui';
   let receipt = $state(true);
   let accepted = $state(false);
 </script>
@@ -193,7 +193,7 @@ export const checkboxUsage = `<script>
 </Checkbox>`;
 
 export const checkboxSelectAll = `<script>
-  import { Checkbox } from 'sveltier';
+  import { Checkbox } from '@sveltier/ui';
 
   const DOCUMENTS = ['Statements', 'Tax forms', 'Trade confirmations'];
   let chosen = $state(['Statements']);
@@ -217,7 +217,7 @@ export const checkboxSelectAll = `<script>
 {/each}`;
 
 export const radioGroupUsage = `<script>
-  import { RadioGroup } from 'sveltier';
+  import { RadioGroup } from '@sveltier/ui';
   let days = $state(null);
 </script>
 
@@ -234,7 +234,7 @@ export const radioGroupUsage = `<script>
 />`;
 
 export const sliderUsage = `<script>
-  import { Slider } from 'sveltier';
+  import { Slider } from '@sveltier/ui';
   let risk = $state(50);
   let share = $state(40);
 </script>
@@ -263,7 +263,7 @@ export const sliderUsage = `<script>
 />`;
 
 export const switchUsage = `<script>
-  import { Switch } from 'sveltier';
+  import { Switch } from '@sveltier/ui';
   let notifications = $state(true);
 </script>
 

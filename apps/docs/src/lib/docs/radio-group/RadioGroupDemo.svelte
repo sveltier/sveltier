@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A payout schedule with hints and numbers as values, beside a statement format laid out inline.
-	import { RadioGroup } from 'sveltier';
+	import { RadioGroup } from '@sveltier/ui';
 
 	const SCHEDULES = [
 		{ value: 1, label: 'Every day' },

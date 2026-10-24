@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { localeExample, localeOptions } from '#lib/snippets/core.js';
-	import { useLocale } from 'sveltier';
+	import { useLocale } from '@sveltier/ui';
 
 	const locale = useLocale();
 	// Fixed instants, so the server and the browser render the same text.

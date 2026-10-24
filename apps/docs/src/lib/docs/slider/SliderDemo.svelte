@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A risk level with labelled ticks read out as words, beside a percentage with a tick on every
 	// step and a rule.
-	import { Slider } from 'sveltier';
+	import { Slider } from '@sveltier/ui';
 
 	const RISK = [
 		{ value: 0, label: 'Careful' },

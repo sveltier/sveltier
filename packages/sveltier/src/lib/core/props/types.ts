@@ -32,7 +32,7 @@ export type Rounded = (typeof ROUNDED)[number];
  * use them as a component's `color`:
  *
  * @example
- * declare module 'sveltier' {
+ * declare module '@sveltier/ui' {
  *   interface CustomColors {
  *     brand: true;
  *   }

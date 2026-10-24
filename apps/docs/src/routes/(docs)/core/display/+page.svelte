@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { displayExample, displayOptions } from '#lib/snippets/core.js';
-	import { BREAKPOINTS, useDisplay } from 'sveltier';
+	import { BREAKPOINTS, useDisplay } from '@sveltier/ui';
 
 	const display = useDisplay();
 	// Where each breakpoint starts, in BREAKPOINTS order; thresholds are fixed at startup.

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Fields line up with Buttons of the same size and density.
-	import { Button, TextField, type Density, type Size } from 'sveltier';
+	import { Button, TextField, type Density, type Size } from '@sveltier/ui';
 
 	const ROWS: Array<{ size: Size; density: Density }> = [
 		{ size: 'sm', density: 'default' },

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// An upload that advances, the circular form at a few values, and both while busy.
-	import { Button, ProgressCircular, ProgressLinear, type Color } from 'sveltier';
+	import { Button, ProgressCircular, ProgressLinear, type Color } from '@sveltier/ui';
 
 	let uploaded = $state(0);
 	let timer: ReturnType<typeof setInterval> | undefined;

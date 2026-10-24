@@ -1,7 +1,7 @@
 <script lang="ts">
 	// The brand band: the headline beside the agent replay, over the S stripes.
 	import { resolve } from '$app/paths';
-	import { ThemeProvider } from 'sveltier';
+	import { ThemeProvider } from '@sveltier/ui';
 	import Stripes from '#lib/brand/Stripes.svelte';
 	import symbolFull from '#lib/brand/symbol-full.svg';
 	import { pageHref } from '#lib/docs/href.js';

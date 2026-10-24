@@ -1,7 +1,7 @@
 <script lang="ts">
 	// The rules every component follows, whoever writes the code: golden-ratio scales rendered from
 	// the live tokens, and WCAG contrast computed from whichever theme is active.
-	import { Button, contrast, parseOklch, useTheme, type Size } from 'sveltier';
+	import { Button, contrast, parseOklch, useTheme, type Size } from '@sveltier/ui';
 	import { PACKS, THEMES } from '../site.js';
 
 	const theme = useTheme();

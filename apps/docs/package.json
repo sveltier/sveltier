@@ -12,7 +12,7 @@
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"sveltier": "workspace:*"
+		"@sveltier/ui": "workspace:*"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.14.0",

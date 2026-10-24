@@ -15,7 +15,7 @@
 	<Code
 		title="Signature"
 		lang="ts"
-		code={"import { defineTheme, type ThemeInput, type ThemeDefinition } from 'sveltier';\n\nfunction defineTheme(input: ThemeInput, base: ThemeDefinition): ThemeDefinition;"}
+		code={"import { defineTheme, type ThemeInput, type ThemeDefinition } from '@sveltier/ui';\n\nfunction defineTheme(input: ThemeInput, base: ThemeDefinition): ThemeDefinition;"}
 	/>
 
 	<h2 id="parameters">Parameters</h2>

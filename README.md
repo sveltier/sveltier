@@ -4,7 +4,7 @@ The UI framework for AI coding agents, on Svelte 5: one typed vocabulary across 
 docs generated from the types, and errors that say how to fix them. Accessible, consistent and
 polished by default, with five built-in design languages behind one theme engine.
 
-> **Status: alpha.** Install it with `npm install sveltier`. The API may still change between
+> **Status: alpha.** Install it with `npm install @sveltier/ui`. The API may still change between
 > releases.
 
 - Docs: [sveltier.com](https://sveltier.com)
@@ -48,7 +48,7 @@ pnpm test    # Vitest in Chromium, Firefox and WebKit, SSR tests, docs e2e
 pnpm size    # gzip size budgets
 ```
 
-Browser tests need Playwright's browsers once: `pnpm --filter sveltier exec playwright install`.
+Browser tests need Playwright's browsers once: `pnpm --filter @sveltier/ui exec playwright install`.
 
 ## License
 

@@ -3,7 +3,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import Sample from '#lib/showcase/Sample.svelte';
 	import { packUsage } from '#lib/snippets/theme.js';
-	import { ThemeProvider, useTheme } from 'sveltier';
+	import { ThemeProvider, useTheme } from '@sveltier/ui';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Dividers between stacked rows, and between controls in a row.
-	import { Button, Divider } from 'sveltier';
+	import { Button, Divider } from '@sveltier/ui';
 </script>
 
 <div class="docs-demo">

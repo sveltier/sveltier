@@ -22,7 +22,7 @@ fixing. Sveltier is designed around all three, and the same choices help every d
 ## Install
 
 ```sh
-npm install sveltier
+npm install @sveltier/ui
 ```
 
 Svelte 5.40 or later is required.
@@ -34,8 +34,8 @@ Wrap the app in `UIProvider` with a theme pack, then use the components anywhere
 ```svelte
 <!-- src/routes/+layout.svelte -->
 <script>
-	import { UIProvider } from 'sveltier';
-	import { monolith } from 'sveltier/themes/monolith';
+	import { UIProvider } from '@sveltier/ui';
+	import { monolith } from '@sveltier/ui/themes/monolith';
 	let { children } = $props();
 </script>
 
@@ -47,7 +47,7 @@ Wrap the app in `UIProvider` with a theme pack, then use the components anywhere
 
 ```svelte
 <script>
-	import { Button, TextField } from 'sveltier';
+	import { Button, TextField } from '@sveltier/ui';
 	let email = $state('');
 </script>
 

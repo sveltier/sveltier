@@ -40,7 +40,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check the Playwright version matches the container
-        run: test "$(pnpm --filter sveltier exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
+        run: test "$(pnpm --filter @sveltier/ui exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
 
       # Builds the package first (svelte-package + publint + attw), then the docs.
       - name: Build
@@ -125,13 +125,13 @@ jobs:
       - name: Install with the lowest supported Svelte
         run: |
           pnpm install --frozen-lockfile
-          pnpm --filter sveltier add -D "svelte@$SVELTE_MIN"
+          pnpm --filter @sveltier/ui add -D "svelte@$SVELTE_MIN"
 
       - name: Check the Playwright version matches the container
-        run: test "$(pnpm --filter sveltier exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
+        run: test "$(pnpm --filter @sveltier/ui exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
 
       - name: Build, check and test the package
         run: |
-          pnpm --filter sveltier build
-          pnpm --filter sveltier check
-          pnpm --filter sveltier test
+          pnpm --filter @sveltier/ui build
+          pnpm --filter @sveltier/ui check
+          pnpm --filter @sveltier/ui test

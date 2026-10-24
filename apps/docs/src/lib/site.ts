@@ -1,4 +1,4 @@
-import { aurora, heritage, maison, milano, monolith, type ThemeDefinition } from 'sveltier';
+import { aurora, heritage, maison, milano, monolith, type ThemeDefinition } from '@sveltier/ui';
 
 export type PackId = 'monolith' | 'heritage' | 'aurora' | 'maison' | 'milano';
 export type Mode = 'light' | 'dark';

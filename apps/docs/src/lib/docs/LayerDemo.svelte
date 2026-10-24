@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Two nested layers: Escape or a press outside closes the topmost one first.
-	import { dismissable, type DismissReason } from 'sveltier';
+	import { dismissable, type DismissReason } from '@sveltier/ui';
 
 	let filters = $state(false);
 	let more = $state(false);

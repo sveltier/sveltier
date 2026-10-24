@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A note that grows with its text, beside a fixed-height message with a minimum length.
-	import { Textarea } from 'sveltier';
+	import { Textarea } from '@sveltier/ui';
 
 	let note = $state('');
 	let message = $state('');

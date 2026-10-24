@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { bindTheme, nested, severalPacks } from '#lib/snippets/theme.js';
-	import { ThemeProvider } from 'sveltier';
+	import { ThemeProvider } from '@sveltier/ui';
 </script>
 
 <DocPage

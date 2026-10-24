@@ -127,7 +127,7 @@ function extract(file = entry): Extracted {
 	const module = source && checker.getSymbolAtLocation(source);
 	if (!source || !module) {
 		throw new Error(
-			`[sveltier-api] No declarations at ${file}. Build the package first: pnpm --filter sveltier build`
+			`[sveltier-api] No declarations at ${file}. Build the package first: pnpm --filter @sveltier/ui build`
 		);
 	}
 	const tables: Record<string, ApiRow[]> = {};

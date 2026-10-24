@@ -12,7 +12,7 @@ export type GlobalDefaults = Pick<
  * and so can yours, by declaration merging:
  *
  * @example
- * declare module 'sveltier' {
+ * declare module '@sveltier/ui' {
  *   interface ComponentDefaults {
  *     MyCard: { elevated?: boolean };
  *   }

@@ -1,4 +1,4 @@
-import type { ThemeVariable } from 'sveltier';
+import type { ThemeVariable } from '@sveltier/ui';
 
 /** What each theme contract variable controls, for the docs. */
 export const CONTRACT_DOCS: Record<ThemeVariable, string> = {

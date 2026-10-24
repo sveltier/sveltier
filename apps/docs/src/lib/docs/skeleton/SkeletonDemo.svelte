@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A card that shows its skeleton while loading, and its content once loaded.
-	import { Avatar, Button, Skeleton } from 'sveltier';
+	import { Avatar, Button, Skeleton } from '@sveltier/ui';
 
 	let loading = $state(true);
 </script>

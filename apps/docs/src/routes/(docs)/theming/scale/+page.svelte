@@ -3,7 +3,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { PACKS, THEMES } from '#lib/site.js';
 	import { goldenSplit } from '#lib/snippets/theme.js';
-	import type { ThemeVariable } from 'sveltier';
+	import type { ThemeVariable } from '@sveltier/ui';
 
 	const PHI = (1 + Math.sqrt(5)) / 2;
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A quantity stepped by one between limits, and an amount written with two decimals.
-	import { NumberField } from 'sveltier';
+	import { NumberField } from '@sveltier/ui';
 
 	let quantity = $state<number | null>(1);
 	let amount = $state<number | null>(null);

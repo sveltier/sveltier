@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A popover placed against its trigger; change the side and alignment while it is open.
-	import { anchored, dismissable, type Align, type Side } from 'sveltier';
+	import { anchored, dismissable, type Align, type Side } from '@sveltier/ui';
 	import Segmented from '../Segmented.svelte';
 
 	const SIDES: Side[] = ['top', 'bottom', 'start', 'end'];

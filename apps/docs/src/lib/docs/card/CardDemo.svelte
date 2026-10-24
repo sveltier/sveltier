@@ -1,6 +1,6 @@
 <script lang="ts">
 	// A full card, and the same summary in other variants and colours.
-	import { Avatar, Button, Card, Chip, Icon, type Color, type Variant } from 'sveltier';
+	import { Avatar, Button, Card, Chip, Icon, type Color, type Variant } from '@sveltier/ui';
 
 	const DOTS =
 		'M5 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm7 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm7 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Filters that toggle, removable tags, and a few colours.
-	import { Chip, type Color } from 'sveltier';
+	import { Chip, type Color } from '@sveltier/ui';
 
 	const FILTERS = ['Card', 'Transfer', 'Direct debit', 'Refund'];
 	let chosen = $state<Record<string, boolean>>({

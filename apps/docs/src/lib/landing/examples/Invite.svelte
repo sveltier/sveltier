@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, Avatar, Button, Card, Chip, List, ListItem } from 'sveltier';
+	import { Alert, Avatar, Button, Card, Chip, List, ListItem } from '@sveltier/ui';
 
 	const people = [
 		{ id: 'am', name: 'Amara Mensah', email: 'amara@example.com', role: 'Admin' },

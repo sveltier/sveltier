@@ -20,7 +20,7 @@ export interface ErrorEntry {
  * engine, 3xxx primitives, 4xxx components, 5xxx forms.
  *
  * @example
- * import { ERROR_CODES } from 'sveltier';
+ * import { ERROR_CODES } from '@sveltier/ui';
  * ERROR_CODES.SV1001.fix; // "Pass at least one theme pack: …"
  */
 export const ERROR_CODES = {
@@ -29,7 +29,7 @@ export const ERROR_CODES = {
 		title: 'The root ThemeProvider has no themes',
 		cause:
 			'The outermost `<ThemeProvider>`, which `<UIProvider>` renders, registers the themes an app can show. None were passed, so there is nothing to paint.',
-		fix: "Pass at least one theme pack: `themes={monolith}` from `'sveltier/themes/monolith'`, or several at once: `themes={{ ...monolith, ...maison }}`."
+		fix: "Pass at least one theme pack: `themes={monolith}` from `'@sveltier/ui/themes/monolith'`, or several at once: `themes={{ ...monolith, ...maison }}`."
 	},
 	SV1002: {
 		kind: 'error',

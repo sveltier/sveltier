@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { ERROR_CODES } from 'sveltier';
+	import { ERROR_CODES } from '@sveltier/ui';
 
 	// Codes group by area, by their first digit.
 	const AREAS = [

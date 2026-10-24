@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Native date and time inputs, which have no Sveltier component yet, in a Field.
-	import { Field } from 'sveltier';
+	import { Field } from '@sveltier/ui';
 
 	let date = $state('');
 	let time = $state('09:00');

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// An icon before a search, and a fixed prefix before a web address.
-	import { TextField } from 'sveltier';
+	import { TextField } from '@sveltier/ui';
 	import Glyph from '../button/Glyph.svelte';
 </script>
 

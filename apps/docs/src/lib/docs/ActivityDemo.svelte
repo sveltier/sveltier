@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Entries of any length: each one is measured once it is laid out, so the list follows the
 	// width of the page.
-	import { useLocale, virtualList } from 'sveltier';
+	import { useLocale, virtualList } from '@sveltier/ui';
 
 	const COUNT = 10_000;
 	const EVENTS = [
