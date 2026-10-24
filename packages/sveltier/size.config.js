@@ -219,6 +219,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code: the label row with the value, the range styled for both engine families and
+		// the ticks. The validation is measured apart.
+		name: 'Slider',
+		code: "export { Slider } from 'sveltier';",
+		limit: '3 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Its own code with the label row it shares with Checkbox; the validation is measured apart.
 		name: 'Switch',
 		code: "export { Switch } from 'sveltier';",
@@ -284,6 +292,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '35 KB'
+		limit: '36 KB'
 	}
 ];

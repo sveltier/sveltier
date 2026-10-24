@@ -156,6 +156,23 @@ test('a radio group keeps number values and moves the choice with the arrow keys
 	await expect(page.getByRole('radiogroup', { name: 'Statement format' })).toBeVisible();
 });
 
+test('a slider reads labelled ticks as words, and checks its rule when let go', async ({
+	page
+}) => {
+	await open(page, '/forms/slider');
+	const risk = page.getByRole('slider', { name: 'Risk' });
+	await expect(risk).toHaveAttribute('aria-valuetext', 'Balanced');
+	await risk.focus();
+	await page.keyboard.press('ArrowRight');
+	await expect(risk).toHaveAttribute('aria-valuetext', 'Bold');
+	await expect(page.getByText('risk = 100')).toBeVisible();
+	const share = page.getByRole('slider', { name: 'Share in stocks' });
+	await share.focus();
+	await page.keyboard.press('End');
+	await expect(share).toHaveAttribute('aria-valuetext', '100%');
+	await expect(share).toHaveAccessibleDescription('Keep it at 80% or under');
+});
+
 test('a switch is announced as one and toggles with Space', async ({ page }) => {
 	await open(page, '/forms/switch');
 	const biometrics = page.getByRole('switch', { name: 'Sign in with biometrics' });

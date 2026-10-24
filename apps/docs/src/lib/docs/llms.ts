@@ -26,6 +26,7 @@ import {
 	nativeSelectUsage,
 	numberFieldUsage,
 	radioGroupUsage,
+	sliderUsage,
 	switchUsage,
 	textareaUsage,
 	textFieldValidation
@@ -113,6 +114,12 @@ const FORMS: Entry[] = [
 		path: 'forms/radio-group',
 		types: ['RadioGroupProps', 'RadioGroupOption'],
 		example: radioGroupUsage
+	},
+	{
+		name: 'Slider',
+		path: 'forms/slider',
+		types: ['SliderProps', 'SliderTick'],
+		example: sliderUsage
 	},
 	{
 		name: 'Field',
