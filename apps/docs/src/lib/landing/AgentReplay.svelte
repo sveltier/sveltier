@@ -18,7 +18,8 @@
 		[0.9, 1]
 	];
 	const CODE = STEPS[2]!;
-	const BANDS = 6;
+	/** Equal bands, until the preview has been measured. */
+	const FALLBACK_BANDS = 6;
 	const CHECK = 'M3.5 12.6 5.3 10.8l4.1 4.1 9.3-9.3 1.8 1.8L9.4 18.5z';
 	const REPLAY = 'M12 4V1L7 5.5 12 10V6.5a5.5 5.5 0 1 1-5.5 5.5H4.5A7.5 7.5 0 1 0 12 4.5z';
 
@@ -37,6 +38,9 @@
 	let live = $state(false);
 	let root: HTMLDivElement | undefined = $state();
 	let codeView: HTMLPreElement | undefined = $state();
+	let render: HTMLDivElement | undefined = $state();
+	/** One skeleton band per block of the preview, so no band edge cuts through a line of text. */
+	let bands = $state<Array<{ top: number; height: number }>>([]);
 
 	const example = $derived(EXAMPLES.find((item) => item.id === exampleId) ?? EXAMPLES[0]!);
 	const lines = $derived(highlight(example.source));
@@ -47,7 +51,10 @@
 	const shown = $derived(
 		t >= 1 ? lines.length : Math.ceil(progress(CODE[0], CODE[1]) * lines.length)
 	);
-	const bandsOut = $derived(t >= CODE[1] ? BANDS : Math.floor(progress(CODE[0], CODE[1]) * BANDS));
+	const bandCount = $derived(bands.length || FALLBACK_BANDS);
+	const bandsOut = $derived(
+		t >= CODE[1] ? bandCount : Math.floor(progress(CODE[0], CODE[1]) * bandCount)
+	);
 	const steps = $derived([
 		{ active: 'Reading llms-full.txt', done: 'Read llms-full.txt: props of every component' },
 		{ active: 'Choosing components', done: `Chose ${example.picks}` },
@@ -94,6 +101,44 @@
 		started = performance.now();
 		frame = requestAnimationFrame(tick);
 	}
+
+	/**
+	 * Band edges sit halfway between the card's blocks: its header, each of its children, and each
+	 * row of a list or part of tabs. Measured, since every design language sizes them differently.
+	 */
+	function measure() {
+		const frameEl = render?.parentElement;
+		const card = render?.firstElementChild;
+		if (!frameEl || !card) return;
+		const blocks: Element[] = [];
+		for (const child of card.children) {
+			if (child.matches('.sv-list, .sv-tabs')) blocks.push(...child.children);
+			else blocks.push(child);
+		}
+		const rects = blocks
+			.map((block) => block.getBoundingClientRect())
+			.filter((rect) => rect.height);
+		if (rects.length === 0) return;
+		const box = frameEl.getBoundingClientRect();
+		const edges = [0];
+		for (let index = 1; index < rects.length; index++) {
+			edges.push((rects[index - 1]!.bottom + rects[index]!.top) / 2 - box.top);
+		}
+		edges.push(box.height);
+		bands = edges.slice(0, -1).map((top, index) => ({ top, height: edges[index + 1]! - top }));
+	}
+
+	// Re-measure when the example, the design language or the size changes (fonts, viewport).
+	$effect(() => {
+		void example.id;
+		void pack;
+		void mode;
+		if (!render) return;
+		measure();
+		const observer = new ResizeObserver(measure);
+		observer.observe(render);
+		return () => observer.disconnect();
+	});
 
 	// Keep the newest line in view while the source streams in.
 	$effect(() => {
@@ -188,13 +233,24 @@
 		</div>
 		<div class="replay__preview">
 			<ThemeProvider theme="{pack}-{mode}" withBackground class="replay__frame">
-				<div class="replay__render">
+				<div class="replay__render" bind:this={render}>
 					{#key example.id}<example.component />{/key}
 				</div>
-				<div class="replay__bands" aria-hidden="true">
-					{#each { length: BANDS }, index (index)}
-						<span class="replay__band" class:is-out={index < bandsOut}></span>
-					{/each}
+				<div class="replay__bands" class:is-measured={bands.length > 0} aria-hidden="true">
+					{#if bands.length > 0}
+						{#each bands as band, index (index)}
+							<span
+								class="replay__band"
+								class:is-out={index < bandsOut}
+								style:top="{band.top}px"
+								style:height="{band.height}px"
+							></span>
+						{/each}
+					{:else}
+						{#each { length: FALLBACK_BANDS }, index (index)}
+							<span class="replay__band" class:is-out={index < bandsOut}></span>
+						{/each}
+					{/if}
 				</div>
 			</ThemeProvider>
 		</div>

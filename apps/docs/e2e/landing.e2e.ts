@@ -59,7 +59,8 @@ test('reduced motion shows the finished replay at once', async ({ page }) => {
 	await expect(replay.getByText('svelte-check: 0 errors')).toBeVisible();
 	const lines = await replay.locator('.replay__line').count();
 	await expect(replay.locator('.replay__line.is-in')).toHaveCount(lines);
-	await expect(replay.locator('.replay__band.is-out')).toHaveCount(6);
+	const bands = await replay.locator('.replay__band').count();
+	await expect(replay.locator('.replay__band.is-out')).toHaveCount(bands);
 });
 
 test('the preview takes any design language and mode', async ({ page }) => {

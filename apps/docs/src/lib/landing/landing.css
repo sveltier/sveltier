@@ -473,6 +473,16 @@
 	opacity: 0;
 }
 
+/* Measured: each band covers one block of the preview. */
+.replay__bands.is-measured {
+	display: block;
+}
+
+.replay__bands.is-measured .replay__band {
+	position: absolute;
+	inset-inline: 0;
+}
+
 @keyframes band-shimmer {
 	to {
 		transform: translateX(100%);
