@@ -198,6 +198,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code with the row styles it shares with Checkbox and Switch; the arrow keys are
+		// the platform's. The validation is measured apart.
+		name: 'RadioGroup',
+		code: "export { RadioGroup } from 'sveltier';",
+		limit: '2.9 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Includes rovingFocus, which gives it one tab stop and arrow keys.
 		name: 'SegmentedControl',
 		code: "export { SegmentedControl } from 'sveltier';",
@@ -276,6 +284,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from 'sveltier';",
 		external: [/fallback\.js$/],
-		limit: '34 KB'
+		limit: '35 KB'
 	}
 ];

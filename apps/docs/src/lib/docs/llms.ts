@@ -25,6 +25,7 @@ import {
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	radioGroupUsage,
 	switchUsage,
 	textareaUsage,
 	textFieldValidation
@@ -107,6 +108,12 @@ const FORMS: Entry[] = [
 	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },
+	{
+		name: 'RadioGroup',
+		path: 'forms/radio-group',
+		types: ['RadioGroupProps', 'RadioGroupOption'],
+		example: radioGroupUsage
+	},
 	{
 		name: 'Field',
 		path: 'forms/field',

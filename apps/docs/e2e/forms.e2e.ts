@@ -142,6 +142,20 @@ test('a select-all checkbox shows a dash for part of its list and checks it all'
 	await expect(all).not.toBeChecked();
 });
 
+test('a radio group keeps number values and moves the choice with the arrow keys', async ({
+	page
+}) => {
+	await open(page, '/forms/radio-group');
+	await expect(page.getByText('days = null')).toBeVisible();
+	const daily = page.getByRole('radio', { name: 'Every day' });
+	await daily.check();
+	await expect(page.getByText('days = 1')).toBeVisible();
+	await daily.press('ArrowDown');
+	await expect(page.getByRole('radio', { name: 'Every Monday' })).toBeChecked();
+	await expect(page.getByText('days = 7')).toBeVisible();
+	await expect(page.getByRole('radiogroup', { name: 'Statement format' })).toBeVisible();
+});
+
 test('a switch is announced as one and toggles with Space', async ({ page }) => {
 	await open(page, '/forms/switch');
 	const biometrics = page.getByRole('switch', { name: 'Sign in with biometrics' });

@@ -82,6 +82,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'NativeSelect', path: 'forms/native-select' },
 			{ title: 'Checkbox', path: 'forms/checkbox' },
 			{ title: 'Switch', path: 'forms/switch' },
+			{ title: 'RadioGroup', path: 'forms/radio-group' },
 			{ title: 'Field', path: 'forms/field' }
 		]
 	},

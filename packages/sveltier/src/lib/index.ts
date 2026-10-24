@@ -196,6 +196,12 @@ export {
 	type ProgressLinearProps
 } from './components/Progress/index.js';
 export {
+	RadioGroup,
+	type RadioGroupDefaults,
+	type RadioGroupOption,
+	type RadioGroupProps
+} from './components/RadioGroup/index.js';
+export {
 	SegmentedControl,
 	type SegmentedControlDefaults,
 	type SegmentedControlOption,
