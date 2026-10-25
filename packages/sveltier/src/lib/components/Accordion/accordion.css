@@ -1,0 +1,88 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Sections divided by hairlines, the headers as wide as the accordion. */
+	.sv-accordion {
+		border-block-start: var(--sv-hairline) solid var(--sv-color-border);
+	}
+
+	.sv-accordion__item {
+		border-block-end: var(--sv-hairline) solid var(--sv-color-border);
+	}
+
+	.sv-accordion__header {
+		display: flex;
+		gap: var(--sv-space-13);
+		align-items: center;
+		min-block-size: calc(var(--sv-control-lg) * var(--sv-density));
+		padding-block: calc(var(--sv-space-8) * var(--sv-density));
+		padding-inline: var(--sv-space-8);
+		border-radius: var(--sv-radius-sm);
+		box-sizing: border-box;
+		font-weight: var(--sv-weight-medium);
+		line-height: var(--sv-leading-snug);
+		list-style: none;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-accordion__header::-webkit-details-marker {
+		display: none;
+	}
+
+	@media (hover: hover) {
+		.sv-accordion__header:not([aria-disabled='true']):hover {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	.sv-accordion__header[aria-disabled='true'] {
+		color: var(--sv-color-text-muted);
+		cursor: not-allowed;
+	}
+
+	.sv-accordion__title {
+		flex: 1;
+		min-inline-size: 0;
+	}
+
+	/* The chevron turns over as the section opens. */
+	.sv-accordion__icon {
+		flex: none;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		color: var(--sv-color-text-muted);
+		transition: transform var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	.sv-accordion__item[open] > .sv-accordion__header .sv-accordion__icon {
+		transform: rotate(180deg);
+	}
+
+	.sv-accordion__panel {
+		padding-block: calc(var(--sv-space-5) * var(--sv-density))
+			calc(var(--sv-space-21) * var(--sv-density));
+		padding-inline: var(--sv-space-8);
+		color: var(--sv-color-text-muted);
+		line-height: var(--sv-leading-normal);
+	}
+
+	/*
+	 * The content fades in as it opens and out before it closes. The height itself snaps, as
+	 * only opacity and transform are animated; where ::details-content is not supported, the
+	 * section simply opens.
+	 */
+	.sv-accordion__item::details-content {
+		opacity: 0;
+		transform: translateY(calc(var(--sv-space-5) * -1));
+		transition-property: opacity, transform, content-visibility;
+		transition-duration: var(--sv-duration-normal);
+		transition-timing-function: var(--sv-ease);
+		transition-behavior: allow-discrete;
+	}
+
+	.sv-accordion__item[open]::details-content {
+		opacity: 1;
+		transform: none;
+	}
+}

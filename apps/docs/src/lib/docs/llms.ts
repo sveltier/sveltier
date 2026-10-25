@@ -4,6 +4,7 @@
 import { ERROR_CODES } from '@sveltier/ui';
 import { descriptions, tables } from 'virtual:sveltier-api';
 import {
+	accordionUsage,
 	alertUsage,
 	avatarUsage,
 	badgeUsage,
@@ -53,6 +54,12 @@ interface Entry {
 }
 
 const COMPONENTS: Entry[] = [
+	{
+		name: 'Accordion',
+		path: 'components/accordion',
+		types: ['AccordionProps', 'AccordionItem'],
+		example: accordionUsage
+	},
 	{ name: 'Alert', path: 'components/alert', types: ['AlertProps'], example: alertUsage },
 	{ name: 'Avatar', path: 'components/avatar', types: ['AvatarProps'], example: avatarUsage },
 	{ name: 'Badge', path: 'components/badge', types: ['BadgeProps'], example: badgeUsage },

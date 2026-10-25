@@ -219,6 +219,50 @@ export const segmentedUsage = `<script>
   bind:value={range}
 />`;
 
+export const accordionUsage = `<script>
+  import { Accordion } from '@sveltier/ui';
+
+  const answers = {
+    fees: 'Transfers in euros are free. Other currencies cost 0.4% of the amount.',
+    timing: 'Most transfers arrive the same day; some banks take up to two working days.',
+    limits: 'You can send up to €20,000 a day.'
+  };
+  let open = $state('fees');
+</script>
+
+<Accordion
+  items={[
+    { value: 'fees', title: 'What does a transfer cost?' },
+    { value: 'timing', title: 'How long does a transfer take?' },
+    { value: 'limits', title: 'How much can I send?' }
+  ]}
+  bind:value={open}
+>
+  {#snippet panel(item)}
+    <p>{answers[item.value]}</p>
+  {/snippet}
+</Accordion>`;
+
+export const accordionMultiple = `<script>
+  import { Accordion, Checkbox } from '@sveltier/ui';
+
+  // With multiple, the value is the list of open sections.
+  let open = $state(['payments']);
+</script>
+
+<Accordion
+  multiple
+  items={[
+    { value: 'payments', title: 'Payments' },
+    { value: 'security', title: 'Security' }
+  ]}
+  bind:value={open}
+>
+  {#snippet panel(item)}
+    <Checkbox label="Email me about {item.title.toLowerCase()}" />
+  {/snippet}
+</Accordion>`;
+
 export const tabsUsage = `<script>
   import { Tabs } from '@sveltier/ui';
   let section = $state('overview');
