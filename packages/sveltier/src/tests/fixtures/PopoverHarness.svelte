@@ -22,7 +22,9 @@
 {/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<div style="padding: 40px 80px">
+	<!-- Close to the start edge, so a popover at its widest still fits the 414px frame beside its
+	     trigger whatever the platform's fonts: otherwise it shifts back into view. -->
+	<div style="padding: 40px 8px">
 		<button type="button">Before</button>
 		<Popover
 			title="Amount range"
