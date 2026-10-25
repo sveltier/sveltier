@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { aurora, heritage, maison, milano, monolith } from '../index.js';
+import { aurora, heritage, maison, milano, monolith, SPACES } from '../index.js';
 
 // Every scale derives from the golden ratio; these tests keep the values from drifting.
 const PHI = (1 + Math.sqrt(5)) / 2;
@@ -55,6 +55,8 @@ describe('tokens.css', () => {
 			.map((name) => Number(name.slice('--sv-space-'.length)));
 		expect(steps).toEqual(FIBONACCI.slice(0, steps.length));
 		for (const px of steps) expect(token(`--sv-space-${px}`) * 16).toBe(px);
+		// The space scale that props such as a Row's gap take: none, then every space token.
+		expect(SPACES).toEqual([0, ...steps]);
 	});
 
 	it('sizes controls in half steps of φ and moves density a quarter step', () => {

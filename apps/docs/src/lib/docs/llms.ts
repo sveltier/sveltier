@@ -42,7 +42,7 @@ import {
 	toastUsage,
 	tooltipUsage
 } from '#lib/snippets/overlays.js';
-import { appLayoutUsage } from '#lib/snippets/layout.js';
+import { appLayoutUsage, gridUsage } from '#lib/snippets/layout.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -62,6 +62,12 @@ const LAYOUT: Entry[] = [
 		path: 'layout/app-layout',
 		types: ['AppLayoutProps', 'AppBarProps', 'NavigationDrawerProps', 'MainProps'],
 		example: appLayoutUsage
+	},
+	{
+		name: 'Container, Row and Col',
+		path: 'layout/grid',
+		types: ['RowProps', 'ColProps', 'ContainerProps'],
+		example: gridUsage
 	}
 ];
 

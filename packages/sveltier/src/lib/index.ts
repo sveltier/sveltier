@@ -36,6 +36,7 @@ export {
 	DENSITIES,
 	ROUNDED,
 	SIZES,
+	SPACES,
 	VARIANTS,
 	type Color,
 	type CustomColors,
@@ -43,6 +44,7 @@ export {
 	type Rounded,
 	type SharedProps,
 	type Size,
+	type Space,
 	type Variant
 } from './core/props/types.js';
 export { sharedClasses, type SharedClassProps } from './core/props/classes.js';
@@ -207,6 +209,22 @@ export {
 	type FieldVariant
 } from './components/Field/index.js';
 export { Form, type FormProps } from './components/Form/index.js';
+export {
+	Col,
+	COLUMN_SPANS,
+	Container,
+	ROW_ALIGNS,
+	ROW_JUSTIFIES,
+	Row,
+	type ColProps,
+	type ColumnSpan,
+	type ContainerDefaults,
+	type ContainerProps,
+	type RowAlign,
+	type RowDefaults,
+	type RowJustify,
+	type RowProps
+} from './components/Grid/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
 export {
 	List,

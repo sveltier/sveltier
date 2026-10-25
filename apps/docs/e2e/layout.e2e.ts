@@ -87,3 +87,19 @@ test('the deployed site lets its own pages frame the examples, and no other site
 	expect(examples).toContain('! X-Frame-Options');
 	expect(examples).toContain("Content-Security-Policy: frame-ancestors 'self'");
 });
+
+test('the grid lays three accounts a line on a desktop, and one a line on a phone', async ({
+	page
+}) => {
+	await page.setViewportSize({ width: 1280, height: 800 });
+	await open(page, '/layout/grid');
+	const columns = page.locator('.docs-demo .sv-col');
+	const lines = async () => {
+		const boxes = await Promise.all((await columns.all()).map((column) => column.boundingBox()));
+		return new Set(boxes.map((box) => Math.round(box!.y))).size;
+	};
+	await expect(columns).toHaveCount(3);
+	expect(await lines()).toBe(1);
+	await page.setViewportSize({ width: 390, height: 844 });
+	await expect.poll(lines).toBe(3);
+});

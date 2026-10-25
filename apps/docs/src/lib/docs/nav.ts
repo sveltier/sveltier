@@ -55,7 +55,10 @@ export const NAV: NavGroup[] = [
 	},
 	{
 		title: 'Layout',
-		items: [{ title: 'App layout', path: 'layout/app-layout' }]
+		items: [
+			{ title: 'App layout', path: 'layout/app-layout' },
+			{ title: 'Grid', path: 'layout/grid' }
+		]
 	},
 	{
 		title: 'Components',

@@ -218,6 +218,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Twelve columns on a CSS grid: the spans are variables that the media queries read
+		// (0.8 KB of JS, 0.5 KB of CSS).
+		name: 'Container, Row and Col',
+		code: "export { Container, Row, Col } from '@sveltier/ui';",
+		limit: '1.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Most of it is what any Svelte component with rest props costs.
 		name: 'Icon',
 		code: "export { Icon } from '@sveltier/ui';",
@@ -387,6 +395,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '47.5 KB'
+		limit: '48.5 KB'
 	}
 ];

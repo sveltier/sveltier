@@ -12,6 +12,13 @@ export const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 export type Size = (typeof SIZES)[number];
 
 /**
+ * The space scale: Fibonacci steps named by their size in px at the default 16px root, as the
+ * `--sv-space-*` tokens are (`21` is `--sv-space-21`, 1.3125rem).
+ */
+export const SPACES = [0, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144] as const;
+export type Space = (typeof SPACES)[number];
+
+/**
  * Visual weight: a raised surface, filled, tinted, outlined, text only, or no decoration at
  * all.
  */

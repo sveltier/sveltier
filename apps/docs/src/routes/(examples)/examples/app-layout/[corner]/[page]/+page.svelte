@@ -1,6 +1,6 @@
 <script lang="ts">
 	// One page of the example app: the same balances and payments under each page's title.
-	import { Card, List, ListItem } from '@sveltier/ui';
+	import { Card, Col, Container, List, ListItem, Row } from '@sveltier/ui';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -23,16 +23,20 @@
 	<title>{data.title} · App layout example · Sveltier</title>
 </svelte:head>
 
-<div class="example-page">
+<Container size="md" class="example-page">
 	<h1>{data.title}</h1>
-	<div class="example-cards">
-		<Card title="Current account" subtitle="•• 4821" level={2}>
-			<p class="example-amount">$8,240.50</p>
-		</Card>
-		<Card title="Savings" subtitle="Instant access" level={2}>
-			<p class="example-amount">$12,480.00</p>
-		</Card>
-	</div>
+	<Row gap={13}>
+		<Col cols={12} sm={6}>
+			<Card title="Current account" subtitle="•• 4821" level={2}>
+				<p class="example-balance">$8,240.50</p>
+			</Card>
+		</Col>
+		<Col cols={12} sm={6}>
+			<Card title="Savings" subtitle="Instant access" level={2}>
+				<p class="example-balance">$12,480.00</p>
+			</Card>
+		</Col>
+	</Row>
 	<h2>Recent payments</h2>
 	<List>
 		{#each PAYMENTS as [name, method, amount], index (index)}
@@ -41,14 +45,13 @@
 			</ListItem>
 		{/each}
 	</List>
-</div>
+</Container>
 
 <style>
-	.example-page {
+	/* The page's blocks a φ step apart, inside the container's width. */
+	:global(.example-page) {
 		display: grid;
 		gap: var(--sv-space-21);
-		max-inline-size: 55rem;
-		padding: var(--sv-space-21);
 	}
 
 	h1 {
@@ -61,18 +64,13 @@
 		font: var(--sv-weight-display) var(--sv-text-lg) / var(--sv-leading-snug) var(--sv-font-display);
 	}
 
-	.example-cards {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-		gap: var(--sv-space-13);
-	}
-
-	.example-amount {
+	.example-amount,
+	.example-balance {
 		font-family: var(--sv-font-data);
 		font-variant-numeric: tabular-nums;
 	}
 
-	.example-cards .example-amount {
+	.example-balance {
 		font-size: var(--sv-text-xl);
 	}
 </style>

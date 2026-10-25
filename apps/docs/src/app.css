@@ -1001,6 +1001,12 @@ a {
 	transform-origin: 0 0;
 }
 
+/* A balance on a card, in the demos. */
+.docs-balance {
+	font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-data);
+	font-variant-numeric: tabular-nums;
+}
+
 /* Checkboxes and switches in a column; a nested group sits under its parent's label. */
 .docs-choices {
 	display: grid;
