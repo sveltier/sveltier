@@ -6,9 +6,13 @@ import SheetHarness from '../../../tests/fixtures/SheetHarness.svelte';
 const trigger = () => page.getByRole('button', { name: 'Filters' });
 const sheet = () => page.getByRole('dialog', { name: 'Filters' });
 const panel = () => sheet().element().querySelector('.sv-modal__panel') as HTMLElement;
-// The panel's box once its slide-in has finished.
+// The panel's box once its slide-in has finished. Svelte runs the slide on the Web Animations
+// API, and a transform read before it applies looks settled, so every animation in the dialog
+// is let end first.
 async function settled() {
 	await expect.element(sheet()).toBeVisible();
+	const animations = sheet().element().getAnimations({ subtree: true });
+	await Promise.all(animations.map((animation) => animation.finished.catch(() => {})));
 	await expect
 		.poll(() => getComputedStyle(panel()).transform)
 		.toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
