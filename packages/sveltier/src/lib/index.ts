@@ -157,6 +157,12 @@ export {
 } from './primitives/virtual/virtual-list.svelte.js';
 
 // Components
+export {
+	Accordion,
+	type AccordionDefaults,
+	type AccordionItem,
+	type AccordionProps
+} from './components/Accordion/index.js';
 export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
 export { Avatar, type AvatarDefaults, type AvatarProps } from './components/Avatar/index.js';
 export { Badge, type BadgeDefaults, type BadgeProps } from './components/Badge/index.js';

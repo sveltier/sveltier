@@ -107,6 +107,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// The platform's <details> does the opening, the one-at-a-time group and find in page; its
+		// own code keeps the value in step and styles the sections.
+		name: 'Accordion',
+		code: "export { Accordion } from '@sveltier/ui';",
+		limit: '1.8 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'Alert',
 		code: "export { Alert } from '@sveltier/ui';",
 		limit: '2 KB',
@@ -346,6 +354,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '43.5 KB'
+		limit: '44.5 KB'
 	}
 ];

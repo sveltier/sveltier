@@ -175,3 +175,21 @@ test('tabs show the panel of the tab the arrow keys reach', async ({ page }) => 
 	await page.keyboard.press('Tab');
 	await expect(page.getByRole('tabpanel', { name: 'Statements' })).toBeFocused();
 });
+
+test('an accordion shows one answer at a time, and its disabled question stays shut', async ({
+	page
+}) => {
+	await open(page, '/components/accordion');
+	const demo = page.locator('.docs-demo').first();
+	await expect(demo.getByText('Transfers in euros are free')).toBeVisible();
+	await demo.getByText('How long does a transfer take?').click();
+	await expect(demo.getByText('Most transfers arrive the same day')).toBeVisible();
+	await expect(demo.getByText('Transfers in euros are free')).toBeHidden();
+	await expect(demo.getByText('Open: "timing"')).toBeVisible();
+	await demo.getByText('Can I pay in instalments?').click();
+	await expect(demo.getByText('Instalments are not available yet.')).toBeHidden();
+	// Enter on a header closes its open section.
+	await demo.locator('summary', { hasText: 'How long does a transfer take?' }).focus();
+	await page.keyboard.press('Enter');
+	await expect(demo.getByText('Open: null')).toBeVisible();
+});
