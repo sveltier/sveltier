@@ -13,9 +13,11 @@
 		"test": "pnpm -r test",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"size": "pnpm --filter @sveltier/ui size"
+		"size": "pnpm --filter @sveltier/ui size",
+		"changeset": "changeset"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^3.0.3",
 		"@eslint/js": "^10.0.1",
 		"eslint": "^10.13.0",
 		"eslint-config-prettier": "^10.1.8",
