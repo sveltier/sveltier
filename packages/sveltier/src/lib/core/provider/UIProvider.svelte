@@ -29,12 +29,13 @@
 </script>
 
 <script lang="ts">
-	// The root of an app: theme, defaults, display and locale in one component.
+	// The root of an app: theme, defaults, display, locale and toasts in one component.
 	import { untrack } from 'svelte';
 	import DefaultsProvider from '../defaults/DefaultsProvider.svelte';
 	import { createDisplay, setDisplayContext } from '../display/display.js';
 	import { createLocale, setLocaleContext } from '../locale/locale.js';
 	import ThemeProvider from '../theme/ThemeProvider.svelte';
+	import ToastProvider from '../toast/ToastProvider.svelte';
 
 	let {
 		themes,
@@ -55,6 +56,8 @@
 
 <ThemeProvider {themes} bind:theme {light} {dark} {storageKey} {nonce}>
 	<DefaultsProvider defaults={defaults ?? {}}>
-		{@render children?.()}
+		<ToastProvider>
+			{@render children?.()}
+		</ToastProvider>
 	</DefaultsProvider>
 </ThemeProvider>

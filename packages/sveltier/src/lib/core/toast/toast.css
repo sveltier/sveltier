@@ -1,0 +1,134 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The region: a strip of the screen's height in the top layer, with the toasts at its
+	 * bottom, across a phone and at the end from 600px. It never changes height, so a toast
+	 * fading out stays where it was while the others move. Around the toasts, presses go
+	 * through to the page.
+	 */
+	.sv-toasts {
+		position: fixed;
+		inset-block: 0;
+		inset-inline: var(--sv-space-8);
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		inline-size: auto;
+		block-size: auto;
+		max-inline-size: none;
+		max-block-size: none;
+		margin: 0;
+		padding-block: 0 calc(var(--sv-space-21) + env(safe-area-inset-bottom, 0px));
+		padding-inline: 0;
+		border: 0;
+		overflow: visible;
+		background: transparent;
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		pointer-events: none;
+	}
+
+	@media (width >= 600px) {
+		.sv-toasts {
+			inset-inline: auto var(--sv-space-21);
+			inline-size: 21rem;
+		}
+	}
+
+	/* F8 focuses the region; the ring goes round the toasts, not the strip. */
+	.sv-toasts:focus-visible {
+		outline: none;
+	}
+
+	.sv-toasts:focus-visible .sv-toasts__list {
+		outline: var(--sv-focus-width) solid var(--sv-color-primary);
+		outline-offset: var(--sv-focus-offset);
+	}
+
+	.sv-toasts__list {
+		display: grid;
+		gap: var(--sv-space-8);
+		margin: 0;
+		padding: 0;
+		border-radius: var(--sv-rounded, min(var(--sv-radius-md), var(--sv-radius-lg)));
+		list-style: none;
+		pointer-events: auto;
+	}
+
+	/* Filled with its colour; neutral is the page inverted, so it reads on any surface. */
+	.sv-toast {
+		display: flex;
+		gap: var(--sv-space-5);
+		align-items: center;
+		box-sizing: border-box;
+		min-block-size: calc(var(--sv-control-lg) * var(--sv-density));
+		padding-block: calc(var(--sv-space-5) * var(--sv-density));
+		padding-inline: calc(var(--sv-space-13) * var(--sv-density)) var(--sv-space-5);
+		border-radius: var(--sv-rounded, min(var(--sv-radius-md), var(--sv-radius-lg)));
+		background-color: var(--sv-variant-bg);
+		box-shadow: var(--sv-shadow);
+		color: var(--sv-variant-fg);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-toast__message {
+		flex: 1;
+		min-inline-size: 0;
+		margin: 0;
+		padding-block: var(--sv-space-3);
+		overflow-wrap: break-word;
+	}
+
+	.sv-toast__action,
+	.sv-toast__close {
+		flex: none;
+		border: 0;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	.sv-toast__action {
+		min-block-size: var(--sv-control-sm);
+		padding-inline: var(--sv-space-8);
+		border-radius: var(--sv-radius-sm);
+		font: inherit;
+		font-weight: var(--sv-weight-semibold);
+		/* Lettered like the theme's buttons: capitals in a theme that sets them. */
+		letter-spacing: var(--sv-button-tracking);
+		text-transform: var(--sv-button-transform);
+		white-space: nowrap;
+	}
+
+	.sv-toast__close {
+		display: inline-grid;
+		place-items: center;
+		inline-size: var(--sv-control-sm);
+		block-size: var(--sv-control-sm);
+		padding: 0;
+		border-radius: 50%;
+	}
+
+	.sv-toast__close svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	@media (hover: hover) {
+		:is(.sv-toast__action, .sv-toast__close):hover {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	:is(.sv-toast__action, .sv-toast__close):active {
+		background-color: color-mix(in oklch, currentColor var(--sv-state-press), transparent);
+	}
+
+	/* The ring takes the toast's own text colour, which contrasts with it in every colour. */
+	.sv-toast :focus-visible {
+		outline-color: currentColor;
+	}
+}

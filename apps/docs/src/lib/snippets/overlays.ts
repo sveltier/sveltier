@@ -165,6 +165,71 @@ export const tooltipWithDialog = `<script>
   <TextField label="Account name" />
 </Dialog>`;
 
+export const toastUsage = `<script>
+  import { Button, useToast } from '@sveltier/ui';
+
+  // While the component initialises; show() whenever something happens.
+  const toast = useToast();
+
+  function send() {
+    // … send the payment
+    toast.show('Payment sent', {
+      action: { label: 'Undo', onclick: cancel }
+    });
+  }
+
+  function cancel() {
+    // …
+  }
+</script>
+
+<Button onclick={send}>Send payment</Button>
+<Button variant="outlined" onclick={() => toast.show('Statement saved', { color: 'success' })}>
+  Save statement
+</Button>`;
+
+export const toastDismiss = `<script>
+  import { Button, useToast } from '@sveltier/ui';
+
+  const toast = useToast();
+
+  async function exportTransactions() {
+    // Stays until it is closed, or until the export is ready.
+    const id = toast.show('Preparing your export…', { duration: 0 });
+    await new Promise((done) => setTimeout(done, 3000)); // … the export
+    toast.dismiss(id);
+    toast.show('Export ready', { color: 'success' });
+  }
+</script>
+
+<Button variant="outlined" onclick={exportTransactions}>Export transactions</Button>`;
+
+export const toastDefaults = `<script>
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
+
+  let { children } = $props();
+</script>
+
+<!-- Every toast stays 8 seconds, unless show() says otherwise. -->
+<UIProvider themes={monolith} defaults={{ Toast: { duration: 8000 } }}>
+  {@render children()}
+</UIProvider>`;
+
+export const toastProvider = `<script>
+  import { ThemeProvider, ToastProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
+
+  let { children } = $props();
+</script>
+
+<!-- UIProvider includes it: add ToastProvider only to an app on ThemeProvider alone. -->
+<ThemeProvider themes={monolith}>
+  <ToastProvider>
+    {@render children()}
+  </ToastProvider>
+</ThemeProvider>`;
+
 export const dialogControlled = `<script>
   import { Dialog, TextField } from '@sveltier/ui';
 

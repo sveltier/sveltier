@@ -36,6 +36,7 @@ import {
 	menuUsage,
 	popoverUsage,
 	sheetUsage,
+	toastUsage,
 	tooltipUsage
 } from '#lib/snippets/overlays.js';
 import { install, setup } from '#lib/snippets/theme.js';
@@ -151,7 +152,13 @@ const OVERLAYS: Entry[] = [
 		types: ['MenuProps', 'MenuAction'],
 		example: menuUsage
 	},
-	{ name: 'Tooltip', path: 'overlays/tooltip', types: ['TooltipProps'], example: tooltipUsage }
+	{ name: 'Tooltip', path: 'overlays/tooltip', types: ['TooltipProps'], example: tooltipUsage },
+	{
+		name: 'Toast (useToast)',
+		path: 'overlays/toast',
+		types: ['ToastInstance', 'ToastOptions', 'ToastAction', 'ToastDefaults'],
+		example: toastUsage
+	}
 ];
 
 const PRIMITIVES: Entry[] = [
@@ -181,6 +188,7 @@ const CONVENTIONS = `Install \`sveltier\`, wrap the app in \`UIProvider\` with a
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
 - Overlays open from a control through a \`trigger\` snippet: spread the attributes it receives onto your own Button (\`{#snippet trigger(attributes)}<Button {...attributes}>Open</Button>{/snippet}\`), which wires the ARIA, opening and focus return. Without a trigger, \`bind:open\` opens and closes them.
+- Toasts come from \`useToast()\`, which \`UIProvider\` provides: call it while a component initialises, then \`toast.show('Payment sent', { action: { label: 'Undo', onclick: undo } })\` when something happens. There is no toast component to place, and no other toast library is needed.
 - Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.`;
 
 /** The first sentence of a description, on one line. */

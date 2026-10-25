@@ -18,9 +18,12 @@ export default [
 		measure: 'css'
 	},
 	{
-		name: 'core JS (UIProvider: theme, defaults, display, locale)',
+		// 3.9 KB for theme, defaults, display and locale. UIProvider also brings the toasts (about
+		// 2.9 KB: the queue and timers, the outlet with its live regions and keyboard, and the
+		// motion it uses), so useToast() works anywhere below it with nothing to add.
+		name: 'core JS (UIProvider: theme, defaults, display, locale, toasts)',
 		code: "export { UIProvider, ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from '@sveltier/ui';",
-		limit: '5 KB',
+		limit: '7 KB',
 		measure: 'js'
 	},
 	{
@@ -150,11 +153,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Its own code. The primitives it stands on (focus trap, layer stack, scroll lock, motion)
-		// are shared by every overlay and measured in their own entries.
+		// Its own code, with the outlet that shows toasts inside it while it is open (0.15 KB). The
+		// primitives it stands on (focus trap, layer stack, scroll lock, motion) are shared by every
+		// overlay and measured in their own entries.
 		name: 'Dialog',
 		code: "export { Dialog } from '@sveltier/ui';",
-		limit: '2.7 KB',
+		limit: '2.85 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -224,7 +228,7 @@ export default [
 		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
 		name: 'Sheet',
 		code: "export { Sheet } from '@sveltier/ui';",
-		limit: '3 KB',
+		limit: '3.15 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -308,6 +312,15 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// useToast and ToastProvider with the outlet: the queue, its timers and announcements, the
+		// region with its live regions, F8 and Escape, and the styles. UIProvider includes it, so it
+		// also counts in the core budget above. The motion primitives are measured apart.
+		name: 'Toast (useToast, ToastProvider)',
+		code: "export { useToast, ToastProvider } from '@sveltier/ui';",
+		limit: '3.75 KB',
+		external: [/\/core\/(?!toast\/)/, /\/primitives\//]
+	},
+	{
 		// Its own code: hover with its delay and grace, focus, the toolbar warm-up and the CSS fade.
 		// Placement and the layer stack are primitives, measured apart.
 		name: 'Tooltip',
@@ -333,6 +346,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '41 KB'
+		limit: '43.5 KB'
 	}
 ];
