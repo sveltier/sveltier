@@ -89,6 +89,19 @@ export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
 // Overlays: what an overlay hands to the control that opens it
 export { CLOSE_REASONS, type CloseReason, type TriggerAttributes } from './core/overlay/types.js';
 
+// Toasts
+export {
+	default as ToastProvider,
+	type ToastProviderProps
+} from './core/toast/ToastProvider.svelte';
+export {
+	useToast,
+	type ToastAction,
+	type ToastDefaults,
+	type ToastInstance,
+	type ToastOptions
+} from './core/toast/toast.svelte.js';
+
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';

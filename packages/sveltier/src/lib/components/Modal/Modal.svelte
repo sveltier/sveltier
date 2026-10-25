@@ -5,6 +5,8 @@
 	import { DEV, warnUnnamed } from '#dev';
 	import { useLocale } from '../../core/locale/locale.js';
 	import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
+	import { getToasts } from '../../core/toast/toast.svelte.js';
+	import ToastOutlet from '../../core/toast/ToastOutlet.svelte';
 	import { focusTrap } from '../../primitives/focus/focus-trap.js';
 	import { dismissable } from '../../primitives/layer/dismissable.js';
 	import { fade } from '../../primitives/motion/motion.js';
@@ -69,6 +71,15 @@
 		if (DEV) warnUnnamed(component, dialog, 'a title');
 	};
 
+	// The rest of the page is inert under a modal dialog, toasts included, so they show in the
+	// dialog while it is open, and go back to the page as soon as it starts to close.
+	const toasts = getToasts();
+	const outlet = {};
+	let toastRegion = $state<HTMLElement | null>(null);
+	$effect(() => {
+		if (open && toasts) return toasts.register(outlet);
+	});
+
 	// Escape is left to the layer stack, so nested layers close one at a time. The browser may
 	// still close the dialog itself: Chrome does after repeated presses, and a form with
 	// method="dialog" does on submit. Either way the state follows, with the likely reason.
@@ -101,7 +112,8 @@
 			{@attach dismissable({
 				onDismiss: close,
 				escape: !persistent,
-				outside: !persistent
+				outside: !persistent,
+				inside: () => [toastRegion]
 			})}
 			transition:enter
 		>
@@ -129,5 +141,6 @@
 				</footer>
 			{/if}
 		</div>
+		{#if toasts}<ToastOutlet {toasts} {outlet} bind:ref={toastRegion} />{/if}
 	</dialog>
 {/if}

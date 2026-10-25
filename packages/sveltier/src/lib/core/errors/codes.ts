@@ -120,6 +120,13 @@ export const ERROR_CODES = {
 			'A tooltip describes the control it is on; it does not name it. A control with no text, `aria-label` or `aria-labelledby`, such as an icon-only button, is announced without a name.',
 		fix: 'Give the control `aria-label`, as every icon-only button needs, or visible text. The tooltip can then say more than the name.'
 	},
+	SV4003: {
+		kind: 'error',
+		title: 'useToast() outside a UIProvider',
+		cause:
+			'`useToast()` reads the toasts from the component tree, and there is no `<UIProvider>` or `<ToastProvider>` above the component that called it.',
+		fix: 'Wrap the app in `<UIProvider>` in the root layout, or in `<ToastProvider>` when it uses `<ThemeProvider>` alone, and call `useToast()` while a component inside it initialises.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field or dialog without an accessible name',

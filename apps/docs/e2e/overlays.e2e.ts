@@ -64,7 +64,43 @@ for (const colorScheme of ['light', 'dark'] as const) {
 		await expect(page.getByRole('tooltip')).toBeVisible();
 		expect(await violations(page)).toEqual([]);
 	});
+
+	test(`shown toasts have no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/toast');
+		for (const name of ['Send payment', 'Save statement', 'Pay by card']) {
+			await page.getByRole('button', { name }).click();
+		}
+		await expect(
+			page.getByRole('region', { name: 'Notifications (F8)' }).getByRole('listitem')
+		).toHaveCount(3);
+		expect(await violations(page)).toEqual([]);
+	});
 }
+
+test('a toast confirms a payment, and its Undo takes the payment back', async ({ page }) => {
+	await open(page, '/overlays/toast');
+	await page.getByRole('button', { name: 'Send payment' }).click();
+	const toasts = page.getByRole('region', { name: 'Notifications (F8)' });
+	await expect(toasts.getByText('Payment of €120.00 sent')).toBeVisible();
+	await expect(page.getByText('Payments sent: 1')).toBeVisible();
+	await toasts.getByRole('button', { name: 'Undo' }).click();
+	await expect(toasts.getByText('Payment cancelled')).toBeVisible();
+	await expect(page.getByText('Payments sent: 0')).toBeVisible();
+});
+
+test('a toast from a dialog shows in it, and its Undo leaves the dialog open', async ({ page }) => {
+	await open(page, '/overlays/toast');
+	await page.getByRole('button', { name: 'Edit payee' }).click();
+	const dialog = page.getByRole('dialog', { name: 'Edit the payee' });
+	const name = dialog.getByRole('textbox', { name: 'Name' });
+	await name.fill('Globex');
+	await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+	const toasts = dialog.getByRole('region', { name: 'Notifications (F8)' });
+	await toasts.getByRole('button', { name: 'Undo' }).click();
+	await expect(dialog).toBeVisible();
+	await expect(name).toHaveValue('Acme Ltd');
+});
 
 test('a sheet slides in from the end, keeps its choices, and closes on Escape', async ({
 	page

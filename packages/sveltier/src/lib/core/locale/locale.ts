@@ -4,6 +4,8 @@ import { getContext, hasContext, setContext } from 'svelte';
 export const MESSAGES = {
 	close: 'Close',
 	loading: 'Loading',
+	// The region of toasts, followed by its key: "Notifications (F8)".
+	notifications: 'Notifications',
 	progress: 'Progress',
 	// Validation: the HTML constraints of form fields.
 	required: 'Required',
