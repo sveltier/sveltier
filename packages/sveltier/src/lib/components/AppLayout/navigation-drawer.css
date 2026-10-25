@@ -1,0 +1,97 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The drawer beside the content, 10φ wide: it runs the height of the page, and its navigation
+	 * fills the window beside the bar and stays there while the page scrolls, below a sticky bar
+	 * written before it. Content with `margin-block-start: auto` sits at the bottom. A hairline
+	 * separates the drawer from the content.
+	 */
+	.sv-navigation-drawer {
+		box-sizing: border-box;
+		inline-size: var(--sv-navigation-drawer-width, 16.18rem);
+		border-inline-end: var(--sv-hairline) solid var(--sv-color-border-soft);
+		background-color: var(--sv-color-background);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+	}
+
+	.sv-navigation-drawer__content,
+	.sv-navigation-drawer__modal {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.sv-navigation-drawer__content {
+		position: sticky;
+		inset-block-start: var(--sv-app-layout-top, 0px);
+		block-size: calc(100dvh - var(--sv-app-layout-bar, 0px));
+		padding-block: var(--sv-space-8);
+		overflow: hidden auto;
+		overscroll-behavior: contain;
+	}
+
+	.sv-navigation-drawer__modal {
+		min-block-size: 100%;
+	}
+
+	/* The rail: a large control wide, a List's icons centred and their text out of sight. */
+	.sv-navigation-drawer--rail {
+		inline-size: var(--sv-navigation-drawer-rail-width, var(--sv-control-xl));
+	}
+
+	.sv-navigation-drawer--rail .sv-list-item__main {
+		justify-content: center;
+		padding-inline: 0;
+	}
+
+	.sv-navigation-drawer--rail :is(.sv-list-item__text, .sv-list-item__append) {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	/* Below its breakpoint, the drawer leaves the grid: it opens as a modal drawer instead. */
+	@media (width < 600px) {
+		.sv-navigation-drawer--sm {
+			display: none;
+		}
+	}
+
+	@media (width < 960px) {
+		.sv-navigation-drawer--md {
+			display: none;
+		}
+	}
+
+	@media (width < 1280px) {
+		.sv-navigation-drawer--lg {
+			display: none;
+		}
+	}
+
+	@media (width < 1920px) {
+		.sv-navigation-drawer--xl {
+			display: none;
+		}
+	}
+
+	@media (width < 2560px) {
+		.sv-navigation-drawer--xxl {
+			display: none;
+		}
+	}
+
+	/* The modal drawer: as wide as the drawer, its navigation from edge to edge. */
+	.sv-modal__panel.sv-navigation-drawer__panel {
+		--sv-modal-width: var(--sv-navigation-drawer-width, 16.18rem);
+	}
+
+	.sv-modal__panel.sv-navigation-drawer__panel > .sv-modal__body {
+		padding: var(--sv-space-8) 0;
+	}
+}

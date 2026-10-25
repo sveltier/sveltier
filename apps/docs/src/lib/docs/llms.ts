@@ -42,6 +42,7 @@ import {
 	toastUsage,
 	tooltipUsage
 } from '#lib/snippets/overlays.js';
+import { appLayoutUsage } from '#lib/snippets/layout.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
@@ -54,6 +55,15 @@ interface Entry {
 	types: string[];
 	example?: string;
 }
+
+const LAYOUT: Entry[] = [
+	{
+		name: 'AppLayout, AppBar, NavigationDrawer and Main',
+		path: 'layout/app-layout',
+		types: ['AppLayoutProps', 'AppBarProps', 'NavigationDrawerProps', 'MainProps'],
+		example: appLayoutUsage
+	}
+];
 
 const COMPONENTS: Entry[] = [
 	{
@@ -208,6 +218,7 @@ const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` wi
 - Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
+- An app's frame is \`AppLayout\` in the root layout, with \`AppBar\`, \`NavigationDrawer\` (usually a \`List nav\` of links) and \`Main\` inside: they place themselves on a CSS grid, the drawer becomes a modal drawer with a menu button in the bar on small screens, and nothing needs measuring or wiring.
 - Overlays open from a control through a \`trigger\` snippet: spread the attributes it receives onto your own Button (\`{#snippet trigger(attributes)}<Button {...attributes}>Open</Button>{/snippet}\`), which wires the ARIA, opening and focus return. Without a trigger, \`bind:open\` opens and closes them.
 - Toasts come from \`useToast()\`, which \`UIProvider\` provides: call it while a component initialises, then \`toast.show('Payment sent', { action: { label: 'Undo', onclick: undo } })\` when something happens. There is no toast component to place, and no other toast library is needed.
 - Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.`;
@@ -245,7 +256,7 @@ function section(entry: Entry, link: (path: string) => string): string {
 /** llms.txt: every docs page, with what each component is. */
 export function llmsIndex(link: (path: string) => string): string {
 	const described = new Map(
-		[...COMPONENTS, ...FORMS, ...OVERLAYS].map((entry) => [
+		[...LAYOUT, ...COMPONENTS, ...FORMS, ...OVERLAYS].map((entry) => [
 			entry.path,
 			sentence(descriptions[entry.types[0]!] ?? '')
 		])
@@ -293,6 +304,9 @@ export function llmsFull(link: (path: string) => string): string {
 		'',
 		CONVENTIONS,
 		'',
+		'## Layout',
+		'',
+		...LAYOUT.flatMap((entry) => [section(entry, link), '']),
 		'## Components',
 		'',
 		...COMPONENTS.flatMap((entry) => [section(entry, link), '']),

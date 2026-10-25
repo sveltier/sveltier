@@ -981,6 +981,26 @@ a {
 	border-radius: var(--sv-radius-lg);
 }
 
+/* A whole example app in a frame the size of a screen, scaled down to fit the page. */
+.docs-device-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sv-space-8);
+}
+
+.docs-device {
+	margin-inline: auto;
+	overflow: hidden;
+	border-radius: var(--sv-radius-lg);
+	box-shadow: 0 0 0 var(--sv-hairline) var(--sv-color-border-soft);
+}
+
+.docs-device iframe {
+	display: block;
+	border: 0;
+	transform-origin: 0 0;
+}
+
 /* Checkboxes and switches in a column; a nested group sits under its parent's label. */
 .docs-choices {
 	display: grid;

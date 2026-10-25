@@ -127,6 +127,13 @@ export const ERROR_CODES = {
 			'`useToast()` reads the toasts from the component tree, and there is no `<UIProvider>` or `<ToastProvider>` above the component that called it.',
 		fix: 'Wrap the app in `<UIProvider>` in the root layout, or in `<ToastProvider>` when it uses `<ThemeProvider>` alone, and call `useToast()` while a component inside it initialises.'
 	},
+	SV4004: {
+		kind: 'warning',
+		title: 'Layout part not directly inside AppLayout',
+		cause:
+			'`AppLayout` places `AppBar`, `NavigationDrawer` and `Main` on its grid by area, which works only for its own children. A part inside another element takes no area: it lands in a cell of its own, and the content can sit under the bar or beside an empty drawer.',
+		fix: 'Write `AppBar`, `NavigationDrawer` and `Main` straight inside `AppLayout`, with no element around them. Put padding and wrappers inside `Main`.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field or dialog without an accessible name',

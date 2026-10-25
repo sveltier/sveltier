@@ -6,3 +6,4 @@ export const DEV: boolean = false;
 export const checkValue: typeof On.checkValue = () => {};
 export const warnUnnamed: typeof On.warnUnnamed = () => {};
 export const warnNamelessTrigger: typeof On.warnNamelessTrigger = () => {};
+export const warnMisplaced: typeof On.warnMisplaced = () => {};

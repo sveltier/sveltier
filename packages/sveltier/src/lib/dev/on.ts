@@ -58,6 +58,18 @@ export function warnUnnamed(
 }
 
 /**
+ * Warns when a part of an AppLayout is not one of its own children, so the layout's grid cannot
+ * place it.
+ */
+export function warnMisplaced(component: string, element: HTMLElement | null | undefined): void {
+	if (!element || element.parentElement?.classList.contains('sv-app-layout')) return;
+	warn(
+		'SV4004',
+		`<${component}> is not directly inside <AppLayout>, so the layout's grid cannot place it. Write AppBar, NavigationDrawer and Main straight inside AppLayout, and put wrappers inside Main.`
+	);
+}
+
+/**
  * Warns when a tooltip describes a control that has no accessible name: a description names
  * nothing, so an icon-only button would be announced as just "button".
  */

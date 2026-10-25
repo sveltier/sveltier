@@ -28,6 +28,7 @@
 		closable = false,
 		closeLabel,
 		fullscreen = false,
+		returnFocus,
 		onclose,
 		id: idProp,
 		class: className,
@@ -101,7 +102,7 @@
 		class={['sv-modal', `sv-modal--${placement}`, fullscreen && 'sv-modal--fullscreen', className]}
 		{@attach modal}
 		{@attach scrollLock()}
-		{@attach focusTrap({ returnFocus: opener ?? true })}
+		{@attach focusTrap({ returnFocus: returnFocus ?? opener ?? true })}
 		oncancel={cancel}
 		onclose={() => close(escaped ? 'escape' : 'action')}
 		transition:fade

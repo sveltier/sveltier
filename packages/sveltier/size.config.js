@@ -129,6 +129,23 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// The grid and its placement rules, the skip link, and the bar with its menu button (a
+		// Button, measured in its own entry): 1.6 KB of JS and 0.9 KB of CSS.
+		name: 'AppLayout, AppBar and Main',
+		code: "export { AppLayout, AppBar, Main } from '@sveltier/ui';",
+		limit: '2.55 KB',
+		external: [/\/core\//, /\/components\/Button\//]
+	},
+	{
+		// The drawer beside the content, the rail, and the modal drawer on the modal shell that
+		// Dialog and Sheet share (about 2.6 KB of it, the CSS included), which closes when a link
+		// in it leaves the page; the primitives the shell stands on are measured apart.
+		name: 'NavigationDrawer',
+		code: "export { NavigationDrawer } from '@sveltier/ui';",
+		limit: '4 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'Avatar',
 		code: "export { Avatar } from '@sveltier/ui';",
 		limit: '1.2 KB',
@@ -370,6 +387,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '45.5 KB'
+		limit: '47.5 KB'
 	}
 ];

@@ -26,7 +26,12 @@ export const MESSAGES = {
 	pagination: 'Pagination',
 	previous: 'Previous page',
 	next: 'Next page',
-	page: 'Page {page}'
+	page: 'Page {page}',
+	// App layout: the link to the main content, the drawer's landmark ("Main navigation"), and
+	// the button and dialog that show the drawer on small screens.
+	skipToContent: 'Skip to content',
+	mainNavigation: 'Main',
+	navigation: 'Navigation'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

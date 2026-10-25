@@ -164,6 +164,17 @@ export {
 	type AccordionProps
 } from './components/Accordion/index.js';
 export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
+export {
+	AppBar,
+	AppLayout,
+	Main,
+	NavigationDrawer,
+	type AppBarDefaults,
+	type AppBarProps,
+	type AppLayoutProps,
+	type MainProps,
+	type NavigationDrawerProps
+} from './components/AppLayout/index.js';
 export { Avatar, type AvatarDefaults, type AvatarProps } from './components/Avatar/index.js';
 export { Badge, type BadgeDefaults, type BadgeProps } from './components/Badge/index.js';
 export {
