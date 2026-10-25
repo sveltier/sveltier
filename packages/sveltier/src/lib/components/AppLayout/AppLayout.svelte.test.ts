@@ -135,14 +135,18 @@ describe('AppLayout', () => {
 			await expect.element(menu()).toHaveAttribute('aria-controls', modal().element().id);
 			const navigation = page.getByRole('navigation', { name: 'Main' });
 			await expect.element(navigation.getByRole('link', { name: 'Payments' })).toBeVisible();
+			// Once it has slid in, which takes WebKit longer under load in CI.
 			await expect
-				.poll(() => {
-					const { left, width } = modal()
-						.element()
-						.querySelector('.sv-modal__panel')!
-						.getBoundingClientRect();
-					return { left: Math.round(left), width: Math.round(width) };
-				})
+				.poll(
+					() => {
+						const { left, width } = modal()
+							.element()
+							.querySelector('.sv-modal__panel')!
+							.getBoundingClientRect();
+						return { left: Math.round(left), width: Math.round(width) };
+					},
+					{ timeout: 5000 }
+				)
 				.toEqual({ left: 0, width: Math.round(DRAWER) });
 			await userEvent.keyboard('{Escape}');
 			await expect.element(modal()).not.toBeInTheDocument();
