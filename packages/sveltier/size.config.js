@@ -301,6 +301,23 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code: the Intl options with defaults that keep the data, the runs with a true
+		// minus and a dimmed fraction, masking, and the flash on the Web Animations API. The
+		// locale's cached formatters and the motion timing are core and primitives.
+		name: 'Amount',
+		code: "export { Amount } from '@sveltier/ui';",
+		limit: '1.75 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
+		// Its own code: the direction, its colour and the arrow. The figure is an Amount,
+		// measured in its own entry.
+		name: 'Delta',
+		code: "export { Delta } from '@sveltier/ui';",
+		limit: '1.05 KB',
+		external: [/\/core\//, /\/components\/Amount\//]
+	},
+	{
 		// Its own code: the columns, their alignment, the sort with its comparator and the scroll
 		// region (2.45 KB of JS), and 1.2 KB of CSS (sticky header, sort arrow, current row,
 		// loading bar). The locale and the shared props are core, measured apart.
@@ -404,6 +421,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '51.5 KB'
+		limit: '53 KB'
 	}
 ];

@@ -166,6 +166,7 @@ export {
 	type AccordionProps
 } from './components/Accordion/index.js';
 export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
+export { Amount, type AmountDefaults, type AmountProps } from './components/Amount/index.js';
 export {
 	AppBar,
 	AppLayout,
@@ -197,6 +198,7 @@ export {
 	type CheckboxProps
 } from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
+export { Delta, type DeltaDefaults, type DeltaProps } from './components/Delta/index.js';
 export { Dialog, type DialogDefaults, type DialogProps } from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {

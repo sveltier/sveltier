@@ -1,0 +1,33 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* The up and down colours pass as text on every surface of every theme. */
+	.sv-delta {
+		display: inline-flex;
+		gap: 0.236em;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	.sv-delta--up {
+		color: var(--sv-color-up);
+	}
+
+	.sv-delta--down {
+		color: var(--sv-color-down);
+	}
+
+	.sv-delta--flat {
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-delta__arrow {
+		flex: none;
+		inline-size: 0.786em;
+		block-size: 0.786em;
+	}
+
+	.sv-delta--down > .sv-delta__arrow {
+		transform: rotate(180deg);
+	}
+}

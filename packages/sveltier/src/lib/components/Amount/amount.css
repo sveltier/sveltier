@@ -1,0 +1,30 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A figure on one line in tabular figures; its own stacking context holds the flash behind it. */
+	.sv-amount {
+		position: relative;
+		isolation: isolate;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.sv-amount__fraction {
+		color: var(--sv-color-text-subtle);
+	}
+
+	/* The flash: a wash of the up or down colour behind the figure, faded out by script. */
+	.sv-amount__flash {
+		position: absolute;
+		inset: -0.1em -0.236em;
+		z-index: -1;
+		border-radius: var(--sv-radius-sm);
+		background-color: var(--sv-color-up);
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.sv-amount__flash[data-direction='down'] {
+		background-color: var(--sv-color-down);
+	}
+}

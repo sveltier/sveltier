@@ -2,6 +2,7 @@
 	// A portfolio: positions sortable by their headers, a computed value and P&L, the selected
 	// position's row marked, and controls for the density and the loading state.
 	import {
+		Delta,
 		SegmentedControl,
 		Switch,
 		Table,
@@ -65,14 +66,7 @@
 {/snippet}
 
 {#snippet pnl(p: Position)}
-	{@const value = pnlOf(p)}
-	{#if value === null}
-		—
-	{:else}
-		<span class={value < 0 ? 'docs-down' : 'docs-up'}>
-			{value < 0 ? '−' : '+'}{money.format(Math.abs(value))}
-		</span>
-	{/if}
+	<Delta value={pnlOf(p)} decimals={2} />
 {/snippet}
 
 <div class="docs-demo">

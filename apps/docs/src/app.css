@@ -107,13 +107,40 @@ a {
 	font-variant-numeric: tabular-nums;
 }
 
-/* Gains and losses, in the theme's up and down colours, which pass as text on every surface. */
-.docs-up {
-	color: var(--sv-color-up);
+/* A quote: the symbol, a large price and its change, on one baseline. */
+.docs-quote {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sv-space-8) var(--sv-space-13);
+	align-items: baseline;
 }
 
-.docs-down {
-	color: var(--sv-color-down);
+.docs-quote__symbol {
+	color: var(--sv-color-text-muted);
+	font-weight: var(--sv-weight-medium);
+}
+
+.docs-quote__price {
+	font-size: var(--sv-text-title);
+	font-weight: var(--sv-weight-medium);
+}
+
+/* Changes in a row of label and figure pairs. */
+.docs-deltas {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+	gap: var(--sv-space-13);
+	margin: 0;
+}
+
+.docs-deltas dt {
+	color: var(--sv-color-text-muted);
+	font-size: var(--sv-text-sm);
+}
+
+.docs-deltas dd {
+	margin: 0;
+	font-size: var(--sv-text-lg);
 }
 
 .docs-table-controls {

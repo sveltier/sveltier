@@ -110,6 +110,13 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Finance',
+		items: [
+			{ title: 'Amount', path: 'finance/amount' },
+			{ title: 'Delta', path: 'finance/delta' }
+		]
+	},
+	{
 		title: 'Primitives',
 		items: [
 			{ title: 'Focus', path: 'primitives/focus' },
