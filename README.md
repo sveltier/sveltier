@@ -50,6 +50,14 @@ pnpm size    # gzip size budgets
 
 Browser tests need Playwright's browsers once: `pnpm --filter @sveltier/ui exec playwright install`.
 
+## Releasing
+
+Bump `version` in `packages/sveltier/package.json` in a pull request. Once it is merged, run the
+**Release** workflow on `main` (Actions > Release > Run workflow). It builds and tests the package,
+then stages it on npm with trusted publishing, so no npm token is stored and npm signs provenance.
+The version goes public once a maintainer approves it with 2FA, on npmjs.com (Staged Packages) or
+with `npm stage approve <stage-id>`.
+
 ## License
 
 [MIT](./LICENSE)
