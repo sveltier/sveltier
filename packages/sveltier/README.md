@@ -60,10 +60,15 @@ Fonts are not bundled: each theme names its families and falls back to system fo
 
 ## What is inside
 
-- **Components:** Alert, Avatar, Badge, Button, ButtonGroup, Card, Chip, Divider, Icon, List,
-  ProgressCircular, ProgressLinear, SegmentedControl, Skeleton, Tabs.
-- **Forms:** Form, Field, TextField, Textarea, NumberField and NativeSelect, validated by the
-  HTML constraints first, then your rules.
+- **Layout:** AppLayout with AppBar, NavigationDrawer and Main, the frame of an app that the
+  server renders as it stays; Container, Row and Col, a twelve-column grid.
+- **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
+  Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
+  Tabs.
+- **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Checkbox, Switch,
+  RadioGroup and Slider, validated by the HTML constraints first, then your rules.
+- **Overlays:** Dialog, Sheet, Popover, Menu and Tooltip in the browser's top layer, and toasts
+  with an undo action from `useToast()`.
 - **Primitives** for your own components: focus trap, roving focus, dismissable layers, portal,
   inert background and scroll lock, anchored positioning, keyboard maps and typeahead, motion,
   virtual lists.
