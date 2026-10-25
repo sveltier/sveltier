@@ -47,6 +47,20 @@ describe('dismissable', () => {
 		await expect.element(log()).toHaveTextContent('inner:outside,outer:outside');
 	});
 
+	it('lets a press through a transient layer, which closes, to the layer beneath', async () => {
+		await render(LayerHarness, { innerOpen: true, transient: true });
+		await userEvent.click(button('Outside'));
+		await expect.element(log()).toHaveTextContent('inner:outside,outer:outside');
+	});
+
+	it('gives Escape to a transient layer first', async () => {
+		await render(LayerHarness, { innerOpen: true, transient: true });
+		field('Outer field').element().focus();
+		await userEvent.keyboard('{Escape}');
+		await expect.element(log()).toHaveTextContent('inner:escape');
+		await expect.element(page.getByTestId('outer')).toBeInTheDocument();
+	});
+
 	it('counts the elements in inside as inside, so a trigger can toggle', async () => {
 		await render(LayerHarness);
 		await userEvent.click(button('Trigger'));

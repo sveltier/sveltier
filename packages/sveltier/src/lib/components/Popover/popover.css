@@ -1,0 +1,67 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A raised surface beside its control, as wide as its content up to its size and never wider
+	 * or taller than the screen, scrolling inside when its content is longer.
+	 */
+	.sv-popover {
+		--sv-popover-pad: calc(var(--sv-space-13) * var(--sv-density));
+		box-sizing: border-box;
+		display: grid;
+		gap: var(--sv-space-13);
+		inline-size: max-content;
+		max-inline-size: min(var(--sv-popover-width), 100vw - 2 * var(--sv-space-8));
+		max-block-size: calc(100dvh - 2 * var(--sv-space-8));
+		padding: var(--sv-popover-pad);
+		overflow: auto;
+		overscroll-behavior: contain;
+		border: var(--sv-hairline) solid var(--sv-color-border-soft);
+		border-radius: var(--sv-rounded, var(--sv-radius-lg));
+		outline: none;
+		background-color: var(--sv-color-surface);
+		box-shadow: var(--sv-shadow);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-normal);
+	}
+
+	/* Widths on the φ series: 13, 17, 21, 27 and 34rem. */
+	.sv-popover.sv-size-xs {
+		--sv-popover-width: 13rem;
+	}
+
+	.sv-popover.sv-size-sm {
+		--sv-popover-width: 17rem;
+	}
+
+	.sv-popover.sv-size-md {
+		--sv-popover-width: 21rem;
+	}
+
+	.sv-popover.sv-size-lg {
+		--sv-popover-width: 27rem;
+	}
+
+	.sv-popover.sv-size-xl {
+		--sv-popover-width: 34rem;
+	}
+
+	/* The heading in the theme's display voice, a step above the body. */
+	.sv-popover__title {
+		font: var(--sv-weight-display) var(--sv-text-md) / var(--sv-leading-snug) var(--sv-font-display);
+		letter-spacing: var(--sv-tracking-display);
+	}
+
+	.sv-popover__body {
+		min-inline-size: 0;
+	}
+
+	.sv-popover__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sv-space-8);
+		justify-content: flex-end;
+	}
+}

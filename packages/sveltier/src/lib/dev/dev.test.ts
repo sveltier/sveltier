@@ -39,6 +39,7 @@ describe('development checks', () => {
 		expect(off.DEV).toBe(false);
 		off.checkValue('Button', 'variant', 'primary', ['flat']);
 		off.warnUnnamed('TextField', null);
+		off.warnNamelessTrigger('Tooltip', {} as HTMLElement);
 		expect(warn).not.toHaveBeenCalled();
 	});
 

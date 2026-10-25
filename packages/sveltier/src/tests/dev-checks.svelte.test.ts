@@ -4,6 +4,7 @@ import ButtonHarness from './fixtures/ButtonHarness.svelte';
 import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
 import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
+import TooltipHarness from './fixtures/TooltipHarness.svelte';
 
 // Tests resolve #dev to the development checks, as an app's dev server does. Each message is
 // logged once per page, so every case here uses its own message.
@@ -45,5 +46,14 @@ describe('development checks in components', () => {
 		expect(logged()).not.toContain('<Checkbox> has no accessible name');
 		await render(CheckboxHarness, { label: undefined });
 		await expect.poll(logged).toContain('[sveltier SV5001] <Checkbox> has no accessible name.');
+	});
+
+	it('warn about a tooltip on a control without a name, and not on a named one', async () => {
+		await render(TooltipHarness, { iconOnly: true });
+		expect(logged()).not.toContain('SV4002');
+		await render(TooltipHarness, { iconOnly: true, label: '' });
+		await expect
+			.poll(logged)
+			.toContain('[sveltier SV4002] <Tooltip> describes a control that has no accessible name.');
 	});
 });

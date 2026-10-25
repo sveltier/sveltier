@@ -1,0 +1,44 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The page inverted: the text colour as the background, so it reads on any surface in both
+	 * schemes. As wide as its text up to a short line, never wider than the screen. It grows in
+	 * from 94.4% and fades with the theme's fast timing, and stays in the top layer until it has
+	 * faded out; with reduced motion it simply appears.
+	 */
+	.sv-tooltip {
+		inline-size: max-content;
+		max-inline-size: min(21rem, 100vw - 2 * var(--sv-space-8));
+		padding-block: var(--sv-space-3);
+		padding-inline: var(--sv-space-8);
+		border: 0;
+		border-radius: var(--sv-radius-sm);
+		overflow: visible;
+		background: var(--sv-color-text);
+		box-shadow: var(--sv-shadow);
+		color: var(--sv-color-background);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-xs);
+		line-height: var(--sv-leading-snug);
+		overflow-wrap: break-word;
+		opacity: 0;
+		transform: scale(0.944);
+		transition-property: opacity, transform, display, overlay;
+		transition-duration: var(--sv-duration-fast);
+		transition-timing-function: var(--sv-ease);
+		transition-behavior: allow-discrete;
+	}
+
+	.sv-tooltip:popover-open {
+		opacity: 1;
+		transform: none;
+	}
+
+	@starting-style {
+		.sv-tooltip:popover-open {
+			opacity: 0;
+			transform: scale(0.944);
+		}
+	}
+}

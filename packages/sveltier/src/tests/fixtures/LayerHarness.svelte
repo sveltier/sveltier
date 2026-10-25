@@ -6,8 +6,14 @@
 	let {
 		innerOpen = false,
 		focusOutside = false,
-		escape = true
-	}: { innerOpen?: boolean; focusOutside?: boolean; escape?: boolean } = $props();
+		escape = true,
+		transient = false
+	}: {
+		innerOpen?: boolean;
+		focusOutside?: boolean;
+		escape?: boolean;
+		transient?: boolean;
+	} = $props();
 
 	let outer = $state(true);
 	let inner = $state(untrack(() => innerOpen));
@@ -46,7 +52,8 @@
 						log.push(`inner:${reason}`);
 						inner = false;
 					},
-					focusOutside
+					focusOutside,
+					transient
 				})}
 			>
 				<input aria-label="Search" onkeydown={clearOnEscape} />

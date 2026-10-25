@@ -1,0 +1,150 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The <dialog> is the whole viewport: a scrim with the panel on it, so a press beside the panel
+	 * is a press outside it. The scrim comes with the theme: its ink over a light theme,
+	 * its background over a dark one, so custom themes get one in their own tone too.
+	 */
+	.sv-modal {
+		position: fixed;
+		inset: 0;
+		box-sizing: border-box;
+		display: grid;
+		place-items: center;
+		inline-size: 100%;
+		max-inline-size: none;
+		block-size: 100%;
+		max-block-size: none;
+		margin: 0;
+		padding: var(--sv-space-21);
+		overflow: hidden;
+		border: 0;
+		background: var(--sv-color-scrim);
+		color: var(--sv-color-text);
+		overscroll-behavior: contain;
+	}
+
+	.sv-modal::backdrop {
+		background: transparent;
+	}
+
+	/* The panel: a large surface, as wide as its size allows, as tall as the screen at most. */
+	.sv-modal__panel {
+		--sv-modal-pad: calc(var(--sv-space-21) * var(--sv-density));
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		inline-size: 100%;
+		max-inline-size: var(--sv-modal-width);
+		max-block-size: 100%;
+		border-radius: var(--sv-rounded, var(--sv-radius-xl));
+		background-color: var(--sv-color-surface);
+		box-shadow: var(--sv-shadow);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-md);
+		line-height: var(--sv-leading-normal);
+	}
+
+	/* Widths on a half step of φ: 21, 27, 34, 44 and 55rem. */
+	.sv-modal__panel.sv-size-xs {
+		--sv-modal-width: 21rem;
+	}
+
+	.sv-modal__panel.sv-size-sm {
+		--sv-modal-width: 27rem;
+	}
+
+	.sv-modal__panel.sv-size-md {
+		--sv-modal-width: 34rem;
+	}
+
+	.sv-modal__panel.sv-size-lg {
+		--sv-modal-width: 44rem;
+	}
+
+	.sv-modal__panel.sv-size-xl {
+		--sv-modal-width: 55rem;
+	}
+
+	.sv-modal__header {
+		display: flex;
+		flex: none;
+		gap: var(--sv-space-13);
+		align-items: flex-start;
+		padding: var(--sv-modal-pad) var(--sv-modal-pad) 0;
+	}
+
+	/* The heading in the theme's display voice, as a Card title. */
+	.sv-modal__title {
+		flex: 1;
+		min-inline-size: 0;
+		margin: 0;
+		font: var(--sv-weight-display) var(--sv-text-xl) / var(--sv-leading-snug) var(--sv-font-display);
+		letter-spacing: var(--sv-tracking-display);
+	}
+
+	.sv-modal__close {
+		display: inline-grid;
+		flex: none;
+		place-items: center;
+		inline-size: 2.058rem;
+		block-size: 2.058rem;
+		margin-block: -0.236rem;
+		margin-inline-end: -0.382rem;
+		padding: 0;
+		border: 0;
+		border-radius: var(--sv-radius-full);
+		background: transparent;
+		color: var(--sv-color-text-muted);
+		cursor: pointer;
+	}
+
+	@media (hover: hover) {
+		.sv-modal__close:hover {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	.sv-modal__close svg {
+		inline-size: 1.272rem;
+		block-size: 1.272rem;
+	}
+
+	/* The body scrolls; the heading and the actions stay. */
+	.sv-modal__body {
+		flex: 1;
+		min-block-size: 0;
+		padding: var(--sv-modal-pad);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.sv-modal__header + .sv-modal__body {
+		padding-block-start: var(--sv-space-13);
+	}
+
+	.sv-modal__actions {
+		display: flex;
+		flex: none;
+		flex-wrap: wrap;
+		gap: var(--sv-space-8);
+		justify-content: flex-end;
+		padding: 0 var(--sv-modal-pad) var(--sv-modal-pad);
+	}
+
+	.sv-modal__header:last-child,
+	.sv-modal__body:last-child {
+		padding-block-end: var(--sv-modal-pad);
+	}
+
+	.sv-modal--fullscreen {
+		padding: 0;
+	}
+
+	.sv-modal--fullscreen > .sv-modal__panel {
+		max-inline-size: none;
+		block-size: 100%;
+		border-radius: 0;
+	}
+}

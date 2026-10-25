@@ -586,7 +586,8 @@ a {
 	min-inline-size: 0;
 }
 
-.doc-body h2 {
+/* Section headings of the page only: a heading inside a demo belongs to its component. */
+.doc-body > h2 {
 	margin-block-start: var(--sv-space-34);
 	padding-block-start: var(--sv-space-13);
 	border-block-start: var(--sv-hairline) solid var(--sv-color-border-soft);
@@ -988,6 +989,17 @@ a {
 
 .docs-choices--nested {
 	padding-inline-start: var(--sv-space-21);
+}
+
+/* Separate groups of choices, such as a radio group above a checkbox. */
+.docs-choices--groups {
+	gap: var(--sv-space-21);
+}
+
+/* Fields stacked at the full width of their container, as in a popover. */
+.docs-fields {
+	display: grid;
+	gap: var(--sv-space-13);
 }
 
 /* Primitives demos */

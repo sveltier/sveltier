@@ -16,6 +16,12 @@ export interface DismissableOptions {
 	focusOutside?: boolean;
 	/** Elements that count as inside, such as the trigger, which toggles instead. */
 	inside?: Elements | (() => Elements);
+	/**
+	 * A layer the user does not work in, such as a tooltip. Escape closes it first, as the
+	 * topmost layer, but a press outside closes it and still reaches the layer beneath, and focus
+	 * moving out is left to the layers beneath. Defaults to `false`.
+	 */
+	transient?: boolean;
 }
 
 interface Layer {
@@ -43,10 +49,13 @@ const onScrollbar = (event: MouseEvent) =>
 	(event.clientX >= document.documentElement.clientWidth ||
 		event.clientY >= document.documentElement.clientHeight);
 
+// The press goes to the topmost layer, through any transient layers above it, which close.
 function dismissOutside(event: MouseEvent) {
-	const top = layers.at(-1);
-	if (top && top.options.outside !== false && !isInside(top, event.target) && !onScrollbar(event)) {
-		top.options.onDismiss('outside');
+	if (onScrollbar(event)) return;
+	for (const layer of layers.toReversed()) {
+		if (isInside(layer, event.target)) return;
+		if (layer.options.outside !== false) layer.options.onDismiss('outside');
+		if (!layer.options.transient) return;
 	}
 }
 
@@ -71,7 +80,7 @@ function onclick(event: MouseEvent) {
 }
 
 function onfocusin(event: FocusEvent) {
-	const top = layers.at(-1);
+	const top = layers.findLast((layer) => !layer.options.transient);
 	if (top?.options.focusOutside && !isInside(top, event.target)) top.options.onDismiss('focus');
 }
 

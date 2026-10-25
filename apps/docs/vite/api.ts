@@ -166,7 +166,10 @@ export function sveltierApi(): Plugin {
 		resolveId: (id) => (id === ALL || id.startsWith(PREFIX) ? `\0${id}` : undefined),
 		load(id) {
 			if (!id.startsWith(`\0${ALL}`)) return;
-			api ??= extract();
+			const name = id.slice(`\0${PREFIX}`.length);
+			// The dev script's watcher starts with a full rebuild of the package, and types read in
+			// the middle of it lack some exports: a missing name reads the declarations again.
+			if (!api || (id !== `\0${ALL}` && !api.tables[name])) api = extract();
 			for (const file of api.files) this.addWatchFile(file);
 			// Every table at once, for the machine-readable docs built on the server.
 			if (id === `\0${ALL}`) {
@@ -175,7 +178,6 @@ export function sveltierApi(): Plugin {
 					`export const descriptions = ${JSON.stringify(api.descriptions)};`
 				].join('\n');
 			}
-			const name = id.slice(`\0${PREFIX}`.length);
 			const table = api.tables[name];
 			if (!table) throw new Error(`[sveltier-api] The package exports no type named ${name}.`);
 			return `export default ${JSON.stringify(table)};`;

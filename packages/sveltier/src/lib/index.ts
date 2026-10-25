@@ -86,6 +86,9 @@ export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/code
 // Forms: validation types shared by every form control
 export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
 
+// Overlays: what an overlay hands to the control that opens it
+export { CLOSE_REASONS, type CloseReason, type TriggerAttributes } from './core/overlay/types.js';
+
 // Primitives: focus
 export { focusTrap, type FocusTrapOptions } from './primitives/focus/focus-trap.js';
 export { rovingFocus, type RovingFocusOptions } from './primitives/focus/roving-focus.js';
@@ -157,6 +160,7 @@ export {
 	type CheckboxProps
 } from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
+export { Dialog, type DialogDefaults, type DialogProps } from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
 export {
 	Field,
@@ -177,6 +181,15 @@ export {
 	type ListProps
 } from './components/List/index.js';
 export {
+	Menu,
+	type MenuAction,
+	type MenuDefaults,
+	type MenuHeading,
+	type MenuItem,
+	type MenuProps,
+	type MenuSeparator
+} from './components/Menu/index.js';
+export {
 	NativeSelect,
 	type NativeSelectDefaults,
 	type NativeSelectOption,
@@ -187,6 +200,7 @@ export {
 	type NumberFieldDefaults,
 	type NumberFieldProps
 } from './components/NumberField/index.js';
+export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
 export {
 	ProgressCircular,
 	ProgressLinear,
@@ -207,6 +221,13 @@ export {
 	type SegmentedControlOption,
 	type SegmentedControlProps
 } from './components/SegmentedControl/index.js';
+export {
+	Sheet,
+	SHEET_SIDES,
+	type SheetDefaults,
+	type SheetProps,
+	type SheetSide
+} from './components/Sheet/index.js';
 export { Skeleton, type SkeletonProps } from './components/Skeleton/index.js';
 export {
 	Slider,
@@ -227,3 +248,4 @@ export {
 	type TextFieldProps,
 	type TextFieldType
 } from './components/TextField/index.js';
+export { Tooltip, type TooltipDefaults, type TooltipProps } from './components/Tooltip/index.js';

@@ -113,12 +113,19 @@ export const ERROR_CODES = {
 			'A closable chip contains a close button, and a button cannot be placed inside another button or a link.',
 		fix: 'Keep the chip `closable` and put its action in a `Button` next to it, or remove `closable`.'
 	},
+	SV4002: {
+		kind: 'warning',
+		title: 'Tooltip on a control without an accessible name',
+		cause:
+			'A tooltip describes the control it is on; it does not name it. A control with no text, `aria-label` or `aria-labelledby`, such as an icon-only button, is announced without a name.',
+		fix: 'Give the control `aria-label`, as every icon-only button needs, or visible text. The tooltip can then say more than the name.'
+	},
 	SV5001: {
 		kind: 'warning',
-		title: 'Field without an accessible name',
+		title: 'Field or dialog without an accessible name',
 		cause:
-			'Assistive technology announces a form control by its name, and this control has no label, `aria-label` or `aria-labelledby`.',
-		fix: 'Give the field a `label`, or name the control with `aria-label`, or with `aria-labelledby` when its label is visible elsewhere.'
+			'Assistive technology announces a form control or a dialog by its name, and this one has no label, title, `aria-label` or `aria-labelledby`.',
+		fix: 'Give a field a `label` and a dialog a `title`, or name it with `aria-label`, or with `aria-labelledby` when its name is visible elsewhere.'
 	}
 } as const satisfies Record<`SV${number}`, ErrorEntry>;
 

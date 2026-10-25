@@ -150,6 +150,14 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Its own code. The primitives it stands on (focus trap, layer stack, scroll lock, motion)
+		// are shared by every overlay and measured in their own entries.
+		name: 'Dialog',
+		code: "export { Dialog } from '@sveltier/ui';",
+		limit: '2.7 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'Divider',
 		code: "export { Divider } from '@sveltier/ui';",
 		limit: '0.6 KB',
@@ -211,6 +219,13 @@ export default [
 		code: "export { SegmentedControl } from '@sveltier/ui';",
 		limit: '2.4 KB',
 		external: [/\/core\//]
+	},
+	{
+		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
+		name: 'Sheet',
+		code: "export { Sheet } from '@sveltier/ui';",
+		limit: '3 KB',
+		external: [/\/core\//, /\/primitives\//]
 	},
 	{
 		name: 'Skeleton',
@@ -275,6 +290,32 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// Its own code: the entries grouped under their headings (2 KB of JS, most of it the compiled
+		// rows with their icon and shortcut), the trigger's arrow keys, choosing and closing, and
+		// 0.8 KB of CSS. Roving focus, typeahead, placement, the layer stack and the motion are
+		// primitives, measured apart.
+		name: 'Menu',
+		code: "export { Menu } from '@sveltier/ui';",
+		limit: '2.9 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
+		// Its own code: the trigger wiring, focus in and back, and the panel with its widths. The
+		// placement, the layer stack and the motion are primitives, measured apart.
+		name: 'Popover',
+		code: "export { Popover } from '@sveltier/ui';",
+		limit: '2 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
+		// Its own code: hover with its delay and grace, focus, the toolbar warm-up and the CSS fade.
+		// Placement and the layer stack are primitives, measured apart.
+		name: 'Tooltip',
+		code: "export { Tooltip } from '@sveltier/ui';",
+		limit: '1.65 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from '@sveltier/ui';",
 		limit: '1 KB'
@@ -292,6 +333,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '36 KB'
+		limit: '41 KB'
 	}
 ];
