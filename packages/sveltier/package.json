@@ -1,6 +1,6 @@
 {
 	"name": "@sveltier/ui",
-	"version": "0.1.0-alpha.0",
+	"version": "0.1.0-alpha.1",
 	"description": "The UI framework for AI coding agents, on Svelte 5: one typed vocabulary, docs generated from the types, and errors that say how to fix them.",
 	"license": "MIT",
 	"repository": {
