@@ -1,0 +1,51 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* One line of steps that wraps when it must, the current page last and in full colour. */
+	.sv-breadcrumbs__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sv-space-3) var(--sv-space-8);
+		align-items: center;
+		margin: 0;
+		padding: 0;
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+		list-style: none;
+	}
+
+	.sv-breadcrumbs__item {
+		display: inline-flex;
+		gap: var(--sv-space-8);
+		align-items: center;
+		min-inline-size: 0;
+		overflow-wrap: anywhere;
+	}
+
+	/* The separator is drawn, not read: its alternative text is empty where browsers know it. */
+	.sv-breadcrumbs__item + .sv-breadcrumbs__item::before {
+		content: '/';
+		content: '/' / '';
+		color: var(--sv-color-border-strong);
+	}
+
+	.sv-breadcrumbs__item:last-child {
+		color: var(--sv-color-text);
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-breadcrumbs__link {
+		border-radius: var(--sv-radius-sm);
+		color: inherit;
+		text-decoration: none;
+		text-underline-offset: 0.236em;
+	}
+
+	@media (hover: hover) {
+		.sv-breadcrumbs__link:hover {
+			color: var(--sv-color-text);
+			text-decoration: underline;
+		}
+	}
+}

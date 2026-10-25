@@ -8,6 +8,7 @@ import {
 	alertUsage,
 	avatarUsage,
 	badgeUsage,
+	breadcrumbsUsage,
 	buttonGroupUsage,
 	buttonUsage,
 	cardUsage,
@@ -15,6 +16,7 @@ import {
 	dividerUsage,
 	iconUsage,
 	listUsage,
+	paginationLinks,
 	progressUsage,
 	segmentedUsage,
 	skeletonUsage,
@@ -63,6 +65,12 @@ const COMPONENTS: Entry[] = [
 	{ name: 'Alert', path: 'components/alert', types: ['AlertProps'], example: alertUsage },
 	{ name: 'Avatar', path: 'components/avatar', types: ['AvatarProps'], example: avatarUsage },
 	{ name: 'Badge', path: 'components/badge', types: ['BadgeProps'], example: badgeUsage },
+	{
+		name: 'Breadcrumbs',
+		path: 'components/breadcrumbs',
+		types: ['BreadcrumbsProps', 'BreadcrumbsItem'],
+		example: breadcrumbsUsage
+	},
 	{ name: 'Button', path: 'components/button', types: ['ButtonProps'], example: buttonUsage },
 	{
 		name: 'ButtonGroup',
@@ -79,6 +87,12 @@ const COMPONENTS: Entry[] = [
 		path: 'components/list',
 		types: ['ListProps', 'ListItemProps'],
 		example: listUsage
+	},
+	{
+		name: 'Pagination',
+		path: 'components/pagination',
+		types: ['PaginationProps'],
+		example: paginationLinks
 	},
 	{
 		name: 'ProgressLinear and ProgressCircular',

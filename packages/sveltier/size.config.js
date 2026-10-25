@@ -97,6 +97,14 @@ export default [
 		limit: '0.85 KB'
 	},
 	{
+		// A landmark, a list, links or text and the current page (0.65 KB of JS); the separators
+		// and the wrapping are CSS (0.4 KB).
+		name: 'Breadcrumbs',
+		code: "export { Breadcrumbs } from '@sveltier/ui';",
+		limit: '1.1 KB',
+		external: [/\/core\//]
+	},
+	{
 		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
 		// locale) come with UIProvider or the first component and are measured above. About
 		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of
@@ -312,6 +320,14 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// Its own code: which numbers show, the steps, and two Buttons with their props each (1.55
+		// KB of JS), and 0.4 KB of CSS. The Buttons themselves are measured in their own entry.
+		name: 'Pagination',
+		code: "export { Pagination } from '@sveltier/ui';",
+		limit: '2 KB',
+		external: [/\/core\//, /\/components\/Button\//]
+	},
+	{
 		// Its own code: the trigger wiring, focus in and back, and the panel with its widths. The
 		// placement, the layer stack and the motion are primitives, measured apart.
 		name: 'Popover',
@@ -354,6 +370,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '44.5 KB'
+		limit: '45.5 KB'
 	}
 ];

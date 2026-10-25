@@ -1,0 +1,39 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* One row of controls that wraps on a narrow screen. */
+	.sv-pagination__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sv-space-3);
+		align-items: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	/* Page numbers are at least square, their digits lined up. */
+	.sv-pagination .sv-pagination__page {
+		min-inline-size: calc(var(--sv-size-height) * var(--sv-density));
+		padding-inline: calc(var(--sv-size-height) * var(--sv-density) * 0.236);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-pagination__gap {
+		display: inline-grid;
+		place-items: center;
+		min-inline-size: var(--sv-control-sm);
+		color: var(--sv-color-text-muted);
+		user-select: none;
+	}
+
+	.sv-pagination__step svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	/* Previous points back along the line of text, so the chevrons turn in right-to-left pages. */
+	:where([dir='rtl']) .sv-pagination__step svg {
+		transform: scaleX(-1);
+	}
+}

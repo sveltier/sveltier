@@ -2,6 +2,7 @@ import { getContext, hasContext, setContext } from 'svelte';
 
 /** Built-in English messages: the labels and announcements of components. */
 export const MESSAGES = {
+	breadcrumb: 'Breadcrumb',
 	close: 'Close',
 	loading: 'Loading',
 	// The region of toasts, followed by its key: "Notifications (F8)".
@@ -20,7 +21,12 @@ export const MESSAGES = {
 	stepMismatch: 'Enter a value in steps of {step}',
 	// The buttons of a number field.
 	increase: 'Increase',
-	decrease: 'Decrease'
+	decrease: 'Decrease',
+	// Pagination: its landmark, its steps and the name of each page.
+	pagination: 'Pagination',
+	previous: 'Previous page',
+	next: 'Next page',
+	page: 'Page {page}'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

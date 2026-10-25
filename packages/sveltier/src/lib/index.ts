@@ -166,6 +166,11 @@ export {
 export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
 export { Avatar, type AvatarDefaults, type AvatarProps } from './components/Avatar/index.js';
 export { Badge, type BadgeDefaults, type BadgeProps } from './components/Badge/index.js';
+export {
+	Breadcrumbs,
+	type BreadcrumbsItem,
+	type BreadcrumbsProps
+} from './components/Breadcrumbs/index.js';
 export { Button, type ButtonDefaults, type ButtonProps } from './components/Button/index.js';
 export {
 	ButtonGroup,
@@ -219,6 +224,11 @@ export {
 	type NumberFieldDefaults,
 	type NumberFieldProps
 } from './components/NumberField/index.js';
+export {
+	Pagination,
+	type PaginationDefaults,
+	type PaginationProps
+} from './components/Pagination/index.js';
 export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
 export {
 	ProgressCircular,

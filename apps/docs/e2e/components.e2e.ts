@@ -193,3 +193,34 @@ test('an accordion shows one answer at a time, and its disabled question stays s
 	await page.keyboard.press('Enter');
 	await expect(demo.getByText('Open: null')).toBeVisible();
 });
+
+test('breadcrumbs name their landmark and mark the current page', async ({ page }) => {
+	await open(page, '/components/breadcrumbs');
+	const trail = page.locator('.docs-demo').getByRole('navigation', { name: 'Breadcrumb' });
+	await expect(trail.getByRole('listitem')).toHaveCount(3);
+	await expect(trail.getByRole('link', { name: 'Components' })).toHaveAttribute(
+		'href',
+		/components\/accordion$/
+	);
+	await expect(trail.getByText('Breadcrumbs', { exact: true })).toHaveAttribute(
+		'aria-current',
+		'page'
+	);
+});
+
+test('a pagination moves through the pages and disables its steps at the ends', async ({
+	page
+}) => {
+	await open(page, '/components/pagination');
+	const pages = page.locator('.docs-demo').getByRole('navigation', { name: 'Pagination' });
+	await expect(pages.getByRole('button', { name: 'Previous page' })).toBeDisabled();
+	await pages.getByRole('button', { name: 'Next page' }).click();
+	await expect(pages.getByRole('button', { name: 'Page 2', exact: true })).toHaveAttribute(
+		'aria-current',
+		'page'
+	);
+	await expect(page.getByText('Showing transactions 11–20 of 87')).toBeVisible();
+	await pages.getByRole('button', { name: 'Page 9', exact: true }).click();
+	await expect(pages.getByRole('button', { name: 'Next page' })).toBeDisabled();
+	await expect(page.getByText('Showing transactions 81–87 of 87')).toBeVisible();
+});
