@@ -107,6 +107,39 @@ a {
 	font-variant-numeric: tabular-nums;
 }
 
+/* Gains and losses, in the theme's up and down colours, which pass as text on every surface. */
+.docs-up {
+	color: var(--sv-color-up);
+}
+
+.docs-down {
+	color: var(--sv-color-down);
+}
+
+.docs-table-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sv-space-13) var(--sv-space-21);
+	align-items: center;
+}
+
+/* A button in a table cell that reads as the cell's text, underlined under the pointer. */
+.docs-cell-button {
+	padding: 0;
+	border: 0;
+	border-radius: var(--sv-radius-sm);
+	background: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+@media (hover: hover) {
+	.docs-cell-button:hover {
+		text-decoration: underline;
+	}
+}
+
 /* Buttons and small controls */
 
 .docs-button {

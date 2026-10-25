@@ -134,12 +134,19 @@ export const ERROR_CODES = {
 			'`AppLayout` places `AppBar`, `NavigationDrawer` and `Main` on its grid by area, which works only for its own children. A part inside another element takes no area: it lands in a cell of its own, and the content can sit under the bar or beside an empty drawer.',
 		fix: 'Write `AppBar`, `NavigationDrawer` and `Main` straight inside `AppLayout`, with no element around them. Put padding and wrappers inside `Main`.'
 	},
+	SV4005: {
+		kind: 'warning',
+		title: 'Two entries of a list with the same key',
+		cause:
+			'A component tells the entries of a list prop apart by their keys, as a `Table` does its columns by `key` or `id`. Two entries with the same key are one to the component: a sort or an update meant for one reaches the other.',
+		fix: 'Give every entry its own key. For two `Table` columns that show the same property, keep `key` on one and give the other an `id` with a `value` function.'
+	},
 	SV5001: {
 		kind: 'warning',
-		title: 'Field or dialog without an accessible name',
+		title: 'Field, dialog or table without an accessible name',
 		cause:
-			'Assistive technology announces a form control or a dialog by its name, and this one has no label, title, `aria-label` or `aria-labelledby`.',
-		fix: 'Give a field a `label` and a dialog a `title`, or name it with `aria-label`, or with `aria-labelledby` when its name is visible elsewhere.'
+			'Assistive technology announces a form control, a dialog or a table by its name, and this one has no label, title, caption, `aria-label` or `aria-labelledby`.',
+		fix: 'Give a field a `label`, a dialog a `title` and a table a `caption`, or name it with `aria-label`, or with `aria-labelledby` when its name is visible elsewhere.'
 	}
 } as const satisfies Record<`SV${number}`, ErrorEntry>;
 

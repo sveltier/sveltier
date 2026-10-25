@@ -294,6 +294,20 @@ export {
 	type SliderTick
 } from './components/Slider/index.js';
 export { Switch, type SwitchDefaults, type SwitchProps } from './components/Switch/index.js';
+export {
+	SORT_DIRECTIONS,
+	Table,
+	TABLE_ALIGNS,
+	type SortDirection,
+	type TableAlign,
+	type TableColumn,
+	type TableColumnBase,
+	type TableDefaults,
+	type TableKeyColumn,
+	type TableProps,
+	type TableSort,
+	type TableValueColumn
+} from './components/Table/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
 export {
 	Textarea,

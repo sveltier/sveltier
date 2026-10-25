@@ -4,6 +4,7 @@ import AppLayoutHarness from './fixtures/AppLayoutHarness.svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
 import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
+import TableHarness from './fixtures/TableHarness.svelte';
 import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
 import TooltipHarness from './fixtures/TooltipHarness.svelte';
 
@@ -68,5 +69,39 @@ describe('development checks in components', () => {
 				"[sveltier SV4004] <Main> is not directly inside <AppLayout>, so the layout's grid cannot place it."
 			);
 		expect(logged()).not.toContain('<AppBar> is not directly inside');
+	});
+
+	it('warn about a table without a name, and not about one with a caption', async () => {
+		await render(TableHarness);
+		expect(logged()).not.toContain('<Table> has no accessible name');
+		await render(TableHarness, { caption: undefined });
+		await expect
+			.poll(logged)
+			.toContain(
+				'[sveltier SV5001] <Table> has no accessible name. Give it a caption, or name it with aria-label or aria-labelledby.'
+			);
+	});
+
+	it('warn about two table columns with the same key', async () => {
+		await render(TableHarness, {
+			columns: [
+				{ key: 'price', label: 'Price' },
+				{ key: 'price', label: 'Price again' }
+			]
+		});
+		await expect
+			.poll(logged)
+			.toContain(
+				"[sveltier SV4005] <Table> has two columns with the key 'price'. Give each column its own key, or an id with a value function for a computed one."
+			);
+	});
+
+	it('list the sortable columns when a table is sorted by another one', async () => {
+		await render(TableHarness, { sortBy: { column: 'status', direction: 'ascending' } });
+		await expect
+			.poll(logged)
+			.toContain(
+				`<Table> got sortBy.column="status". Valid values: 'symbol' | 'quantity' | 'price' | 'value'. Sort by a column with sort.`
+			);
 	});
 });
