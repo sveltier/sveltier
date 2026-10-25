@@ -1,11 +1,18 @@
 name: Release
 
-# Stages @sveltier/ui on npm from the commit it runs on, through npm trusted publishing: GitHub's
-# OIDC token stands in for an npm token, and npm signs provenance on its own. The staged version
-# stays private until a maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with
-# `npm stage approve <stage-id>`. Run it by hand on main (Actions > Release > Run workflow) once
-# the pull request that bumps the version is merged.
+# Stages @sveltier/ui on npm through trusted publishing when the version in its package.json is
+# not on npm yet. It runs after CI has passed on a push to main, so merging the pull request that
+# bumps the version stages it: CI has already built and tested that commit, so this only builds
+# the package again (publint and attw included) and stages it. GitHub's OIDC token stands in for
+# an npm token, and npm signs provenance on its own. The staged version stays private until a
+# maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with
+# `npm stage approve <stage-id>`. Run it by hand on main (Actions > Release > Run workflow) to
+# stage a version that is on main already, for example after a failed run.
 on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       dist-tag:
@@ -16,33 +23,67 @@ on:
 
 permissions:
   contents: read
-  # Trusted publishing and provenance.
-  id-token: write
 
 concurrency:
   group: release
   cancel-in-progress: false
 
-env:
-  # Must match the playwright version in package.json, as in CI.
-  PLAYWRIGHT_VERSION: 1.64.1
-
 jobs:
-  stage:
-    name: Build, test and stage
+  check:
+    name: Is the version new?
+    # By hand, or after CI passed on a push to main; never for a pull request.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    container:
-      image: mcr.microsoft.com/playwright:v1.64.1-noble
-      options: --user 1001
+    timeout-minutes: 5
+    outputs:
+      release: ${{ steps.version.outputs.release }}
+      version: ${{ steps.version.outputs.version }}
+      sha: ${{ steps.version.outputs.sha }}
     steps:
       - name: Refuse to release from a branch other than main
-        if: github.ref != 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
         run: |
           echo "::error::Run the Release workflow on main, not on $GITHUB_REF_NAME."
           exit 1
 
+      # The commit CI has just passed, or main's head when run by hand.
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - id: version
+        working-directory: packages/sveltier
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          if npm view "@sveltier/ui@$version" version > /dev/null 2>&1; then
+            echo "@sveltier/ui@$version is already on npm: nothing to stage." >> "$GITHUB_STEP_SUMMARY"
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  stage:
+    name: Build and stage
+    needs: check
+    if: needs.check.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      # Trusted publishing and provenance.
+      id-token: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+      # Alphas go to latest while there is no stable version; by hand, the input chooses.
+      DIST_TAG: ${{ inputs.dist-tag || 'latest' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.check.outputs.sha }}
 
       - uses: pnpm/action-setup@v6
 
@@ -55,30 +96,20 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Refuse a version that is already on npm
-        working-directory: packages/sveltier
-        run: |
-          version=$(node -p "require('./package.json').version")
-          if npm view "@sveltier/ui@$version" version > /dev/null 2>&1; then
-            echo "::error::@sveltier/ui@$version is already on npm. Bump the version in a pull request first."
-            exit 1
-          fi
-          echo "Staging @sveltier/ui@$version" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Check the Playwright version matches the container
-        run: test "$(pnpm --filter @sveltier/ui exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
-
       # The build runs publint and attw on the package as it will be published.
-      - name: Build and test the package
-        run: |
-          pnpm --filter @sveltier/ui build
-          pnpm --filter @sveltier/ui test
+      - name: Build the package
+        run: pnpm --filter @sveltier/ui build
 
       # Staged publishing needs npm 11.15.0 or later; Node 22 ships an older npm.
       - name: Stage on npm
         working-directory: packages/sveltier
-        env:
-          DIST_TAG: ${{ inputs.dist-tag }}
         run: |
-          npx --yes npm@11.21.0 stage publish --tag "$DIST_TAG"
-          echo "Staged under the dist-tag \`$DIST_TAG\`. Approve it with 2FA on npmjs.com (Staged Packages), or with \`npm stage approve <stage-id>\` using the id in this step's log." >> "$GITHUB_STEP_SUMMARY"
+          npx --yes npm@11.21.0 stage publish --tag "$DIST_TAG" | tee "$RUNNER_TEMP/stage.log"
+          id=$(sed -n 's/.*(staged with id \(.*\))$/\1/p' "$RUNNER_TEMP/stage.log")
+          approve="npm stage approve ${id:-<stage-id>}"
+          echo "::notice title=Approve @sveltier/ui@$VERSION on npm::Staged under $DIST_TAG. Approve it with 2FA on npmjs.com (Staged Packages), or run: $approve"
+          {
+            echo "Staged \`@sveltier/ui@$VERSION\` under the dist-tag \`$DIST_TAG\`."
+            echo
+            echo "Approve it with 2FA on npmjs.com (Staged Packages), or run \`$approve\`."
+          } >> "$GITHUB_STEP_SUMMARY"
