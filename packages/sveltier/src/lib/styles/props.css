@@ -57,8 +57,11 @@
 		--sv-variant-shadow: none;
 	}
 
-	/* Plain: no decoration in any state. */
-	.sv-variant-plain {
+	/*
+	 * Plain: no decoration in any state, on a control itself. The washes inherit, so a plain
+	 * container (a Card, an Alert, a List) leaves them alone for the controls inside it.
+	 */
+	.sv-variant-plain:where(a, button, summary, [role='button'], [role='link']) {
 		--sv-state-hover: 0%;
 		--sv-state-press: 0%;
 	}

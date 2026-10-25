@@ -24,7 +24,8 @@
 			<strong><code>variant</code></strong>: <code>elevated</code> raises the colour as text on a
 			surface with the theme's shadow, <code>flat</code> fills with the colour, <code>tonal</code>
 			tints with it, <code>outlined</code> draws it as text and border, <code>text</code> as text
-			only, and <code>plain</code> is text with no hover or press wash.
+			only, and <code>plain</code> is text with no hover or press wash. On a container, such as a
+			Card, <code>plain</code> only drops the decoration: the controls inside keep their washes.
 		</li>
 		<li>
 			<strong><code>size</code></strong>: <code>xs</code> to <code>xl</code>. Each step is half a
