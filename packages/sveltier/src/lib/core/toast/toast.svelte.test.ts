@@ -75,14 +75,16 @@ describe('Toasts', () => {
 		expect(texts).toEqual(['Saved 4', 'Saved 3', 'Saved 2']);
 	});
 
+	// The timed tests leave a second between showing a toast and pausing it, so a busy machine
+	// does not let it leave first, and wait as long again for it to go once resumed.
 	it('leaves after its duration, which waits while the pointer is on the toasts', async () => {
-		await render(ToastHarness, { duration: 400 });
+		await render(ToastHarness, { duration: 1000 });
 		await button('Save').click();
 		await toast('Saved 1').hover();
-		await wait(700);
+		await wait(1500);
 		await expect.element(toast('Saved 1')).toBeVisible();
 		await button('Fail').hover();
-		await expect.element(toast('Saved 1')).not.toBeInTheDocument();
+		await expect.element(toast('Saved 1'), { timeout: 3000 }).not.toBeInTheDocument();
 	});
 
 	it('takes its duration from the defaults', async () => {
@@ -99,16 +101,16 @@ describe('Toasts', () => {
 	});
 
 	it('moves focus to the toasts on F8, waits while it is there, and goes back on Escape', async () => {
-		await render(ToastHarness, { duration: 600 });
+		await render(ToastHarness, { duration: 1000 });
 		await press('Send');
 		await expect.element(toast('Payment sent')).toBeVisible();
 		await userEvent.keyboard('{F8}');
 		await expect.element(region()).toHaveFocus();
-		await wait(900);
+		await wait(1500);
 		await expect.element(toast('Payment sent')).toBeVisible();
 		await userEvent.keyboard('{Escape}');
 		await expect.element(button('Send')).toHaveFocus();
-		await expect.element(toast('Payment sent')).not.toBeInTheDocument();
+		await expect.element(toast('Payment sent'), { timeout: 3000 }).not.toBeInTheDocument();
 	});
 
 	it('gives focus back when the toast it was in closes', async () => {
