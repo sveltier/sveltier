@@ -8,6 +8,9 @@ test('llms.txt indexes every docs page', async ({ request }) => {
 	const text = await response.text();
 	expect(text).toMatch(/^# Sveltier\n\n> /);
 	expect(text).toContain('## Components');
+	// The package is scoped: npm refuses the bare name, so an agent must never be told to use it.
+	expect(text).toContain('Install `@sveltier/ui`');
+	expect(text).not.toContain('`sveltier`');
 	// Models drift to Svelte 4 syntax, so the index says what not to write.
 	expect(text).toContain('Never write Svelte 4 syntax: no `export let`');
 	// Hand-written CSS keeps to the theme, pill-shaped controls included.
