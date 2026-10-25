@@ -81,6 +81,19 @@ export const dividerUsage = `<script>
   <Button variant="text">Export</Button>
 </div>`;
 
+export const breadcrumbsUsage = `<script>
+  import { Breadcrumbs } from '@sveltier/ui';
+</script>
+
+<!-- The pages above this one as links, this page last. -->
+<Breadcrumbs
+  items={[
+    { label: 'Accounts', href: '/accounts' },
+    { label: 'Savings', href: '/accounts/savings' },
+    { label: 'Statement for October' }
+  ]}
+/>`;
+
 export const badgeUsage = `<script>
   import { Badge, Button, Icon } from '@sveltier/ui';
 </script>

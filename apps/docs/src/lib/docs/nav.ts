@@ -60,6 +60,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'Alert', path: 'components/alert' },
 			{ title: 'Avatar', path: 'components/avatar' },
 			{ title: 'Badge', path: 'components/badge' },
+			{ title: 'Breadcrumbs', path: 'components/breadcrumbs' },
 			{ title: 'Button', path: 'components/button' },
 			{ title: 'ButtonGroup', path: 'components/button-group' },
 			{ title: 'Card', path: 'components/card' },

@@ -612,7 +612,8 @@ a {
 	background-color: var(--sv-color-surface-raised);
 }
 
-.doc-body a {
+/* Links in the prose; a component's own links (breadcrumbs, link buttons) keep its styles. */
+.doc-body a:not([class*='sv-']) {
 	color: var(--sv-color-primary);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 3px;

@@ -193,3 +193,17 @@ test('an accordion shows one answer at a time, and its disabled question stays s
 	await page.keyboard.press('Enter');
 	await expect(demo.getByText('Open: null')).toBeVisible();
 });
+
+test('breadcrumbs name their landmark and mark the current page', async ({ page }) => {
+	await open(page, '/components/breadcrumbs');
+	const trail = page.locator('.docs-demo').getByRole('navigation', { name: 'Breadcrumb' });
+	await expect(trail.getByRole('listitem')).toHaveCount(3);
+	await expect(trail.getByRole('link', { name: 'Components' })).toHaveAttribute(
+		'href',
+		/components\/accordion$/
+	);
+	await expect(trail.getByText('Breadcrumbs', { exact: true })).toHaveAttribute(
+		'aria-current',
+		'page'
+	);
+});

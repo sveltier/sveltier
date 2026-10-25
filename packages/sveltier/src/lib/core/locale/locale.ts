@@ -2,6 +2,7 @@ import { getContext, hasContext, setContext } from 'svelte';
 
 /** Built-in English messages: the labels and announcements of components. */
 export const MESSAGES = {
+	breadcrumb: 'Breadcrumb',
 	close: 'Close',
 	loading: 'Loading',
 	// The region of toasts, followed by its key: "Notifications (F8)".

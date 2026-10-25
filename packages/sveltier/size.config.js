@@ -97,6 +97,14 @@ export default [
 		limit: '0.85 KB'
 	},
 	{
+		// A landmark, a list, links or text and the current page (0.65 KB of JS); the separators
+		// and the wrapping are CSS (0.4 KB).
+		name: 'Breadcrumbs',
+		code: "export { Breadcrumbs } from '@sveltier/ui';",
+		limit: '1.1 KB',
+		external: [/\/core\//]
+	},
+	{
 		// The component's own JS and CSS. The shared modules it uses (shared props, defaults,
 		// locale) come with UIProvider or the first component and are measured above. About
 		// 1.1 KB of JS (button and link, loading with its message, icon slots) and 0.95 KB of

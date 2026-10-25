@@ -8,6 +8,7 @@ import {
 	alertUsage,
 	avatarUsage,
 	badgeUsage,
+	breadcrumbsUsage,
 	buttonGroupUsage,
 	buttonUsage,
 	cardUsage,
@@ -63,6 +64,12 @@ const COMPONENTS: Entry[] = [
 	{ name: 'Alert', path: 'components/alert', types: ['AlertProps'], example: alertUsage },
 	{ name: 'Avatar', path: 'components/avatar', types: ['AvatarProps'], example: avatarUsage },
 	{ name: 'Badge', path: 'components/badge', types: ['BadgeProps'], example: badgeUsage },
+	{
+		name: 'Breadcrumbs',
+		path: 'components/breadcrumbs',
+		types: ['BreadcrumbsProps', 'BreadcrumbsItem'],
+		example: breadcrumbsUsage
+	},
 	{ name: 'Button', path: 'components/button', types: ['ButtonProps'], example: buttonUsage },
 	{
 		name: 'ButtonGroup',
