@@ -81,12 +81,27 @@ describe('shared props', () => {
 		}
 	});
 
-	it('turns hover and press washes off for plain only', async () => {
-		const screen = await render(SharedHarness, { outer: { variant: 'text', color: 'info' } });
+	it('turns hover and press washes off on a plain control only', async () => {
+		const screen = await render(SharedHarness, {
+			outerTag: 'button',
+			innerTag: 'span',
+			outer: { variant: 'text', color: 'info' }
+		});
 		expect(style('outer').getPropertyValue('--sv-state-hover').trim()).toBe('8%');
 		await screen.rerender({ outer: { variant: 'plain', color: 'info' } });
 		expect(style('outer').getPropertyValue('--sv-state-hover').trim()).toBe('0%');
 		expect(style('outer').getPropertyValue('--sv-state-press').trim()).toBe('0%');
+	});
+
+	it('leaves the washes of the controls inside a plain container alone', async () => {
+		await render(SharedHarness, {
+			outer: { variant: 'plain' },
+			innerTag: 'button',
+			inner: { variant: 'text', color: 'primary' }
+		});
+		expect(style('outer').getPropertyValue('--sv-state-hover').trim()).toBe('8%');
+		expect(style('inner').getPropertyValue('--sv-state-hover').trim()).toBe('8%');
+		expect(style('inner').getPropertyValue('--sv-state-press').trim()).toBe('13%');
 	});
 
 	it('maps neutral to the text colour, with the background as its on-colour', async () => {
