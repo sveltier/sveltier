@@ -52,11 +52,12 @@ Browser tests need Playwright's browsers once: `pnpm --filter @sveltier/ui exec 
 
 ## Releasing
 
-Bump `version` in `packages/sveltier/package.json` in a pull request. Once it is merged, run the
-**Release** workflow on `main` (Actions > Release > Run workflow). It builds and tests the package,
-then stages it on npm with trusted publishing, so no npm token is stored and npm signs provenance.
-The version goes public once a maintainer approves it with 2FA, on npmjs.com (Staged Packages) or
-with `npm stage approve <stage-id>`.
+Bump `version` in `packages/sveltier/package.json` in a pull request. Once it is merged and CI has
+passed on `main`, the **Release** workflow builds the package and stages it on npm with trusted
+publishing, so no npm token is stored and npm signs provenance. The version goes public once a
+maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with `npm stage approve
+<stage-id>`; the workflow's summary gives the command. To stage a version that is on `main`
+already, run the workflow by hand (Actions > Release > Run workflow).
 
 ## License
 
