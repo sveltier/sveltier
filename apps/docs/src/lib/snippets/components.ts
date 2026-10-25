@@ -142,6 +142,26 @@ export const chipClosable = `<script>
   </Chip>
 {/each}`;
 
+export const paginationUsage = `<script>
+  import { Pagination } from '@sveltier/ui';
+
+  let page = $state(1);
+</script>
+
+<!-- Buttons: bind:page follows the page the user picks. -->
+<Pagination count={9} bind:page />`;
+
+export const paginationLinks = `<script>
+  import { page } from '$app/state';
+  import { Pagination } from '@sveltier/ui';
+
+  let { data } = $props();
+  const current = $derived(Number(page.url.searchParams.get('page') ?? 1));
+</script>
+
+<!-- Links: the address holds the page, so it can be shared, reloaded and crawled. -->
+<Pagination count={data.pages} page={current} href={(n) => \`?page=\${n}\`} />`;
+
 export const progressUsage = `<script>
   import { ProgressCircular, ProgressLinear } from '@sveltier/ui';
 </script>

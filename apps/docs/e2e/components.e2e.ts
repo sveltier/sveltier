@@ -207,3 +207,20 @@ test('breadcrumbs name their landmark and mark the current page', async ({ page 
 		'page'
 	);
 });
+
+test('a pagination moves through the pages and disables its steps at the ends', async ({
+	page
+}) => {
+	await open(page, '/components/pagination');
+	const pages = page.locator('.docs-demo').getByRole('navigation', { name: 'Pagination' });
+	await expect(pages.getByRole('button', { name: 'Previous page' })).toBeDisabled();
+	await pages.getByRole('button', { name: 'Next page' }).click();
+	await expect(pages.getByRole('button', { name: 'Page 2', exact: true })).toHaveAttribute(
+		'aria-current',
+		'page'
+	);
+	await expect(page.getByText('Showing transactions 11–20 of 87')).toBeVisible();
+	await pages.getByRole('button', { name: 'Page 9', exact: true }).click();
+	await expect(pages.getByRole('button', { name: 'Next page' })).toBeDisabled();
+	await expect(page.getByText('Showing transactions 81–87 of 87')).toBeVisible();
+});

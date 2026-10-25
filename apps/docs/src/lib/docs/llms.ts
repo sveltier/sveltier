@@ -16,6 +16,7 @@ import {
 	dividerUsage,
 	iconUsage,
 	listUsage,
+	paginationLinks,
 	progressUsage,
 	segmentedUsage,
 	skeletonUsage,
@@ -86,6 +87,12 @@ const COMPONENTS: Entry[] = [
 		path: 'components/list',
 		types: ['ListProps', 'ListItemProps'],
 		example: listUsage
+	},
+	{
+		name: 'Pagination',
+		path: 'components/pagination',
+		types: ['PaginationProps'],
+		example: paginationLinks
 	},
 	{
 		name: 'ProgressLinear and ProgressCircular',

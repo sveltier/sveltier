@@ -224,6 +224,11 @@ export {
 	type NumberFieldDefaults,
 	type NumberFieldProps
 } from './components/NumberField/index.js';
+export {
+	Pagination,
+	type PaginationDefaults,
+	type PaginationProps
+} from './components/Pagination/index.js';
 export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
 export {
 	ProgressCircular,

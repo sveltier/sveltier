@@ -320,6 +320,14 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// Its own code: which numbers show, the steps, and two Buttons with their props each (1.55
+		// KB of JS), and 0.4 KB of CSS. The Buttons themselves are measured in their own entry.
+		name: 'Pagination',
+		code: "export { Pagination } from '@sveltier/ui';",
+		limit: '2 KB',
+		external: [/\/core\//, /\/components\/Button\//]
+	},
+	{
 		// Its own code: the trigger wiring, focus in and back, and the panel with its widths. The
 		// placement, the layer stack and the motion are primitives, measured apart.
 		name: 'Popover',
@@ -362,6 +370,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '44.5 KB'
+		limit: '45.5 KB'
 	}
 ];
