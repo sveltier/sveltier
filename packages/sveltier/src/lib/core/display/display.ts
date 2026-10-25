@@ -33,7 +33,14 @@ export interface DisplayInstance extends Flags {
 	readonly thresholds: Readonly<DisplayThresholds>;
 }
 
-const DEFAULT_THRESHOLDS: DisplayThresholds = { sm: 600, md: 960, lg: 1280, xl: 1920, xxl: 2560 };
+/** The default minimum widths. CSS media queries in components use these. */
+export const DEFAULT_THRESHOLDS: Readonly<DisplayThresholds> = {
+	sm: 600,
+	md: 960,
+	lg: 1280,
+	xl: 1920,
+	xxl: 2560
+};
 
 /**
  * Builds the breakpoint flags on one `MediaQuery` per threshold. Each flag reads only the

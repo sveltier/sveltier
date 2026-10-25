@@ -1,0 +1,134 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+/* The layout is the page's frame, from edge to edge of the window: no body margin around it. */
+@layer sv.base {
+	body:has(.sv-app-layout) {
+		margin: 0;
+	}
+}
+
+@layer sv.components {
+	/*
+	 * The frame of an app on a grid: the bar on top, the drawer at the start and the main content
+	 * in the rest. Each part places itself by area, so the content never sits under the bar or
+	 * the drawer, and an area with no part in it collapses. The page scrolls, as any page does.
+	 */
+	.sv-app-layout {
+		--sv-app-bar-height: var(--sv-control-xl);
+		display: grid;
+		grid-template:
+			'bar bar' auto
+			'drawer main' 1fr
+			/ auto minmax(0, 1fr);
+		min-block-size: 100dvh;
+	}
+
+	/* A drawer written before the bar takes the corner: the full height, with the bar beside it. */
+	.sv-app-layout:has(> .sv-navigation-drawer ~ .sv-app-bar) {
+		grid-template-areas:
+			'drawer bar'
+			'drawer main';
+	}
+
+	.sv-app-layout > .sv-app-bar {
+		grid-area: bar;
+	}
+
+	.sv-app-layout > .sv-navigation-drawer {
+		grid-area: drawer;
+	}
+
+	.sv-app-layout > .sv-main {
+		grid-area: main;
+	}
+
+	/*
+	 * The bar is φ³ tall times its density. A drawer under the bar is that much shorter than the
+	 * window, and under a sticky bar it stays below it.
+	 */
+	.sv-app-layout:has(> .sv-app-bar.sv-density-compact) {
+		--sv-app-bar-height: calc(var(--sv-control-xl) * var(--sv-density-compact));
+	}
+
+	.sv-app-layout:has(> .sv-app-bar.sv-density-comfortable) {
+		--sv-app-bar-height: calc(var(--sv-control-xl) * var(--sv-density-comfortable));
+	}
+
+	.sv-app-layout:has(> .sv-app-bar ~ .sv-navigation-drawer) {
+		--sv-app-layout-bar: var(--sv-app-bar-height);
+	}
+
+	.sv-app-layout:has(> .sv-app-bar--sticky ~ .sv-navigation-drawer) {
+		--sv-app-layout-top: var(--sv-app-bar-height);
+	}
+
+	/* The bar's menu button shows while the drawer is modal: below the drawer's breakpoint. */
+	@media (width < 600px) {
+		.sv-app-layout:has(> .sv-navigation-drawer--sm) > .sv-app-bar > .sv-app-bar__menu {
+			display: contents;
+		}
+	}
+
+	@media (width < 960px) {
+		.sv-app-layout:has(> .sv-navigation-drawer--md) > .sv-app-bar > .sv-app-bar__menu {
+			display: contents;
+		}
+	}
+
+	@media (width < 1280px) {
+		.sv-app-layout:has(> .sv-navigation-drawer--lg) > .sv-app-bar > .sv-app-bar__menu {
+			display: contents;
+		}
+	}
+
+	@media (width < 1920px) {
+		.sv-app-layout:has(> .sv-navigation-drawer--xl) > .sv-app-bar > .sv-app-bar__menu {
+			display: contents;
+		}
+	}
+
+	@media (width < 2560px) {
+		.sv-app-layout:has(> .sv-navigation-drawer--xxl) > .sv-app-bar > .sv-app-bar__menu {
+			display: contents;
+		}
+	}
+
+	/* The skip link: out of sight until it has focus, then in the top start corner. */
+	.sv-app-layout__skip {
+		position: fixed;
+		inset-block-start: var(--sv-space-8);
+		inset-inline-start: var(--sv-space-8);
+		z-index: 2;
+		padding: var(--sv-space-8) var(--sv-space-13);
+		border-radius: var(--sv-radius-md);
+		background-color: var(--sv-color-text);
+		color: var(--sv-color-background);
+		font: var(--sv-weight-medium) var(--sv-text-sm) / var(--sv-leading-snug) var(--sv-font-ui);
+		text-decoration: none;
+		transform: translateY(-200%);
+	}
+
+	.sv-app-layout__skip:focus {
+		transform: none;
+	}
+
+	/*
+	 * Under a sticky bar, the page scrolls a link's target or a focused control into view below
+	 * the bar, with room to spare.
+	 */
+	:root:has(.sv-app-layout > .sv-app-bar--sticky) {
+		scroll-padding-block-start: calc(var(--sv-control-xl) + var(--sv-space-13));
+	}
+
+	:root:has(.sv-app-layout > .sv-app-bar--sticky.sv-density-compact) {
+		scroll-padding-block-start: calc(
+			var(--sv-control-xl) * var(--sv-density-compact) + var(--sv-space-13)
+		);
+	}
+
+	:root:has(.sv-app-layout > .sv-app-bar--sticky.sv-density-comfortable) {
+		scroll-padding-block-start: calc(
+			var(--sv-control-xl) * var(--sv-density-comfortable) + var(--sv-space-13)
+		);
+	}
+}

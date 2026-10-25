@@ -1,0 +1,64 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The bar across the top: φ³ tall at the default density, one line of content, on the page's
+	 * background with a hairline under it, so bar and page read as one surface. Sticky, it stays
+	 * above the content that scrolls under it.
+	 */
+	.sv-app-bar {
+		box-sizing: border-box;
+		display: flex;
+		gap: var(--sv-space-8);
+		align-items: center;
+		block-size: var(--sv-app-bar-height, calc(var(--sv-control-xl) * var(--sv-density)));
+		min-inline-size: 0;
+		padding-inline: calc(var(--sv-space-13) * var(--sv-density));
+		border-block-end: var(--sv-hairline) solid var(--sv-color-border-soft);
+		background-color: var(--sv-color-background);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-sm);
+	}
+
+	.sv-app-bar--sticky {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 1;
+	}
+
+	/* Shown by the AppLayout while its drawer is modal. Its icon lines up with the bar's edge. */
+	.sv-app-bar__menu {
+		display: none;
+	}
+
+	.sv-app-bar__menu > .sv-button {
+		margin-inline-start: calc((1.272em - var(--sv-size-height) * var(--sv-density)) / 2);
+	}
+
+	/* The title in the theme's display voice; a long one ends in an ellipsis. */
+	.sv-app-bar__title {
+		min-inline-size: 0;
+		overflow: hidden;
+		font: var(--sv-weight-display) var(--sv-text-lg) / var(--sv-leading-snug) var(--sv-font-display);
+		letter-spacing: var(--sv-tracking-display);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.sv-app-bar__content {
+		display: flex;
+		flex: 1;
+		gap: var(--sv-space-8);
+		align-items: center;
+		min-inline-size: 0;
+	}
+
+	.sv-app-bar__actions {
+		display: flex;
+		flex: none;
+		gap: var(--sv-space-5);
+		align-items: center;
+		margin-inline-start: auto;
+	}
+}

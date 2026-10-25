@@ -1,0 +1,137 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * Container: the width of a page's content, centred, as wide as its size at most (half steps
+	 * of φ from 10φ³ to 10φ⁵ rem), with room at the sides.
+	 */
+	.sv-container {
+		box-sizing: border-box;
+		inline-size: 100%;
+		max-inline-size: var(--sv-container-width);
+		margin-inline: auto;
+		padding: var(--sv-space-13);
+	}
+
+	@media (width >= 600px) {
+		.sv-container {
+			padding: var(--sv-space-21);
+		}
+	}
+
+	.sv-container--xs {
+		--sv-container-width: 42.36rem;
+	}
+
+	.sv-container--sm {
+		--sv-container-width: 53.88rem;
+	}
+
+	.sv-container--md {
+		--sv-container-width: 68.54rem;
+	}
+
+	.sv-container--lg {
+		--sv-container-width: 87.19rem;
+	}
+
+	.sv-container--xl {
+		--sv-container-width: 110.9rem;
+	}
+
+	.sv-container--fluid {
+		max-inline-size: none;
+	}
+
+	/*
+	 * Row: twelve equal columns, and lines of them a gap apart. A column that does not fit on a
+	 * line starts the next one.
+	 */
+	.sv-row {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: var(--sv-row-gap, var(--sv-space-21));
+	}
+
+	.sv-row--align-start {
+		align-items: start;
+	}
+
+	.sv-row--align-center {
+		align-items: center;
+	}
+
+	.sv-row--align-end {
+		align-items: end;
+	}
+
+	.sv-row--align-baseline {
+		align-items: baseline;
+	}
+
+	.sv-row--justify-start {
+		justify-items: start;
+	}
+
+	.sv-row--justify-center {
+		justify-items: center;
+	}
+
+	.sv-row--justify-end {
+		justify-items: end;
+	}
+
+	/*
+	 * Col: the span of the widest breakpoint it names that the screen reaches, else its cols, else
+	 * all twelve. Its spans are set on the element itself; the reset keeps them from reaching the
+	 * columns of a row nested inside it.
+	 */
+	.sv-col {
+		--sv-col-xs: initial;
+		--sv-col-sm: initial;
+		--sv-col-md: initial;
+		--sv-col-lg: initial;
+		--sv-col-xl: initial;
+		--sv-col-xxl: initial;
+		grid-column: span var(--sv-col-xs, 12);
+		min-inline-size: 0;
+	}
+
+	@media (width >= 600px) {
+		.sv-col {
+			grid-column: span var(--sv-col-sm, var(--sv-col-xs, 12));
+		}
+	}
+
+	@media (width >= 960px) {
+		.sv-col {
+			grid-column: span var(--sv-col-md, var(--sv-col-sm, var(--sv-col-xs, 12)));
+		}
+	}
+
+	@media (width >= 1280px) {
+		.sv-col {
+			grid-column: span var(--sv-col-lg, var(--sv-col-md, var(--sv-col-sm, var(--sv-col-xs, 12))));
+		}
+	}
+
+	@media (width >= 1920px) {
+		.sv-col {
+			grid-column: span
+				var(--sv-col-xl, var(--sv-col-lg, var(--sv-col-md, var(--sv-col-sm, var(--sv-col-xs, 12)))));
+		}
+	}
+
+	@media (width >= 2560px) {
+		.sv-col {
+			grid-column: span
+				var(
+					--sv-col-xxl,
+					var(
+						--sv-col-xl,
+						var(--sv-col-lg, var(--sv-col-md, var(--sv-col-sm, var(--sv-col-xs, 12))))
+					)
+				);
+		}
+	}
+}

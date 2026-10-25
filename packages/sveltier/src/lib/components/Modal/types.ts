@@ -54,5 +54,10 @@ export type ModalProps = ElementProps<
 		enter: (node: Element) => TransitionConfig;
 		/** The panel fills the screen. */
 		fullscreen?: boolean;
+		/**
+		 * Where focus goes when it closes, for a control that opens it from elsewhere. By default,
+		 * the control that rendered the trigger, else the element focused before it opened.
+		 */
+		returnFocus?: HTMLElement | null;
 	}
 >;

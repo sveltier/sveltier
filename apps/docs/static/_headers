@@ -9,3 +9,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Example apps are shown in frames on the docs pages, and only there.
+/examples/*
+  ! X-Frame-Options
+  Content-Security-Policy: frame-ancestors 'self'

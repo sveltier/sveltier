@@ -18,6 +18,7 @@
 	import '@fontsource/titillium-web/600.css';
 	import '@fontsource/titillium-web/700.css';
 	import '../app.css';
+	import { page } from '$app/state';
 	import AppBar from '#lib/docs/AppBar.svelte';
 	import { createShell } from '#lib/docs/shell.svelte.js';
 	import { THEMES, type PackId } from '#lib/site.js';
@@ -27,10 +28,15 @@
 	let { children }: LayoutProps = $props();
 	let pack = $state<PackId>('monolith');
 	createShell();
+
+	// Examples are whole apps shown in a frame, without the docs' own bar.
+	const example = $derived(page.route.id?.startsWith('/(examples)') ?? false);
 </script>
 
 <UIProvider themes={THEMES} light="{pack}-light" dark="{pack}-dark">
-	<a class="docs-skip" href="#main">Skip to content</a>
-	<AppBar bind:pack />
+	{#if !example}
+		<a class="docs-skip" href="#main">Skip to content</a>
+		<AppBar bind:pack />
+	{/if}
 	{@render children()}
 </UIProvider>

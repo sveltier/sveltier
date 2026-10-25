@@ -1,5 +1,6 @@
 import { afterAll, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
+import AppLayoutHarness from './fixtures/AppLayoutHarness.svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
 import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
@@ -55,5 +56,17 @@ describe('development checks in components', () => {
 		await expect
 			.poll(logged)
 			.toContain('[sveltier SV4002] <Tooltip> describes a control that has no accessible name.');
+	});
+
+	it('warn about a layout part wrapped in another element, and not about direct children', async () => {
+		await render(AppLayoutHarness);
+		expect(logged()).not.toContain('SV4004');
+		await render(AppLayoutHarness, { wrapMain: true });
+		await expect
+			.poll(logged)
+			.toContain(
+				"[sveltier SV4004] <Main> is not directly inside <AppLayout>, so the layout's grid cannot place it."
+			);
+		expect(logged()).not.toContain('<AppBar> is not directly inside');
 	});
 });
