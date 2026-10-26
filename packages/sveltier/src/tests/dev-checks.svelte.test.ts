@@ -3,6 +3,8 @@ import { render } from 'vitest-browser-svelte';
 import AppLayoutHarness from './fixtures/AppLayoutHarness.svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
 import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
+import DatePickerHarness from './fixtures/DatePickerHarness.svelte';
+import DateRangePickerHarness from './fixtures/DateRangePickerHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
 import SelectHarness from './fixtures/SelectHarness.svelte';
 import TableHarness from './fixtures/TableHarness.svelte';
@@ -42,6 +44,22 @@ describe('development checks in components', () => {
 		expect(logged()).not.toContain('SV5001');
 		await render(TextFieldHarness, { label: undefined });
 		await expect.poll(logged).toContain('[sveltier SV5001] <TextField> has no accessible name.');
+	});
+
+	it('warn about a date that is not an ISO date, as a timestamp is', async () => {
+		await render(DatePickerHarness, { min: '2026-10-01T00:00:00Z' });
+		expect(logged()).toContain(
+			'[sveltier SV5002] <DatePicker> got min="2026-10-01T00:00:00Z", which is not a date as YYYY-MM-DD.'
+		);
+	});
+
+	it('warn about a date range without a name, though its dates say Start and End', async () => {
+		await render(DateRangePickerHarness);
+		expect(logged()).not.toContain('<DateRangePicker> has no accessible name');
+		await render(DateRangePickerHarness, { label: undefined });
+		await expect
+			.poll(logged)
+			.toContain('[sveltier SV5001] <DateRangePicker> has no accessible name.');
 	});
 
 	it('warn about a checkbox whose label holds no text, though the label element is there', async () => {

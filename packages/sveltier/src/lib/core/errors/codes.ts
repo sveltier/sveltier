@@ -147,6 +147,13 @@ export const ERROR_CODES = {
 		cause:
 			'Assistive technology announces a form control, a dialog or a table by its name, and this one has no label, title, caption, `aria-label` or `aria-labelledby`.',
 		fix: 'Give a field a `label`, a dialog a `title` and a table a `caption`, or name it with `aria-label`, or with `aria-labelledby` when its name is visible elsewhere.'
+	},
+	SV5002: {
+		kind: 'warning',
+		title: 'Date that is not an ISO date',
+		cause:
+			'The date components take and give dates as ISO strings, `YYYY-MM-DD`, with no time and no time zone. A `Date`, a timestamp such as `2026-10-26T09:30:00Z`, a date in another order or a day that does not exist cannot be read: the calendar leaves it out and the field does not check against it.',
+		fix: "Pass the date as `YYYY-MM-DD`, such as `'2026-10-26'`, or `null` for none. From a `Date`, join its own year, month and day: `[d.getFullYear(), d.getMonth() + 1, d.getDate()].map((n) => String(n).padStart(2, '0')).join('-')`. Its `toISOString()` gives the day in UTC, which can be the day before or after."
 	}
 } as const satisfies Record<`SV${number}`, ErrorEntry>;
 

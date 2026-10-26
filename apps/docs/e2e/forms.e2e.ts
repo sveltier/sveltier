@@ -197,3 +197,35 @@ test('a checkbox whose label holds a link is named by the whole label', async ({
 		/LICENSE$/
 	);
 });
+
+test('a date picker reads a typed date, and chooses one in its calendar', async ({ page }) => {
+	await open(page, '/forms/date-picker');
+	const field = page.getByRole('textbox', { name: 'Trade date' });
+	await expect(field).toHaveValue('10/26/2026');
+	await field.fill('2026-10-27');
+	await field.press('Tab');
+	await expect(field).toHaveValue('10/27/2026');
+	await page.getByRole('button', { name: 'Choose a date' }).click();
+	await expect(page.getByRole('grid', { name: 'October 2026' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Tuesday, October 27, 2026' })).toBeFocused();
+	await page.keyboard.press('ArrowRight');
+	await page.keyboard.press('Enter');
+	await expect(field).toHaveValue('10/28/2026');
+	await expect(field).toBeFocused();
+	await expect(page.getByText('value: 2026-10-28')).toBeVisible();
+});
+
+test('a date range picker takes its start and end from one calendar', async ({ page }) => {
+	await open(page, '/forms/date-range-picker');
+	const start = page.getByRole('textbox', { name: 'Holding period Start' });
+	const end = page.getByRole('textbox', { name: 'Holding period End' });
+	await expect(start).toHaveValue('10/05/2026');
+	await expect(end).toHaveValue('10/23/2026');
+	await page.getByRole('button', { name: 'Choose dates' }).click();
+	await page.getByRole('button', { name: 'Monday, October 12, 2026' }).click();
+	await page.getByRole('button', { name: 'Friday, October 16, 2026' }).click();
+	await expect(start).toHaveValue('10/12/2026');
+	await expect(end).toHaveValue('10/16/2026');
+	await expect(end).toBeFocused();
+	await expect(page.getByText('start: 2026-10-12, end: 2026-10-16')).toBeVisible();
+});

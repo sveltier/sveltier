@@ -27,6 +27,19 @@ describe('development checks', () => {
 		expect(warn).not.toHaveBeenCalled();
 	});
 
+	it('warn about a date that is not an ISO date, but not about none', () => {
+		on.checkDate('DatePicker', 'min', '2026-10-26T09:30:00Z');
+		expect(warn).toHaveBeenCalledWith(
+			`[sveltier SV5002] <DatePicker> got min="2026-10-26T09:30:00Z", which is not a date as YYYY-MM-DD. Pass an ISO date with no time, such as "2026-10-26", or null for none. https://sveltier.com/errors#SV5002`
+		);
+		warn.mockClear();
+		for (const value of ['2026-10-26', '', null, undefined])
+			on.checkDate('Calendar', 'value', value);
+		expect(warn).not.toHaveBeenCalled();
+		on.checkDate('Calendar', 'value', '2026-02-30');
+		expect(warn).toHaveBeenCalledOnce();
+	});
+
 	it('warn once per message', () => {
 		on.checkValue('Chip', 'size', 'huge', ['sm', 'md']);
 		on.checkValue('Chip', 'size', 'huge', ['sm', 'md']);
@@ -38,6 +51,7 @@ describe('development checks', () => {
 		expect(on.DEV).toBe(true);
 		expect(off.DEV).toBe(false);
 		off.checkValue('Button', 'variant', 'primary', ['flat']);
+		off.checkDate('DatePicker', 'value', 'tomorrow');
 		off.warnUnnamed('TextField', null);
 		off.warnNamelessTrigger('Tooltip', {} as HTMLElement);
 		expect(warn).not.toHaveBeenCalled();

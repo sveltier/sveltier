@@ -1,0 +1,14 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Two dates share the box, a dash between them. */
+	.sv-date-range-picker .sv-field__control {
+		min-inline-size: 0;
+	}
+
+	.sv-date-range-picker__dash {
+		flex: none;
+		padding-inline: var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+	}
+}

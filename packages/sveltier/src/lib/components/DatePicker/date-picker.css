@@ -1,0 +1,8 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* The calendar's popover holds the month and nothing else, so it hugs it. */
+	.sv-date-picker__popover {
+		padding: var(--sv-space-13);
+	}
+}

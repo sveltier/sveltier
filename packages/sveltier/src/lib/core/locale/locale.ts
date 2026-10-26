@@ -39,7 +39,22 @@ export const MESSAGES = {
 	// AmountInput: the name of a share button, whose text is the percentage ("25%").
 	shareOfMax: '{percent} of the maximum',
 	// Select and Combobox: the list when no option matches, or there is none.
-	noMatches: 'No matches'
+	noMatches: 'No matches',
+	// Calendars: the month steps, the button that opens one, and the date checks. {format} is the
+	// locale's numeric date written with dd, mm and yyyy.
+	previousMonth: 'Previous month',
+	nextMonth: 'Next month',
+	chooseDate: 'Choose a date',
+	badDate: 'Enter a date as {format}',
+	dateTooEarly: 'Enter {min} or later',
+	dateTooLate: 'Enter {max} or earlier',
+	dateUnavailable: 'This date cannot be chosen',
+	// DateRangePicker: the names its two dates add to the field's label, its button, and the
+	// order check.
+	rangeStart: 'Start',
+	rangeEnd: 'End',
+	chooseDates: 'Choose dates',
+	rangeOrder: 'End on or after the start'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;
