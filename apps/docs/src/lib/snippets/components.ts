@@ -313,3 +313,120 @@ export const tabsUsage = `<script>
     <AccountSection name={item.value} />
   {/snippet}
 </Tabs>`;
+
+export const tableUsage = `<script lang="ts">
+  import { Table, type TableColumn } from '@sveltier/ui';
+
+  type Position = { symbol: string; name: string; quantity: number; price: number };
+  let { positions }: { positions: Position[] } = $props();
+
+  // A key is a property of the items: a typo is a type error that lists the real ones.
+  const columns: TableColumn<Position>[] = [
+    { key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
+    { key: 'name', label: 'Name', sort: true },
+    { key: 'quantity', label: 'Quantity', sort: true },
+    { key: 'price', label: 'Price', sort: true, format: (price) => price.toFixed(2) }
+  ];
+</script>
+
+<Table caption="Positions" {columns} items={positions} />`;
+
+export const tableColumns = `<script lang="ts">
+  import { Button, Table, type TableColumn } from '@sveltier/ui';
+
+  type Position = { symbol: string; quantity: number; cost: number; price: number };
+  let { positions, onclose }: { positions: Position[]; onclose: (p: Position) => void } =
+    $props();
+
+  const pnlOf = (p: Position) => (p.price - p.cost) * p.quantity;
+
+  const columns: TableColumn<Position>[] = [
+    { key: 'symbol', label: 'Symbol', rowHeader: true },
+    // An id with a value: computed from the item, and sorted by that value.
+    { id: 'pnl', label: 'P&L', value: pnlOf, sort: true, cell: pnl },
+    // An id with only a cell: content of its own, with a label for screen readers only.
+    { id: 'close', label: 'Close', hideLabel: true, cell: close }
+  ];
+</script>
+
+{#snippet pnl(p: Position)}
+  <span class={pnlOf(p) < 0 ? 'down' : 'up'}>{pnlOf(p).toFixed(2)}</span>
+{/snippet}
+
+{#snippet close(p: Position)}
+  <Button size="sm" variant="text" onclick={() => onclose(p)}>Close {p.symbol}</Button>
+{/snippet}
+
+<Table aria-label="Open positions" {columns} items={positions} />`;
+
+export const tableSort = `<script lang="ts">
+  import { Table, type TableColumn, type TableSort } from '@sveltier/ui';
+
+  type Order = { id: string; placed: Date; status: 'open' | 'filled' | 'cancelled' };
+  let { orders }: { orders: Order[] } = $props();
+
+  const RANK = { open: 0, filled: 1, cancelled: 2 };
+  const columns: TableColumn<Order>[] = [
+    { key: 'id', label: 'Order', rowHeader: true },
+    { key: 'placed', label: 'Placed', sort: true, format: (date) => date.toLocaleString() },
+    // A comparator decides the order itself: open orders first.
+    { key: 'status', label: 'Status', sort: (a, b) => RANK[a.status] - RANK[b.status] }
+  ];
+
+  // Bindable: newest first to begin with, then whatever the user clicks.
+  let sortBy = $state<TableSort | undefined>({ column: 'placed', direction: 'descending' });
+</script>
+
+<Table caption="Orders" {columns} items={orders} bind:sortBy />`;
+
+export const tableLive = `<script lang="ts">
+  import { Table, type TableColumn } from '@sveltier/ui';
+
+  type Quote = { symbol: string; last: number; volume: number };
+  let { quotes, selected = $bindable() }: { quotes: Quote[]; selected?: string } = $props();
+
+  const columns: TableColumn<Quote>[] = [
+    { key: 'symbol', label: 'Symbol', rowHeader: true, cell: pick },
+    { key: 'last', label: 'Last', sort: true },
+    { key: 'volume', label: 'Volume', sort: true }
+  ];
+</script>
+
+{#snippet pick(quote: Quote)}
+  <button type="button" onclick={() => (selected = quote.symbol)}>{quote.symbol}</button>
+{/snippet}
+
+<!-- Fresh quote objects arrive every second: itemKey keeps each row's element, the sort
+     stays, and the header stays in view while the box scrolls. -->
+<Table
+  aria-label="Watchlist"
+  {columns}
+  items={quotes}
+  itemKey="symbol"
+  rowAttributes={(quote) => ({ 'aria-current': quote.symbol === selected })}
+  density="compact"
+  style="max-block-size: 24rem"
+/>`;
+
+export const tableEmpty = `<script lang="ts">
+  import { Button, Table, type TableColumn } from '@sveltier/ui';
+
+  type Payment = { id: string; payee: string; amount: number };
+  let {
+    payments,
+    loading,
+    onretry
+  }: { payments: Payment[]; loading: boolean; onretry: () => void } = $props();
+
+  const columns: TableColumn<Payment>[] = [
+    { key: 'payee', label: 'Payee' },
+    { key: 'amount', label: 'Amount', format: (amount) => amount.toFixed(2) }
+  ];
+</script>
+
+<!-- While loading, a bar runs along the top and the empty row says "Loading". -->
+<Table caption="Payments" {columns} items={payments} itemKey="id" {loading}>
+  {#snippet empty()}
+    Nothing yet. <Button size="sm" variant="text" onclick={onretry}>Check again</Button>
+  {/snippet}
+</Table>`;

@@ -31,7 +31,9 @@ export const MESSAGES = {
 	// the button and dialog that show the drawer on small screens.
 	skipToContent: 'Skip to content',
 	mainNavigation: 'Main',
-	navigation: 'Navigation'
+	navigation: 'Navigation',
+	// Table: the row shown when there are no items.
+	noData: 'No data'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

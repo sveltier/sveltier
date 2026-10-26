@@ -15,6 +15,9 @@ const UI = 3;
 // text colour (--sv-tonal-text-mix).
 const WASH = 0.14;
 const TONAL_TEXT_MIX = 0.8;
+// A Table's current row is the primary colour washed over the table's surface by
+// --sv-state-hover (8%), under cells in any text colour: up and down figures, muted notes.
+const ROW_WASH = 0.08;
 
 // Every built-in theme, light and dark.
 const combos: Array<[string, ThemeDefinition]> = Object.entries({
@@ -54,12 +57,16 @@ function mixOklch(a: Oklch, b: Oklch, p: number): Oklch {
 	};
 }
 
-function tonalContrast(intent: Oklch, text: Oklch, surface: Oklch): number {
-	const top = toLinearSrgb(intent).map(encode);
+/** Contrast of `text` on `tint` washed over `surface` by `amount`, blended as browsers do. */
+function washContrast(text: Oklch, tint: Oklch, surface: Oklch, amount: number): number {
+	const top = toLinearSrgb(tint).map(encode);
 	const under = toLinearSrgb(surface).map(encode);
-	const wash = under.map((channel, i) => decode(channel * (1 - WASH) + top[i]! * WASH));
-	const label = toLinearSrgb(mixOklch(intent, text, TONAL_TEXT_MIX));
-	return ratio(luminanceOf(label), luminanceOf(wash));
+	const wash = under.map((channel, i) => decode(channel * (1 - amount) + top[i]! * amount));
+	return ratio(luminanceOf(toLinearSrgb(text)), luminanceOf(wash));
+}
+
+function tonalContrast(intent: Oklch, text: Oklch, surface: Oklch): number {
+	return washContrast(mixOklch(intent, text, TONAL_TEXT_MIX), intent, surface, WASH);
 }
 
 describe.each(combos)('%s', (_name, theme) => {
@@ -84,6 +91,12 @@ describe.each(combos)('%s', (_name, theme) => {
 			).toBeGreaterThanOrEqual(TEXT);
 		}
 	);
+
+	it.each(TEXTS)('%s text on the current row of a table ≥ 4.5:1', (text) => {
+		expect(
+			washContrast(color(theme, text), color(theme, 'primary'), color(theme, 'surface'), ROW_WASH)
+		).toBeGreaterThanOrEqual(TEXT);
+	});
 
 	it.each(SURFACES)('control borders (border-strong) on %s ≥ 3:1', (surface) => {
 		expect(contrast(color(theme, 'border-strong'), color(theme, surface))).toBeGreaterThanOrEqual(

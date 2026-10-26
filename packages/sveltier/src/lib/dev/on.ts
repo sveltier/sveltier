@@ -58,6 +58,22 @@ export function warnUnnamed(
 }
 
 /**
+ * Warns when a list prop names two of its entries with the same key, so the component cannot
+ * tell them apart. `entries` names them as the message says it ("columns"); `fix` says what to
+ * change.
+ */
+export function warnDuplicates(
+	component: string,
+	entries: string,
+	keys: readonly unknown[],
+	fix: string
+): void {
+	const duplicate = keys.find((key, i) => keys.indexOf(key) !== i);
+	if (duplicate === undefined) return;
+	warn('SV4005', `<${component}> has two ${entries} with the key ${show(duplicate)}. ${fix}`);
+}
+
+/**
  * Warns when a part of an AppLayout is not one of its own children, so the layout's grid cannot
  * place it.
  */

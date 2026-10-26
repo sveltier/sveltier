@@ -1,0 +1,231 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The box scrolls the table both ways and paints a surface, so the header can stick over the
+	 * rows. Set --sv-table-background to sit the table on another surface; give the box a
+	 * max-block-size to scroll within it.
+	 */
+	.sv-table {
+		max-inline-size: 100%;
+		overflow: auto;
+		background-color: var(--sv-table-background, var(--sv-color-surface));
+		color: var(--sv-color-text);
+		font-size: var(--sv-size-text);
+		line-height: var(--sv-leading-snug);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-table__table {
+		inline-size: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+
+	.sv-table__caption {
+		padding: calc(var(--sv-space-8) * var(--sv-density))
+			calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		font-weight: var(--sv-weight-medium);
+		text-align: start;
+	}
+
+	/* A row a control tall, its cells padded by a φ fraction of that. */
+	.sv-table__head,
+	.sv-table__cell,
+	.sv-table__empty {
+		box-sizing: border-box;
+		block-size: calc(var(--sv-size-height) * var(--sv-density));
+		padding: calc(var(--sv-space-5) * var(--sv-density))
+			calc(var(--sv-size-height) * var(--sv-density) * 0.382);
+		border-block-end: var(--sv-hairline) solid var(--sv-color-border-soft);
+		font-weight: inherit;
+		text-align: start;
+		white-space: nowrap;
+		vertical-align: middle;
+	}
+
+	/* The header stays at the top of the box while the rows scroll under it. */
+	.sv-table__head {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 1;
+		border-block-end-color: var(--sv-color-border);
+		background-color: var(--sv-table-background, var(--sv-color-surface));
+		color: var(--sv-color-text-muted);
+		font-weight: var(--sv-weight-medium);
+	}
+
+	th.sv-table__cell {
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-table__table > tbody > tr:last-child > * {
+		border-block-end: 0;
+	}
+
+	.sv-table__cell--center {
+		text-align: center;
+	}
+
+	.sv-table__cell--end {
+		text-align: end;
+	}
+
+	.sv-table__cell--wrap {
+		white-space: normal;
+	}
+
+	.sv-table__empty {
+		block-size: calc(var(--sv-size-height) * var(--sv-density) * 2.618);
+		color: var(--sv-color-text-muted);
+		text-align: center;
+		white-space: normal;
+	}
+
+	/*
+	 * The sort button fills its header and keeps the header's look; its arrow sits beside the
+	 * label, on the inner side, so a label at the end lines up with the numbers below it.
+	 */
+	.sv-table__sort {
+		display: flex;
+		gap: var(--sv-space-3);
+		align-items: center;
+		inline-size: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: var(--sv-radius-sm);
+		background: none;
+		color: inherit;
+		font: inherit;
+		text-align: inherit;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-table__cell--center .sv-table__sort {
+		justify-content: center;
+	}
+
+	.sv-table__cell--end .sv-table__sort {
+		flex-direction: row-reverse;
+	}
+
+	.sv-table__arrow {
+		flex: none;
+		inline-size: 1.1278em;
+		block-size: 1.1278em;
+		opacity: 0;
+		transition:
+			opacity var(--sv-duration-fast) var(--sv-ease),
+			transform var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-table__sort:hover {
+			color: var(--sv-color-text);
+		}
+
+		.sv-table__sort:hover .sv-table__arrow {
+			opacity: 0.382;
+		}
+	}
+
+	.sv-table__sort:focus-visible .sv-table__arrow {
+		opacity: 0.382;
+	}
+
+	[aria-sort] > .sv-table__sort {
+		color: var(--sv-color-text);
+	}
+
+	[aria-sort] > .sv-table__sort > .sv-table__arrow {
+		color: var(--sv-color);
+		opacity: 1;
+	}
+
+	[aria-sort='descending'] > .sv-table__sort > .sv-table__arrow {
+		transform: rotate(180deg);
+	}
+
+	@media (hover: hover) {
+		.sv-table--hover > .sv-table__table > tbody > tr:hover > * {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	/*
+	 * The row whose details show elsewhere, marked by rowAttributes with aria-current: a bar at
+	 * its start, and a wash light enough that every theme's text colours, the up and down ones
+	 * among them, keep 4.5:1 on it.
+	 */
+	.sv-table__table > tbody > tr[aria-current]:not([aria-current='false']) > * {
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-state-hover), transparent);
+	}
+
+	.sv-table__table > tbody > tr[aria-current]:not([aria-current='false']) > :first-child {
+		box-shadow: inset 2px 0 0 var(--sv-color);
+	}
+
+	:where([dir='rtl'])
+		.sv-table__table
+		> tbody
+		> tr[aria-current]:not([aria-current='false'])
+		> :first-child {
+		box-shadow: inset -2px 0 0 var(--sv-color);
+	}
+
+	/* Loading: a bar slides along the top edge of the box, over the header. */
+	.sv-table__progress {
+		position: sticky;
+		inset-block-start: 0;
+		inset-inline-start: 0;
+		z-index: 2;
+		inline-size: 100%;
+		block-size: 2px;
+		margin-block-end: -2px;
+		overflow: hidden;
+	}
+
+	/* The same crossing as an indeterminate ProgressLinear. */
+	.sv-table__progress::before {
+		content: '';
+		display: block;
+		inline-size: 38.2%;
+		block-size: 100%;
+		background-color: var(--sv-color);
+		animation: sv-table-cross 1618ms var(--sv-ease) infinite;
+	}
+
+	:where([dir='rtl']) .sv-table__progress::before {
+		animation-direction: reverse;
+	}
+
+	@keyframes sv-table-cross {
+		from {
+			transform: translateX(-100%);
+		}
+
+		to {
+			transform: translateX(261.8%);
+		}
+	}
+
+	/* Under reduced motion it pulses in place instead of moving. */
+	@media (prefers-reduced-motion: reduce) {
+		.sv-table__progress::before {
+			inline-size: 100%;
+			animation: sv-table-pulse 1618ms ease-in-out infinite alternate;
+		}
+	}
+
+	@keyframes sv-table-pulse {
+		from {
+			opacity: 0.382;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+}
