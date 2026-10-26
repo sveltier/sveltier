@@ -279,6 +279,12 @@ export {
 	type RadioGroupProps
 } from './components/RadioGroup/index.js';
 export {
+	Select,
+	type SelectDefaults,
+	type SelectItem,
+	type SelectProps
+} from './components/Select/index.js';
+export {
 	SegmentedControl,
 	type SegmentedControlDefaults,
 	type SegmentedControlOption,

@@ -1,7 +1,9 @@
 import { getFormContext } from './context.js';
 import type { FieldError, Rule, ValidateOn } from './types.js';
 
-type Control = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+// A native control, whose validity blocks a plain <form>, or an element in the role of one, such
+// as a combobox: it is still focused when it is the first invalid field of a Form.
+type Control = HTMLElement & { setCustomValidity?: (message: string) => void };
 
 export interface FieldOptions<T> {
 	/** The current value. */
@@ -13,7 +15,7 @@ export interface FieldOptions<T> {
 	rules: () => readonly Rule<T>[] | null | undefined;
 	error: () => FieldError | undefined;
 	validateOn: () => ValidateOn | null | undefined;
-	/** The native control, kept in step with `setCustomValidity()`. */
+	/** The control: a native one is kept in step with `setCustomValidity()`. */
 	control: () => Control | null | undefined;
 }
 
@@ -62,7 +64,7 @@ export function createField<T>(options: FieldOptions<T>): FieldState {
 	// A plain <form> refuses to submit with the same words. Errors from outside are left out,
 	// so a server's answer never blocks submitting again.
 	$effect(() => {
-		options.control()?.setCustomValidity(problem ?? '');
+		options.control()?.setCustomValidity?.(problem ?? '');
 	});
 
 	// In a Form, the field takes part in its submit and reset.

@@ -4,6 +4,7 @@ import AppLayoutHarness from './fixtures/AppLayoutHarness.svelte';
 import ButtonHarness from './fixtures/ButtonHarness.svelte';
 import CheckboxHarness from './fixtures/CheckboxHarness.svelte';
 import NumberFieldHarness from './fixtures/NumberFieldHarness.svelte';
+import SelectHarness from './fixtures/SelectHarness.svelte';
 import TableHarness from './fixtures/TableHarness.svelte';
 import TextFieldHarness from './fixtures/TextFieldHarness.svelte';
 import TooltipHarness from './fixtures/TooltipHarness.svelte';
@@ -102,6 +103,19 @@ describe('development checks in components', () => {
 			.poll(logged)
 			.toContain(
 				`<Table> got sortBy.column="status". Valid values: 'symbol' | 'quantity' | 'price' | 'value'. Sort by a column with sort.`
+			);
+	});
+	it('warn about two select items with the same value', async () => {
+		await render(SelectHarness, {
+			items: [
+				{ value: 'btc', label: 'BTC/USDT' },
+				{ value: 'btc', label: 'BTC/USD' }
+			]
+		});
+		await expect
+			.poll(logged)
+			.toContain(
+				"[sveltier SV4005] <Select> has two items with the key 'btc'. Give each item its own value."
 			);
 	});
 });

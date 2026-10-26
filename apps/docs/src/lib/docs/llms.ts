@@ -29,6 +29,7 @@ import {
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	selectUsage,
 	radioGroupUsage,
 	sliderUsage,
 	switchUsage,
@@ -164,6 +165,12 @@ const FORMS: Entry[] = [
 		path: 'forms/native-select',
 		types: ['NativeSelectProps'],
 		example: nativeSelectUsage
+	},
+	{
+		name: 'Select',
+		path: 'forms/select',
+		types: ['SelectProps', 'SelectItem'],
+		example: selectUsage
 	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },

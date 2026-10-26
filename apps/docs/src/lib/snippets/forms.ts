@@ -154,6 +154,45 @@ export const numberFieldUsage = `<script>
   {#snippet prepend()}USD{/snippet}
 </NumberField>`;
 
+export const selectUsage = `<script lang="ts">
+  import { Select } from '@sveltier/ui';
+
+  let market = $state<string | null>(null);
+</script>
+
+<!-- Items with a group show under its name; a disabled one is skipped by the keys. -->
+<Select
+  label="Market"
+  name="market"
+  placeholder="Choose a market"
+  required
+  items={[
+    { value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
+    { value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
+    { value: 'btc-usd', label: 'BTC/USD', group: 'Coinbase' },
+    { value: 'eth-usd', label: 'ETH/USD', group: 'Coinbase', disabled: true }
+  ]}
+  bind:value={market}
+/>`;
+
+export const selectCustom = `<script lang="ts">
+  import { Select, type SelectItem } from '@sveltier/ui';
+
+  type Market = SelectItem & { venue: string };
+  let { markets }: { markets: Market[] } = $props();
+  let market = $state<string | null>(null);
+</script>
+
+<!-- The option and the chosen value drawn your own way: the symbol, then its venue. -->
+<Select label="Market" items={markets} bind:value={market}>
+  {#snippet option(item)}
+    <strong>{item.label}</strong> <small>{item.venue}</small>
+  {/snippet}
+  {#snippet selection(item)}
+    {item.label} · {item.venue}
+  {/snippet}
+</Select>`;
+
 export const nativeSelectUsage = `<script>
   import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);

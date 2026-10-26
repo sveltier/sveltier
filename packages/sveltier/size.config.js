@@ -345,6 +345,15 @@ export default [
 		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
 	},
 	{
+		// Its own code and the list it shares with Combobox: the keys of the APG select-only
+		// combobox, typeahead on the labels and groups (3.7 KB of JS), and their CSS (0.95 KB).
+		// The Field, the placement, the layer stack and the motion are measured apart.
+		name: 'Select',
+		code: "export { Select } from '@sveltier/ui';",
+		limit: '4.7 KB',
+		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
+	},
+	{
 		// Its own code: the tick's decimals and the smallest tick as the minimum. The NumberField
 		// it renders, bands of steps included, is measured in its own entry.
 		name: 'PriceInput',
@@ -438,6 +447,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '54.5 KB'
+		limit: '56 KB'
 	}
 ];

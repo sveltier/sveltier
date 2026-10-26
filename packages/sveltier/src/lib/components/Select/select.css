@@ -1,0 +1,137 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* The field shows the chosen label on one line, cut short with an ellipsis. */
+	.sv-select__control {
+		display: flex;
+		align-items: center;
+		min-inline-size: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.sv-field--disabled .sv-select__control {
+		cursor: not-allowed;
+	}
+
+	.sv-field--readonly .sv-select__control {
+		cursor: default;
+	}
+
+	.sv-select__placeholder {
+		color: var(--sv-color-text-subtle);
+	}
+
+	.sv-select__caret {
+		flex: none;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		color: var(--sv-color-text-muted);
+		transition: transform var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	.sv-select--open .sv-select__caret {
+		transform: rotate(180deg);
+	}
+
+	/* The list: a raised surface of options, as the menu is, scrolling past a short height. */
+	.sv-listbox {
+		--sv-listbox-pad: var(--sv-space-5);
+		box-sizing: border-box;
+		max-inline-size: min(34rem, 100vw - 2 * var(--sv-space-8));
+		max-block-size: min(21rem, 100dvh - 2 * var(--sv-space-8));
+		margin: 0;
+		padding: var(--sv-listbox-pad);
+		overflow: auto;
+		overscroll-behavior: contain;
+		border: var(--sv-hairline) solid var(--sv-color-border-soft);
+		border-radius: var(--sv-radius-lg);
+		background-color: var(--sv-color-surface);
+		box-shadow: var(--sv-shadow);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	/* An option: a check where the chosen one is, then its label and description. */
+	.sv-listbox__option {
+		display: flex;
+		gap: var(--sv-space-8);
+		align-items: center;
+		box-sizing: border-box;
+		min-block-size: var(--sv-control-sm);
+		padding: var(--sv-space-5) var(--sv-space-8);
+		border-radius: max(0px, var(--sv-radius-lg) - var(--sv-listbox-pad));
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-listbox__option[aria-selected='true'] {
+		background-color: color-mix(in oklch, currentColor var(--sv-state-press), transparent);
+	}
+
+	.sv-listbox__option[aria-disabled='true'] {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	.sv-listbox__check {
+		flex: none;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		visibility: hidden;
+	}
+
+	.sv-listbox__option--chosen .sv-listbox__check {
+		visibility: visible;
+	}
+
+	.sv-listbox__option--chosen {
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-listbox__text {
+		display: grid;
+		flex: 1;
+		min-inline-size: 0;
+	}
+
+	.sv-listbox__label {
+		overflow-wrap: anywhere;
+	}
+
+	.sv-listbox__description {
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+		font-weight: var(--sv-weight-regular);
+	}
+
+	/* The theme's label voice, muted, above the options it names. */
+	.sv-listbox__group {
+		padding: var(--sv-space-8) var(--sv-space-8) var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-label-size);
+		font-weight: var(--sv-weight-medium);
+		letter-spacing: var(--sv-label-tracking);
+		text-transform: var(--sv-label-transform);
+	}
+
+	.sv-listbox__empty {
+		padding: var(--sv-space-8);
+		color: var(--sv-color-text-muted);
+	}
+}
