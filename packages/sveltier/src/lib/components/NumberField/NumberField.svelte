@@ -83,6 +83,19 @@
 		}
 	});
 
+	const places = (number: number | undefined) => (String(number ?? '').split('.')[1] ?? '').length;
+	// The keys and buttons move by step, or by 1 when no step is set (and then any number is
+	// valid). Bands of steps are put in order of where they start. Enough decimals for every step
+	// and the starting point, so 0.1 + 0.2 lands on 0.3. Declared before the field, whose check
+	// can run as soon as it is created (on the server, as Svelte 5.40 does).
+	const bands = $derived(
+		typeof step === 'object' ? [...step].sort((a, b) => a.from - b.from) : undefined
+	);
+	const increment = $derived(typeof step === 'number' ? step : 1);
+	const decimals = $derived(
+		Math.max(places(min), ...(bands ?? [{ step: increment }]).map((band) => places(band.step)))
+	);
+
 	const field = createField<number | null>({
 		value: () => parsed,
 		empty: (number) => number === null,
@@ -109,17 +122,6 @@
 		});
 	}
 
-	const places = (number: number | undefined) => (String(number ?? '').split('.')[1] ?? '').length;
-	// The keys and buttons move by step, or by 1 when no step is set (and then any number is
-	// valid). Bands of steps are put in order of where they start. Enough decimals for every step
-	// and the starting point, so 0.1 + 0.2 lands on 0.3.
-	const bands = $derived(
-		typeof step === 'object' ? [...step].sort((a, b) => a.from - b.from) : undefined
-	);
-	const increment = $derived(typeof step === 'number' ? step : 1);
-	const decimals = $derived(
-		Math.max(places(min), ...(bands ?? [{ step: increment }]).map((band) => places(band.step)))
-	);
 	const inert = $derived(p.disabled || readonly);
 	const current = $derived(parsed !== null && Number.isFinite(parsed) ? parsed : null);
 
