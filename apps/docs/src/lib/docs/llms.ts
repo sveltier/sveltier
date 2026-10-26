@@ -25,10 +25,12 @@ import {
 } from '#lib/snippets/components.js';
 import {
 	checkboxUsage,
+	comboboxUsage,
 	fieldUsage,
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	selectUsage,
 	radioGroupUsage,
 	sliderUsage,
 	switchUsage,
@@ -165,6 +167,18 @@ const FORMS: Entry[] = [
 		types: ['NativeSelectProps'],
 		example: nativeSelectUsage
 	},
+	{
+		name: 'Select',
+		path: 'forms/select',
+		types: ['SelectProps', 'SelectItem'],
+		example: selectUsage
+	},
+	{
+		name: 'Combobox',
+		path: 'forms/combobox',
+		types: ['ComboboxProps'],
+		example: comboboxUsage
+	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },
 	{
@@ -258,6 +272,7 @@ const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` wi
 - Content goes in snippets (\`children\`, \`prepend\`, \`append\`, \`actions\`), events are callback props (\`onclick\`), and two-way values use \`bind:\` (\`bind:value\`, \`bind:selected\`, \`bind:open\`).
 - Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
+- A choice from a list is \`NativeSelect\` (the platform's own picker, best for plain options on phones), \`Select\` (groups, descriptions, options drawn with the \`option\` snippet) or \`Combobox\` (typing searches the list, ignoring case and diacritics; \`filter={false}\` with \`bind:query\` searches a server). Select and Combobox take \`items\` of \`{ value, label, description?, group?, disabled? }\` and \`bind:value\`; build neither from a Menu or a Popover.
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
 - An app's frame is \`AppLayout\` in the root layout, with \`AppBar\`, \`NavigationDrawer\` (usually a \`List nav\` of links) and \`Main\` inside: they place themselves on a CSS grid, the drawer becomes a modal drawer with a menu button in the bar on small screens, and nothing needs measuring or wiring.
 - Data in rows and columns is a \`Table\` with \`items\` and \`columns\` typed as \`TableColumn<Item>[]\`, rather than a hand-written \`<table>\`: a column's \`key\` is a property of the items (a typo is a type error that lists the real ones), an \`id\` with \`value\` computes one, and a \`cell\` snippet renders content of its own. \`sort: true\` sorts from the header, numbers line up at the end, and the header stays in view while the table scrolls.

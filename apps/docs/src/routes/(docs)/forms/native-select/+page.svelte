@@ -21,6 +21,10 @@
 	</p>
 	<NativeSelectDemo />
 	<Code title="Account.svelte" code={nativeSelectUsage} />
+	<p>
+		For groups, descriptions or options drawn your own way, in the theme's look in every browser,
+		use a <a href={resolve('forms/select')}>Select</a>.
+	</p>
 
 	<h2 id="validation">Validation</h2>
 	<p>

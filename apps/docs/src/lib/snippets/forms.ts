@@ -154,6 +154,90 @@ export const numberFieldUsage = `<script>
   {#snippet prepend()}USD{/snippet}
 </NumberField>`;
 
+export const selectUsage = `<script lang="ts">
+  import { Select } from '@sveltier/ui';
+
+  let market = $state<string | null>(null);
+</script>
+
+<!-- Items with a group show under its name; a disabled one is skipped by the keys. -->
+<Select
+  label="Market"
+  name="market"
+  placeholder="Choose a market"
+  required
+  items={[
+    { value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
+    { value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
+    { value: 'btc-usd', label: 'BTC/USD', group: 'Coinbase' },
+    { value: 'eth-usd', label: 'ETH/USD', group: 'Coinbase', disabled: true }
+  ]}
+  bind:value={market}
+/>`;
+
+export const selectCustom = `<script lang="ts">
+  import { Select, type SelectItem } from '@sveltier/ui';
+
+  type Market = SelectItem & { venue: string };
+  let { markets }: { markets: Market[] } = $props();
+  let market = $state<string | null>(null);
+</script>
+
+<!-- The option and the chosen value drawn your own way: the symbol, then its venue. -->
+<Select label="Market" items={markets} bind:value={market}>
+  {#snippet option(item)}
+    <strong>{item.label}</strong> <small>{item.venue}</small>
+  {/snippet}
+  {#snippet selection(item)}
+    {item.label} · {item.venue}
+  {/snippet}
+</Select>`;
+
+export const comboboxUsage = `<script lang="ts">
+  import { Combobox } from '@sveltier/ui';
+
+  let city = $state<string | null>(null);
+</script>
+
+<!-- Type "sao" for São Paulo or "da nang" for Đà Nẵng: case and diacritics do not matter. -->
+<Combobox
+  label="City"
+  name="city"
+  placeholder="Search cities"
+  items={[
+    { value: 'sao', label: 'São Paulo', description: 'Brazil', group: 'Americas' },
+    { value: 'mtl', label: 'Montréal', description: 'Canada', group: 'Americas' },
+    { value: 'zrh', label: 'Zürich', description: 'Switzerland', group: 'Europe' },
+    { value: 'dad', label: 'Đà Nẵng', description: 'Vietnam', group: 'Asia' }
+  ]}
+  bind:value={city}
+/>`;
+
+export const comboboxRemote = `<script lang="ts">
+  import { Combobox, type SelectItem } from '@sveltier/ui';
+
+  let symbol = $state<string | null>(null);
+  let query = $state('');
+  let found = $state<SelectItem[]>([]);
+  let loading = $state(false);
+
+  // Searching elsewhere: the server filters, the field shows what it found.
+  $effect(() => {
+    const term = query.trim();
+    if (!term) return;
+    loading = true;
+    const controller = new AbortController();
+    fetch(\`/api/symbols?q=\${encodeURIComponent(term)}\`, { signal: controller.signal })
+      .then((response) => response.json())
+      .then((items: SelectItem[]) => (found = items))
+      .catch(() => {})
+      .finally(() => (loading = false));
+    return () => controller.abort();
+  });
+</script>
+
+<Combobox label="Symbol" items={found} filter={false} {loading} bind:query bind:value={symbol} />`;
+
 export const nativeSelectUsage = `<script>
   import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);

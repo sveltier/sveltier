@@ -37,7 +37,9 @@ export const MESSAGES = {
 	// Amount: what screen readers hear in place of a masked figure.
 	amountHidden: 'Amount hidden',
 	// AmountInput: the name of a share button, whose text is the percentage ("25%").
-	shareOfMax: '{percent} of the maximum'
+	shareOfMax: '{percent} of the maximum',
+	// Select and Combobox: the list when no option matches, or there is none.
+	noMatches: 'No matches'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

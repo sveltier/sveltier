@@ -200,6 +200,11 @@ export {
 	type CheckboxProps
 } from './components/Checkbox/index.js';
 export { Chip, type ChipDefaults, type ChipProps } from './components/Chip/index.js';
+export {
+	Combobox,
+	type ComboboxDefaults,
+	type ComboboxProps
+} from './components/Combobox/index.js';
 export { Delta, type DeltaDefaults, type DeltaProps } from './components/Delta/index.js';
 export { Dialog, type DialogDefaults, type DialogProps } from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
@@ -278,6 +283,12 @@ export {
 	type RadioGroupOption,
 	type RadioGroupProps
 } from './components/RadioGroup/index.js';
+export {
+	Select,
+	type SelectDefaults,
+	type SelectItem,
+	type SelectProps
+} from './components/Select/index.js';
 export {
 	SegmentedControl,
 	type SegmentedControlDefaults,
