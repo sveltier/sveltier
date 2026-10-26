@@ -33,7 +33,9 @@ export const MESSAGES = {
 	mainNavigation: 'Main',
 	navigation: 'Navigation',
 	// Table: the row shown when there are no items.
-	noData: 'No data'
+	noData: 'No data',
+	// Amount: what screen readers hear in place of a masked figure.
+	amountHidden: 'Amount hidden'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;
@@ -86,6 +88,15 @@ function cached<F extends Formatter>(
 	if (!formatter) cache.set(key, (formatter = new Format(locale, options)));
 	return formatter;
 }
+
+/**
+ * The Intl.NumberFormat for a locale and options, built once and shared: for components that
+ * format many figures, such as the cells of a live table.
+ */
+export const numberFormat = (
+	locale: string,
+	options: Intl.NumberFormatOptions
+): Intl.NumberFormat => cached(Intl.NumberFormat, locale, options);
 
 // Largest unit first, with its length in seconds.
 const UNITS: Array<[Intl.RelativeTimeFormatUnit, number]> = [

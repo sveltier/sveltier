@@ -35,6 +35,7 @@ import {
 	textareaUsage,
 	textFieldValidation
 } from '#lib/snippets/forms.js';
+import { amountUsage, deltaUsage } from '#lib/snippets/finance.js';
 import {
 	dialogUsage,
 	menuUsage,
@@ -205,6 +206,16 @@ const OVERLAYS: Entry[] = [
 	}
 ];
 
+const FINANCE: Entry[] = [
+	{
+		name: 'Amount',
+		path: 'finance/amount',
+		types: ['AmountProps', 'AmountDefaults'],
+		example: amountUsage
+	},
+	{ name: 'Delta', path: 'finance/delta', types: ['DeltaProps'], example: deltaUsage }
+];
+
 const PRIMITIVES: Entry[] = [
 	{ name: 'focusTrap', path: 'primitives/focus', types: ['FocusTrapOptions'] },
 	{ name: 'rovingFocus', path: 'primitives/focus', types: ['RovingFocusOptions'] },
@@ -233,6 +244,7 @@ const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` wi
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
 - An app's frame is \`AppLayout\` in the root layout, with \`AppBar\`, \`NavigationDrawer\` (usually a \`List nav\` of links) and \`Main\` inside: they place themselves on a CSS grid, the drawer becomes a modal drawer with a menu button in the bar on small screens, and nothing needs measuring or wiring.
 - Data in rows and columns is a \`Table\` with \`items\` and \`columns\` typed as \`TableColumn<Item>[]\`, rather than a hand-written \`<table>\`: a column's \`key\` is a property of the items (a typo is a type error that lists the real ones), an \`id\` with \`value\` computes one, and a \`cell\` snippet renders content of its own. \`sort: true\` sorts from the header, numbers line up at the end, and the header stays in view while the table scrolls.
+- Figures for people to read are \`Amount\` (numbers, prices, money, percentages) and \`Delta\` (changes, signed and in the up or down colour), not strings from \`toFixed\` or a hand-made \`Intl.NumberFormat\`: \`decimals={2}\` fixes the digits, \`format\` takes Intl options (\`{ style: 'currency' }\` uses the locale's currency), a missing value shows a dash, \`flash\` marks live updates, and \`masked\` set through \`DefaultsProvider\` hides every figure at once.
 - Overlays open from a control through a \`trigger\` snippet: spread the attributes it receives onto your own Button (\`{#snippet trigger(attributes)}<Button {...attributes}>Open</Button>{/snippet}\`), which wires the ARIA, opening and focus return. Without a trigger, \`bind:open\` opens and closes them.
 - Toasts come from \`useToast()\`, which \`UIProvider\` provides: call it while a component initialises, then \`toast.show('Payment sent', { action: { label: 'Undo', onclick: undo } })\` when something happens. There is no toast component to place, and no other toast library is needed.
 - Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.`;
@@ -270,7 +282,7 @@ function section(entry: Entry, link: (path: string) => string): string {
 /** llms.txt: every docs page, with what each component is. */
 export function llmsIndex(link: (path: string) => string): string {
 	const described = new Map(
-		[...LAYOUT, ...COMPONENTS, ...FORMS, ...OVERLAYS].map((entry) => [
+		[...LAYOUT, ...COMPONENTS, ...FORMS, ...OVERLAYS, ...FINANCE].map((entry) => [
 			entry.path,
 			sentence(descriptions[entry.types[0]!] ?? '')
 		])
@@ -330,6 +342,9 @@ export function llmsFull(link: (path: string) => string): string {
 		'## Overlays',
 		'',
 		...OVERLAYS.flatMap((entry) => [section(entry, link), '']),
+		'## Finance',
+		'',
+		...FINANCE.flatMap((entry) => [section(entry, link), '']),
 		'## Primitives',
 		'',
 		'Behaviour for your own components: attachments (`{@attach focusTrap()}`) and helpers.',

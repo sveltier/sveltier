@@ -332,7 +332,7 @@ export const tableUsage = `<script lang="ts">
 <Table caption="Positions" {columns} items={positions} />`;
 
 export const tableColumns = `<script lang="ts">
-  import { Button, Table, type TableColumn } from '@sveltier/ui';
+  import { Button, Delta, Table, type TableColumn } from '@sveltier/ui';
 
   type Position = { symbol: string; quantity: number; cost: number; price: number };
   let { positions, onclose }: { positions: Position[]; onclose: (p: Position) => void } =
@@ -350,7 +350,7 @@ export const tableColumns = `<script lang="ts">
 </script>
 
 {#snippet pnl(p: Position)}
-  <span class={pnlOf(p) < 0 ? 'down' : 'up'}>{pnlOf(p).toFixed(2)}</span>
+  <Delta value={pnlOf(p)} decimals={2} />
 {/snippet}
 
 {#snippet close(p: Position)}
