@@ -350,6 +350,15 @@ export default [
 		// The Field, the placement, the layer stack and the motion are measured apart.
 		name: 'Select',
 		code: "export { Select } from '@sveltier/ui';",
+		limit: '4.8 KB',
+		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
+	},
+	{
+		// Its own code and the list it shares with Select: filtering without case or diacritics,
+		// the keys of the APG combobox with list autocomplete, and the IME guard. The Field, the
+		// placement, the layer stack and the motion are measured apart.
+		name: 'Combobox',
+		code: "export { Combobox } from '@sveltier/ui';",
 		limit: '4.7 KB',
 		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
 	},
@@ -447,6 +456,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '56 KB'
+		limit: '58.5 KB'
 	}
 ];

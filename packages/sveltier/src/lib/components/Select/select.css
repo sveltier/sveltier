@@ -42,6 +42,17 @@
 		transform: rotate(180deg);
 	}
 
+	/* A Combobox's caret opens and closes the list under the pointer. */
+	.sv-combobox__toggle {
+		display: flex;
+		cursor: pointer;
+	}
+
+	.sv-field--disabled .sv-combobox__toggle,
+	.sv-field--readonly .sv-combobox__toggle {
+		cursor: inherit;
+	}
+
 	/* The list: a raised surface of options, as the menu is, scrolling past a short height. */
 	.sv-listbox {
 		--sv-listbox-pad: var(--sv-space-5);

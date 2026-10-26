@@ -193,6 +193,51 @@ export const selectCustom = `<script lang="ts">
   {/snippet}
 </Select>`;
 
+export const comboboxUsage = `<script lang="ts">
+  import { Combobox } from '@sveltier/ui';
+
+  let city = $state<string | null>(null);
+</script>
+
+<!-- Type "sao" for São Paulo or "da nang" for Đà Nẵng: case and diacritics do not matter. -->
+<Combobox
+  label="City"
+  name="city"
+  placeholder="Search cities"
+  items={[
+    { value: 'sao', label: 'São Paulo', description: 'Brazil', group: 'Americas' },
+    { value: 'mtl', label: 'Montréal', description: 'Canada', group: 'Americas' },
+    { value: 'zrh', label: 'Zürich', description: 'Switzerland', group: 'Europe' },
+    { value: 'dad', label: 'Đà Nẵng', description: 'Vietnam', group: 'Asia' }
+  ]}
+  bind:value={city}
+/>`;
+
+export const comboboxRemote = `<script lang="ts">
+  import { Combobox, type SelectItem } from '@sveltier/ui';
+
+  let symbol = $state<string | null>(null);
+  let query = $state('');
+  let found = $state<SelectItem[]>([]);
+  let loading = $state(false);
+
+  // Searching elsewhere: the server filters, the field shows what it found.
+  $effect(() => {
+    const term = query.trim();
+    if (!term) return;
+    loading = true;
+    const controller = new AbortController();
+    fetch(\`/api/symbols?q=\${encodeURIComponent(term)}\`, { signal: controller.signal })
+      .then((response) => response.json())
+      .then((items: SelectItem[]) => (found = items))
+      .catch(() => {})
+      .finally(() => (loading = false));
+    return () => controller.abort();
+  });
+</script>
+
+<Combobox label="Symbol" items={found} filter={false} {loading} bind:query bind:value={symbol} />`;
+
 export const nativeSelectUsage = `<script>
   import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);

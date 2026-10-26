@@ -40,7 +40,9 @@
 			Select is the same choice drawn by the page: groups, descriptions, options of your own, the
 			theme's look in every browser.
 		</li>
-		<li>To search a long list as you type, use a Combobox.</li>
+		<li>
+			To search a long list as you type, use a <a href={resolve('forms/combobox')}>Combobox</a>.
+		</li>
 	</ul>
 
 	<h2 id="validation">Forms and validation</h2>
