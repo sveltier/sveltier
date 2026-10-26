@@ -336,12 +336,29 @@ export default [
 	},
 	{
 		// Parsing in the locale with its range and step checks (about 0.5 KB), stepping by keys and
-		// buttons on the step grid, two named buttons, and the hidden input that submits the plain
-		// number (2.6 KB of JS, 0.6 KB of CSS). The Field and the shared validation are measured apart.
+		// buttons on the step grid or through bands of steps, two named buttons, and the hidden input
+		// that submits the plain number (2.8 KB of JS, 0.6 KB of CSS). The Field and the shared
+		// validation are measured apart.
 		name: 'NumberField',
 		code: "export { NumberField } from '@sveltier/ui';",
-		limit: '3.3 KB',
+		limit: '3.5 KB',
 		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
+	},
+	{
+		// Its own code: the tick's decimals and the smallest tick as the minimum. The NumberField
+		// it renders, bands of steps included, is measured in its own entry.
+		name: 'PriceInput',
+		code: "export { PriceInput } from '@sveltier/ui';",
+		limit: '0.55 KB',
+		external: [/\/core\//, /\/components\/NumberField\//]
+	},
+	{
+		// Its own code: the share buttons and their rounding down to whole steps, and its CSS. The
+		// NumberField and the Button are measured in their own entries.
+		name: 'AmountInput',
+		code: "export { AmountInput } from '@sveltier/ui';",
+		limit: '1.2 KB',
+		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
 		// Its own code, with the growing fallback for browsers without field-sizing, and the radius
@@ -421,6 +438,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '53 KB'
+		limit: '54.5 KB'
 	}
 ];

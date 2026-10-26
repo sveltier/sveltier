@@ -5,7 +5,7 @@
 	import { checkValue, DEV, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { createField } from '../../core/form/field.svelte.js';
-	import { numberConstraintMessage, parseNumber } from '../../core/form/number.js';
+	import { numberConstraintMessage, parseNumber, stepThrough } from '../../core/form/number.js';
 	import type { Rule } from '../../core/form/types.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
@@ -86,7 +86,8 @@
 	const field = createField<number | null>({
 		value: () => parsed,
 		empty: (number) => number === null,
-		check: (number) => numberConstraintMessage(number, { required, min, max, step }, locale),
+		check: (number) =>
+			numberConstraintMessage(number, { required, min, max, step: bands ?? step }, locale),
 		// Rules never see an empty or unreadable value: the checks above stop those first.
 		rules: () => rules as readonly Rule<number | null>[] | undefined,
 		error: () => error,
@@ -110,9 +111,15 @@
 
 	const places = (number: number | undefined) => (String(number ?? '').split('.')[1] ?? '').length;
 	// The keys and buttons move by step, or by 1 when no step is set (and then any number is
-	// valid). Enough decimals for the step and its starting point, so 0.1 + 0.2 lands on 0.3.
-	const increment = $derived(step ?? 1);
-	const decimals = $derived(Math.max(places(increment), places(min)));
+	// valid). Bands of steps are put in order of where they start. Enough decimals for every step
+	// and the starting point, so 0.1 + 0.2 lands on 0.3.
+	const bands = $derived(
+		typeof step === 'object' ? [...step].sort((a, b) => a.from - b.from) : undefined
+	);
+	const increment = $derived(typeof step === 'number' ? step : 1);
+	const decimals = $derived(
+		Math.max(places(min), ...(bands ?? [{ step: increment }]).map((band) => places(band.step)))
+	);
 	const inert = $derived(p.disabled || readonly);
 	const current = $derived(parsed !== null && Number.isFinite(parsed) ? parsed : null);
 
@@ -140,6 +147,12 @@
 		if (inert) return;
 		const start = min ?? 0;
 		if (current === null) return commit(start);
+		if (bands) {
+			const direction = steps > 0 ? 1 : -1;
+			let next = current;
+			for (let i = 0; i < Math.abs(steps); i++) next = stepThrough(bands, next, direction);
+			return commit(next);
+		}
 		const offset = (current - start) / increment;
 		const from = steps > 0 ? Math.floor(offset + 1e-9) : Math.ceil(offset - 1e-9);
 		commit(start + (from + steps) * increment);

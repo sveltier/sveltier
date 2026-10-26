@@ -1,6 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { createLocale } from '../locale/locale.js';
-import { numberConstraintMessage, parseNumber } from './number.js';
+import {
+	numberConstraintMessage,
+	parseNumber,
+	stepAt,
+	stepThrough,
+	type StepBand
+} from './number.js';
+
+// Tick sizes that change with the price, as a stock exchange sets them.
+const TICKS: StepBand[] = [
+	{ from: 0, step: 10 },
+	{ from: 10000, step: 50 },
+	{ from: 50000, step: 100 }
+];
 
 describe('parseNumber', () => {
 	it('reads numbers as the locale writes them', () => {
@@ -48,5 +61,46 @@ describe('numberConstraintMessage', () => {
 		expect(check(3, { min: 1, step: 2 })).toBeUndefined();
 		expect(check(4, { min: 1, step: 2 })).toBe('Enter a value in steps of 2');
 		expect(check(0.3, { step: 0.1 })).toBeUndefined();
+	});
+});
+
+describe('steps that change with the value', () => {
+	const en = createLocale(() => ({}));
+
+	it('finds the step of the band a value is in, and of the band below on its start going down', () => {
+		expect(stepAt(TICKS, 9990)).toBe(10);
+		expect(stepAt(TICKS, 10000)).toBe(50);
+		expect(stepAt(TICKS, 10000, -1)).toBe(10);
+		expect(stepAt(TICKS, 50000, -1)).toBe(50);
+		expect(stepAt(0.25, 7)).toBe(0.25);
+	});
+
+	it('steps up onto the next band and down into the one below', () => {
+		expect(stepThrough(TICKS, 9990, 1)).toBe(10000);
+		expect(stepThrough(TICKS, 10000, 1)).toBe(10050);
+		expect(stepThrough(TICKS, 49950, 1)).toBe(50000);
+		expect(stepThrough(TICKS, 50000, -1)).toBe(49950);
+		expect(stepThrough(TICKS, 10000, -1)).toBe(9990);
+	});
+
+	it('moves a value off the steps to the next step in that direction', () => {
+		expect(stepThrough(TICKS, 10020, 1)).toBe(10050);
+		expect(stepThrough(TICKS, 10020, -1)).toBe(10000);
+	});
+
+	it('lands on the start of the next band rather than past it', () => {
+		const bands: StepBand[] = [
+			{ from: 0, step: 3 },
+			{ from: 10, step: 5 }
+		];
+		expect(stepThrough(bands, 9, 1)).toBe(10);
+	});
+
+	it('wants each value a multiple of its band step, counted from 0', () => {
+		const check = (value: number) => numberConstraintMessage(value, { min: 10, step: TICKS }, en);
+		expect(check(10050)).toBeUndefined();
+		expect(check(9995)).toBe('Enter a value in steps of 10');
+		expect(check(10020)).toBe('Enter a value in steps of 50');
+		expect(check(50050)).toBe('Enter a value in steps of 100');
 	});
 });

@@ -107,6 +107,11 @@ a {
 	font-variant-numeric: tabular-nums;
 }
 
+/* An order ticket: fields one under the other, as wide as a narrow panel. */
+.docs-ticket {
+	max-inline-size: 22rem;
+}
+
 /* A quote: the symbol, a large price and its change, on one baseline. */
 .docs-quote {
 	display: flex;

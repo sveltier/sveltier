@@ -29,6 +29,14 @@
 		keys and buttons move along the steps counted from <code>min</code>, and a typed value between
 		two steps is an error; without it they move by 1 and any number is accepted.
 	</p>
+	<p>
+		A step can change with the value, as a market's tick size changes with the price: give
+		<code>step</code> bands such as
+		<code>[&#123; from: 0, step: 10 &#125;, &#123; from: 10000, step: 50 &#125;]</code>. Each value
+		must then be a multiple of its band's step, and the keys move onto the start of the next band.
+		For prices, <a href={resolve('finance/price-input')}>PriceInput</a> takes the bands as its
+		<code>tick</code>.
+	</p>
 
 	<h2 id="format">Format and currency</h2>
 	<p>
