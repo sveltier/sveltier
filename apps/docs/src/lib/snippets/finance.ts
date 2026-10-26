@@ -40,6 +40,44 @@ export const amountPrivacy = `<script lang="ts">
   <Amount value={balance} format={{ style: 'currency' }} />
 </DefaultsProvider>`;
 
+export const priceInputUsage = `<script lang="ts">
+  import { PriceInput } from '@sveltier/ui';
+
+  let limit = $state<number | null>(null);
+  let price = $state<number | null>(null);
+</script>
+
+<!-- A fixed tick: two decimals, the arrow keys move by 0.01, 61.234 is an error. -->
+<PriceInput label="Limit price" tick={0.01} required bind:value={limit} />
+
+<!-- Ticks that change with the price: 10 below 10,000, 50 up to 50,000, then 100. -->
+<PriceInput
+  label="Price"
+  tick={[
+    { from: 0, step: 10 },
+    { from: 10000, step: 50 },
+    { from: 50000, step: 100 }
+  ]}
+  bind:value={price}
+/>`;
+
+export const amountInputUsage = `<script lang="ts">
+  import { AmountInput } from '@sveltier/ui';
+
+  let { available }: { available: number } = $props();
+  let quantity = $state<number | null>(null);
+</script>
+
+<!-- Lots of 100 out of what is available: 50% of 2,350 sets 1,100. -->
+<AmountInput
+  label="Quantity"
+  step={100}
+  min={100}
+  max={available}
+  required
+  bind:value={quantity}
+/>`;
+
 export const deltaUsage = `<script lang="ts">
   import { Delta } from '@sveltier/ui';
 

@@ -1,0 +1,17 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* The field, then its share buttons in one row of equal widths. */
+	.sv-amount-input {
+		display: grid;
+		gap: var(--sv-space-5);
+		min-inline-size: 0;
+	}
+
+	.sv-amount-input__shares {
+		display: grid;
+		grid-auto-columns: 1fr;
+		grid-auto-flow: column;
+		gap: var(--sv-space-3);
+	}
+}

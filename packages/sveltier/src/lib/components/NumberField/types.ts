@@ -1,4 +1,5 @@
 import type { HTMLInputAttributes } from 'svelte/elements';
+import type { NumberStep } from '../../core/form/number.js';
 import type { Rule, ValidateOn } from '../../core/form/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { FieldContentProps, FieldDefaults } from '../Field/types.js';
@@ -24,8 +25,12 @@ type NumberFieldOwnProps = Partial<NumberFieldDefaults> &
 		 * How far the arrow keys and the buttons move; Page Up and Page Down move ten steps. When
 		 * set, a typed value off the steps, counted from `min`, is an error. When not set, they move
 		 * by 1 and any number is accepted, decimals included.
+		 *
+		 * Bands give a step that changes with the value, as a market's tick size changes with the
+		 * price: `[{ from: 0, step: 10 }, { from: 10000, step: 50 }]`. Each value must then be a
+		 * multiple of its band's step, and the keys move into the next band on its start.
 		 */
-		step?: number;
+		step?: NumberStep;
 		/**
 		 * How the number is written once the user leaves the field, as `Intl.NumberFormat` options
 		 * in the app's locale: digits only, such as `{ minimumFractionDigits: 2 }`, so the user can

@@ -87,6 +87,7 @@ export { ERROR_CODES, type ErrorCode, type ErrorEntry } from './core/errors/code
 
 // Forms: validation types shared by every form control
 export type { FieldError, Rule, ValidateOn } from './core/form/types.js';
+export type { NumberStep, StepBand } from './core/form/number.js';
 
 // Overlays: what an overlay hands to the control that opens it
 export { CLOSE_REASONS, type CloseReason, type TriggerAttributes } from './core/overlay/types.js';
@@ -167,6 +168,7 @@ export {
 } from './components/Accordion/index.js';
 export { Alert, type AlertDefaults, type AlertProps } from './components/Alert/index.js';
 export { Amount, type AmountDefaults, type AmountProps } from './components/Amount/index.js';
+export { AmountInput, type AmountInputProps } from './components/AmountInput/index.js';
 export {
 	AppBar,
 	AppLayout,
@@ -261,6 +263,7 @@ export {
 	type PaginationProps
 } from './components/Pagination/index.js';
 export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
+export { PriceInput, type PriceInputProps } from './components/PriceInput/index.js';
 export {
 	ProgressCircular,
 	ProgressLinear,

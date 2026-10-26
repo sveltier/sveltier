@@ -35,7 +35,9 @@ export const MESSAGES = {
 	// Table: the row shown when there are no items.
 	noData: 'No data',
 	// Amount: what screen readers hear in place of a masked figure.
-	amountHidden: 'Amount hidden'
+	amountHidden: 'Amount hidden',
+	// AmountInput: the name of a share button, whose text is the percentage ("25%").
+	shareOfMax: '{percent} of the maximum'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;
