@@ -54,6 +54,11 @@ export const MESSAGES = {
 	// a number of minutes.
 	badTime: 'Enter a time as {format}',
 	timeStep: 'Enter a time in steps of {step} minutes',
+	// DateTimeField: the names its two inputs add to the field's label, and the check that both
+	// are there.
+	datePart: 'Date',
+	timePart: 'Time',
+	dateTimeIncomplete: 'Enter a date and a time',
 	// DateRangePicker: the names its two dates add to the field's label, its button, and the
 	// order check.
 	rangeStart: 'Start',

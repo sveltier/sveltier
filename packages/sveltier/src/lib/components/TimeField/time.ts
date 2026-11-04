@@ -80,6 +80,47 @@ export function parseTime(
 	return hour * 60 + minute;
 }
 
+/** Where a time steps to, in minutes from midnight. */
+export interface TimeSteps {
+	/** The earliest time, in minutes; the steps count from it. */
+	min?: number | null;
+	/** The latest time, in minutes. */
+	max?: number | null;
+	/** Minutes between the steps. */
+	step?: number;
+}
+
+/**
+ * The time a key moves `minutes` to, as a native time input moves it: ArrowUp and ArrowDown by
+ * a step along the steps counted from `min` (else midnight), Page Up and Page Down by an hour,
+ * Home and End to `min` and `max` when set, always within them. An empty time starts at `min`,
+ * or midnight. `undefined` for any other key.
+ */
+export function stepTime(
+	key: string,
+	minutes: number | null,
+	limits: TimeSteps
+): number | undefined {
+	const every = Math.max(1, Math.round(limits.step ?? 1));
+	const start = limits.min ?? 0;
+	const last = start + Math.floor(((limits.max ?? DAY - 1) - start) / every) * every;
+	const hour = Math.max(1, Math.round(60 / every));
+	const steps: Record<string, number | undefined> = {
+		ArrowUp: 1,
+		ArrowDown: -1,
+		PageUp: hour,
+		PageDown: -hour,
+		Home: limits.min == null ? undefined : -DAY,
+		End: limits.max == null ? undefined : DAY
+	};
+	const count = steps[key];
+	if (count === undefined) return undefined;
+	if (minutes === null) return start;
+	const offset = (minutes - start) / every;
+	const from = count > 0 ? Math.floor(offset) : Math.ceil(offset);
+	return Math.min(last, Math.max(start, start + (from + count) * every));
+}
+
 /** What a time field holds: `HH:mm`, `null` while empty, `undefined` for text that is not a time. */
 export type TypedTime = string | null | undefined;
 

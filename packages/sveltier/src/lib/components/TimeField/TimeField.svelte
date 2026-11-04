@@ -8,7 +8,15 @@
 	import type { Rule } from '../../core/form/types.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
-	import { DAY, parseClock, timeFormat, timeMessage, toClock, type TypedTime } from './time.js';
+	import {
+		DAY,
+		parseClock,
+		stepTime,
+		timeFormat,
+		timeMessage,
+		toClock,
+		type TypedTime
+	} from './time.js';
 	import type { TimeFieldDefaults, TimeFieldProps } from './types.js';
 
 	let {
@@ -127,34 +135,13 @@
 		field.changed();
 	}
 
-	// Moves along the steps counted from min, else from midnight, as a native time input does,
-	// within min and max. Empty starts at min, or midnight.
-	function stepBy(steps: number) {
-		const every = Math.max(1, Math.round(step ?? 1));
-		const start = lowest ?? 0;
-		const last = start + Math.floor(((highest ?? DAY - 1) - start) / every) * every;
-		if (minutes === null) return set(start);
-		const offset = (minutes - start) / every;
-		const from = steps > 0 ? Math.floor(offset) : Math.ceil(offset);
-		set(Math.min(last, Math.max(start, start + (from + steps) * every)));
-	}
-
 	function keydown(event: KeyboardEvent & { currentTarget: EventTarget & HTMLInputElement }) {
 		(onkeydown as ((event: KeyboardEvent) => void) | null | undefined)?.(event);
 		if (event.defaultPrevented || inert) return;
-		const hour = Math.max(1, Math.round(60 / (step ?? 1)));
-		const moves: Record<string, (() => void) | undefined> = {
-			ArrowUp: () => stepBy(1),
-			ArrowDown: () => stepBy(-1),
-			PageUp: () => stepBy(hour),
-			PageDown: () => stepBy(-hour),
-			Home: lowest === null ? undefined : () => set(lowest),
-			End: highest === null ? undefined : () => stepBy(DAY)
-		};
-		const move = moves[event.key];
-		if (!move) return;
+		const next = stepTime(event.key, minutes, { min: lowest, max: highest, step });
+		if (next === undefined) return;
 		event.preventDefault();
-		move();
+		set(next);
 	}
 
 	// Leaving the input finishes the text: hours alone are read now, and the time is written in

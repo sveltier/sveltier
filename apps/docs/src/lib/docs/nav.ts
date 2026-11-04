@@ -97,6 +97,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'DateRangePicker', path: 'forms/date-range-picker' },
 			{ title: 'Calendar', path: 'forms/calendar' },
 			{ title: 'TimeField', path: 'forms/time-field' },
+			{ title: 'DateTimeField', path: 'forms/date-time-field' },
 			{ title: 'Checkbox', path: 'forms/checkbox' },
 			{ title: 'Switch', path: 'forms/switch' },
 			{ title: 'RadioGroup', path: 'forms/radio-group' },

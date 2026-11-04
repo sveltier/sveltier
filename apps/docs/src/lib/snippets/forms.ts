@@ -295,6 +295,18 @@ export const timeFieldUsage = `<script lang="ts">
 <!-- Typed as 9:30, 0930 or 9:30 pm; the arrows move by 15 minutes, within the session. -->
 <TimeField label="Order at" min="09:30" max="16:00" step={15} name="at" bind:value={opens} />`;
 
+export const dateTimeFieldUsage = `<script lang="ts">
+  import { DateTimeField } from '@sveltier/ui';
+
+  // YYYY-MM-DDTHH:mm, local, as <input type="datetime-local"> gives it, or null.
+  let opened = $state<string | null>(null);
+  let closed = $state<string | null>(null);
+</script>
+
+<DateTimeField label="Opened" required name="opened" bind:value={opened} />
+<!-- A trade closes after it opens: the opening time is the earliest the closing one can be. -->
+<DateTimeField label="Closed" min={opened ?? undefined} name="closed" bind:value={closed} />`;
+
 export const nativeSelectUsage = `<script>
   import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);
