@@ -38,7 +38,8 @@ import {
 	sliderUsage,
 	switchUsage,
 	textareaUsage,
-	textFieldValidation
+	textFieldValidation,
+	timeFieldUsage
 } from '#lib/snippets/forms.js';
 import {
 	amountInputUsage,
@@ -195,6 +196,12 @@ const FORMS: Entry[] = [
 		example: dateRangeUsage
 	},
 	{ name: 'Calendar', path: 'forms/calendar', types: ['CalendarProps'], example: calendarUsage },
+	{
+		name: 'TimeField',
+		path: 'forms/time-field',
+		types: ['TimeFieldProps'],
+		example: timeFieldUsage
+	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },
 	{
@@ -289,7 +296,7 @@ const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` wi
 - Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
 - A choice from a list is \`NativeSelect\` (the platform's own picker, best for plain options on phones), \`Select\` (groups, descriptions, options drawn with the \`option\` snippet) or \`Combobox\` (typing searches the list, ignoring case and diacritics; \`filter={false}\` with \`bind:query\` searches a server). Select and Combobox take \`items\` of \`{ value, label, description?, group?, disabled? }\` and \`bind:value\`; build neither from a Menu or a Popover.
-- Dates are ISO strings, \`'YYYY-MM-DD'\`, never \`Date\` objects: \`DatePicker\` (\`bind:value\`, typed in the reader's order or chosen in a calendar), \`DateRangePicker\` (\`bind:start\` and \`bind:end\`) and \`Calendar\` (a month on the page) all take \`min\`, \`max\` and \`isDateDisabled\` (for example a market's weekends and holidays).
+- Dates are ISO strings, \`'YYYY-MM-DD'\`, never \`Date\` objects: \`DatePicker\` (\`bind:value\`, typed in the reader's order or chosen in a calendar), \`DateRangePicker\` (\`bind:start\` and \`bind:end\`) and \`Calendar\` (a month on the page) all take \`min\`, \`max\` and \`isDateDisabled\` (for example a market's weekends and holidays). A time of day is \`'HH:mm'\` on the 24-hour clock, as \`<input type="time">\` gives it: \`TimeField\` (\`bind:value\`, \`min\`, \`max\`, \`step\` in minutes).
 - Defaults for a whole app or section go in the \`defaults\` of \`UIProvider\` or a \`DefaultsProvider\`, by component name; a prop on the component still wins.
 - An app's frame is \`AppLayout\` in the root layout, with \`AppBar\`, \`NavigationDrawer\` (usually a \`List nav\` of links) and \`Main\` inside: they place themselves on a CSS grid, the drawer becomes a modal drawer with a menu button in the bar on small screens, and nothing needs measuring or wiring.
 - Data in rows and columns is a \`Table\` with \`items\` and \`columns\` typed as \`TableColumn<Item>[]\`, rather than a hand-written \`<table>\`: a column's \`key\` is a property of the items (a typo is a type error that lists the real ones), an \`id\` with \`value\` computes one, and a \`cell\` snippet renders content of its own. \`sort: true\` sorts from the header, numbers line up at the end, and the header stays in view while the table scrolls.

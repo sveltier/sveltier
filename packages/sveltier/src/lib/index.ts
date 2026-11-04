@@ -354,4 +354,9 @@ export {
 	type TextFieldProps,
 	type TextFieldType
 } from './components/TextField/index.js';
+export {
+	TimeField,
+	type TimeFieldDefaults,
+	type TimeFieldProps
+} from './components/TimeField/index.js';
 export { Tooltip, type TooltipDefaults, type TooltipProps } from './components/Tooltip/index.js';

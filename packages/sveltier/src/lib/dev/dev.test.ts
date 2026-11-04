@@ -30,7 +30,7 @@ describe('development checks', () => {
 	it('warn about a date that is not an ISO date, but not about none', () => {
 		on.checkDate('DatePicker', 'min', '2026-10-26T09:30:00Z');
 		expect(warn).toHaveBeenCalledWith(
-			`[sveltier SV5002] <DatePicker> got min="2026-10-26T09:30:00Z", which is not a date as YYYY-MM-DD. Pass an ISO date with no time, such as "2026-10-26", or null for none. https://sveltier.com/errors#SV5002`
+			`[sveltier SV5002] <DatePicker> got min="2026-10-26T09:30:00Z", which is not a date as YYYY-MM-DD. Pass one such as "2026-10-26", with no time zone, or null for none. https://sveltier.com/errors#SV5002`
 		);
 		warn.mockClear();
 		for (const value of ['2026-10-26', '', null, undefined])
@@ -38,6 +38,16 @@ describe('development checks', () => {
 		expect(warn).not.toHaveBeenCalled();
 		on.checkDate('Calendar', 'value', '2026-02-30');
 		expect(warn).toHaveBeenCalledOnce();
+		warn.mockClear();
+		on.checkDate('TimeField', 'min', '09:30', 'time');
+		on.checkDate('DateTimeField', 'max', '2026-10-26T09:30', 'date-time');
+		expect(warn).not.toHaveBeenCalled();
+		on.checkDate('TimeField', 'max', '9:30', 'time');
+		on.checkDate('DateTimeField', 'value', '2026-10-26T09:30:00Z', 'date-time');
+		expect(String(warn.mock.calls[0]?.[0])).toContain(
+			'<TimeField> got max="9:30", which is not a time as HH:mm.'
+		);
+		expect(warn).toHaveBeenCalledTimes(2);
 	});
 
 	it('warn once per message', () => {
