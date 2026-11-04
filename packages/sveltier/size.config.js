@@ -20,10 +20,12 @@ export default [
 	{
 		// 3.9 KB for theme, defaults, display and locale. UIProvider also brings the toasts (about
 		// 2.9 KB: the queue and timers, the outlet with its live regions and keyboard, and the
-		// motion it uses), so useToast() works anywhere below it with nothing to add.
+		// motion it uses), so useToast() works anywhere below it with nothing to add. The locale's
+		// messages live here, all of them, so an app can translate any: they grow a little with
+		// each component that speaks.
 		name: 'core JS (UIProvider: theme, defaults, display, locale, toasts)',
 		code: "export { UIProvider, ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from '@sveltier/ui';",
-		limit: '7 KB',
+		limit: '7.3 KB',
 		measure: 'js'
 	},
 	{
@@ -354,6 +356,34 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
 	},
 	{
+		// Its own code and the month grid it shares with the pickers: dates in UTC, the APG grid
+		// keys, the locale's names and first day of the week in Gregorian years and Latin digits,
+		// today in the locale's time zone, a selected range, and the CSS. The Button is measured
+		// apart.
+		name: 'Calendar',
+		code: "export { Calendar } from '@sveltier/ui';",
+		limit: '4.4 KB',
+		external: [/\/core\//, /\/components\/Button\//]
+	},
+	{
+		// Its own code, the month grid and the date checks: reading a date typed in the locale's
+		// order, with or without separators, a two-digit year only once the field is left, the
+		// messages, a form reset, the popover wiring. The Field, the Popover and the Button are
+		// measured apart.
+		name: 'DatePicker',
+		code: "export { DatePicker } from '@sveltier/ui';",
+		limit: '6.2 KB',
+		external: [/\/core\//, /\/components\/(Field|Popover|Button)\//]
+	},
+	{
+		// As DatePicker, with two dates, their names, the order check, and moving from one date to
+		// the other without leaving the field.
+		name: 'DateRangePicker',
+		code: "export { DateRangePicker } from '@sveltier/ui';",
+		limit: '7 KB',
+		external: [/\/core\//, /\/components\/(Field|Popover|Button)\//]
+	},
+	{
 		// Its own code and the list it shares with Select: filtering without case or diacritics,
 		// the keys of the APG combobox with list autocomplete, and the IME guard. The Field, the
 		// placement, the layer stack and the motion are measured apart.
@@ -456,6 +486,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '58.5 KB'
+		limit: '64 KB'
 	}
 ];

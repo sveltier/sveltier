@@ -238,6 +238,53 @@ export const comboboxRemote = `<script lang="ts">
 
 <Combobox label="Symbol" items={found} filter={false} {loading} bind:query bind:value={symbol} />`;
 
+export const datePickerUsage = `<script lang="ts">
+  import { DatePicker } from '@sveltier/ui';
+
+  // An ISO date, 'YYYY-MM-DD', or null: no time zone moves it across midnight.
+  let day = $state<string | null>(null);
+</script>
+
+<!-- Typed in the reader's order (10/26/2026 here, 26/10/2026 in en-GB), or chosen in the calendar. -->
+<DatePicker label="Trade date" name="day" required bind:value={day} />`;
+
+export const datePickerTradingDays = `<script lang="ts">
+  import { DatePicker } from '@sveltier/ui';
+
+  const HOLIDAYS = new Set(['2026-12-25', '2027-01-01']);
+  // Markets close on weekends and holidays: those days can be reached, not chosen.
+  const closed = (date: string) => [0, 6].includes(new Date(date).getUTCDay()) || HOLIDAYS.has(date);
+
+  let day = $state<string | null>(null);
+</script>
+
+<DatePicker
+  label="Settlement date"
+  min="2026-10-01"
+  max="2027-03-31"
+  isDateDisabled={closed}
+  bind:value={day}
+/>`;
+
+export const dateRangeUsage = `<script lang="ts">
+  import { DateRangePicker } from '@sveltier/ui';
+
+  let start = $state<string | null>(null);
+  let end = $state<string | null>(null);
+</script>
+
+<!-- The first day chosen is the start, the second the end; the form gets both under one name. -->
+<DateRangePicker label="Holding period" name="period" bind:start bind:end />`;
+
+export const calendarUsage = `<script lang="ts">
+  import { Calendar } from '@sveltier/ui';
+
+  let day = $state<string | null>('2026-10-26');
+</script>
+
+<!-- A month on the page, as a dashboard shows the day it reports on. -->
+<Calendar aria-label="Report day" bind:value={day} />`;
+
 export const nativeSelectUsage = `<script>
   import { NativeSelect } from '@sveltier/ui';
   let country = $state(null);

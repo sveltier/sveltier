@@ -2,6 +2,7 @@
 // server, Vitest) bundlers load this module; production builds and plain Node load ./off.js,
 // whose functions do nothing. Callers also guard with `if (DEV)`, so production bundles drop
 // the calls as well.
+import { parseIso } from '../components/Calendar/dates.js';
 import type { ErrorCode } from '../core/errors/codes.js';
 import { ERRORS_URL } from '../core/errors/errors.js';
 
@@ -35,6 +36,20 @@ export function checkValue(
 	warn(
 		'SV2002',
 		`<${component}> got ${prop}=${got}. Valid values: ${valid.map(show).join(' | ')}.${hint ? ` ${hint}` : ''}`
+	);
+}
+
+/**
+ * Warns when a date prop is not an ISO date, `YYYY-MM-DD`: a `Date`, a timestamp, a date in
+ * another order or a day that does not exist, which the date components cannot read. An empty
+ * string means no date.
+ */
+export function checkDate(component: string, prop: string, value: unknown): void {
+	if (value == null || value === '' || (typeof value === 'string' && parseIso(value))) return;
+	const got = typeof value === 'string' ? `"${value}"` : `{${String(value)}}`;
+	warn(
+		'SV5002',
+		`<${component}> got ${prop}=${got}, which is not a date as YYYY-MM-DD. Pass an ISO date with no time, such as "2026-10-26", or null for none.`
 	);
 }
 

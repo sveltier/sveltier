@@ -1,0 +1,5 @@
+---
+'@sveltier/ui': minor
+---
+
+Calendar, DatePicker and DateRangePicker, on one month grid. Values are ISO dates (`YYYY-MM-DD`), which no time zone moves across midnight. DatePicker reads a date typed in the reader's order, with any separators or none, or starting with a four-digit year as ISO does; a two-digit year is read when the field is left, so the value never passes through 2020 on the way to 2026. Leaving the field writes the date back in the locale's format, in Gregorian years and Latin digits whatever the locale, and a button opens a Calendar in a popover. DateRangePicker holds a start and an end (`bind:start`, `bind:end`), chosen in one calendar, and submits both under one name. All three take `min`, `max`, `isDateDisabled` (a market's weekends and holidays, say) and `firstDayOfWeek`, which defaults to the locale's. The grid follows the APG date picker: arrows by day and week, Home and End to the week's ends, Page keys by month and with Shift by year, every day named with its full date, and in a range every day selected. A date prop that is not `YYYY-MM-DD`, such as a timestamp, warns in development (SV5002).

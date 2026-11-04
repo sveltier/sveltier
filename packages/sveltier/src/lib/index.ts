@@ -193,6 +193,13 @@ export {
 	type ButtonGroupDefaults,
 	type ButtonGroupProps
 } from './components/ButtonGroup/index.js';
+export {
+	Calendar,
+	WEEKDAYS,
+	type CalendarProps,
+	type DateLimits,
+	type Weekday
+} from './components/Calendar/index.js';
 export { Card, type CardDefaults, type CardProps } from './components/Card/index.js';
 export {
 	Checkbox,
@@ -205,6 +212,17 @@ export {
 	type ComboboxDefaults,
 	type ComboboxProps
 } from './components/Combobox/index.js';
+export {
+	DatePicker,
+	type DatePickerDefaults,
+	type DatePickerProps
+} from './components/DatePicker/index.js';
+export {
+	DateRangePicker,
+	type DateRange,
+	type DateRangePickerDefaults,
+	type DateRangePickerProps
+} from './components/DateRangePicker/index.js';
 export { Delta, type DeltaDefaults, type DeltaProps } from './components/Delta/index.js';
 export { Dialog, type DialogDefaults, type DialogProps } from './components/Dialog/index.js';
 export { Divider, type DividerProps } from './components/Divider/index.js';
