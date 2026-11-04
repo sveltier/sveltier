@@ -117,7 +117,12 @@
 
 	const enter: Attachment<HTMLElement> = (menu) => {
 		menu.showPopover();
-		focusEnd(menu);
+	};
+
+	// It reads `open`, so it runs again when the menu is opened while still closing: the block
+	// then keeps the same menu and reverses its transition instead of making a new one.
+	const focusIn: Attachment<HTMLElement> = (menu) => {
+		if (open) focusEnd(menu);
 	};
 
 	// Tab and Shift+Tab close the menu once focus has moved on: the menu turns inert as it fades,
@@ -171,6 +176,7 @@
 		{@attach rovingFocus({ orientation: 'vertical' })}
 		{@attach typeahead()}
 		{@attach enter}
+		{@attach focusIn}
 		onkeydown={tab}
 		transition:pop
 	>

@@ -73,11 +73,17 @@
 		onclose?.(reason);
 	}
 
-	// In the top layer, with focus on the element marked autofocus, else the first that takes
-	// it, else the panel itself.
+	// In the top layer.
 	const show: Attachment<HTMLElement> = (panel) => {
 		panel.showPopover();
 		if (DEV) warnUnnamed('Popover', panel, 'a title');
+	};
+
+	// Focus on the element marked autofocus, else the first that takes it, else the panel itself.
+	// It reads `open`, so it runs again when the panel is opened while still closing: the block
+	// then keeps the same panel and reverses its transition instead of making a new one.
+	const enter: Attachment<HTMLElement> = (panel) => {
+		if (!open) return;
 		const target = panel.querySelector<HTMLElement>('[autofocus]') ?? tabbable(panel)[0] ?? panel;
 		target.focus({ preventScroll: true });
 	};
@@ -96,6 +102,7 @@
 		popover="manual"
 		class={['sv-popover', sharedClasses(p, 'Popover'), className]}
 		{@attach show}
+		{@attach enter}
 		{@attach anchored({ anchor, side, align, offset })}
 		{@attach dismissable({
 			onDismiss: close,

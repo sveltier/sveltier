@@ -105,4 +105,16 @@ describe('Menu', () => {
 		await expect.element(shown('reason')).toHaveTextContent('outside');
 		await expect.element(shown('chosen')).toHaveTextContent('');
 	});
+
+	it('gives focus to its first item again when opened while it is still closing', async () => {
+		await render(MenuHarness);
+		await trigger().click();
+		await expect.element(item('Rename F2')).toHaveFocus();
+		await userEvent.keyboard('{Escape}');
+		await expect.element(trigger()).toHaveFocus();
+		// Still on its way out: the same menu comes back, and focus goes into it again.
+		(trigger().element() as HTMLElement).click();
+		await expect.element(item('Rename F2')).toHaveFocus();
+		await expect.element(menu()).toBeVisible();
+	});
 });
