@@ -215,6 +215,32 @@ test('a date picker reads a typed date, and chooses one in its calendar', async 
 	await expect(page.getByText('value: 2026-10-28')).toBeVisible();
 });
 
+test('a time field reads a typed time, and steps by its step', async ({ page }) => {
+	await open(page, '/forms/time-field');
+	const field = page.getByRole('spinbutton', { name: 'Order at' });
+	await expect(field).toHaveValue('09:30 AM');
+	await field.fill('2:15 pm');
+	await field.press('Tab');
+	await expect(field).toHaveValue('02:15 PM');
+	await expect(page.getByText('value: 14:15')).toBeVisible();
+	await field.focus();
+	await page.keyboard.press('ArrowUp');
+	await expect(field).toHaveValue('02:30 PM');
+	await expect(page.getByText('value: 14:30')).toBeVisible();
+});
+
+test('a date-time field sets its value once the date and the time are there', async ({ page }) => {
+	await open(page, '/forms/date-time-field');
+	const date = page.getByRole('textbox', { name: 'Closed Date' });
+	const time = page.getByRole('spinbutton', { name: 'Closed Time' });
+	await date.fill('10/27/2026');
+	await expect(page.getByText('closed: null')).toBeVisible();
+	await time.fill('16:00');
+	await time.press('Tab');
+	await expect(time).toHaveValue('04:00 PM');
+	await expect(page.getByText('closed: 2026-10-27T16:00')).toBeVisible();
+});
+
 test('a date range picker takes its start and end from one calendar', async ({ page }) => {
 	await open(page, '/forms/date-range-picker');
 	const start = page.getByRole('textbox', { name: 'Holding period Start' });
