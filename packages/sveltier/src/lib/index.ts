@@ -213,6 +213,12 @@ export {
 	type ComboboxProps
 } from './components/Combobox/index.js';
 export {
+	CommandPalette,
+	type CommandItem,
+	type CommandPaletteDefaults,
+	type CommandPaletteProps
+} from './components/CommandPalette/index.js';
+export {
 	ContextMenu,
 	type ContextMenuDefaults,
 	type ContextMenuProps,

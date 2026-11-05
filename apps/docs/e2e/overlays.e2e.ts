@@ -65,6 +65,14 @@ for (const colorScheme of ['light', 'dark'] as const) {
 		expect(await violations(page)).toEqual([]);
 	});
 
+	test(`an open command palette has no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/command-palette');
+		await page.getByRole('button', { name: /Search/ }).click();
+		await expect(page.getByRole('dialog', { name: 'Go to' })).toBeVisible();
+		expect(await violations(page)).toEqual([]);
+	});
+
 	test(`a shown tooltip has no axe violations (${colorScheme})`, async ({ page }) => {
 		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 		await open(page, '/overlays/tooltip');
@@ -191,4 +199,22 @@ test('a context menu opens on the row right-clicked and acts on that row', async
 	await expect(menu).not.toBeVisible();
 	await expect(row).toHaveCount(0);
 	await expect(page.getByText('"cancel O-1043"')).toBeVisible();
+});
+
+test('Ctrl+K opens the command palette, and a few letters and Enter run a command', async ({
+	page
+}) => {
+	await open(page, '/overlays/command-palette');
+	// Mod is ⌘ where the browser says it runs on Apple's platforms, as WebKit's does here.
+	const apple = await page.evaluate(() => /Mac|iPhone|iPad/.test(navigator.userAgent));
+	await page.keyboard.press(apple ? 'Meta+k' : 'Control+k');
+	const palette = page.getByRole('dialog', { name: 'Go to' });
+	await expect(palette).toBeVisible();
+	const search = page.getByRole('combobox', { name: 'Go to' });
+	await expect(search).toBeFocused();
+	await page.keyboard.type('sol perp');
+	await expect(palette.getByRole('option')).toHaveCount(1);
+	await page.keyboard.press('Enter');
+	await expect(palette).not.toBeVisible();
+	await expect(page.getByText('"/m/sol-usdt"')).toBeVisible();
 });

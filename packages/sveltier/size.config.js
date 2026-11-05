@@ -463,6 +463,16 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// The modal shell it shares with Dialog (about 2.6 KB with its CSS), the list helpers it
+		// shares with Select and Combobox, and its own code (about 3 KB with 0.8 KB of CSS): the
+		// search box, filtering, the keys, the shortcut and the rows with their groups, icons and
+		// shortcuts.
+		name: 'CommandPalette',
+		code: "export { CommandPalette } from '@sveltier/ui';",
+		limit: '5.9 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		// Its own code: which numbers show, the steps, and two Buttons with their props each (1.55
 		// KB of JS), and 0.4 KB of CSS. The Buttons themselves are measured in their own entry.
 		name: 'Pagination',
@@ -513,6 +523,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '68 KB'
+		limit: '69.5 KB'
 	}
 ];
