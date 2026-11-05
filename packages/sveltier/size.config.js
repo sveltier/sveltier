@@ -444,13 +444,22 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
-		// Its own code: the entries grouped under their headings (2 KB of JS, most of it the compiled
-		// rows with their icon and shortcut), the trigger's arrow keys, choosing and closing, and
-		// 0.8 KB of CSS. Roving focus, typeahead, placement, the layer stack and the motion are
+		// Its own code: the panel it shares with ContextMenu, with the entries grouped under their
+		// headings (2.2 KB of JS, most of it the compiled rows with their icon and shortcut), the
+		// trigger's arrow keys, choosing and closing, and 0.8 KB of CSS. Roving focus, typeahead, placement, the layer stack and the motion are
 		// primitives, measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '2.9 KB',
+		limit: '3.1 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
+		// Menu's panel and CSS, which it shares (about 3 KB with them), and its own code: where it
+		// opens, kept in the viewport, the right click and the keys on its targets, choosing and
+		// closing.
+		name: 'ContextMenu',
+		code: "export { ContextMenu } from '@sveltier/ui';",
+		limit: '3.4 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -504,6 +513,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '67 KB'
+		limit: '68 KB'
 	}
 ];
