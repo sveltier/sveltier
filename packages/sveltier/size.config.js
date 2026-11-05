@@ -384,6 +384,24 @@ export default [
 		external: [/\/core\//, /\/components\/(Field|Popover|Button)\//]
 	},
 	{
+		// Its own code and the time checks: reading a time typed in any common way, the locale's
+		// format and day periods, the spinbutton keys, the messages, a form reset. The Field is
+		// measured apart.
+		name: 'TimeField',
+		code: "export { TimeField } from '@sveltier/ui';",
+		limit: '3 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
+		// The date of a DatePicker and the time of a TimeField in one field, with the month grid,
+		// both checks and the popover wiring. The Field, the Popover and the Button are measured
+		// apart.
+		name: 'DateTimeField',
+		code: "export { DateTimeField } from '@sveltier/ui';",
+		limit: '8 KB',
+		external: [/\/core\//, /\/components\/(Field|Popover|Button)\//]
+	},
+	{
 		// Its own code and the list it shares with Select: filtering without case or diacritics,
 		// the keys of the APG combobox with list autocomplete, and the IME guard. The Field, the
 		// placement, the layer stack and the motion are measured apart.
@@ -486,6 +504,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '64 KB'
+		limit: '67 KB'
 	}
 ];

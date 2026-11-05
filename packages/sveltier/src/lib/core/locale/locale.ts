@@ -46,9 +46,19 @@ export const MESSAGES = {
 	nextMonth: 'Next month',
 	chooseDate: 'Choose a date',
 	badDate: 'Enter a date as {format}',
-	dateTooEarly: 'Enter {min} or later',
-	dateTooLate: 'Enter {max} or earlier',
 	dateUnavailable: 'This date cannot be chosen',
+	// Dates and times before min or after max, written in the locale's format.
+	tooEarly: 'Enter {min} or later',
+	tooLate: 'Enter {max} or earlier',
+	// TimeField: {format} is the locale's time written with hh and mm, as "hh:mm AM"; {step} is
+	// a number of minutes.
+	badTime: 'Enter a time as {format}',
+	timeStep: 'Enter a time in steps of {step} minutes',
+	// DateTimeField: the names its two inputs add to the field's label, and the check that both
+	// are there.
+	datePart: 'Date',
+	timePart: 'Time',
+	dateTimeIncomplete: 'Enter a date and a time',
 	// DateRangePicker: the names its two dates add to the field's label, its button, and the
 	// order check.
 	rangeStart: 'Start',

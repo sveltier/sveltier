@@ -66,8 +66,8 @@ export function dateMessage(
 	if (typed === null) return checks.required ? locale.t('required') : undefined;
 	const min = parseIso(checks.min) && checks.min;
 	const max = parseIso(checks.max) && checks.max;
-	if (min && typed < min) return locale.t('dateTooEarly', { min: format.show(min) });
-	if (max && typed > max) return locale.t('dateTooLate', { max: format.show(max) });
+	if (min && typed < min) return locale.t('tooEarly', { min: format.show(min) });
+	if (max && typed > max) return locale.t('tooLate', { max: format.show(max) });
 	if (checks.isDateDisabled?.(typed)) return locale.t('dateUnavailable');
 	return undefined;
 }

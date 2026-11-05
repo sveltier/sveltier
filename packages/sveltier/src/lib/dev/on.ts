@@ -3,6 +3,7 @@
 // whose functions do nothing. Callers also guard with `if (DEV)`, so production bundles drop
 // the calls as well.
 import { parseIso } from '../components/Calendar/dates.js';
+import { parseClock } from '../components/TimeField/time.js';
 import type { ErrorCode } from '../core/errors/codes.js';
 import { ERRORS_URL } from '../core/errors/errors.js';
 
@@ -39,17 +40,39 @@ export function checkValue(
 	);
 }
 
+// The forms of the date and time props, as the native date, time and datetime-local inputs
+// write them, with an example of each.
+const FORMS = {
+	date: { pattern: 'YYYY-MM-DD', example: '2026-10-26', read: (text: string) => !!parseIso(text) },
+	time: { pattern: 'HH:mm', example: '09:30', read: (text: string) => parseClock(text) !== null },
+	'date-time': {
+		pattern: 'YYYY-MM-DDTHH:mm',
+		example: '2026-10-26T09:30',
+		read: (text: string) => {
+			const [date, time, extra] = text.split('T');
+			return extra === undefined && !!parseIso(date) && parseClock(time) !== null;
+		}
+	}
+};
+
 /**
- * Warns when a date prop is not an ISO date, `YYYY-MM-DD`: a `Date`, a timestamp, a date in
- * another order or a day that does not exist, which the date components cannot read. An empty
- * string means no date.
+ * Warns when a date or time prop is not in the form the components read: `YYYY-MM-DD` for a
+ * date, `HH:mm` for a time, `YYYY-MM-DDTHH:mm` for both. A `Date`, a timestamp, another order or
+ * a day that does not exist cannot be read. An empty string means none.
  */
-export function checkDate(component: string, prop: string, value: unknown): void {
-	if (value == null || value === '' || (typeof value === 'string' && parseIso(value))) return;
+export function checkDate(
+	component: string,
+	prop: string,
+	value: unknown,
+	kind: keyof typeof FORMS = 'date'
+): void {
+	const form = FORMS[kind];
+	if (value == null || value === '' || (typeof value === 'string' && form.read(value))) return;
 	const got = typeof value === 'string' ? `"${value}"` : `{${String(value)}}`;
+	const what = kind === 'date' ? 'a date' : kind === 'time' ? 'a time' : 'a date and time';
 	warn(
 		'SV5002',
-		`<${component}> got ${prop}=${got}, which is not a date as YYYY-MM-DD. Pass an ISO date with no time, such as "2026-10-26", or null for none.`
+		`<${component}> got ${prop}=${got}, which is not ${what} as ${form.pattern}. Pass one such as "${form.example}", with no time zone, or null for none.`
 	);
 }
 

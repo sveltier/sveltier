@@ -150,10 +150,10 @@ export const ERROR_CODES = {
 	},
 	SV5002: {
 		kind: 'warning',
-		title: 'Date that is not an ISO date',
+		title: 'Date or time not in the form the components read',
 		cause:
-			'The date components take and give dates as ISO strings, `YYYY-MM-DD`, with no time and no time zone. A `Date`, a timestamp such as `2026-10-26T09:30:00Z`, a date in another order or a day that does not exist cannot be read: the calendar leaves it out and the field does not check against it.',
-		fix: "Pass the date as `YYYY-MM-DD`, such as `'2026-10-26'`, or `null` for none. From a `Date`, join its own year, month and day: `[d.getFullYear(), d.getMonth() + 1, d.getDate()].map((n) => String(n).padStart(2, '0')).join('-')`. Its `toISOString()` gives the day in UTC, which can be the day before or after."
+			'The date and time components take and give the strings the native inputs use, with no time zone: a date as `YYYY-MM-DD`, a time as `HH:mm`, both as `YYYY-MM-DDTHH:mm`. A `Date`, a timestamp such as `2026-10-26T09:30:00Z`, another order or a day that does not exist cannot be read: the calendar leaves it out and the field does not check against it.',
+		fix: "Pass `'2026-10-26'`, `'09:30'` or `'2026-10-26T09:30'`, or `null` for none. From a `Date`, use its own local parts: `[d.getFullYear(), d.getMonth() + 1, d.getDate()].map((n) => String(n).padStart(2, '0')).join('-')` for the day, and the hours and minutes the same way. Its `toISOString()` is in UTC, which can be another day and hour."
 	}
 } as const satisfies Record<`SV${number}`, ErrorEntry>;
 

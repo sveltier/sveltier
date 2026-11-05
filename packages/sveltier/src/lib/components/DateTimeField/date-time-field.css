@@ -1,0 +1,16 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A date and a time share the box, the date given the golden share of its width. */
+	.sv-date-time-field .sv-field__control {
+		min-inline-size: 0;
+	}
+
+	.sv-date-time-field__date {
+		flex: 1.618 1 0;
+	}
+
+	.sv-date-time-field__time {
+		flex: 1 1 0;
+	}
+}
