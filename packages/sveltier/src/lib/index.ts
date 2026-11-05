@@ -213,6 +213,12 @@ export {
 	type ComboboxProps
 } from './components/Combobox/index.js';
 export {
+	ContextMenu,
+	type ContextMenuDefaults,
+	type ContextMenuProps,
+	type ContextMenuTargetAttributes
+} from './components/ContextMenu/index.js';
+export {
 	DatePicker,
 	type DatePickerDefaults,
 	type DatePickerProps

@@ -112,6 +112,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'Sheet', path: 'overlays/sheet' },
 			{ title: 'Popover', path: 'overlays/popover' },
 			{ title: 'Menu', path: 'overlays/menu' },
+			{ title: 'ContextMenu', path: 'overlays/context-menu' },
 			{ title: 'Tooltip', path: 'overlays/tooltip' },
 			{ title: 'Toast', path: 'overlays/toast' }
 		]

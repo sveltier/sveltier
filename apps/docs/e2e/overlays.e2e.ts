@@ -57,6 +57,14 @@ for (const colorScheme of ['light', 'dark'] as const) {
 		expect(await violations(page)).toEqual([]);
 	});
 
+	test(`an open context menu has no axe violations (${colorScheme})`, async ({ page }) => {
+		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+		await open(page, '/overlays/context-menu');
+		await page.getByRole('row', { name: /ETH\/USDT/ }).click({ button: 'right' });
+		await expect(page.getByRole('menu', { name: 'Order actions' })).toBeVisible();
+		expect(await violations(page)).toEqual([]);
+	});
+
 	test(`a shown tooltip has no axe violations (${colorScheme})`, async ({ page }) => {
 		await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
 		await open(page, '/overlays/tooltip');
@@ -168,4 +176,19 @@ test('a menu opens from the keyboard and runs the chosen action', async ({ page 
 	await expect(menu).toBeHidden();
 	await expect(trigger).toBeFocused();
 	await expect(page.getByText('"duplicate"')).toBeVisible();
+});
+
+test('a context menu opens on the row right-clicked and acts on that row', async ({ page }) => {
+	await open(page, '/overlays/context-menu');
+	const row = page.getByRole('row', { name: /ETH\/USDT/ });
+	await row.click({ button: 'right' });
+	const menu = page.getByRole('menu', { name: 'Order actions' });
+	await expect(menu).toBeVisible();
+	await expect(menu.getByRole('group', { name: 'O-1043' })).toBeVisible();
+	await expect(page.getByRole('menuitem', { name: 'Copy id Ctrl+C' })).toBeFocused();
+	await page.keyboard.press('End');
+	await page.keyboard.press('Enter');
+	await expect(menu).not.toBeVisible();
+	await expect(row).toHaveCount(0);
+	await expect(page.getByText('"cancel O-1043"')).toBeVisible();
 });
