@@ -256,6 +256,6 @@
 			bind:value={() => text, read}
 			onkeydown={keydown}
 		/>
-		{#if name}<input type="hidden" {name} value={current ?? ''} />{/if}
+		{#if name}<input type="hidden" {name} disabled={p.disabled} value={current ?? ''} />{/if}
 	{/snippet}
 </Field>

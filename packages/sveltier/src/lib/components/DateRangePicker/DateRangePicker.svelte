@@ -283,8 +283,8 @@
 			bind:value={() => endText, (text) => read('end', text)}
 		/>
 		{#if name}
-			<input type="hidden" {name} value={start ?? ''} />
-			<input type="hidden" {name} value={end ?? ''} />
+			<input type="hidden" {name} disabled={p.disabled} value={start ?? ''} />
+			<input type="hidden" {name} disabled={p.disabled} value={end ?? ''} />
 		{/if}
 	{/snippet}
 </Field>

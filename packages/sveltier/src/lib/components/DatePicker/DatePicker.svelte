@@ -209,6 +209,6 @@
 			placeholder={placeholder ?? format.pattern}
 			bind:value={() => text, read}
 		/>
-		{#if name}<input type="hidden" {name} value={value ?? ''} />{/if}
+		{#if name}<input type="hidden" {name} disabled={p.disabled} value={value ?? ''} />{/if}
 	{/snippet}
 </Field>

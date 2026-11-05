@@ -95,4 +95,19 @@ describe('Popover', () => {
 		await userEvent.keyboard('{Escape}');
 		await expect.element(trigger()).toHaveFocus();
 	});
+
+	it('takes focus again when opened while it is still closing', async () => {
+		await render(PopoverHarness);
+		await trigger().click();
+		await expect.element(field()).toHaveFocus();
+		await userEvent.keyboard('{Escape}');
+		await expect.element(trigger()).toHaveFocus();
+		// Still on its way out: the same panel comes back, and focus goes into it again.
+		(trigger().element() as HTMLElement).click();
+		await expect.element(field()).toHaveFocus();
+		await expect.element(popover()).toBeVisible();
+		await userEvent.keyboard('{Escape}');
+		await expect.element(popover()).not.toBeInTheDocument();
+		await expect.element(trigger()).toHaveFocus();
+	});
 });
