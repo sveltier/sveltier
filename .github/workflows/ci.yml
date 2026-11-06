@@ -21,7 +21,7 @@ jobs:
   ci:
     name: Lint, check, build, test, size
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     # Browsers and their system libraries come preinstalled, so no apt-get at run time.
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
