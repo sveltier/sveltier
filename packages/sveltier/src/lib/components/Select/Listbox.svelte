@@ -6,7 +6,7 @@
 	import { anchored } from '../../primitives/anchored/anchored.js';
 	import { dismissable, type DismissReason } from '../../primitives/layer/dismissable.js';
 	import { pop } from '../../primitives/motion/motion.js';
-	import type { SelectItem } from './options.js';
+	import { groupRuns, type SelectItem } from './options.js';
 
 	let {
 		id,
@@ -39,16 +39,7 @@
 		onclose: (reason: DismissReason) => void;
 	} = $props();
 
-	// Runs of options under the same group, each option with its index in `items`.
-	const runs = $derived.by(() => {
-		const list: Array<{ group?: string; entries: Array<{ item: I; index: number }> }> = [];
-		items.forEach((item, index) => {
-			const last = list.at(-1);
-			if (last && last.group === item.group) last.entries.push({ item, index });
-			else list.push({ group: item.group, entries: [{ item, index }] });
-		});
-		return list;
-	});
+	const runs = $derived(groupRuns(items));
 
 	let list = $state<HTMLElement | null>(null);
 

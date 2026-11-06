@@ -12,7 +12,7 @@ export interface SelectItem<T extends string | number = string> {
 }
 
 /** The items with each group gathered where it first appears, the order the list shows. */
-export function inGroupOrder<I extends SelectItem<string | number>>(items: readonly I[]): I[] {
+export function inGroupOrder<I extends { group?: string }>(items: readonly I[]): I[] {
 	if (!items.some((item) => item.group !== undefined)) return [...items];
 	const groups = new Map<string | undefined, I[]>();
 	for (const item of items) {
@@ -24,7 +24,7 @@ export function inGroupOrder<I extends SelectItem<string | number>>(items: reado
 }
 
 /** The index of the first or the last enabled item, or -1. */
-export function edge(items: readonly SelectItem<string | number>[], end: 'first' | 'last'): number {
+export function edge(items: readonly { disabled?: boolean }[], end: 'first' | 'last'): number {
 	if (end === 'first') return items.findIndex((item) => !item.disabled);
 	for (let index = items.length - 1; index >= 0; index--) {
 		if (!items[index]!.disabled) return index;
@@ -37,7 +37,7 @@ export function edge(items: readonly SelectItem<string | number>[], end: 'first'
  * the arrows move by 1, Page Up and Page Down by 10.
  */
 export function moveBy(
-	items: readonly SelectItem<string | number>[],
+	items: readonly { disabled?: boolean }[],
 	from: number,
 	delta: number
 ): number {
@@ -82,12 +82,33 @@ export function fold(text: string): string {
 }
 
 /**
+ * Whether every word of `query` appears in `text`, ignoring case and diacritics. An empty query
+ * matches everything.
+ */
+export function matchesWords(text: string, query: string): boolean {
+	const words = fold(query).split(/\s+/).filter(Boolean);
+	if (words.length === 0) return true;
+	const folded = fold(text);
+	return words.every((word) => folded.includes(word));
+}
+
+/**
  * Whether every word of `query` appears in the item's label or description, ignoring case and
  * diacritics. An empty query matches everything.
  */
 export function matchesQuery(item: SelectItem<string | number>, query: string): boolean {
-	const words = fold(query).split(/\s+/).filter(Boolean);
-	if (words.length === 0) return true;
-	const text = fold(`${item.label} ${item.description ?? ''}`);
-	return words.every((word) => text.includes(word));
+	return matchesWords(`${item.label} ${item.description ?? ''}`, query);
+}
+
+/** Runs of items under the same group, in order, each item with its index in `items`. */
+export function groupRuns<I extends { group?: string }>(
+	items: readonly I[]
+): Array<{ group?: string; entries: Array<{ item: I; index: number }> }> {
+	const runs: Array<{ group?: string; entries: Array<{ item: I; index: number }> }> = [];
+	items.forEach((item, index) => {
+		const last = runs.at(-1);
+		if (last && last.group === item.group) last.entries.push({ item, index });
+		else runs.push({ group: item.group, entries: [{ item, index }] });
+	});
+	return runs;
 }
