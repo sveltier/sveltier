@@ -244,3 +244,16 @@ test('a tree opens with the arrow keys and selects with Enter, not on focus', as
 	await expect(node('Crosses')).toBeVisible();
 	await expect(page.getByText('Selected: "okx-perps"')).toBeVisible();
 });
+
+test('a stepper goes forward with the app and back by its done steps', async ({ page }) => {
+	await open(page, '/components/stepper');
+	const demo = page.locator('.docs-demo').first();
+	const stepper = demo.getByRole('list', { name: 'Transfer' });
+	await expect(stepper.locator('[aria-current="step"]')).toContainText('Review');
+	await demo.getByRole('button', { name: 'Next' }).click();
+	await expect(stepper.locator('[aria-current="step"]')).toContainText('Confirm');
+	await expect(demo.getByText('Step: "confirm"')).toBeVisible();
+	await stepper.getByRole('button', { name: /Details/ }).click();
+	await expect(demo.getByText('Step: "details"')).toBeVisible();
+	await expect(stepper.getByRole('button')).toHaveCount(0);
+});

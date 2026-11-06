@@ -344,6 +344,14 @@ export {
 	type SliderProps,
 	type SliderTick
 } from './components/Slider/index.js';
+export {
+	Stepper,
+	STEPPER_ORIENTATIONS,
+	type StepperDefaults,
+	type StepperItem,
+	type StepperOrientation,
+	type StepperProps
+} from './components/Stepper/index.js';
 export { Switch, type SwitchDefaults, type SwitchProps } from './components/Switch/index.js';
 export {
 	SORT_DIRECTIONS,
