@@ -84,6 +84,20 @@
 		padding: 0;
 	}
 
+	/*
+	 * Wrap: the height is a minimum, and the block padding is what is left of it around one
+	 * line, so one line is as tall as other controls and each further line adds a line.
+	 */
+	.sv-button--wrap {
+		block-size: auto;
+		min-block-size: calc(var(--sv-size-height) * var(--sv-density));
+		padding-block: calc((var(--sv-size-height) * var(--sv-density) - 1lh) / 2 - var(--sv-hairline));
+		line-height: var(--sv-leading-snug);
+		justify-content: start;
+		text-align: start;
+		white-space: normal;
+	}
+
 	.sv-button__prepend,
 	.sv-button__append {
 		display: inline-flex;

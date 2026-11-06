@@ -7,12 +7,14 @@
 	import ButtonSizes from '#lib/docs/button/ButtonSizes.svelte';
 	import ButtonStates from '#lib/docs/button/ButtonStates.svelte';
 	import ButtonVariants from '#lib/docs/button/ButtonVariants.svelte';
+	import ButtonWrap from '#lib/docs/button/ButtonWrap.svelte';
 	import {
 		buttonDefaults,
 		buttonIcons,
 		buttonLink,
 		buttonLoading,
-		buttonUsage
+		buttonUsage,
+		buttonWrap
 	} from '#lib/snippets/components.js';
 	import BUTTON_PROPS from 'virtual:sveltier-api/ButtonProps';
 </script>
@@ -54,6 +56,15 @@
 	</p>
 	<ButtonIcons />
 	<Code title="Toolbar.svelte" code={buttonIcons} />
+
+	<h2 id="wrap">Long labels</h2>
+	<p>
+		A label stays on one line. With <code>wrap</code>, a long one wraps onto more lines: the button
+		grows from its height, one line still as tall as the controls beside it, and the label starts at
+		the inline start, as a paragraph does.
+	</p>
+	<ButtonWrap />
+	<Code title="IndicatorPanel.svelte" code={buttonWrap} />
 
 	<h2 id="states">Loading and disabled</h2>
 	<p>
