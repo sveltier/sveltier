@@ -325,6 +325,7 @@ export {
 	type RadioGroupOption,
 	type RadioGroupProps
 } from './components/RadioGroup/index.js';
+export { SecureMask, type SecureMaskProps } from './components/SecureMask/index.js';
 export {
 	Select,
 	type SelectDefaults,

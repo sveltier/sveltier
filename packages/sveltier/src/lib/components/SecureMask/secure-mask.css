@@ -1,0 +1,28 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* In the line of text around it: its font, tabular numbers, the button beside the value. */
+	.sv-secure-mask {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.236em;
+		max-inline-size: 100%;
+		font-variant-numeric: tabular-nums;
+		vertical-align: middle;
+	}
+
+	.sv-secure-mask__value {
+		min-inline-size: 0;
+		overflow-wrap: anywhere;
+	}
+
+	/* The dots sit on the middle of the digits, a quarter of φ apart from them. */
+	.sv-secure-mask__dots {
+		margin-inline-end: 0.236em;
+		letter-spacing: 0.0902em;
+	}
+
+	.sv-secure-mask__toggle {
+		flex: none;
+	}
+}

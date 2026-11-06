@@ -257,3 +257,13 @@ test('a stepper goes forward with the app and back by its done steps', async ({ 
 	await expect(demo.getByText('Step: "details"')).toBeVisible();
 	await expect(stepper.getByRole('button')).toHaveCount(0);
 });
+
+test('a secure mask shows the last characters, and the whole IBAN on request', async ({ page }) => {
+	await page.goto('/finance/secure-mask');
+	const iban = page.getByRole('group', { name: 'IBAN' });
+	await expect(iban).toContainText('3000');
+	await expect(iban).not.toContainText('0532');
+	await iban.getByRole('button', { name: 'Show' }).click();
+	await expect(iban).toContainText('DE89370400440532013000');
+	await expect(iban.getByRole('button', { name: 'Show' })).toHaveAttribute('aria-pressed', 'true');
+});

@@ -127,7 +127,8 @@ export const NAV: NavGroup[] = [
 			{ title: 'Amount', path: 'finance/amount' },
 			{ title: 'Delta', path: 'finance/delta' },
 			{ title: 'PriceInput', path: 'finance/price-input' },
-			{ title: 'AmountInput', path: 'finance/amount-input' }
+			{ title: 'AmountInput', path: 'finance/amount-input' },
+			{ title: 'SecureMask', path: 'finance/secure-mask' }
 		]
 	},
 	{

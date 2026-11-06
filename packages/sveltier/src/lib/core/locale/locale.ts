@@ -36,6 +36,10 @@ export const MESSAGES = {
 	noData: 'No data',
 	// Amount: what screen readers hear in place of a masked figure.
 	amountHidden: 'Amount hidden',
+	// SecureMask: what screen readers hear in place of the dots, and its reveal button.
+	maskedEnding: 'ending in {last}',
+	maskedValue: 'Hidden',
+	reveal: 'Show',
 	// AmountInput: the name of a share button, whose text is the percentage ("25%").
 	shareOfMax: '{percent} of the maximum',
 	// Select and Combobox: the list when no option matches, or there is none.
