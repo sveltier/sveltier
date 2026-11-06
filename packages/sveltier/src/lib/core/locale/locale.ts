@@ -64,7 +64,10 @@ export const MESSAGES = {
 	rangeStart: 'Start',
 	rangeEnd: 'End',
 	chooseDates: 'Choose dates',
-	rangeOrder: 'End on or after the start'
+	rangeOrder: 'End on or after the start',
+	// Stepper: what screen readers hear after the label of a done step and of a step with errors.
+	stepCompleted: 'Completed',
+	stepError: 'Error'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

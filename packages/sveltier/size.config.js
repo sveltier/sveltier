@@ -514,6 +514,13 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// Its own code: the steps with their markers, connectors and hidden status, and going back.
+		name: 'Stepper',
+		code: "export { Stepper } from '@sveltier/ui';",
+		limit: '2.6 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from '@sveltier/ui';",
 		limit: '1 KB'
@@ -531,6 +538,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '71 KB'
+		limit: '72.5 KB'
 	}
 ];

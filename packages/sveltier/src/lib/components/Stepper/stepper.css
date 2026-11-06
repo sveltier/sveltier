@@ -1,0 +1,174 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-stepper {
+		--sv-stepper-marker: var(--sv-control-xs);
+		--sv-stepper-pad: calc(var(--sv-space-5) * var(--sv-density));
+		--sv-stepper-line: 2px;
+
+		display: flex;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-stepper--vertical {
+		flex-direction: column;
+	}
+
+	.sv-stepper__step {
+		position: relative;
+		display: flex;
+		align-items: center;
+		min-inline-size: 0;
+	}
+
+	/* In a row, each step but the last stretches, its connector filling the space after it. */
+	.sv-stepper--horizontal .sv-stepper__step:not(:last-child) {
+		flex: 1 1 0;
+	}
+
+	.sv-stepper--horizontal .sv-stepper__step:not(:last-child)::after {
+		content: '';
+		flex: 1;
+		min-inline-size: var(--sv-space-13);
+		block-size: var(--sv-stepper-line);
+		margin-inline: var(--sv-space-5);
+		border-radius: var(--sv-stepper-line);
+		background-color: var(--sv-color-border);
+	}
+
+	/* In a column, the connector runs down from the marker to the next step. */
+	.sv-stepper--vertical .sv-stepper__step:not(:last-child) {
+		padding-block-end: calc(var(--sv-space-21) * var(--sv-density));
+	}
+
+	.sv-stepper--vertical .sv-stepper__step:not(:last-child)::after {
+		content: '';
+		position: absolute;
+		inset-block: calc(var(--sv-stepper-pad) * 2 + var(--sv-stepper-marker)) var(--sv-space-3);
+		inset-inline-start: calc(
+			var(--sv-stepper-pad) + (var(--sv-stepper-marker) - var(--sv-stepper-line)) / 2
+		);
+		inline-size: var(--sv-stepper-line);
+		border-radius: var(--sv-stepper-line);
+		background-color: var(--sv-color-border);
+	}
+
+	.sv-stepper__step--done:not(:last-child)::after {
+		background-color: var(--sv-color);
+	}
+
+	.sv-stepper__head {
+		display: inline-flex;
+		flex: 0 1 auto;
+		min-inline-size: 0;
+		gap: var(--sv-space-8);
+		align-items: center;
+		box-sizing: border-box;
+		max-inline-size: 100%;
+		margin: 0;
+		padding: var(--sv-stepper-pad);
+		border: 0;
+		border-radius: var(--sv-radius-md);
+		background: transparent;
+		color: var(--sv-color-text-muted);
+		font: inherit;
+		text-align: start;
+	}
+
+	.sv-stepper--vertical .sv-stepper__head {
+		align-items: flex-start;
+	}
+
+	button.sv-stepper__head {
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	button.sv-stepper__head:focus-visible {
+		outline: var(--sv-focus-width) solid var(--sv-color-primary);
+		outline-offset: calc(var(--sv-focus-width) * -1);
+	}
+
+	@media (hover: hover) {
+		button.sv-stepper__head:hover .sv-stepper__label {
+			text-decoration: underline;
+			text-underline-offset: 0.2em;
+		}
+	}
+
+	.sv-stepper__marker {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		inline-size: var(--sv-stepper-marker);
+		block-size: var(--sv-stepper-marker);
+		border-radius: 50%;
+		box-shadow: inset 0 0 0 1.5px var(--sv-color-border);
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+		font-weight: var(--sv-weight-semibold);
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+	}
+
+	.sv-stepper__marker svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	.sv-stepper__step--done .sv-stepper__marker,
+	.sv-stepper__step--current .sv-stepper__marker {
+		background-color: var(--sv-color);
+		box-shadow: none;
+		color: var(--sv-on-color);
+	}
+
+	/* The current step is ringed in a tint of its colour. */
+	.sv-stepper__step--current .sv-stepper__marker {
+		box-shadow: 0 0 0 var(--sv-space-3)
+			color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+	}
+
+	.sv-stepper__step--error .sv-stepper__marker {
+		background-color: var(--sv-color-error);
+		box-shadow: none;
+		color: var(--sv-on-error);
+	}
+
+	.sv-stepper__text {
+		display: grid;
+		min-inline-size: 0;
+	}
+
+	.sv-stepper__label {
+		overflow-wrap: break-word;
+	}
+
+	.sv-stepper__step--done .sv-stepper__head,
+	.sv-stepper__step--current .sv-stepper__head {
+		color: var(--sv-color-text);
+	}
+
+	.sv-stepper__step--current .sv-stepper__label {
+		font-weight: var(--sv-weight-semibold);
+	}
+
+	.sv-stepper__step--error .sv-stepper__label {
+		color: var(--sv-color-error);
+	}
+
+	.sv-stepper__description {
+		color: var(--sv-color-text-subtle);
+		font-size: var(--sv-text-xs);
+	}
+
+	.sv-stepper__step--disabled .sv-stepper__head {
+		opacity: 0.382;
+	}
+}

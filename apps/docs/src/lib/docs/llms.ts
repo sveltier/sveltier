@@ -20,6 +20,7 @@ import {
 	progressUsage,
 	segmentedUsage,
 	skeletonUsage,
+	stepperUsage,
 	tableColumns,
 	tabsUsage,
 	treeUsage
@@ -144,6 +145,12 @@ const COMPONENTS: Entry[] = [
 		path: 'components/skeleton',
 		types: ['SkeletonProps'],
 		example: skeletonUsage
+	},
+	{
+		name: 'Stepper',
+		path: 'components/stepper',
+		types: ['StepperProps', 'StepperItem'],
+		example: stepperUsage
 	},
 	{
 		name: 'Table',
