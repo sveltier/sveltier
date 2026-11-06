@@ -156,6 +156,21 @@ test('a radio group keeps number values and moves the choice with the arrow keys
 	await expect(page.getByRole('radiogroup', { name: 'Statement format' })).toBeVisible();
 });
 
+test('a one-time code takes a pasted code cleaned, and shows the server refusing it', async ({
+	page
+}) => {
+	await open(page, '/forms/otp-input');
+	const code = page.getByRole('textbox', { name: 'Verification code' });
+	await expect(code).toHaveAttribute('autocomplete', 'one-time-code');
+	await code.fill('482-913');
+	await expect(page.getByText('code = "482913"')).toBeVisible();
+	await code.fill('000000');
+	await expect(code).toHaveAccessibleDescription(/This code is not valid/);
+	await code.press('Backspace');
+	await expect(page.getByText('code = "00000"')).toBeVisible();
+	await expect(code).toHaveAccessibleDescription('Sent to •••• 4821');
+});
+
 test('a slider reads labelled ticks as words, and checks its rule when let go', async ({
 	page
 }) => {

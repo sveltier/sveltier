@@ -298,6 +298,13 @@ export {
 	type NumberFieldProps
 } from './components/NumberField/index.js';
 export {
+	OTP_TYPES,
+	OtpInput,
+	type OtpInputDefaults,
+	type OtpInputProps,
+	type OtpType
+} from './components/OtpInput/index.js';
+export {
 	Pagination,
 	type PaginationDefaults,
 	type PaginationProps
