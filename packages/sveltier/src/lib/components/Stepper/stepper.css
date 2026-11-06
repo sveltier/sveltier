@@ -14,6 +14,12 @@
 		line-height: var(--sv-leading-snug);
 	}
 
+	/* A row measures its own width, so a narrow space puts the labels under the markers instead
+	   of pushing the page wider. */
+	.sv-stepper--horizontal {
+		container-type: inline-size;
+	}
+
 	.sv-stepper--vertical {
 		flex-direction: column;
 	}
@@ -57,7 +63,8 @@
 		background-color: var(--sv-color-border);
 	}
 
-	.sv-stepper__step--done:not(:last-child)::after {
+	/* As specific as the connectors of each orientation above, and after them, so it wins. */
+	.sv-stepper > .sv-stepper__step--done:not(:last-child)::after {
 		background-color: var(--sv-color);
 	}
 
@@ -170,5 +177,26 @@
 
 	.sv-stepper__step--disabled .sv-stepper__head {
 		opacity: 0.382;
+	}
+
+	/* A narrow row stacks each label under its marker; the connectors meet the markers' middle. */
+	@container (max-inline-size: 34rem) {
+		.sv-stepper--horizontal .sv-stepper__step {
+			align-items: flex-start;
+		}
+
+		.sv-stepper--horizontal .sv-stepper__step:not(:last-child)::after {
+			min-inline-size: var(--sv-space-5);
+			margin-block-start: calc(
+				var(--sv-stepper-pad) + (var(--sv-stepper-marker) - var(--sv-stepper-line)) / 2
+			);
+			margin-inline: 0;
+		}
+
+		.sv-stepper--horizontal .sv-stepper__head {
+			flex-direction: column;
+			gap: var(--sv-space-3);
+			text-align: center;
+		}
 	}
 }

@@ -1,8 +1,10 @@
 <script lang="ts">
 	// Opening an account in four steps, the third disabled when asked. Shows the current step and
-	// what the user went to, with a Next button as the app's own.
+	// what the user went to, with a Next button as the app's own, in a themed scope.
 	import { untrack } from 'svelte';
+	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { Stepper, type StepperItem } from '../../lib/index.js';
+	import { monolith } from '../../lib/themes/monolith.js';
 
 	let {
 		value,
@@ -27,14 +29,16 @@
 	}
 </script>
 
-<button type="button">Before</button>
-<Stepper
-	aria-label="Open an account"
-	{items}
-	{linear}
-	bind:value={step}
-	onchange={(value) => (went = value)}
-/>
-<button type="button" onclick={next}>Next</button>
-<p data-testid="step">{step}</p>
-<p data-testid="went">{went}</p>
+<ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
+	<button type="button">Before</button>
+	<Stepper
+		aria-label="Open an account"
+		{items}
+		{linear}
+		bind:value={step}
+		onchange={(value) => (went = value)}
+	/>
+	<button type="button" onclick={next}>Next</button>
+	<p data-testid="step">{step}</p>
+	<p data-testid="went">{went}</p>
+</ThemeProvider>

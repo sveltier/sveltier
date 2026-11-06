@@ -75,4 +75,22 @@ describe('Stepper', () => {
 		await userEvent.keyboard('{Enter}');
 		await expect.element(shown('step')).toHaveTextContent('identity');
 	});
+	it('stacks the labels under the markers when the row is narrow, and never grows past it', async () => {
+		await render(StepperHarness, { value: 'funding' });
+		const list = page.getByRole('list', { name: 'Open an account' }).element() as HTMLElement;
+		const head = () => getComputedStyle(list.querySelector('.sv-stepper__head')!).flexDirection;
+		list.style.inlineSize = '240px';
+		await expect.poll(head).toBe('column');
+		expect(list.scrollWidth).toBeLessThanOrEqual(240);
+		list.style.inlineSize = '800px';
+		await expect.poll(head).toBe('row');
+	});
+
+	it('draws the connector after a done step in its colour', async () => {
+		await render(StepperHarness, { value: 'funding' });
+		const line = (name: string) =>
+			getComputedStyle(step(name).element(), '::after').backgroundColor;
+		expect(line('Profile')).not.toBe(line('Funding'));
+		expect(line('Profile')).toBe(line('Identity'));
+	});
 });
