@@ -1,5 +1,16 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- e2cdfdb: Add Guilloche: the fine interlaced lines of a banknote or a cheque, as decoration that fills its box. `pattern` is a `rosette` or `waves`, `lines` sets how many, and the hairlines are drawn faint in the `color`. One curve is drawn once and reused for every line, so the page stays small.
+- 1e9b2b6: Add Ledger, LedgerRow and Receipt: labels and their figures joined by a dotted leader, as a description list, with the total under a double rule (`total`). A LedgerRow's figure is an Amount and follows its `masked`; children take its place. A Receipt is a section named by its `title`, with a `subtitle`, the rows and a `footer`. A LedgerRow outside a list warns in development (SV4006).
+- 406ab57: Add Odometer: a headline figure whose digits roll to the new value when it changes. It is formatted as an Amount, with `format` and `decimals`, follows Amount's `masked`, is read as text by screen readers, and changes at once under reduced motion.
+- 01ef658: Add PinPad: a PIN or passcode entered on a keypad of its own, with dots that fill as digits go in and keys 1–9, 0 and Delete in the phone layout. The digits are never shown or read aloud; screen readers hear how many are in. `oncomplete` runs with the PIN, `error` shows a message and shakes the dots, `shuffle` randomises the digits, `extra` fills the key beside 0, `name` submits it with a form, and the keyboard's digits and Backspace work while focus is in the pad.
+- ccd984c: Add SecureMask: a secret such as an account or card number shown in part, "•••• 4821". The hidden characters are never written to the page. `toggle` adds a reveal button, `hideAfter` hides it again, and `revealed` is bindable.
+- f57ab41: Add Timeline: what happened to something, in time, as an ordered list of events with a marker, a title, a time written in the locale and a description. `color` colours an event's marker, `pending` marks one still to come, `relative` writes "3 hours ago", and the `item` snippet renders an event's content.
+
 ## 0.1.0-alpha.4
 
 ### Minor Changes
