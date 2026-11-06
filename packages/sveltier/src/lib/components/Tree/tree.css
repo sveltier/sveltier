@@ -1,0 +1,117 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-tree,
+	.sv-tree__group {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.sv-tree {
+		padding-block: calc(var(--sv-space-5) * var(--sv-density));
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	/* The treeitem wraps its children, so the ring goes on its row instead. */
+	.sv-tree__item {
+		outline: none;
+	}
+
+	.sv-tree__item:focus-visible > .sv-tree__row {
+		outline: var(--sv-focus-width) solid var(--sv-color-primary);
+		outline-offset: calc(var(--sv-focus-width) * -1);
+	}
+
+	/* A row a control tall, set in by one step per level. */
+	.sv-tree__row {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		gap: var(--sv-space-5);
+		align-items: center;
+		box-sizing: border-box;
+		min-block-size: calc(var(--sv-control-sm) * var(--sv-density));
+		padding-block: calc(var(--sv-space-2) * var(--sv-density));
+		padding-inline: calc(var(--sv-space-5) + var(--sv-tree-level, 0) * var(--sv-space-21))
+			var(--sv-space-13);
+		border-radius: var(--sv-radius-md);
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* Button's state layer. */
+	.sv-tree__row::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-tree__row:hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-tree__row:active::before {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-tree__item--selected > .sv-tree__row {
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+		color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-text-mix), var(--sv-color-text));
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-tree__item--disabled > .sv-tree__row {
+		opacity: 0.382;
+		cursor: not-allowed;
+	}
+
+	.sv-tree__toggle {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		inline-size: var(--sv-space-21);
+		block-size: var(--sv-space-21);
+		color: var(--sv-color-text-subtle);
+	}
+
+	.sv-tree__toggle svg {
+		inline-size: 1.272em;
+		block-size: 1.272em;
+		/* Closed, the chevron points along the line, towards the children. */
+		transform: rotate(-90deg);
+		transition: transform var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	[dir='rtl'] .sv-tree__toggle svg {
+		transform: rotate(90deg);
+	}
+
+	.sv-tree__toggle--open svg,
+	[dir='rtl'] .sv-tree__toggle--open svg {
+		transform: none;
+	}
+
+	.sv-tree__icon {
+		flex: none;
+		inline-size: 1.272em;
+		block-size: 1.272em;
+	}
+
+	.sv-tree__label {
+		overflow: hidden;
+		min-inline-size: 0;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

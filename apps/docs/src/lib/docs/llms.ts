@@ -21,7 +21,8 @@ import {
 	segmentedUsage,
 	skeletonUsage,
 	tableColumns,
-	tabsUsage
+	tabsUsage,
+	treeUsage
 } from '#lib/snippets/components.js';
 import {
 	checkboxUsage,
@@ -150,7 +151,8 @@ const COMPONENTS: Entry[] = [
 		types: ['TableProps', 'TableColumnBase'],
 		example: tableColumns
 	},
-	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps'], example: tabsUsage }
+	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps'], example: tabsUsage },
+	{ name: 'Tree', path: 'components/tree', types: ['TreeProps', 'TreeItem'], example: treeUsage }
 ];
 
 const FORMS: Entry[] = [

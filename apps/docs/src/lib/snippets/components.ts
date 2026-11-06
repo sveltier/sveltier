@@ -430,3 +430,56 @@ export const tableEmpty = `<script lang="ts">
     Nothing yet. <Button size="sm" variant="text" onclick={onretry}>Check again</Button>
   {/snippet}
 </Table>`;
+
+export const treeUsage = `<script lang="ts">
+  import { Tree, type TreeItem } from '@sveltier/ui';
+  import { mdiFolder, mdiFormatListBulleted } from '@mdi/js';
+
+  const watchlists: TreeItem[] = [
+    {
+      value: 'crypto',
+      label: 'Crypto',
+      icon: mdiFolder,
+      children: [
+        { value: 'majors', label: 'Majors', icon: mdiFormatListBulleted },
+        { value: 'defi', label: 'DeFi', icon: mdiFormatListBulleted }
+      ]
+    },
+    {
+      value: 'fx',
+      label: 'FX',
+      icon: mdiFolder,
+      children: [{ value: 'crosses', label: 'Crosses', icon: mdiFormatListBulleted }]
+    },
+    { value: 'metals', label: 'Metals', icon: mdiFormatListBulleted }
+  ];
+  let selected = $state<string | null>('majors');
+  let open = $state(['crypto']);
+</script>
+
+<Tree aria-label="Watchlists" items={watchlists} bind:value={selected} bind:expanded={open} />`;
+
+export const treeRows = `<script lang="ts">
+  import { goto } from '$app/navigation';
+  import { Tree, type TreeItem } from '@sveltier/ui';
+
+  // Nodes carry their own fields: onselect and the item snippet receive them typed.
+  type Account = TreeItem & { href: string; balance: string; children?: Account[] };
+  let { accounts }: { accounts: Account[] } = $props();
+</script>
+
+<Tree aria-label="Accounts" items={accounts} onselect={(account) => goto(account.href)}>
+  {#snippet item(account)}
+    <span class="name">{account.label}</span>
+    <span class="balance">{account.balance}</span>
+  {/snippet}
+</Tree>
+
+<style>
+  .name {
+    flex: 1;
+  }
+  .balance {
+    font-variant-numeric: tabular-nums;
+  }
+</style>`;
