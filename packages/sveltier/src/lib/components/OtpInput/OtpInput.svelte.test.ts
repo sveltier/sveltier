@@ -71,6 +71,14 @@ describe('OtpInput', () => {
 		await expect.element(shown('value')).toHaveTextContent('123');
 	});
 
+	it('clears the code with select all and Delete', async () => {
+		await render(OtpInputHarness, { value: '123456' });
+		await textbox().click();
+		await userEvent.keyboard('{Control>}a{/Control}{Delete}');
+		await expect.element(shown('value')).toHaveTextContent('');
+		expect(drawn()).toBe('______');
+	});
+
 	it('takes letters and digits, uppercased, when alphanumeric', async () => {
 		await render(OtpInputHarness, { type: 'alphanumeric', length: 4 });
 		expect(input().inputMode).toBe('text');
@@ -87,9 +95,11 @@ describe('OtpInput', () => {
 		await expect.element(page.getByText('Enter all 6 characters')).toBeVisible();
 		await expect.element(textbox()).toHaveAttribute('aria-invalid', 'true');
 		await expect.element(textbox()).toHaveAccessibleDescription('Enter all 6 characters');
-		// A plain form refuses to submit with the same words.
-		await page.getByRole('button', { name: 'Send' }).click();
-		expect(shown('submitted').element().textContent).toBe('');
+		// A plain form refuses to submit with the same words. Checked without a click: Firefox's
+		// bubble for the refused submit would take the next click in the test.
+		expect(input().validationMessage).toBe('Enter all 6 characters');
+		expect(input().form?.checkValidity()).toBe(false);
+		await textbox().click();
 		await textbox().fill('');
 		await expect.element(page.getByText('Required')).toBeVisible();
 		await textbox().fill('123456');

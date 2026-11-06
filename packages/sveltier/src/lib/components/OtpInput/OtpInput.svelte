@@ -86,10 +86,12 @@
 		});
 	}
 
-	// The caret stays at the end, so the boxes fill in order and Backspace takes the last one.
+	// The caret stays at the end, so the boxes fill in order and Backspace takes the last one. A
+	// selection is left alone, so select all and Delete, or a paste over it, replaces the code.
 	function toEnd() {
-		const end = ref?.value.length ?? 0;
-		if (ref && document.activeElement === ref) ref.setSelectionRange(end, end);
+		if (!ref || document.activeElement !== ref || ref.selectionStart !== ref.selectionEnd) return;
+		const end = ref.value.length;
+		ref.setSelectionRange(end, end);
 	}
 
 	function write(next: string) {
