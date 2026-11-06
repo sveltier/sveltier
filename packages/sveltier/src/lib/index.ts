@@ -304,6 +304,7 @@ export {
 	type NumberFieldDefaults,
 	type NumberFieldProps
 } from './components/NumberField/index.js';
+export { Odometer, type OdometerProps } from './components/Odometer/index.js';
 export {
 	OTP_TYPES,
 	OtpInput,

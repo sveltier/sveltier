@@ -427,6 +427,13 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Its own code and CSS: the digit columns. The formatting is Amount's, measured in its entry.
+		name: 'Odometer',
+		code: "export { Odometer } from '@sveltier/ui';",
+		limit: '1.4 KB',
+		external: [/\/core\//, /\/components\/Amount\//]
+	},
+	{
 		// Its own code and CSS: the dots, the keys, the shuffle and the keyboard.
 		name: 'PinPad',
 		code: "export { PinPad } from '@sveltier/ui';",

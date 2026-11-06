@@ -301,3 +301,12 @@ test('a PIN pad takes a PIN on its keys and refuses a wrong one', async ({ page 
 	}
 	await expect(page.getByText('Order confirmed.')).toBeVisible();
 });
+
+test('an odometer rolls its digits to the new value, which it reads as text', async ({ page }) => {
+	await page.goto('/finance/odometer');
+	const figure = page.locator('.sv-odometer').first();
+	const before = await figure.locator('.sv-visually-hidden').textContent();
+	await page.getByRole('button', { name: 'Move the market' }).click();
+	await expect(figure.locator('.sv-visually-hidden')).not.toHaveText(before ?? '');
+	await expect(figure.locator('.sv-visually-hidden')).toHaveText(/^\$[\d,]+\.\d\d$/);
+});

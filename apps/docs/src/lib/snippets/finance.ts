@@ -178,3 +178,11 @@ export const pinPadUsage = `<script lang="ts">
 </script>
 
 <PinPad label="Enter your trading PIN" bind:value={pin} {error} oncomplete={check} />`;
+
+export const odometerUsage = `<script lang="ts">
+  import { Odometer } from '@sveltier/ui';
+
+  let { balance }: { balance: number } = $props();
+</script>
+
+<Odometer value={balance} format={{ style: 'currency' }} />`;
