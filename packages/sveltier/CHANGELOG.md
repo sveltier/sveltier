@@ -1,5 +1,16 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 6cbf8bb: Add `wrap` to Button: a long label wraps onto more lines, the button grows from its height (one line stays as tall as other controls) and the label starts at the inline start.
+- e722e36: Add a `dense` density, half a step of φ below `default` (×0.786), for data-heavy screens: a Table with `size="xs" density="dense"` has rows about 20px tall. Table rows now keep the height of their size and density; the cell padding gives way first.
+- 494d5de: Add OtpInput: a one-time code shown one character per box, as one input with
+  `autocomplete="one-time-code"`, so the code from a text message, a paste and typing all work.
+  Characters outside its `type` are dropped, `oncomplete` runs when the last box is filled, and a
+  code started but not finished is invalid.
+
 ## 0.1.0-alpha.3
 
 ### Minor Changes
