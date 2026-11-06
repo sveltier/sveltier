@@ -93,6 +93,10 @@
 	}
 
 	/* Density multiplies heights and paddings, never the text. */
+	.sv-density-dense {
+		--sv-density: var(--sv-density-dense);
+	}
+
 	.sv-density-compact {
 		--sv-density: var(--sv-density-compact);
 	}

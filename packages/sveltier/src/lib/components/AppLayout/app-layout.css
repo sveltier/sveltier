@@ -46,6 +46,10 @@
 	 * The bar is φ³ tall times its density. A drawer under the bar is that much shorter than the
 	 * window, and under a sticky bar it stays below it.
 	 */
+	.sv-app-layout:has(> .sv-app-bar.sv-density-dense) {
+		--sv-app-bar-height: calc(var(--sv-control-xl) * var(--sv-density-dense));
+	}
+
 	.sv-app-layout:has(> .sv-app-bar.sv-density-compact) {
 		--sv-app-bar-height: calc(var(--sv-control-xl) * var(--sv-density-compact));
 	}
@@ -118,6 +122,12 @@
 	 */
 	:root:has(.sv-app-layout > .sv-app-bar--sticky) {
 		scroll-padding-block-start: calc(var(--sv-control-xl) + var(--sv-space-13));
+	}
+
+	:root:has(.sv-app-layout > .sv-app-bar--sticky.sv-density-dense) {
+		scroll-padding-block-start: calc(
+			var(--sv-control-xl) * var(--sv-density-dense) + var(--sv-space-13)
+		);
 	}
 
 	:root:has(.sv-app-layout > .sv-app-bar--sticky.sv-density-compact) {

@@ -131,4 +131,20 @@ describe('Table', () => {
 		const compact = rows.at(-1)!.element().querySelector('tbody td')!.getBoundingClientRect();
 		expect(compact.height).toBeLessThan(regular);
 	});
+
+	it('keeps an extra-small dense row about 20px tall, the header too', async () => {
+		// Text columns only: a row is as tall as its tallest cell, and a native button is taller.
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
+			{ key: 'quantity', label: 'Quantity' }
+		];
+		await render(TableHarness, { columns, size: 'xs', density: 'dense' });
+		const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+		// A control of size xs (φ rem) times the dense density (φ^-½) is √φ rem.
+		const expected = 1.272 * rem;
+		const cell = table().element().querySelector('tbody td')!.getBoundingClientRect();
+		const head = header('Symbol').element().getBoundingClientRect();
+		expect(cell.height).toBeCloseTo(expected, 0);
+		expect(head.height).toBeCloseTo(expected, 0);
+	});
 });

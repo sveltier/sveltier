@@ -59,11 +59,12 @@ describe('tokens.css', () => {
 		expect(SPACES).toEqual([0, ...steps]);
 	});
 
-	it('sizes controls in half steps of φ and moves density a quarter step', () => {
+	it('sizes controls in half steps of φ and moves density a quarter or half step', () => {
 		const steps = { xs: 1, sm: 1.5, md: 2, lg: 2.5, xl: 3 };
 		for (const [size, power] of Object.entries(steps)) {
 			expect(token(`--sv-control-${size}`), size).toBeCloseTo(PHI ** power, 4);
 		}
+		expect(token('--sv-density-dense')).toBeCloseTo(PHI ** -0.5, 4);
 		expect(token('--sv-density-compact')).toBeCloseTo(PHI ** -0.25, 4);
 		expect(token('--sv-density-comfortable')).toBeCloseTo(PHI ** 0.25, 4);
 	});

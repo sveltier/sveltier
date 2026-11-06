@@ -230,7 +230,7 @@ export const SHARED_CLASSES: ApiRow[] = [
 	},
 	{
 		name: 'density',
-		type: "'compact' | 'default' | 'comfortable'",
+		type: "'dense' | 'compact' | 'default' | 'comfortable'",
 		description: 'sv-density-<density>: sets --sv-density, a multiplier for heights and paddings.'
 	},
 	{

@@ -35,7 +35,8 @@
 		</li>
 		<li>
 			<strong><code>density</code></strong>: <code>compact</code>, <code>default</code> or
-			<code>comfortable</code> moves heights and paddings a quarter step of φ, never the text.
+			<code>comfortable</code> moves heights and paddings a quarter step of φ, never the text;
+			<code>dense</code> moves them half a step down, for data-heavy screens.
 		</li>
 		<li>
 			<strong><code>color</code></strong>: an intent (<code>primary</code>, <code>success</code>,

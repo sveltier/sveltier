@@ -29,13 +29,19 @@
 		text-align: start;
 	}
 
-	/* A row a control tall, its cells padded by a φ fraction of that. */
+	/*
+	 * A row a control tall, its cells padded by a φ fraction of that. The block padding gives way
+	 * before the row grows, so a dense row keeps its height.
+	 */
 	.sv-table__head,
 	.sv-table__cell,
 	.sv-table__empty {
 		box-sizing: border-box;
 		block-size: calc(var(--sv-size-height) * var(--sv-density));
-		padding: calc(var(--sv-space-5) * var(--sv-density))
+		padding: min(
+				calc(var(--sv-space-5) * var(--sv-density)),
+				calc((var(--sv-size-height) * var(--sv-density) - 1lh - var(--sv-hairline)) / 2)
+			)
 			calc(var(--sv-size-height) * var(--sv-density) * 0.382);
 		border-block-end: var(--sv-hairline) solid var(--sv-color-border-soft);
 		font-weight: inherit;

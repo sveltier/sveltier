@@ -49,7 +49,8 @@
 		--sv-control-lg: 3.3302rem; /* φ^2.5 */
 		--sv-control-xl: 4.2361rem; /* φ³ */
 
-		/* Density moves a control one quarter step of φ. */
+		/* Density moves a control one quarter step of φ, or half a step when dense. */
+		--sv-density-dense: 0.7862; /* φ^-½ */
 		--sv-density-compact: 0.8867; /* φ^-¼ */
 		--sv-density-comfortable: 1.1278; /* φ^¼ */
 

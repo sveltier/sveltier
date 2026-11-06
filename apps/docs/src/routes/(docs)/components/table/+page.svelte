@@ -5,6 +5,7 @@
 	import TableDemo from '#lib/docs/table/TableDemo.svelte';
 	import {
 		tableColumns,
+		tableDense,
 		tableEmpty,
 		tableLive,
 		tableSort,
@@ -82,6 +83,16 @@
 		<code>color</code>.
 	</p>
 	<Code title="Watchlist.svelte" code={tableLive} />
+
+	<h2 id="row-height">Row height</h2>
+	<p>
+		A row is a control of the table's <code>size</code> tall, times its <code>density</code>; the
+		text follows the size and never the density. <code>size="xs"</code> with
+		<code>density="dense"</code> gives rows about 20px tall at a 16px root, for a terminal's tables;
+		<code>md</code> and <code>default</code>, about 42px, is the baseline. Set them on a
+		<code>DefaultsProvider</code> to make a whole screen dense.
+	</p>
+	<Code title="Trades.svelte" code={tableDense} />
 
 	<h2 id="empty">Empty and loading</h2>
 	<p>
