@@ -50,6 +50,7 @@ import {
 	amountInputUsage,
 	amountUsage,
 	deltaUsage,
+	guillocheUsage,
 	ledgerUsage,
 	odometerUsage,
 	pinPadUsage,
@@ -316,6 +317,12 @@ const FINANCE: Entry[] = [
 		path: 'finance/amount-input',
 		types: ['AmountInputProps'],
 		example: amountInputUsage
+	},
+	{
+		name: 'Guilloche',
+		path: 'finance/guilloche',
+		types: ['GuillocheProps'],
+		example: guillocheUsage
 	},
 	{
 		name: 'Ledger',

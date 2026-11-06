@@ -310,3 +310,13 @@ test('an odometer rolls its digits to the new value, which it reads as text', as
 	await expect(figure.locator('.sv-visually-hidden')).not.toHaveText(before ?? '');
 	await expect(figure.locator('.sv-visually-hidden')).toHaveText(/^\$[\d,]+\.\d\d$/);
 });
+
+test('a guilloche is decoration behind a card, one curve drawn for every line', async ({
+	page
+}) => {
+	await page.goto('/finance/guilloche');
+	const art = page.locator('svg.sv-guilloche').first();
+	await expect(art).toHaveAttribute('aria-hidden', 'true');
+	await expect(art.locator('path')).toHaveCount(1);
+	await expect(art.locator('use')).toHaveCount(8);
+});

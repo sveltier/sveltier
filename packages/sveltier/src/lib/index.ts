@@ -269,6 +269,13 @@ export {
 	type RowJustify,
 	type RowProps
 } from './components/Grid/index.js';
+export {
+	Guilloche,
+	GUILLOCHE_PATTERNS,
+	type GuillocheDefaults,
+	type GuillochePattern,
+	type GuillocheProps
+} from './components/Guilloche/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
 export {
 	Ledger,

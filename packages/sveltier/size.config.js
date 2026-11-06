@@ -427,6 +427,13 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Its own code and CSS: the curves' maths, the lines that reuse them.
+		name: 'Guilloche',
+		code: "export { Guilloche } from '@sveltier/ui';",
+		limit: '1.4 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Its own code and CSS: the digit columns. The formatting is Amount's, measured in its entry.
 		name: 'Odometer',
 		code: "export { Odometer } from '@sveltier/ui';",
