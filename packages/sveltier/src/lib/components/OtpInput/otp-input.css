@@ -1,0 +1,166 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A label above a row of boxes above a hint or an error. Each box is as tall as a Button of
+	 * the same size and density, and as wide when there is room; the boxes shrink together on a
+	 * narrow screen. The input lies over the row, its text and caret invisible: the boxes show
+	 * the characters, and the box at the caret draws focus and a caret of its own.
+	 */
+	.sv-otp-input {
+		--sv-otp-box: calc(var(--sv-size-height) * var(--sv-density));
+		--sv-otp-border: var(--sv-color-border-strong);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		min-inline-size: 0;
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-otp-input--invalid {
+		--sv-color: var(--sv-color-error);
+		--sv-otp-border: var(--sv-color-error);
+	}
+
+	/* The theme's label voice, as a field's label. */
+	.sv-otp-input__label {
+		margin-block-end: var(--sv-space-8);
+		font-size: var(--sv-label-size);
+		font-weight: var(--sv-weight-medium);
+		letter-spacing: var(--sv-label-tracking);
+		text-transform: var(--sv-label-transform);
+	}
+
+	.sv-otp-input__required {
+		margin-inline-start: 0.236em;
+		color: var(--sv-color-error);
+	}
+
+	.sv-otp-input__code {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(var(--sv-otp-length), minmax(0, var(--sv-otp-box)));
+		gap: calc(var(--sv-otp-box) * 0.191);
+		inline-size: 100%;
+	}
+
+	.sv-otp-input__box {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		min-inline-size: 0;
+		block-size: var(--sv-otp-box);
+		border: var(--sv-hairline) solid var(--sv-otp-border);
+		border-radius: var(--sv-rounded, var(--sv-radius-md));
+		font-size: calc(var(--sv-size-text) * 1.272);
+		font-weight: var(--sv-weight-semibold);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* The focus ring of a field, on the box the next character goes in. */
+	.sv-otp-input__box::after {
+		content: '';
+		position: absolute;
+		inset: calc(var(--sv-hairline) * -1);
+		border: var(--sv-focus-width) solid var(--sv-color);
+		border-radius: inherit;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-otp-input__box--active::after {
+		opacity: 1;
+	}
+
+	/* The caret, blinking in the empty box at the caret. */
+	.sv-otp-input__box--active:not(.sv-otp-input__box--filled)::before {
+		content: '';
+		inline-size: 1.5px;
+		block-size: 1.15em;
+		background-color: currentColor;
+		animation: sv-otp-caret 1.1s steps(1) infinite;
+	}
+
+	@keyframes sv-otp-caret {
+		50% {
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-otp-input__box--active:not(.sv-otp-input__box--filled)::before {
+			animation: none;
+		}
+	}
+
+	@media (hover: hover) {
+		.sv-otp-input:where(:not(.sv-otp-input--disabled, .sv-otp-input--invalid))
+			.sv-otp-input__code:hover
+			.sv-otp-input__box {
+			--sv-otp-border: var(--sv-color-text-muted);
+		}
+	}
+
+	/*
+	 * The input takes every press and key over the whole row. Its text is at least 16px on touch
+	 * screens, where smaller text makes iOS zoom into the page on focus.
+	 */
+	.sv-otp-input__input {
+		position: absolute;
+		inset: 0;
+		box-sizing: border-box;
+		inline-size: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		outline: none;
+		background: transparent;
+		color: transparent;
+		caret-color: transparent;
+		font: inherit;
+		font-size: max(1rem, var(--sv-size-text));
+		appearance: none;
+		cursor: text;
+	}
+
+	.sv-otp-input__input::selection {
+		background: transparent;
+	}
+
+	/* Autofill keeps the boxes visible: the browser's tint is delayed for good. */
+	.sv-otp-input__input:autofill {
+		transition:
+			background-color 0s 600000s,
+			color 0s 600000s;
+	}
+
+	.sv-otp-input__input:disabled {
+		cursor: not-allowed;
+	}
+
+	/* Padding, not margin: an app's paragraph reset (p { margin: 0 }) would win over a layer. */
+	.sv-otp-input__hint,
+	.sv-otp-input__error {
+		margin: 0;
+		padding-block-start: var(--sv-space-5);
+		font-size: var(--sv-text-xs);
+	}
+
+	.sv-otp-input__hint {
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-otp-input__error {
+		color: var(--sv-color-error);
+	}
+
+	/* The hint stays legible when the field is off: it often says why. */
+	.sv-otp-input--disabled > :is(.sv-otp-input__label, .sv-otp-input__code) {
+		opacity: 0.382;
+	}
+}

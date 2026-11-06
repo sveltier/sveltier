@@ -67,7 +67,9 @@ export const MESSAGES = {
 	rangeOrder: 'End on or after the start',
 	// Stepper: what screen readers hear after the label of a done step and of a step with errors.
 	stepCompleted: 'Completed',
-	stepError: 'Error'
+	stepError: 'Error',
+	// OtpInput: a code started but shorter than its length.
+	otpIncomplete: 'Enter all {length} characters'
 };
 export type MessageKey = keyof typeof MESSAGES;
 export type Messages = Record<MessageKey, string>;

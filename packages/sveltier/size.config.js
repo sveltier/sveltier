@@ -521,6 +521,14 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// Its own code: the input over its boxes, the cleaning and the caret kept at the end. The
+		// validation is measured apart.
+		name: 'OtpInput',
+		code: "export { OtpInput } from '@sveltier/ui';",
+		limit: '3 KB',
+		external: [/\/core\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from '@sveltier/ui';",
 		limit: '1 KB'
@@ -538,6 +546,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '72.5 KB'
+		limit: '74 KB'
 	}
 ];

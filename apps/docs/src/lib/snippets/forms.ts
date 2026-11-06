@@ -386,6 +386,24 @@ export const radioGroupUsage = `<script>
   bind:value={days}
 />`;
 
+export const otpInputUsage = `<script>
+  import { OtpInput } from '@sveltier/ui';
+  let code = $state('');
+  let form;
+</script>
+
+<form method="POST" action="?/verify" bind:this={form}>
+  <!-- Submits itself once the last box is filled. -->
+  <OtpInput
+    label="Verification code"
+    name="code"
+    hint="Sent to •••• 4821"
+    required
+    oncomplete={() => form.requestSubmit()}
+    bind:value={code}
+  />
+</form>`;
+
 export const sliderUsage = `<script>
   import { Slider } from '@sveltier/ui';
   let risk = $state(50);

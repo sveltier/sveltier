@@ -35,6 +35,7 @@ import {
 	formSvelteKit,
 	nativeSelectUsage,
 	numberFieldUsage,
+	otpInputUsage,
 	selectUsage,
 	radioGroupUsage,
 	sliderUsage,
@@ -219,6 +220,12 @@ const FORMS: Entry[] = [
 		path: 'forms/date-time-field',
 		types: ['DateTimeFieldProps'],
 		example: dateTimeFieldUsage
+	},
+	{
+		name: 'OtpInput',
+		path: 'forms/otp-input',
+		types: ['OtpInputProps'],
+		example: otpInputUsage
 	},
 	{ name: 'Checkbox', path: 'forms/checkbox', types: ['CheckboxProps'], example: checkboxUsage },
 	{ name: 'Switch', path: 'forms/switch', types: ['SwitchProps'], example: switchUsage },

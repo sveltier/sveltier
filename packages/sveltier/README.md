@@ -66,8 +66,8 @@ Fonts are not bundled: each theme names its families and falls back to system fo
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
   Stepper, Table, Tabs, Tree.
 - **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Select, Combobox,
-  Checkbox, Switch, RadioGroup, Slider, Calendar, DatePicker, DateRangePicker, TimeField and
-  DateTimeField, validated by the HTML constraints first, then your rules.
+  Checkbox, Switch, RadioGroup, Slider, OtpInput, Calendar, DatePicker, DateRangePicker,
+  TimeField and DateTimeField, validated by the HTML constraints first, then your rules.
 - **Finance:** Amount and Delta for figures people read, PriceInput stepped by its tick, and
   AmountInput with buttons for shares of the maximum.
 - **Overlays:** Dialog, Sheet, Popover, Menu, ContextMenu, CommandPalette and Tooltip in the
