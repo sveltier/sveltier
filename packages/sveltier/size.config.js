@@ -427,6 +427,20 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Ledger and LedgerRow, with their CSS. The figure is an Amount, measured in its own entry.
+		name: 'Ledger',
+		code: "export { Ledger, LedgerRow } from '@sveltier/ui';",
+		limit: '1.3 KB',
+		external: [/\/core\//, /\/components\/Amount\//]
+	},
+	{
+		// Its own code and CSS. The rows are LedgerRows, measured in the Ledger entry.
+		name: 'Receipt',
+		code: "export { Receipt } from '@sveltier/ui';",
+		limit: '1.3 KB',
+		external: [/\/core\//, /\/components\/(Amount|Ledger)\//]
+	},
+	{
 		// Its own code and CSS: the events, their markers and the times, formatted by the locale.
 		name: 'Timeline',
 		code: "export { Timeline } from '@sveltier/ui';",
@@ -561,6 +575,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '76 KB'
+		limit: '80 KB'
 	}
 ];

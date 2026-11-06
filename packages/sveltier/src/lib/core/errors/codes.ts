@@ -141,6 +141,13 @@ export const ERROR_CODES = {
 			'A component tells the entries of a list prop apart by their keys, as a `Table` does its columns by `key` or `id`. Two entries with the same key are one to the component: a sort or an update meant for one reaches the other.',
 		fix: 'Give every entry its own key. For two `Table` columns that show the same property, keep `key` on one and give the other an `id` with a `value` function.'
 	},
+	SV4006: {
+		kind: 'warning',
+		title: 'A row of a description list outside one',
+		cause:
+			'A `LedgerRow` is a term and its description (`<dt>` and `<dd>`), which mean something only inside a description list (`<dl>`). Outside one, screen readers do not pair the label with its value.',
+		fix: 'Put `LedgerRow`s inside a `Ledger` or a `Receipt`, which render the `<dl>`.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

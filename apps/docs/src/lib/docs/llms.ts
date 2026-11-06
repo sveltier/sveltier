@@ -50,7 +50,9 @@ import {
 	amountInputUsage,
 	amountUsage,
 	deltaUsage,
+	ledgerUsage,
 	priceInputUsage,
+	receiptUsage,
 	secureMaskUsage
 } from '#lib/snippets/finance.js';
 import {
@@ -312,6 +314,18 @@ const FINANCE: Entry[] = [
 		path: 'finance/amount-input',
 		types: ['AmountInputProps'],
 		example: amountInputUsage
+	},
+	{
+		name: 'Ledger',
+		path: 'finance/ledger',
+		types: ['LedgerProps', 'LedgerRowProps'],
+		example: ledgerUsage
+	},
+	{
+		name: 'Receipt',
+		path: 'finance/receipt',
+		types: ['ReceiptProps'],
+		example: receiptUsage
 	},
 	{
 		name: 'SecureMask',

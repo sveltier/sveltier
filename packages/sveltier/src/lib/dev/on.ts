@@ -111,6 +111,15 @@ export function warnDuplicates(
 	warn('SV4005', `<${component}> has two ${entries} with the key ${show(duplicate)}. ${fix}`);
 }
 
+/** Warns when a row of a description list is not inside one (`<dl>`). */
+export function warnOutsideList(component: string, element: HTMLElement | null | undefined): void {
+	if (!element || element.parentElement?.closest('dl')) return;
+	warn(
+		'SV4006',
+		`<${component}> is not inside a <dl>, so its label and value are not paired for screen readers. Put it inside a Ledger or a Receipt.`
+	);
+}
+
 /**
  * Warns when a part of an AppLayout is not one of its own children, so the layout's grid cannot
  * place it.

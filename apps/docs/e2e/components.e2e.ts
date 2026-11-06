@@ -280,3 +280,11 @@ test("a timeline lists an order's events with their times, the settlement still 
 	);
 	await expect(history.getByRole('listitem').last()).toContainText('Pending');
 });
+
+test('a receipt pairs each label with its figure and rules off the total', async ({ page }) => {
+	await page.goto('/finance/receipt');
+	const receipt = page.getByRole('region', { name: 'Transfer sent' });
+	await expect(receipt.getByRole('heading', { level: 3 })).toHaveText('Transfer sent');
+	await expect(receipt.getByRole('term')).toHaveText(['To', 'Amount', 'Fee', 'Arrives', 'Total']);
+	await expect(receipt.getByRole('definition').last()).toHaveText('$1,002.50');
+});

@@ -69,8 +69,8 @@ Fonts are not bundled: each theme names its families and falls back to system fo
   Checkbox, Switch, RadioGroup, Slider, OtpInput, Calendar, DatePicker, DateRangePicker,
   TimeField and DateTimeField, validated by the HTML constraints first, then your rules.
 - **Finance:** Amount and Delta for figures people read, PriceInput stepped by its tick, and
-  AmountInput with buttons for shares of the maximum, and SecureMask for an account number shown
-  in part.
+  AmountInput with buttons for shares of the maximum, Ledger and Receipt for figures against their
+  labels, and SecureMask for an account number shown in part.
 - **Overlays:** Dialog, Sheet, Popover, Menu, ContextMenu, CommandPalette and Tooltip in the
   browser's top layer, and toasts with an undo action from `useToast()`.
 - **Primitives** for your own components: focus trap, roving focus, dismissable layers, portal,
