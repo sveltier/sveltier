@@ -455,6 +455,32 @@ export const tableDense = `<script lang="ts">
   <Table caption="Trades" {columns} items={trades} itemKey="id" />
 </DefaultsProvider>`;
 
+export const timelineUsage = `<script lang="ts">
+  import { Timeline, type TimelineItem } from '@sveltier/ui';
+
+  const events: TimelineItem[] = [
+    { title: 'Order placed', time: '2026-11-07T09:30:00Z', description: 'Buy 300 VNM at 61.20' },
+    { title: 'Filled', time: '2026-11-07T09:34:05Z', color: 'success' },
+    { title: 'Settles', time: '2026-11-09T09:00:00Z', pending: true }
+  ];
+</script>
+
+<Timeline aria-label="Order history" items={events} />`;
+
+export const timelineCustom = `<script lang="ts">
+  import { Amount, Timeline, type TimelineItem } from '@sveltier/ui';
+
+  type Transfer = TimelineItem & { amount: number };
+  let { transfers }: { transfers: Transfer[] } = $props();
+</script>
+
+<Timeline aria-label="Transfers" items={transfers} relative>
+  {#snippet item(transfer)}
+    <strong>{transfer.title}</strong>
+    <Amount value={transfer.amount} format={{ style: 'currency' }} />
+  {/snippet}
+</Timeline>`;
+
 export const treeUsage = `<script lang="ts">
   import { Tree, type TreeItem } from '@sveltier/ui';
   import { mdiFolder, mdiFormatListBulleted } from '@mdi/js';

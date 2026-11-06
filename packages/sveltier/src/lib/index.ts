@@ -392,5 +392,11 @@ export {
 	type TimeFieldDefaults,
 	type TimeFieldProps
 } from './components/TimeField/index.js';
+export {
+	Timeline,
+	type TimelineDefaults,
+	type TimelineItem,
+	type TimelineProps
+} from './components/Timeline/index.js';
 export { Tooltip, type TooltipDefaults, type TooltipProps } from './components/Tooltip/index.js';
 export { Tree, type TreeDefaults, type TreeItem, type TreeProps } from './components/Tree/index.js';

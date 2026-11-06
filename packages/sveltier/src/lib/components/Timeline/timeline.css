@@ -1,0 +1,91 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A column of events: a marker at the start, the text beside it. The marker sits on the middle
+	 * of the title's first line, and a line runs from it down to the next marker.
+	 */
+	.sv-timeline {
+		--sv-timeline-marker: 0.618rem;
+		--sv-timeline-line: 2px;
+
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		color: var(--sv-color-text);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-timeline__event {
+		position: relative;
+		display: grid;
+		grid-template-columns: var(--sv-timeline-marker) minmax(0, 1fr);
+		column-gap: var(--sv-space-13);
+	}
+
+	.sv-timeline__event:not(:last-child) {
+		padding-block-end: calc(var(--sv-space-21) * var(--sv-density));
+	}
+
+	/* The line, from under this marker to just above the next one. */
+	.sv-timeline__event:not(:last-child)::after {
+		content: '';
+		position: absolute;
+		inset-block-start: calc(0.5lh + var(--sv-timeline-marker) / 2 + var(--sv-space-3));
+		inset-block-end: calc(var(--sv-space-3) - 0.5lh + var(--sv-timeline-marker) / 2);
+		inset-inline-start: calc((var(--sv-timeline-marker) - var(--sv-timeline-line)) / 2);
+		inline-size: var(--sv-timeline-line);
+		border-radius: var(--sv-timeline-line);
+		background-color: var(--sv-color-border);
+	}
+
+	.sv-timeline__marker {
+		--sv-timeline-ink: var(--sv-color);
+		box-sizing: border-box;
+		inline-size: var(--sv-timeline-marker);
+		block-size: var(--sv-timeline-marker);
+		margin-block-start: calc((1lh - var(--sv-timeline-marker)) / 2);
+		border: var(--sv-timeline-line) solid var(--sv-timeline-ink);
+		border-radius: 50%;
+		background-color: var(--sv-timeline-ink);
+	}
+
+	/* Neutral markers take the muted text colour, so an event in colour stands out among them. */
+	.sv-timeline.sv-color-neutral
+		> .sv-timeline__event:not([class*='sv-color-'])
+		.sv-timeline__marker,
+	.sv-timeline__event.sv-color-neutral .sv-timeline__marker {
+		--sv-timeline-ink: var(--sv-color-text-muted);
+	}
+
+	.sv-timeline__event--pending .sv-timeline__marker {
+		background-color: transparent;
+	}
+
+	.sv-timeline__event--pending .sv-timeline__title {
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-timeline__body {
+		min-inline-size: 0;
+	}
+
+	.sv-timeline__title {
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-timeline__time {
+		display: block;
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+	}
+
+	/* Padding, not margin: an app's paragraph reset (p { margin: 0 }) would win over a layer. */
+	.sv-timeline__description {
+		margin: 0;
+		padding-block-start: var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+	}
+}
