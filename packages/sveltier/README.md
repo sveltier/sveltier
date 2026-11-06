@@ -64,11 +64,14 @@ Fonts are not bundled: each theme names its families and falls back to system fo
   server renders as it stays; Container, Row and Col, a twelve-column grid.
 - **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
-  Tabs.
-- **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Checkbox, Switch,
-  RadioGroup and Slider, validated by the HTML constraints first, then your rules.
-- **Overlays:** Dialog, Sheet, Popover, Menu and Tooltip in the browser's top layer, and toasts
-  with an undo action from `useToast()`.
+  Stepper, Table, Tabs, Tree.
+- **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Select, Combobox,
+  Checkbox, Switch, RadioGroup, Slider, Calendar, DatePicker, DateRangePicker, TimeField and
+  DateTimeField, validated by the HTML constraints first, then your rules.
+- **Finance:** Amount and Delta for figures people read, PriceInput stepped by its tick, and
+  AmountInput with buttons for shares of the maximum.
+- **Overlays:** Dialog, Sheet, Popover, Menu, ContextMenu, CommandPalette and Tooltip in the
+  browser's top layer, and toasts with an undo action from `useToast()`.
 - **Primitives** for your own components: focus trap, roving focus, dismissable layers, portal,
   inert background and scroll lock, anchored positioning, keyboard maps and typeahead, motion,
   virtual lists.
