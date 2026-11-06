@@ -95,10 +95,16 @@ describe('PinPad', () => {
 		expect(digitsInOrder()).not.toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']);
 	});
 
-	it('puts the extra snippet at the bottom left, beside 0', async () => {
+	it('puts the extra snippet in the cell at the bottom left, beside 0', async () => {
 		await render(PinPadHarness, { withExtra: true });
 		const extra = page.getByRole('button', { name: 'Use fingerprint' }).element();
-		const zero = key('0').element();
-		expect(extra.getBoundingClientRect().right).toBeLessThan(zero.getBoundingClientRect().left);
+		const cell = extra.closest('.sv-pin-pad__extra')!;
+		expect(cell).not.toBeNull();
+		const keys = [...cell.parentElement!.children];
+		// The tenth cell of the grid: after 1 to 9, before 0 and Delete.
+		expect(keys.indexOf(cell)).toBe(9);
+		const zero = key('0').element().getBoundingClientRect();
+		expect(cell.getBoundingClientRect().right).toBeLessThanOrEqual(zero.left);
+		expect(Math.abs(cell.getBoundingClientRect().top - zero.top)).toBeLessThan(1);
 	});
 });
