@@ -49,7 +49,8 @@ import {
 	amountInputUsage,
 	amountUsage,
 	deltaUsage,
-	priceInputUsage
+	priceInputUsage,
+	secureMaskUsage
 } from '#lib/snippets/finance.js';
 import {
 	commandPaletteUsage,
@@ -304,6 +305,12 @@ const FINANCE: Entry[] = [
 		path: 'finance/amount-input',
 		types: ['AmountInputProps'],
 		example: amountInputUsage
+	},
+	{
+		name: 'SecureMask',
+		path: 'finance/secure-mask',
+		types: ['SecureMaskProps'],
+		example: secureMaskUsage
 	}
 ];
 

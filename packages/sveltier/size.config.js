@@ -427,6 +427,14 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Its own code: the mask, its timer, the eye and its CSS. The Button is measured in its
+		// own entry.
+		name: 'SecureMask',
+		code: "export { SecureMask } from '@sveltier/ui';",
+		limit: '1.6 KB',
+		external: [/\/core\//, /\/components\/Button\//]
+	},
+	{
 		// Its own code, with the growing fallback for browsers without field-sizing, and the radius
 		// cap that keeps it from turning oval in a theme with pill controls (about 20 B). The Field
 		// and the shared validation are measured in their own entries.
@@ -546,6 +554,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '74 KB'
+		limit: '75 KB'
 	}
 ];
