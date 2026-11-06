@@ -40,6 +40,8 @@ export const MESSAGES = {
 	maskedEnding: 'ending in {last}',
 	maskedValue: 'Hidden',
 	reveal: 'Show',
+	// Timeline: what screen readers hear after the title of an event that has not happened yet.
+	pending: 'Pending',
 	// AmountInput: the name of a share button, whose text is the percentage ("25%").
 	shareOfMax: '{percent} of the maximum',
 	// Select and Combobox: the list when no option matches, or there is none.

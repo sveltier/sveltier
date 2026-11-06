@@ -64,7 +64,7 @@ Fonts are not bundled: each theme names its families and falls back to system fo
   server renders as it stays; Container, Row and Col, a twelve-column grid.
 - **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
-  Stepper, Table, Tabs, Tree.
+  Stepper, Table, Tabs, Timeline, Tree.
 - **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Select, Combobox,
   Checkbox, Switch, RadioGroup, Slider, OtpInput, Calendar, DatePicker, DateRangePicker,
   TimeField and DateTimeField, validated by the HTML constraints first, then your rules.

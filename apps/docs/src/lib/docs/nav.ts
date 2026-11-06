@@ -82,6 +82,7 @@ export const NAV: NavGroup[] = [
 			{ title: 'Stepper', path: 'components/stepper' },
 			{ title: 'Table', path: 'components/table' },
 			{ title: 'Tabs', path: 'components/tabs' },
+			{ title: 'Timeline', path: 'components/timeline' },
 			{ title: 'Tree', path: 'components/tree' }
 		]
 	},

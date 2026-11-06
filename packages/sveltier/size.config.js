@@ -427,6 +427,13 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Its own code and CSS: the events, their markers and the times, formatted by the locale.
+		name: 'Timeline',
+		code: "export { Timeline } from '@sveltier/ui';",
+		limit: '1.9 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Its own code: the mask, its timer, the eye and its CSS. The Button is measured in its
 		// own entry.
 		name: 'SecureMask',
@@ -554,6 +561,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '75 KB'
+		limit: '76 KB'
 	}
 ];

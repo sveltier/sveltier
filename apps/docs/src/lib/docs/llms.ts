@@ -23,6 +23,7 @@ import {
 	stepperUsage,
 	tableColumns,
 	tabsUsage,
+	timelineUsage,
 	treeUsage
 } from '#lib/snippets/components.js';
 import {
@@ -161,6 +162,12 @@ const COMPONENTS: Entry[] = [
 		example: tableColumns
 	},
 	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps'], example: tabsUsage },
+	{
+		name: 'Timeline',
+		path: 'components/timeline',
+		types: ['TimelineProps', 'TimelineItem'],
+		example: timelineUsage
+	},
 	{ name: 'Tree', path: 'components/tree', types: ['TreeProps', 'TreeItem'], example: treeUsage }
 ];
 

@@ -267,3 +267,16 @@ test('a secure mask shows the last characters, and the whole IBAN on request', a
 	await expect(iban).toContainText('DE89370400440532013000');
 	await expect(iban.getByRole('button', { name: 'Show' })).toHaveAttribute('aria-pressed', 'true');
 });
+
+test("a timeline lists an order's events with their times, the settlement still pending", async ({
+	page
+}) => {
+	await page.goto('/components/timeline');
+	const history = page.getByRole('list', { name: 'Order history' }).first();
+	await expect(history.getByRole('listitem')).toHaveCount(4);
+	await expect(history.locator('time').first()).toHaveAttribute(
+		'datetime',
+		'2026-11-07T09:30:00.000Z'
+	);
+	await expect(history.getByRole('listitem').last()).toContainText('Pending');
+});
