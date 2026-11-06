@@ -15,6 +15,10 @@ export const buttonIcons = `<Button>
 <!-- An icon alone needs a label for screen readers. -->
 <Button icon variant="text" aria-label="Close"><CloseIcon /></Button>`;
 
+export const buttonWrap = `<Button size="sm" variant="outlined" wrap>
+  Add the method's indicators: SMA 20 · SMA 50 · SMA 200
+</Button>`;
+
 export const buttonLoading = `<script>
   import { Button } from '@sveltier/ui';
   let paying = $state(false);

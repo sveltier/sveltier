@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import config from '../../../packages/sveltier/size.config.js';
 
 // The landing page: the agent replay, how agents use Sveltier, the design system figures and
 // the theme packs.
@@ -114,5 +115,8 @@ test('the design system figures come from the live theme and the size config', a
 	const contrast = page.getByRole('row').filter({ hasText: 'Text on background' });
 	await expect(contrast.getByRole('cell').first()).toHaveText(/^\d+\.\d\d:1$/);
 	const budget = page.getByRole('row', { name: /^Button\b/ }).filter({ hasText: 'KB' });
-	await expect(budget.getByRole('cell').first()).toHaveText('2.1 KB');
+	const button = config.find((entry: { name: string }) => entry.name === 'Button');
+	await expect(budget.getByRole('cell').first()).toHaveText(
+		button?.limit ?? 'missing Button budget'
+	);
 });

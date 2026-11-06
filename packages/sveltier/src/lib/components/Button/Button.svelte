@@ -17,6 +17,7 @@
 		disabled,
 		as,
 		icon = false,
+		wrap = false,
 		loading = false,
 		href,
 		type,
@@ -70,6 +71,7 @@
 		p.disabled && 'sv-button--disabled',
 		p.block && 'sv-button--block',
 		icon && 'sv-button--icon',
+		wrap && 'sv-button--wrap',
 		loading && 'sv-button--loading',
 		className
 	]}

@@ -194,6 +194,27 @@ describe('Button layout', () => {
 		}
 	});
 
+	it('wraps a long label onto more lines, growing from its height, from the start', async () => {
+		const label = "Add the method's indicators: SMA 20 · SMA 50 · SMA 200";
+		const screen = await render(ButtonHarness, { label, size: 'sm', variant: 'outlined' });
+		const height = 2.0582 * PX_PER_REM;
+		expect(px(style().height)).toBeCloseTo(height, 1);
+		element().style.maxInlineSize = '10rem';
+		// Without wrap the label stays on one line and spills out.
+		expect(element().scrollWidth).toBeGreaterThan(element().clientWidth);
+		await screen.rerender({ label, size: 'sm', variant: 'outlined', wrap: true });
+		// Within a pixel: scrollWidth rounds up.
+		expect(element().scrollWidth).toBeLessThanOrEqual(element().clientWidth + 1);
+		const lineHeight = px(style().lineHeight);
+		const lines = Math.round((px(style().height) - (height - lineHeight)) / lineHeight);
+		expect(lines).toBeGreaterThan(1);
+		expect(px(style().height)).toBeCloseTo(height + (lines - 1) * lineHeight, 0);
+		expect(style().textAlign).toBe('start');
+		// A label that fits keeps the height of the size.
+		await screen.rerender({ label: 'Add', size: 'sm', variant: 'outlined', wrap: true });
+		expect(px(style().height)).toBeCloseTo(height, 1);
+	});
+
 	it('fills its container when block', async () => {
 		await render(ButtonHarness, { block: true });
 		const container = element().parentElement!.getBoundingClientRect();

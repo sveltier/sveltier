@@ -59,6 +59,12 @@ type ButtonOwnProps = Partial<ButtonDefaults> & {
 	 */
 	icon?: boolean;
 	/**
+	 * Lets a long label wrap onto more lines: the button grows from its height, one line still
+	 * as tall as other controls, and the label starts at the inline start.
+	 * @default false
+	 */
+	wrap?: boolean;
+	/**
 	 * Shows a spinner and ignores presses, while the button keeps focus and its label for
 	 * screen readers, which also hear that it is loading.
 	 * @default false

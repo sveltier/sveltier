@@ -113,7 +113,7 @@ export default [
 		// CSS (five variants on one state layer, bevel, spinner): over the first 1.5 KB guess.
 		name: 'Button',
 		code: "export { Button } from '@sveltier/ui';",
-		limit: '2.1 KB',
+		limit: '2.2 KB',
 		external: [/\/core\//]
 	},
 	{
