@@ -506,6 +506,14 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
+		// Its own code: the shown nodes, the roving tab stop, the keys, opening and selecting, and
+		// the rows with their chevrons and icons. Typeahead is a primitive, measured apart.
+		name: 'Tree',
+		code: "export { Tree } from '@sveltier/ui';",
+		limit: '3.2 KB',
+		external: [/\/core\//, /\/primitives\//]
+	},
+	{
 		name: 'defineTheme (custom themes, adds the colour maths)',
 		code: "export { defineTheme } from '@sveltier/ui';",
 		limit: '1 KB'
@@ -523,6 +531,6 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '69.5 KB'
+		limit: '71 KB'
 	}
 ];

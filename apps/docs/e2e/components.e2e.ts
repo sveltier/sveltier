@@ -224,3 +224,23 @@ test('a pagination moves through the pages and disables its steps at the ends', 
 	await expect(pages.getByRole('button', { name: 'Next page' })).toBeDisabled();
 	await expect(page.getByText('Showing transactions 81–87 of 87')).toBeVisible();
 });
+
+test('a tree opens with the arrow keys and selects with Enter, not on focus', async ({ page }) => {
+	await open(page, '/components/tree');
+	const tree = page.locator('.docs-demo').getByRole('tree', { name: 'Watchlists' });
+	const node = (name: string) => tree.getByRole('treeitem', { name, exact: true });
+	await node('Majors').focus();
+	await page.keyboard.press('ArrowDown');
+	await page.keyboard.press('ArrowDown');
+	await expect(node('Perpetuals')).toBeFocused();
+	await page.keyboard.press('ArrowRight');
+	await page.keyboard.press('ArrowRight');
+	await expect(node('OKX')).toBeFocused();
+	await expect(page.getByText('Selected: "majors"')).toBeVisible();
+	await page.keyboard.press('Enter');
+	await expect(page.getByText('Selected: "okx-perps"')).toBeVisible();
+	await expect(node('OKX')).toHaveAttribute('aria-selected', 'true');
+	await node('FX').locator('.sv-tree__toggle').first().click();
+	await expect(node('Crosses')).toBeVisible();
+	await expect(page.getByText('Selected: "okx-perps"')).toBeVisible();
+});

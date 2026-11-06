@@ -377,3 +377,4 @@ export {
 	type TimeFieldProps
 } from './components/TimeField/index.js';
 export { Tooltip, type TooltipDefaults, type TooltipProps } from './components/Tooltip/index.js';
+export { Tree, type TreeDefaults, type TreeItem, type TreeProps } from './components/Tree/index.js';
