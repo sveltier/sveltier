@@ -427,6 +427,13 @@ export default [
 		external: [/\/core\//, /\/components\/(NumberField|Button)\//]
 	},
 	{
+		// Its own code and CSS: the dots, the keys, the shuffle and the keyboard.
+		name: 'PinPad',
+		code: "export { PinPad } from '@sveltier/ui';",
+		limit: '3 KB',
+		external: [/\/core\//]
+	},
+	{
 		// Ledger and LedgerRow, with their CSS. The figure is an Amount, measured in its own entry.
 		name: 'Ledger',
 		code: "export { Ledger, LedgerRow } from '@sveltier/ui';",

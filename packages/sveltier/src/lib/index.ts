@@ -317,6 +317,7 @@ export {
 	type PaginationProps
 } from './components/Pagination/index.js';
 export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
+export { PinPad, type PinPadDefaults, type PinPadProps } from './components/PinPad/index.js';
 export { PriceInput, type PriceInputProps } from './components/PriceInput/index.js';
 export {
 	ProgressCircular,

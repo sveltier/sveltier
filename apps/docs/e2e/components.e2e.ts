@@ -288,3 +288,16 @@ test('a receipt pairs each label with its figure and rules off the total', async
 	await expect(receipt.getByRole('term')).toHaveText(['To', 'Amount', 'Fee', 'Arrives', 'Total']);
 	await expect(receipt.getByRole('definition').last()).toHaveText('$1,002.50');
 });
+
+test('a PIN pad takes a PIN on its keys and refuses a wrong one', async ({ page }) => {
+	await page.goto('/finance/pin-pad');
+	const pad = page.getByRole('group', { name: 'Enter your trading PIN' });
+	for (const digit of ['1', '1', '1', '1']) {
+		await pad.getByRole('button', { name: digit, exact: true }).click();
+	}
+	await expect(pad).toHaveAccessibleDescription(/Wrong PIN/);
+	for (const digit of ['2', '5', '8', '0']) {
+		await pad.getByRole('button', { name: digit, exact: true }).click();
+	}
+	await expect(page.getByText('Order confirmed.')).toBeVisible();
+});

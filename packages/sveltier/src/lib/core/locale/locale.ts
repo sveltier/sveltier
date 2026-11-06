@@ -40,6 +40,9 @@ export const MESSAGES = {
 	maskedEnding: 'ending in {last}',
 	maskedValue: 'Hidden',
 	reveal: 'Show',
+	// PinPad: its Delete key, and what screen readers hear in place of the digits.
+	pinDelete: 'Delete',
+	pinProgress: '{count} of {length} digits entered',
 	// Timeline: what screen readers hear after the title of an event that has not happened yet.
 	pending: 'Pending',
 	// AmountInput: the name of a share button, whose text is the percentage ("25%").

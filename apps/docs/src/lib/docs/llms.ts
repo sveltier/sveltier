@@ -51,6 +51,7 @@ import {
 	amountUsage,
 	deltaUsage,
 	ledgerUsage,
+	pinPadUsage,
 	priceInputUsage,
 	receiptUsage,
 	secureMaskUsage
@@ -320,6 +321,12 @@ const FINANCE: Entry[] = [
 		path: 'finance/ledger',
 		types: ['LedgerProps', 'LedgerRowProps'],
 		example: ledgerUsage
+	},
+	{
+		name: 'PinPad',
+		path: 'finance/pin-pad',
+		types: ['PinPadProps'],
+		example: pinPadUsage
 	},
 	{
 		name: 'Receipt',

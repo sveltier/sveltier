@@ -1,0 +1,174 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The label, the dots, then three columns of round keys φ times a control of the size, a
+	 * φ fraction of a key apart.
+	 */
+	.sv-pin-pad {
+		--sv-pin-key: calc(var(--sv-size-height) * 1.618);
+		--sv-pin-dot: var(--sv-space-13);
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--sv-space-21);
+		color: var(--sv-color-text);
+		font-family: var(--sv-font-ui);
+	}
+
+	.sv-pin-pad__label {
+		font-size: var(--sv-text-md);
+		font-weight: var(--sv-weight-medium);
+		text-align: center;
+	}
+
+	.sv-pin-pad__dots {
+		display: flex;
+		gap: calc(var(--sv-pin-dot) * 0.618 + var(--sv-space-5));
+	}
+
+	.sv-pin-pad__dot {
+		box-sizing: border-box;
+		inline-size: var(--sv-pin-dot);
+		block-size: var(--sv-pin-dot);
+		border: calc(var(--sv-hairline) * 2) solid var(--sv-color-border-strong);
+		border-radius: 50%;
+		transition:
+			transform var(--sv-duration-fast) var(--sv-ease),
+			opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	.sv-pin-pad__dot--filled {
+		border-color: var(--sv-color);
+		background-color: var(--sv-color);
+		transform: scale(1.128);
+	}
+
+	.sv-pin-pad--invalid .sv-pin-pad__dot {
+		border-color: var(--sv-color-error);
+	}
+
+	.sv-pin-pad--invalid .sv-pin-pad__dot--filled {
+		background-color: var(--sv-color-error);
+	}
+
+	/* One shake for each new error: a short side to side, settling where it started. */
+	.sv-pin-pad__dots--shake {
+		animation: sv-pin-shake 377ms var(--sv-ease);
+	}
+
+	@keyframes sv-pin-shake {
+		20% {
+			transform: translateX(-0.5rem);
+		}
+		40% {
+			transform: translateX(0.4rem);
+		}
+		60% {
+			transform: translateX(-0.25rem);
+		}
+		80% {
+			transform: translateX(0.125rem);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-pin-pad__dots--shake {
+			animation: none;
+		}
+
+		.sv-pin-pad__dot {
+			transition: none;
+		}
+	}
+
+	/* Padding, not margin: an app's paragraph reset (p { margin: 0 }) would win over a layer. */
+	.sv-pin-pad__error {
+		margin: calc(var(--sv-space-13) * -1) 0 0;
+		color: var(--sv-color-error);
+		font-size: var(--sv-text-sm);
+		text-align: center;
+	}
+
+	.sv-pin-pad__keys {
+		display: grid;
+		grid-template-columns: repeat(3, var(--sv-pin-key));
+		gap: calc(var(--sv-pin-key) * 0.236);
+	}
+
+	.sv-pin-pad__extra {
+		display: grid;
+		place-items: center;
+	}
+
+	.sv-pin-pad__key {
+		position: relative;
+		display: grid;
+		place-items: center;
+		inline-size: var(--sv-pin-key);
+		block-size: var(--sv-pin-key);
+		margin: 0;
+		padding: 0;
+		border: var(--sv-hairline) solid var(--sv-color-border);
+		border-radius: 50%;
+		background-color: var(--sv-color-surface-raised);
+		color: var(--sv-color-text);
+		font: var(--sv-weight-medium) calc(var(--sv-size-text) * 1.618) / 1 var(--sv-font-ui);
+		font-variant-numeric: tabular-nums;
+		cursor: pointer;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+		transition: transform var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	/* State layer, as a Button's: the text colour over the key, only its opacity changes. */
+	.sv-pin-pad__key::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-pin-pad__key:enabled:hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-pin-pad__key:enabled:active::before {
+		opacity: var(--sv-state-press);
+	}
+
+	.sv-pin-pad__key:enabled:active {
+		transform: scale(0.95);
+	}
+
+	.sv-pin-pad__key:focus-visible {
+		outline: var(--sv-focus-width) solid var(--sv-color);
+		outline-offset: var(--sv-focus-offset, 2px);
+	}
+
+	.sv-pin-pad__key--delete {
+		border-color: transparent;
+		background-color: transparent;
+	}
+
+	.sv-pin-pad__key--delete svg {
+		inline-size: calc(var(--sv-size-text) * 1.618);
+		block-size: calc(var(--sv-size-text) * 1.618);
+	}
+
+	.sv-pin-pad__key:disabled {
+		cursor: not-allowed;
+		opacity: 0.382;
+	}
+
+	.sv-pin-pad--disabled .sv-pin-pad__dots,
+	.sv-pin-pad--disabled .sv-pin-pad__label {
+		opacity: 0.382;
+	}
+}
