@@ -3,7 +3,7 @@
 	import { Button, type Density, type Size } from '@sveltier/ui';
 
 	const SIZES: Size[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-	const DENSITIES: Density[] = ['compact', 'default', 'comfortable'];
+	const DENSITIES: Density[] = ['dense', 'compact', 'default', 'comfortable'];
 </script>
 
 <div class="docs-demo">

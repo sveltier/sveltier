@@ -75,6 +75,7 @@
 			aria-label="Density"
 			size="sm"
 			options={[
+				{ value: 'dense', label: 'Dense' },
 				{ value: 'compact', label: 'Compact' },
 				{ value: 'default', label: 'Default' },
 				{ value: 'comfortable', label: 'Comfortable' }

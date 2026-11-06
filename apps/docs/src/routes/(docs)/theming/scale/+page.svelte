@@ -180,7 +180,8 @@
 	<p>
 		Control heights are half steps of φ; <code>md</code>, φ² ≈ 42px, is the default. Density moves a
 		control a quarter step: <code>--sv-density-compact</code> is φ<sup>−¼</sup> ≈ 0.887 and
-		<code>--sv-density-comfortable</code> is φ<sup>¼</sup> ≈ 1.128.
+		<code>--sv-density-comfortable</code> is φ<sup>¼</sup> ≈ 1.128. <code>--sv-density-dense</code>,
+		φ<sup>−½</sup> ≈ 0.786, moves it half a step, for data-heavy screens.
 	</p>
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div class="docs-table-scroll" role="region" aria-label="Control heights" tabindex="0">

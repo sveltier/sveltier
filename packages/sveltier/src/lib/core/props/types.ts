@@ -3,8 +3,11 @@
 
 import type { IntentColor } from '../theme/types.js';
 
-/** How tightly a component packs its content. `default` is the baseline. */
-export const DENSITIES = ['compact', 'default', 'comfortable'] as const;
+/**
+ * How tightly a component packs its content. `default` is the baseline; `dense` is for
+ * data-heavy screens, such as a terminal's tables.
+ */
+export const DENSITIES = ['dense', 'compact', 'default', 'comfortable'] as const;
 export type Density = (typeof DENSITIES)[number];
 
 /** Overall scale of a component. `md` is the baseline. */
