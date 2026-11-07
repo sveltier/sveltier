@@ -16,6 +16,7 @@
 		density,
 		disabled,
 		checked = $bindable(false),
+		onchange,
 		indeterminate = $bindable(false),
 		label,
 		hint,
@@ -61,6 +62,7 @@
 	function toggled() {
 		field.changed();
 		field.left();
+		onchange?.(checked ?? false);
 	}
 </script>
 

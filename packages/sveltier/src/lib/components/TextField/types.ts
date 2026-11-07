@@ -22,6 +22,11 @@ type TextFieldOwnProps = Partial<TextFieldDefaults> &
 		/** The text. Bindable. */
 		value?: string;
 		/**
+		 * Called with the text when the user leaves the field after changing it; not when `value` is
+		 * set. `oninput` is the DOM event, for work on each key.
+		 */
+		onchange?: (value: string) => void;
+		/**
 		 * The kind of text: it picks the keyboard and autofill, and `email` and `url` are checked.
 		 * @default 'text'
 		 */

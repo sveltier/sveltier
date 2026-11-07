@@ -4,7 +4,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import SwitchDemo from '#lib/docs/switch/SwitchDemo.svelte';
-	import { switchUsage } from '#lib/snippets/forms.js';
+	import { switchOnchange, switchUsage } from '#lib/snippets/forms.js';
 	import SWITCH_PROPS from 'virtual:sveltier-api/SwitchProps';
 </script>
 
@@ -20,6 +20,11 @@
 	</p>
 	<SwitchDemo />
 	<Code title="Settings.svelte" code={switchUsage} />
+	<p>
+		To act on a change, such as saving the setting, pass <code>onchange</code>: it receives the new
+		state when the user turns the switch, and is not called when <code>checked</code> is set from code.
+	</p>
+	<Code title="Sound.svelte" code={switchOnchange} />
 
 	<h2 id="when">Switch or checkbox</h2>
 	<p>

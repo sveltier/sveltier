@@ -41,6 +41,8 @@ type CheckboxOwnProps = Partial<CheckboxDefaults> &
 		 * @default false
 		 */
 		checked?: boolean;
+		/** Called with the new state when the user checks or unchecks it; not when `checked` is set. */
+		onchange?: (checked: boolean) => void;
 		/**
 		 * Shows a dash for a state that is neither checked nor unchecked, such as a "select all"
 		 * box over a partly selected list. A press clears it. Bindable.
@@ -79,6 +81,6 @@ type CheckboxOwnProps = Partial<CheckboxDefaults> &
  */
 export type CheckboxProps = ElementProps<
 	HTMLInputElement,
-	Omit<HTMLInputAttributes, 'type' | 'children'>,
+	Omit<HTMLInputAttributes, 'type' | 'children' | 'onchange'>,
 	CheckboxOwnProps
 >;

@@ -17,6 +17,7 @@
 		rounded,
 		disabled,
 		value = $bindable(''),
+		onchange,
 		type = 'text',
 		label,
 		hint,
@@ -98,6 +99,7 @@
 	class={className}
 	{style}
 	oninput={field.changed}
+	onchange={() => onchange?.(value ?? '')}
 	onfocusout={leave}
 >
 	{#snippet children(attributes)}

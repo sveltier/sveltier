@@ -47,6 +47,11 @@ type OtpInputOwnProps = Partial<OtpInputDefaults> & {
 	/** The code typed so far, never longer than `length`. Bindable. */
 	value?: string;
 	/**
+	 * Called with the code when the user leaves the field after changing it; not when `value` is
+	 * set. `oncomplete` comes as soon as every box is filled.
+	 */
+	onchange?: (value: string) => void;
+	/**
 	 * How many characters the code has: one box each.
 	 * @default 6
 	 */

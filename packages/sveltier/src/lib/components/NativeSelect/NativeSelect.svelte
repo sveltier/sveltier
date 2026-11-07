@@ -19,6 +19,7 @@
 		disabled,
 		options,
 		value = $bindable(null),
+		onchange,
 		placeholder,
 		label,
 		hint,
@@ -84,6 +85,7 @@
 	]}
 	{style}
 	oninput={field.changed}
+	onchange={() => onchange?.(value ?? null)}
 	onfocusout={leave}
 >
 	{#snippet children(attributes)}

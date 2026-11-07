@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Markets grouped by venue, one of them suspended, each with its pair's full name.
-	import { Select, type SelectItem } from '@sveltier/ui';
+	import { Select, type SelectOption } from '@sveltier/ui';
 
-	const MARKETS: SelectItem<string>[] = [
+	const MARKETS: SelectOption<string>[] = [
 		{ value: 'btc-usdt', label: 'BTC/USDT', description: 'Bitcoin', group: 'Binance' },
 		{ value: 'eth-usdt', label: 'ETH/USDT', description: 'Ether', group: 'Binance' },
 		{ value: 'sol-usdt', label: 'SOL/USDT', description: 'Solana', group: 'Binance' },
@@ -21,6 +21,6 @@
 </script>
 
 <div class="docs-demo docs-ticket">
-	<Select label="Market" placeholder="Choose a market" items={MARKETS} bind:value={market} />
+	<Select label="Market" placeholder="Choose a market" options={MARKETS} bind:value={market} />
 	<p class="docs-dim">Value: {market ?? 'null'}</p>
 </div>

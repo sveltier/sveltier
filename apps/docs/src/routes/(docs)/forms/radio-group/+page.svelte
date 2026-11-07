@@ -18,6 +18,7 @@
 		of the option values, so numbers stay numbers. It is <code>null</code> until the user picks one.
 		<code>label</code> is the question, as the group's legend; each option can carry a
 		<code>hint</code>, read out with its radio. <code>inline</code> lays short options side by side.
+		<code>onchange</code> receives the value the user picks, in its type.
 	</p>
 	<RadioGroupDemo />
 	<Code title="Payout.svelte" code={radioGroupUsage} />

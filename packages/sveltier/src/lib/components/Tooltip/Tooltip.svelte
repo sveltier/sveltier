@@ -8,7 +8,7 @@
 	// A short text that describes a control, on hover and keyboard focus. See TooltipProps.
 	import { createAttachmentKey, type Attachment } from 'svelte/attachments';
 	import { on } from 'svelte/events';
-	import { checkValue, DEV, warnNamelessTrigger } from '#dev';
+	import { checkValue, DEV, warnLostDescription, warnNamelessTrigger } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import type { TriggerAttributes } from '../../core/overlay/types.js';
 	import { ALIGNS, anchored, SIDES } from '../../primitives/anchored/anchored.js';
@@ -95,7 +95,10 @@
 
 	const control: Attachment<HTMLElement> = (node) => {
 		anchor = node;
-		if (DEV) warnNamelessTrigger('Tooltip', node);
+		if (DEV) {
+			warnNamelessTrigger('Tooltip', node);
+			warnLostDescription('Tooltip', node, id);
+		}
 		const stops = [
 			on(node, 'pointerenter', enter),
 			on(node, 'pointerleave', leave),

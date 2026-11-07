@@ -17,6 +17,11 @@ type TextareaOwnProps = Partial<TextareaDefaults> &
 		/** The text. Bindable. */
 		value?: string;
 		/**
+		 * Called with the text when the user leaves the field after changing it; not when `value` is
+		 * set. `oninput` is the DOM event, for work on each key.
+		 */
+		onchange?: (value: string) => void;
+		/**
 		 * Visible lines, and the fewest it shows when it grows.
 		 * @default 3
 		 */

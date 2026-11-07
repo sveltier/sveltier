@@ -46,7 +46,9 @@ export type BadgeProps = ElementProps<
 		/**
 		 * What the content counts, read after it by screen readers: `unread messages` reads
 		 * "3 unread messages". With `dot`, the whole announcement. With an `id`, this text has
-		 * the id `{id}-label`, for the `aria-describedby` of a button the badge is pinned to.
+		 * the id `{id}-label`, for the `aria-describedby` of a button the badge is pinned to. On a
+		 * button with a Tooltip, join it to the tooltip's: `[attributes['aria-describedby'],
+		 * 'inbox-label'].join(' ')`.
 		 */
 		label?: string;
 		/** The content the badge is pinned to. */

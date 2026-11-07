@@ -181,7 +181,7 @@
 				/>
 				<Select
 					label="Market"
-					items={[
+					options={[
 						{ value: 'btc', label: 'BTC/USDT' },
 						{ value: 'eth', label: 'ETH/USDT' }
 					]}
@@ -270,8 +270,8 @@
 			</div>
 			<Accordion
 				items={[
-					{ value: 'fees', title: 'What does a transfer cost?' },
-					{ value: 'timing', title: 'How long does it take?' }
+					{ value: 'fees', label: 'What does a transfer cost?' },
+					{ value: 'timing', label: 'How long does it take?' }
 				]}
 				value="fees"
 			>

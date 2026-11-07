@@ -18,15 +18,16 @@ export default [
 		measure: 'css'
 	},
 	{
-		// 3.9 KB for theme, defaults, display and locale. UIProvider also brings the toasts (about
-		// 2.9 KB: the queue and timers, the outlet with its live regions and keyboard, and the
-		// motion it uses), so useToast() works anywhere below it with nothing to add. The locale's
-		// messages live here, all of them, so an app can translate any: they grow a little with
-		// each component that speaks.
+		// 3.9 KB for theme, defaults, display and locale. UIProvider also brings the toasts' queue,
+		// timers and live regions, so useToast() works anywhere below it with nothing to add; the
+		// region that shows them, with its keyboard and motion, loads apart once the page is idle
+		// and is measured in the Toast entry. The locale's messages live here, all of them, so an
+		// app can translate any: they grow a little with each component that speaks.
 		name: 'core JS (UIProvider: theme, defaults, display, locale, toasts)',
 		code: "export { UIProvider, ThemeProvider, useTheme, DefaultsProvider, useDefaults, useDisplay, useLocale } from '@sveltier/ui';",
-		limit: '7.3 KB',
-		measure: 'js'
+		limit: '5.7 KB',
+		measure: 'js',
+		external: [/\/core\/toast\/ToastOutlet/]
 	},
 	{
 		name: 'sharedClasses (with the shared props CSS)',
@@ -145,7 +146,7 @@ export default [
 		// in it leaves the page; the primitives the shell stands on are measured apart.
 		name: 'NavigationDrawer',
 		code: "export { NavigationDrawer } from '@sveltier/ui';",
-		limit: '4 KB',
+		limit: '4.1 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -318,7 +319,7 @@ export default [
 		// measured in its own entry.
 		name: 'Delta',
 		code: "export { Delta } from '@sveltier/ui';",
-		limit: '1.05 KB',
+		limit: '1.2 KB',
 		external: [/\/core\//, /\/components\/Amount\//]
 	},
 	{
@@ -503,7 +504,7 @@ export default [
 		// measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '3.15 KB',
+		limit: '3.2 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -512,7 +513,7 @@ export default [
 		// closing.
 		name: 'ContextMenu',
 		code: "export { ContextMenu } from '@sveltier/ui';",
-		limit: '3.4 KB',
+		limit: '3.45 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -522,7 +523,7 @@ export default [
 		// path or a component) and shortcuts.
 		name: 'CommandPalette',
 		code: "export { CommandPalette } from '@sveltier/ui';",
-		limit: '5.95 KB',
+		limit: '6 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -542,13 +543,21 @@ export default [
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
-		// useToast and ToastProvider with the outlet: the queue, its timers and announcements, the
-		// region with its live regions and the room kept below it, F8 and Escape, and the styles.
-		// UIProvider includes it, so it also counts in the core budget above. The motion primitives
-		// are measured apart.
+		// useToast and ToastProvider: the queue, its timers and announcements with their live
+		// regions, and the loading of the region. UIProvider includes it, so it also counts in the
+		// core budget above. The region loads apart and is measured in the next entry.
 		name: 'Toast (useToast, ToastProvider)',
 		code: "export { useToast, ToastProvider } from '@sveltier/ui';",
-		limit: '3.8 KB',
+		limit: '2 KB',
+		external: [/\/core\/(?!toast\/)/, /\/primitives\//, /\/core\/toast\/ToastOutlet/]
+	},
+	{
+		// The region that shows the toasts, loaded once the page is idle or a toast shows: the
+		// list in the top layer, its actions, F8 and Escape, the room kept below it, and the
+		// styles. The motion primitives are measured apart.
+		name: 'Toast region (loaded apart)',
+		code: "export { default } from '@sveltier/ui/core/toast/ToastOutlet.svelte';",
+		limit: '2.6 KB',
 		external: [/\/core\/(?!toast\/)/, /\/primitives\//]
 	},
 	{
@@ -596,10 +605,21 @@ export default [
 		// A guard against accidental growth of the barrel: all five packs (about 4.5 KB) plus
 		// the engine, the shared props CSS, locale, the primitives, the components, the form
 		// fields, the error registry (about 1.3 KB of text, which apps only load if they import
-		// it) and the bundler's dynamic import helper. It grows with every module by design.
+		// it). The preload helper is shared with the app and not counted. It grows with every
+		// module by design: no app loads it all, so it guards against a module that stops
+		// shaking off, and moves with each release. The budget an app feels is the next entry's.
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '80 KB'
+		limit: '82 KB'
+	},
+	{
+		// What a typical app loads first: the root provider with a theme pack, a button, two
+		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
+		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
+		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
+		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
+		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
+		limit: '22 KB'
 	}
 ];

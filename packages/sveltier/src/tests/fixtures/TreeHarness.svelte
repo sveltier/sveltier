@@ -7,8 +7,14 @@
 	let {
 		value = null,
 		expanded = [],
-		dir
-	}: { value?: string | null; expanded?: string[]; dir?: 'ltr' | 'rtl' } = $props();
+		dir,
+		size
+	}: {
+		value?: string | null;
+		expanded?: string[];
+		dir?: 'ltr' | 'rtl';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+	} = $props();
 
 	const items: TreeItem[] = [
 		{
@@ -35,6 +41,7 @@
 	<Tree
 		aria-label="Watchlists"
 		{items}
+		{size}
 		bind:value={selected}
 		bind:expanded={open}
 		onselect={(item) => (chosen = item.label)}

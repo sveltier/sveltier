@@ -7,6 +7,8 @@ export const checkValue: typeof On.checkValue = () => {};
 export const checkDate: typeof On.checkDate = () => {};
 export const warnUnnamed: typeof On.warnUnnamed = () => {};
 export const warnNamelessTrigger: typeof On.warnNamelessTrigger = () => {};
+export const warnLostDescription: typeof On.warnLostDescription = () => {};
+export const warnRenamed: typeof On.warnRenamed = () => {};
 export const warnMisplaced: typeof On.warnMisplaced = () => {};
 export const warnDuplicates: typeof On.warnDuplicates = () => {};
 export const warnOutsideList: typeof On.warnOutsideList = () => {};

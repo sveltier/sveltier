@@ -8,6 +8,7 @@
 	import type { TreeDefaults, TreeItem, TreeProps } from './types.js';
 
 	let {
+		size,
 		density,
 		color,
 		items,
@@ -21,8 +22,12 @@
 		...rest
 	}: TreeProps<I> = $props();
 
-	const resolve = useDefaults<TreeDefaults>('Tree', { density: 'default', color: 'primary' });
-	const p = $derived(resolve({ density, color }));
+	const resolve = useDefaults<TreeDefaults>('Tree', {
+		size: 'md',
+		density: 'default',
+		color: 'primary'
+	});
+	const p = $derived(resolve({ size, density, color }));
 
 	const CHEVRON = 'M5.6 8.6 12 15l6.4-6.4L20 10.2l-8 8-8-8z';
 
@@ -238,7 +243,7 @@
 	bind:this={ref}
 	{...rest}
 	role="tree"
-	class={['sv-tree', sharedClasses({ density: p.density, color: p.color }, 'Tree'), className]}
+	class={['sv-tree', sharedClasses(p, 'Tree'), className]}
 	{@attach keys}
 	{@attach typeahead({ items: '[role="treeitem"]', onMatch: (element) => element.focus() })}
 >

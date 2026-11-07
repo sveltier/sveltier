@@ -2,11 +2,16 @@ import type { HTMLAttributes } from 'svelte/elements';
 import type { Component, Snippet } from 'svelte';
 import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Density } from '../../core/props/types.js';
+import type { Density, Size } from '../../core/props/types.js';
 import type { Align, Side } from '../../primitives/anchored/anchored.js';
 
 /** The Menu props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface MenuDefaults {
+	/**
+	 * The text and the rows: a row is a step lower than a control of the same size.
+	 * @default 'md'
+	 */
+	size: Size;
 	/**
 	 * Multiplies the height and padding of the items, never the text.
 	 * @default 'default'
@@ -31,7 +36,10 @@ export interface MenuAction {
 	 * 24×24 grid, as Material Design Icons export them (`mdiPencil`), or an icon component of any
 	 * other set, such as `PencilSimple` from phosphor-svelte. The component renders with no props.
 	 */
-	icon?: string | Component<object>;
+	// Any props: a component's props are checked the other way round, so a narrower type would
+	// turn away icon sets whose props take every SVG attribute.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	icon?: string | Component<any>;
 	/** A keyboard shortcut shown at the end, such as `Ctrl+C`. Showing it does not bind it. */
 	shortcut?: string;
 	/** Shown but not chosen, and skipped by the arrow keys. */

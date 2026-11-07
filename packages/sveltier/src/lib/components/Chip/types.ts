@@ -62,6 +62,8 @@ export type ChipProps = ElementProps<
 		 * Bindable. Off, it is outlined; on, it takes its `variant` and shows a check.
 		 */
 		selected?: boolean;
+		/** Called with the new state when the user toggles a filter chip; not when `selected` is set. */
+		onchange?: (selected: boolean) => void;
 		/**
 		 * Adds a button that removes the chip by calling `onclose`. Only for chips that are not
 		 * themselves buttons or links.

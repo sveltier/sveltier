@@ -123,9 +123,9 @@ describe('development checks in components', () => {
 				`<Table> got sortBy.column="status". Valid values: 'symbol' | 'quantity' | 'price' | 'value'. Sort by a column with sort.`
 			);
 	});
-	it('warn about two select items with the same value', async () => {
+	it('warn about two select options with the same value', async () => {
 		await render(SelectHarness, {
-			items: [
+			options: [
 				{ value: 'btc', label: 'BTC/USDT' },
 				{ value: 'btc', label: 'BTC/USD' }
 			]
@@ -133,7 +133,7 @@ describe('development checks in components', () => {
 		await expect
 			.poll(logged)
 			.toContain(
-				"[sveltier SV4005] <Select> has two items with the key 'btc'. Give each item its own value."
+				"[sveltier SV4005] <Select> has two options with the key 'btc'. Give each option its own value."
 			);
 	});
 });

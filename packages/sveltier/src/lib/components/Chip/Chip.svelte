@@ -15,6 +15,7 @@
 		rounded,
 		disabled,
 		selected = $bindable(),
+		onchange,
 		closable = false,
 		closeLabel,
 		onclose,
@@ -60,7 +61,10 @@
 			event.preventDefault();
 			return;
 		}
-		if (toggle) selected = !selected;
+		if (toggle) {
+			selected = !selected;
+			onchange?.(selected);
+		}
 		(onclick as ((event: MouseEvent) => void) | null | undefined)?.(event);
 	}
 

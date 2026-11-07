@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import ToastHarness from '../../../tests/fixtures/ToastHarness.svelte';
+import ToastProviders from '../../../tests/fixtures/ToastProviders.svelte';
 
 const NAME = 'Notifications (F8)';
 const region = () => page.getByRole('region', { name: NAME });
@@ -178,5 +179,13 @@ describe('Toasts', () => {
 		await expect.element(dialog).not.toBeInTheDocument();
 		await expect.element(toast('Payment sent')).toBeVisible();
 		expect(document.querySelectorAll('.sv-toast')).toHaveLength(1);
+	});
+});
+
+describe('The toast region', () => {
+	it('loads apart from the page, and shows a toast given while the page renders', async () => {
+		await render(ToastProviders, { root: 'ui' });
+		await expect.element(toast('Shown while rendering')).toBeVisible();
+		expect(live('polite')).toContain('Shown while rendering');
 	});
 });

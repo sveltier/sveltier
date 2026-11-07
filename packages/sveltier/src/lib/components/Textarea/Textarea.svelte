@@ -18,6 +18,7 @@
 		rounded,
 		disabled,
 		value = $bindable(''),
+		onchange,
 		rows = 3,
 		autoGrow = false,
 		maxRows,
@@ -98,6 +99,7 @@
 	class={['sv-textarea', autoGrow && 'sv-textarea--grow', className]}
 	{style}
 	oninput={field.changed}
+	onchange={() => onchange?.(value ?? '')}
 	onfocusout={leave}
 >
 	{#snippet children(attributes)}

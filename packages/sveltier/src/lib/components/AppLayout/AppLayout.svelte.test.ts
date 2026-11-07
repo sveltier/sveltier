@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import AppLayoutHarness from '../../../tests/fixtures/AppLayoutHarness.svelte';
@@ -172,6 +172,21 @@ describe('AppLayout', () => {
 			await page.viewport(600, 800);
 			await expect.element(page.getByRole('link', { name: 'Payments' })).not.toBeInTheDocument();
 			await expect.element(modal()).not.toBeInTheDocument();
+		});
+
+		it('says why the modal drawer closed itself: Escape, or a link followed', async () => {
+			const onclose = vi.fn();
+			await render(AppLayoutHarness, { drawer: { onclose } });
+			await menu().click();
+			await expect.element(modal()).toBeVisible();
+			await userEvent.keyboard('{Escape}');
+			await expect.element(modal()).not.toBeInTheDocument();
+			expect(onclose).toHaveBeenLastCalledWith('escape');
+			await menu().click();
+			await page.getByRole('link', { name: 'Payments' }).click();
+			await expect.element(modal()).not.toBeInTheDocument();
+			expect(onclose).toHaveBeenLastCalledWith('action');
+			expect(onclose).toHaveBeenCalledTimes(2);
 		});
 
 		it('keeps a drawer with breakpoint xs beside the content', async () => {

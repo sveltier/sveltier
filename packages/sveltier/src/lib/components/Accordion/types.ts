@@ -23,7 +23,9 @@ export interface AccordionItem<T extends string | number = string> {
 	/** Identifies the section in `value`. */
 	value: T;
 	/** The header's text. */
-	title: string;
+	label: string;
+	/** @deprecated Renamed `label`, as on a tab. */
+	title?: never;
 	/** Its header no longer opens or closes it; it keeps its state. */
 	disabled?: boolean;
 }
@@ -57,7 +59,7 @@ interface Multiple<T> {
  * root element.
  *
  * @example
- * <Accordion items={[{ value: 'fees', title: 'Fees' }, { value: 'limits', title: 'Limits' }]} bind:value={open}>
+ * <Accordion items={[{ value: 'fees', label: 'Fees' }, { value: 'limits', label: 'Limits' }]} bind:value={open}>
  *   {#snippet panel(item)}{answers[item.value]}{/snippet}
  * </Accordion>
  */

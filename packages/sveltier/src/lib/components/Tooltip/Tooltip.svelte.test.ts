@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import TooltipBadgeHarness from '../../../tests/fixtures/TooltipBadgeHarness.svelte';
 import TooltipDialogHarness from '../../../tests/fixtures/TooltipDialogHarness.svelte';
 import TooltipHarness from '../../../tests/fixtures/TooltipHarness.svelte';
 
@@ -106,5 +107,27 @@ describe('Tooltip', () => {
 		await expect.element(dialog).toBeVisible();
 		await userEvent.keyboard('{Escape}');
 		await expect.element(dialog).not.toBeInTheDocument();
+	});
+});
+
+describe('Tooltip with a badge on its control', () => {
+	const alerts = () => page.getByRole('button', { name: 'Alerts' });
+	const lost = (spy: { mock: { calls: unknown[][] } }) =>
+		spy.mock.calls.some(([text]) => String(text).includes('SV4007'));
+
+	it('warns in development when another description replaces its own', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(TooltipBadgeHarness, { joined: false });
+		await expect.element(alerts()).toHaveAccessibleDescription('1 alerts waiting');
+		await expect.poll(() => lost(warn)).toBe(true);
+		warn.mockRestore();
+	});
+
+	it('reads both descriptions once they are joined, and says nothing', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(TooltipBadgeHarness);
+		await expect.element(alerts()).toHaveAccessibleDescription('Price alerts 1 alerts waiting');
+		expect(lost(warn)).toBe(false);
+		warn.mockRestore();
 	});
 });

@@ -17,6 +17,7 @@
 		disabled,
 		options,
 		value = $bindable(null),
+		onchange,
 		label,
 		hint,
 		error,
@@ -66,6 +67,7 @@
 	function chose() {
 		field.changed();
 		field.left();
+		if (value != null) onchange?.(value);
 	}
 
 	// A form reset puts the radios back as they started, which bind:group does not notice, so the

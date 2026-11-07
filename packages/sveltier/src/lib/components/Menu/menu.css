@@ -20,18 +20,18 @@
 		box-shadow: var(--sv-shadow);
 		color: var(--sv-color-text);
 		font-family: var(--sv-font-ui);
-		font-size: var(--sv-text-sm);
+		font-size: var(--sv-size-text, var(--sv-text-sm));
 		line-height: var(--sv-leading-snug);
 	}
 
-	/* A row a small control tall, rounded to sit inside the menu's corner. */
+	/* A row a step lower than a control of its size, rounded to sit inside the menu's corner. */
 	.sv-menu__item {
 		display: flex;
 		gap: var(--sv-space-13);
 		align-items: center;
 		box-sizing: border-box;
 		inline-size: 100%;
-		min-block-size: calc(var(--sv-control-sm) * var(--sv-density));
+		min-block-size: calc(var(--sv-size-row, var(--sv-control-sm)) * var(--sv-density));
 		margin: 0;
 		padding: calc(var(--sv-space-5) * var(--sv-density)) var(--sv-space-8);
 		border: 0;

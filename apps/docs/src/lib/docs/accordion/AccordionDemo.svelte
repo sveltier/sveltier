@@ -3,10 +3,10 @@
 	import { Accordion, type AccordionItem } from '@sveltier/ui';
 
 	const items: AccordionItem[] = [
-		{ value: 'fees', title: 'What does a transfer cost?' },
-		{ value: 'timing', title: 'How long does a transfer take?' },
-		{ value: 'limits', title: 'How much can I send?' },
-		{ value: 'instalments', title: 'Can I pay in instalments? (coming soon)', disabled: true }
+		{ value: 'fees', label: 'What does a transfer cost?' },
+		{ value: 'timing', label: 'How long does a transfer take?' },
+		{ value: 'limits', label: 'How much can I send?' },
+		{ value: 'instalments', label: 'Can I pay in instalments? (coming soon)', disabled: true }
 	];
 	const answers: Record<string, string> = {
 		fees: 'Transfers in euros are free. Other currencies cost 0.4% of the amount, shown before you confirm.',

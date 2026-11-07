@@ -98,15 +98,15 @@ describe('Combobox', () => {
 		await expect.element(combobox()).toHaveAttribute('aria-expanded', 'true');
 	});
 
-	it('leaves the items as given without a filter, and binds what is typed', async () => {
+	it('leaves the options as given without a filter, and binds what is typed', async () => {
 		await render(ComboboxHarness, { filter: false });
 		await combobox().fill('zz');
 		await expect.element(page.getByTestId('query')).toHaveTextContent('zz');
 		expect(options()).toHaveLength(6);
 	});
 
-	it('says it is loading while it has no items', async () => {
-		await render(ComboboxHarness, { items: [], loading: true });
+	it('says it is loading while it has no options', async () => {
+		await render(ComboboxHarness, { options: [], loading: true });
 		await combobox().fill('ha');
 		await expect.element(page.getByRole('status')).toHaveTextContent('Loading');
 	});

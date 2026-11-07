@@ -5,7 +5,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import SelectDemo from '#lib/docs/select/SelectDemo.svelte';
 	import { selectCustom, selectUsage } from '#lib/snippets/forms.js';
-	import SELECT_ITEM_ROWS from 'virtual:sveltier-api/SelectItem';
+	import SELECT_OPTION_ROWS from 'virtual:sveltier-api/SelectOption';
 	import SELECT_PROPS from 'virtual:sveltier-api/SelectProps';
 </script>
 
@@ -15,8 +15,8 @@
 >
 	<h2 id="usage">Usage</h2>
 	<p>
-		Give the choices as <code>items</code> and bind the <code>value</code>, which keeps the type of
-		the item values, or is <code>null</code> while nothing is chosen. Items with a
+		Give the choices as <code>options</code> and bind the <code>value</code>, which keeps the type
+		of the option values, or is <code>null</code> while nothing is chosen. Options with a
 		<code>group</code> show together under its name, in the order the groups first appear. A
 		<code>description</code> shows under the label.
 	</p>
@@ -71,5 +71,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="Select props" rows={SELECT_PROPS} />
-	<ApiTable label="SelectItem" rows={SELECT_ITEM_ROWS} />
+	<ApiTable label="SelectOption" rows={SELECT_OPTION_ROWS} />
 </DocPage>

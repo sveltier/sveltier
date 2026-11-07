@@ -17,6 +17,7 @@
 		rail = false,
 		modal = false,
 		breakpoint = 'md',
+		onclose,
 		children,
 		'aria-label': ariaLabel,
 		class: className,
@@ -67,7 +68,9 @@
 		const plain =
 			event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
 		if (!link || !plain || event.defaultPrevented || link.hasAttribute('download')) return;
-		if (!link.target || link.target === '_self') open = false;
+		if (link.target && link.target !== '_self') return;
+		open = false;
+		onclose?.('action');
 	}
 </script>
 
@@ -96,6 +99,7 @@
 		id="{uid}-modal"
 		aria-label={locale.t('navigation')}
 		returnFocus={layout?.menu}
+		{onclose}
 		onclick={follow}
 		bind:open
 	>

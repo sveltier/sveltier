@@ -17,6 +17,7 @@
 		rounded,
 		disabled,
 		value = $bindable(''),
+		onchange,
 		length = 6,
 		type = 'numeric',
 		oncomplete,
@@ -132,6 +133,7 @@
 	<div
 		class="sv-otp-input__code"
 		oninput={input}
+		onchange={() => onchange?.(value ?? '')}
 		onfocusin={() => {
 			focused = true;
 			toEnd();

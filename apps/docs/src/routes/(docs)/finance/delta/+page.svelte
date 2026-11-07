@@ -16,7 +16,9 @@
 	<p>
 		Give the change as <code>value</code>. The figure is an
 		<a href={resolve('finance/amount')}>Amount</a>, with the same <code>format</code> and
-		<code>decimals</code>, and its sign always shows.
+		<code>decimals</code>, and its sign always shows. The direction is the figure's as shown: a
+		change that rounds to zero at the digits shown, such as 0.00001 as a percentage with two
+		decimals, reads <q>0.00%</q> and is muted, with no sign and no arrow.
 		<code>arrow</code> adds an arrow pointing up or down, and <code>flash</code> washes it in the up or
 		down colour as it moves.
 	</p>

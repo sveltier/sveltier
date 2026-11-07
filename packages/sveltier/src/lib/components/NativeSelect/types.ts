@@ -49,6 +49,8 @@ export type NativeSelectProps<T extends string | number = string> = ElementProps
 			options: readonly NativeSelectOption<T>[];
 			/** The chosen value, or `null` for none. Bindable. */
 			value?: T | null;
+			/** Called with the value the user chooses, or `null` for the placeholder; not when `value` is set. */
+			onchange?: (value: T | null) => void;
 			/** A first option that stands for no choice, such as "Choose a country". */
 			placeholder?: string;
 			/** Checks run in order after `required`, with the chosen value. The first message is shown. */

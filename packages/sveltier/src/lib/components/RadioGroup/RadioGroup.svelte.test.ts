@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import RadioGroupHarness from '../../../tests/fixtures/RadioGroupHarness.svelte';
@@ -17,6 +17,18 @@ describe('RadioGroup', () => {
 		await expect.element(shown('value')).toHaveTextContent('number:7');
 		await screen.rerender({ value: 1 });
 		await expect.element(radio('Every day')).toBeChecked();
+	});
+
+	it('calls onchange with the value the user picks, in its type, not when code sets it', async () => {
+		const onchange = vi.fn();
+		const screen = await render(RadioGroupHarness, { onchange });
+		await page.getByText('Every week').click();
+		expect(onchange).toHaveBeenLastCalledWith(7);
+		await page.getByText('Every day').click();
+		expect(onchange).toHaveBeenLastCalledWith(1);
+		await screen.rerender({ value: 7 });
+		await expect.element(radio('Every week')).toBeChecked();
+		expect(onchange).toHaveBeenCalledTimes(2);
 	});
 
 	// Whether the keys wrap past a disabled last radio is the platform's call (WebKit stops), so

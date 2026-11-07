@@ -13,6 +13,9 @@ test('llms.txt indexes every docs page', async ({ request }) => {
 	expect(text).not.toContain('`sveltier`');
 	// Models drift to Svelte 4 syntax, so the index says what not to write.
 	expect(text).toContain('Never write Svelte 4 syntax: no `export let`');
+	// One name for one thing, so an agent can carry a prop from one component to the next.
+	expect(text).toContain('choices are `options`');
+	expect(text).toContain('calls `onchange` with its new value');
 	// Hand-written CSS keeps to the theme, pill-shaped controls included.
 	expect(text).toContain('`min(var(--sv-radius-md), var(--sv-radius-lg))`');
 	expect(text).toContain(
@@ -31,6 +34,27 @@ test('llms-full.txt has every component with its props, from the types', async (
 		String.raw`| ${'`'}variant${'`'} | ${'`'}'elevated' \| 'flat' \| 'tonal' \| 'outlined' \| 'text' \| 'plain'${'`'} | ${'`'}'flat'${'`'} |`
 	);
 	expect(text).toContain('```svelte');
+});
+
+test('the prop tables say which props are required', async ({ page, request }) => {
+	// PriceInput cannot work without a tick: its type requires one.
+	const markdown = await (await request.get('/agents/docs/finance/price-input.md')).text();
+	expect(markdown).toMatch(/\| `tick` \(required\) \| `NumberStep` \|/);
+	expect(markdown).toMatch(/\| `min` \| /);
+	const manifest = (await (await request.get('/agents/components.json')).json()) as {
+		entries: { name: string; types: Record<string, { name: string; required?: boolean }[]> }[];
+	};
+	const rows = manifest.entries.find((entry) => entry.name === 'PriceInput')!.types[
+		'PriceInputProps'
+	]!;
+	expect(rows.find((row) => row.name === 'tick')?.required).toBe(true);
+	expect(rows.find((row) => row.name === 'min')?.required).toBeUndefined();
+	// Required props come first.
+	expect(rows[0]?.name).toBe('tick');
+	await page.goto('/finance/price-input');
+	const table = page.getByRole('region', { name: 'PriceInput props' });
+	await expect(table.getByRole('row', { name: /^tick required/ })).toBeVisible();
+	await expect(table.getByRole('row', { name: /^min required/ })).toHaveCount(0);
 });
 
 test('the agent docs for the package link its own Markdown pages', async ({ request }) => {

@@ -120,6 +120,24 @@ describe('Menu', () => {
 	});
 });
 
+describe('Menu size', () => {
+	it('sets the text and the rows a step larger or smaller, from md by default', async () => {
+		const measure = () => {
+			const item = page.getByRole('menuitem', { name: 'Duplicate' }).element() as HTMLElement;
+			return { text: parseFloat(getComputedStyle(item).fontSize), row: item.offsetHeight };
+		};
+		const plain = await render(MenuHarness, { open: true });
+		await expect.element(page.getByRole('menu')).toBeVisible();
+		const md = measure();
+		plain.unmount();
+		await render(MenuHarness, { open: true, size: 'lg' });
+		await expect.element(page.getByRole('menu')).toBeVisible();
+		const lg = measure();
+		expect(lg.text).toBeGreaterThan(md.text);
+		expect(lg.row).toBeGreaterThan(md.row);
+	});
+});
+
 describe('Menu icons', () => {
 	it('draws an icon component of another set in the box of a path icon, hidden from assistive technology', async () => {
 		await render(ItemIconsHarness, { kind: 'menu' });
