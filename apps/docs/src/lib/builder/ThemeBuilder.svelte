@@ -17,7 +17,8 @@
 		SegmentedControl,
 		Slider,
 		Switch,
-		TextField
+		TextField,
+		useTheme
 	} from '@sveltier/ui';
 	import { onMount } from 'svelte';
 	import Code from '../docs/Code.svelte';
@@ -33,22 +34,28 @@
 		formatOklch,
 		fromQuery,
 		initialState,
+		resolveState,
 		TEXT_CONTRAST,
 		themeStyle,
 		toQuery,
+		type BuilderSettings,
 		type EditableColor,
 		type FontRole
 	} from './builder.js';
 
 	let builder = $state(initialState());
+	// Until someone picks a mode, the builder is in the docs' own: light or dark as the reader
+	// sees the page, following the switch in the bar.
+	const docs = useTheme();
+	const resolved = $derived(resolveState(builder, docs.isDark ? 'dark' : 'light'));
 	let editing = $state<EditableColor>('primary');
 	let ready = $state(false);
 
-	const base = $derived(baseTheme(builder));
-	const theme = $derived(buildTheme(builder));
+	const base = $derived(baseTheme(resolved));
+	const theme = $derived(buildTheme(resolved));
 	const style = $derived(themeStyle(theme));
 	const rows = $derived(contrastRows(theme));
-	const code = $derived(exportCode(builder));
+	const code = $derived(exportCode(resolved));
 	const failures = $derived(
 		rows.reduce(
 			(count, row) =>
@@ -77,12 +84,26 @@
 	const parts = $derived(parseOklch(value) ?? { l: 0.5, c: 0, h: 0, alpha: 1 });
 	let typed = $state<string | null>(null);
 
+	/**
+	 * Applies an edit. The first real one also fixes the mode the reader was in, so changes made
+	 * against a light base stay on it when the docs switch to dark.
+	 */
+	function edit(next: Partial<BuilderSettings>) {
+		const changed = Object.entries(next).some(
+			([key, value]) =>
+				JSON.stringify(value) !== JSON.stringify(builder[key as keyof BuilderSettings])
+		);
+		if (changed) builder = { ...builder, mode: resolved.mode, ...next };
+	}
+
 	function setColor(name: EditableColor, next: string | undefined) {
 		const colors = Object.fromEntries(
 			Object.entries(builder.colors).filter(([key]) => key !== name)
 		);
-		builder.colors =
-			next === undefined || next === base.colors[name] ? colors : { ...colors, [name]: next };
+		edit({
+			colors:
+				next === undefined || next === base.colors[name] ? colors : { ...colors, [name]: next }
+		});
 	}
 
 	// The same precision as formatOklch() and the packs' colours, so a slider never snaps a value
@@ -111,12 +132,13 @@
 		const others = Object.fromEntries(
 			Object.entries(builder.fonts).filter(([key]) => key !== role)
 		);
-		builder.fonts =
-			!stack || stack === base.variables[role] ? others : { ...others, [role]: stack };
+		edit({
+			fonts: !stack || stack === base.variables[role] ? others : { ...others, [role]: stack }
+		});
 	}
 
 	const hash = $derived.by(() => {
-		const query = toQuery(builder);
+		const query = toQuery(resolved, builder.mode !== undefined);
 		return query ? `#${query}` : '#';
 	});
 
@@ -153,7 +175,7 @@
 			aria-label="Mode"
 			size="sm"
 			options={modeOptions}
-			bind:value={() => builder.mode, setMode}
+			bind:value={() => resolved.mode, setMode}
 		/>
 		<Button variant="text" size="sm" onclick={() => (builder = initialState())}>Start over</Button>
 	</div>
@@ -275,7 +297,7 @@
 			min={0}
 			max={2}
 			step={0.25}
-			bind:value={() => builder.radius, (radius) => (builder.radius = radius)}
+			bind:value={() => builder.radius, (radius) => edit({ radius })}
 		/>
 		{#each FONT_ROLES as role (role)}
 			<NativeSelect

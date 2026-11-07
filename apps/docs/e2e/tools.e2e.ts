@@ -61,7 +61,33 @@ test.describe('Theme builder', () => {
 		await expect.poll(fill).not.toBe(before);
 		await expect(code).toContainText("primary: 'oklch(0.55 0.2 145)'");
 		await expect(page.getByText(/pairs? (is|are) under 4\.5:1/)).toBeVisible();
-		await expect(page).toHaveURL(/#primary=oklch/);
+		await expect(page).toHaveURL(/#mode=light&primary=oklch/);
+	});
+
+	test('starts in the docs mode and keeps it once something changes', async ({ page }) => {
+		await page.emulateMedia({ colorScheme: 'dark' });
+		await open(page, '/tools/theme-builder');
+		const code = page.locator('pre').last();
+		const preview = page.getByTestId('builder-preview');
+		const bar = (mode: string) =>
+			page.getByRole('banner').getByRole('radio', { name: mode, exact: true }).check();
+		await expect(code).toContainText(
+			"import { monolithDark } from '@sveltier/ui/themes/monolith';"
+		);
+		await expect(preview).toHaveCSS('color-scheme', 'dark');
+
+		// Untouched, it follows the switch in the bar.
+		await bar('Light');
+		await expect(code).toContainText('monolithLight');
+		await expect(preview).toHaveCSS('color-scheme', 'light');
+
+		// An edit fixes the mode, in the address too, so the colour stays on the base it was made on.
+		await page.getByLabel('primary in OKLCH').fill('oklch(0.55 0.09 30)');
+		await expect(page).toHaveURL(/#mode=light&primary=/);
+		await bar('Dark');
+		await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'monolith-dark');
+		await expect(code).toContainText('monolithLight');
+		await expect(preview).toHaveCSS('color-scheme', 'light');
 	});
 
 	test('a link restores the base theme and the changes', async ({ page }) => {

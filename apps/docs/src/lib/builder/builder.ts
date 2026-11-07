@@ -37,12 +37,23 @@ export interface BuilderState {
 	fonts: Partial<Record<FontRole, string>>;
 }
 
-export const initialState = (): BuilderState => ({
+/**
+ * What the builder keeps: the state, with the mode left out until someone picks one. An unset
+ * mode follows the docs, light or dark, so the preview starts in the mode the reader is in.
+ */
+export type BuilderSettings = Omit<BuilderState, 'mode'> & { mode?: Mode };
+
+export const initialState = (): BuilderSettings => ({
 	pack: 'monolith',
-	mode: 'light',
 	colors: {},
 	radius: 1,
 	fonts: {}
+});
+
+/** The settings with a mode: the one picked, or the docs' own. */
+export const resolveState = (settings: BuilderSettings, docsMode: Mode): BuilderState => ({
+	...settings,
+	mode: settings.mode ?? docsMode
 });
 
 export const baseName = (state: Pick<BuilderState, 'pack' | 'mode'>): string =>
@@ -171,24 +182,29 @@ export function exportCode(state: BuilderState, name = 'brand'): string {
 export const formatOklch = (l: number, c: number, h: number): string =>
 	`oklch(${+l.toFixed(3)} ${+c.toFixed(3)} ${+h.toFixed(1)})`;
 
-/** The state for the URL hash: only what differs from a fresh builder. */
-export function toQuery(state: BuilderState): string {
-	const params = new URLSearchParams();
-	if (state.pack !== 'monolith') params.set('pack', state.pack);
-	if (state.mode !== 'light') params.set('mode', state.mode);
-	for (const [name, value] of Object.entries(state.colors)) if (value) params.set(name, value);
-	if (state.radius !== 1) params.set('radius', String(state.radius));
-	for (const [role, value] of Object.entries(state.fonts)) if (value) params.set(role, value);
-	return params.toString();
+/**
+ * The state for the URL hash: what differs from a fresh builder. The mode is written once it
+ * was picked or anything else changed, so a shared link opens in the mode it was made in.
+ */
+export function toQuery(state: BuilderState, picked: boolean): string {
+	const entries: [string, string][] = [];
+	if (state.pack !== 'monolith') entries.push(['pack', state.pack]);
+	for (const [name, value] of Object.entries(state.colors)) if (value) entries.push([name, value]);
+	if (state.radius !== 1) entries.push(['radius', String(state.radius)]);
+	for (const [role, value] of Object.entries(state.fonts)) if (value) entries.push([role, value]);
+	if (picked || entries.length)
+		entries.splice(state.pack !== 'monolith' ? 1 : 0, 0, ['mode', state.mode]);
+	return new URLSearchParams(entries).toString();
 }
 
-/** A state read back from the URL hash; anything unknown or malformed is ignored. */
-export function fromQuery(query: string): BuilderState {
+/** Settings read back from the URL hash; anything unknown or malformed is ignored. */
+export function fromQuery(query: string): BuilderSettings {
 	const params = new URLSearchParams(query);
 	const state = initialState();
 	const pack = params.get('pack');
 	if (PACKS.some((item) => item.id === pack)) state.pack = pack as PackId;
-	if (params.get('mode') === 'dark') state.mode = 'dark';
+	const mode = params.get('mode');
+	if (mode === 'light' || mode === 'dark') state.mode = mode;
 	for (const name of EDITABLE_COLORS) {
 		const value = params.get(name);
 		if (value && parseOklch(value)) state.colors[name] = value;
