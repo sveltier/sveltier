@@ -5,7 +5,8 @@
 	 * The region: a strip of the screen's height in the top layer, with the toasts at its
 	 * bottom, across a phone and at the end from 600px. It never changes height, so a toast
 	 * fading out stays where it was while the others move. Around the toasts, presses go
-	 * through to the page.
+	 * through to the page. Below them: the room the app keeps (a status bar) or the safe area,
+	 * whichever is taller, then their usual distance.
 	 */
 	.sv-toasts {
 		position: fixed;
@@ -20,7 +21,8 @@
 		max-inline-size: none;
 		max-block-size: none;
 		margin: 0;
-		padding-block: 0 calc(var(--sv-space-21) + env(safe-area-inset-bottom, 0px));
+		padding-block: 0
+			calc(max(var(--sv-toasts-inset, 0px), env(safe-area-inset-bottom, 0px)) + var(--sv-space-21));
 		padding-inline: 0;
 		border: 0;
 		overflow: visible;

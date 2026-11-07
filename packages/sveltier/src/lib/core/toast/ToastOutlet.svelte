@@ -144,6 +144,7 @@
 	tabindex="-1"
 	aria-label="{locale.t('notifications')} (F8)"
 	class="sv-toasts"
+	style:--sv-toasts-inset={style.inset ? `${style.inset}px` : undefined}
 	onfocusin={enter}
 	onfocusout={exit}
 >

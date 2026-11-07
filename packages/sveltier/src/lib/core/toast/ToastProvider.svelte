@@ -30,7 +30,8 @@
 		color: 'neutral',
 		duration: 6000,
 		density: 'default',
-		rounded: true
+		rounded: true,
+		inset: 0
 	});
 	const toasts = setToasts(new Toasts(() => resolve({})));
 </script>

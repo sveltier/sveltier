@@ -8,6 +8,7 @@
 	import {
 		toastDefaults,
 		toastDismiss,
+		toastInset,
 		toastProvider,
 		toastUsage
 	} from '#lib/snippets/overlays.js';
@@ -82,6 +83,14 @@
 		provider; an option passed to <code>show()</code> still wins.
 	</p>
 	<Code title="+layout.svelte" code={toastDefaults} />
+
+	<h2 id="bottom-bar">Above a bottom bar</h2>
+	<p>
+		Toasts sit at the bottom of the screen. When the app keeps a bar there, such as a status bar,
+		give its height in px as the Toast default <code>inset</code>: the toasts stay above it, at
+		their usual distance. On a phone, the safe area counts instead when it is taller.
+	</p>
+	<Code title="+layout.svelte" code={toastInset} />
 
 	<h2 id="provider">Without UIProvider</h2>
 	<p>
