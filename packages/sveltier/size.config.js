@@ -503,7 +503,7 @@ export default [
 		// measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '3.15 KB',
+		limit: '3.2 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -512,7 +512,7 @@ export default [
 		// closing.
 		name: 'ContextMenu',
 		code: "export { ContextMenu } from '@sveltier/ui';",
-		limit: '3.4 KB',
+		limit: '3.45 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{

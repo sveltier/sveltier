@@ -1,10 +1,15 @@
 import type { Component, Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Color, Density } from '../../core/props/types.js';
+import type { Color, Density, Size } from '../../core/props/types.js';
 
 /** The Tree props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface TreeDefaults {
+	/**
+	 * The text and the rows: a row is a step lower than a control of the same size.
+	 * @default 'md'
+	 */
+	size: Size;
 	/**
 	 * Multiplies the height and padding of the rows, never the text.
 	 * @default 'default'

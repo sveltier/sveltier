@@ -15,6 +15,7 @@
 	} from './types.js';
 
 	let {
+		size,
 		density,
 		label,
 		items,
@@ -29,8 +30,11 @@
 		...rest
 	}: ContextMenuProps = $props();
 
-	const resolve = useDefaults<ContextMenuDefaults>('ContextMenu', { density: 'default' });
-	const p = $derived(resolve({ density }));
+	const resolve = useDefaults<ContextMenuDefaults>('ContextMenu', {
+		size: 'md',
+		density: 'default'
+	});
+	const p = $derived(resolve({ size, density }));
 
 	const uid = $props.id();
 	const id = $derived(idProp ?? uid);

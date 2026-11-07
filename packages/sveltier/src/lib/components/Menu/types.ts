@@ -2,11 +2,16 @@ import type { HTMLAttributes } from 'svelte/elements';
 import type { Component, Snippet } from 'svelte';
 import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Density } from '../../core/props/types.js';
+import type { Density, Size } from '../../core/props/types.js';
 import type { Align, Side } from '../../primitives/anchored/anchored.js';
 
 /** The Menu props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface MenuDefaults {
+	/**
+	 * The text and the rows: a row is a step lower than a control of the same size.
+	 * @default 'md'
+	 */
+	size: Size;
 	/**
 	 * Multiplies the height and padding of the items, never the text.
 	 * @default 'default'

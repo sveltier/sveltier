@@ -10,7 +10,7 @@
 
 	.sv-tree {
 		padding-block: calc(var(--sv-space-5) * var(--sv-density));
-		font-size: var(--sv-text-sm);
+		font-size: var(--sv-size-text, var(--sv-text-sm));
 		line-height: var(--sv-leading-snug);
 	}
 
@@ -24,7 +24,7 @@
 		outline-offset: calc(var(--sv-focus-width) * -1);
 	}
 
-	/* A row a control tall, set in by one step per level. */
+	/* A row a step lower than a control of its size, set in by one step per level. */
 	.sv-tree__row {
 		position: relative;
 		isolation: isolate;
@@ -32,7 +32,7 @@
 		gap: var(--sv-space-5);
 		align-items: center;
 		box-sizing: border-box;
-		min-block-size: calc(var(--sv-control-sm) * var(--sv-density));
+		min-block-size: calc(var(--sv-size-row, var(--sv-control-sm)) * var(--sv-density));
 		padding-block: calc(var(--sv-space-2) * var(--sv-density));
 		padding-inline: calc(var(--sv-space-5) + var(--sv-tree-level, 0) * var(--sv-space-21))
 			var(--sv-space-13);

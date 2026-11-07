@@ -141,6 +141,22 @@ describe('Tree', () => {
 	});
 });
 
+describe('Tree size', () => {
+	it('sets the text and the rows a step larger or smaller, from md by default', async () => {
+		const measure = () => {
+			const row = document.querySelector('.sv-tree__row') as HTMLElement;
+			return { text: parseFloat(getComputedStyle(row).fontSize), row: row.offsetHeight };
+		};
+		const plain = await render(TreeHarness);
+		const md = measure();
+		plain.unmount();
+		await render(TreeHarness, { size: 'sm' });
+		const sm = measure();
+		expect(sm.text).toBeLessThan(md.text);
+		expect(sm.row).toBeLessThan(md.row);
+	});
+});
+
 describe('Tree icons', () => {
 	it('draws an icon component of another set in the box of a path icon, hidden from assistive technology', async () => {
 		await render(ItemIconsHarness, { kind: 'tree' });
