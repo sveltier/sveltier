@@ -26,6 +26,19 @@ describe('Delta on the server', () => {
 		expect(html({ value: null })).toContain('—');
 	});
 
+	it('is flat when the figure shown rounds to zero, in colour as in sign', () => {
+		const percent = { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 };
+		const tiny = html({ value: 0.00001, format: percent });
+		expect(tiny).toContain('sv-delta--flat');
+		expect(tiny).toContain('>0.00%<');
+		const funding = html({ value: -0.00004, decimals: 4, arrow: true });
+		expect(funding).toContain('sv-delta--flat');
+		expect(funding).not.toContain('sv-delta__arrow');
+		// Rounded up to the last digit shown, it is a rise.
+		expect(html({ value: 0.00005, decimals: 4 })).toContain('sv-delta--up');
+		expect(html({ value: -0.00005, decimals: 4 })).toContain('sv-delta--down');
+	});
+
 	it('adds an arrow for a rise or a fall, never for no change', () => {
 		expect(html({ value: 1, arrow: true })).toContain('sv-delta__arrow');
 		expect(html({ value: -1, arrow: true })).toContain('sv-delta__arrow');
