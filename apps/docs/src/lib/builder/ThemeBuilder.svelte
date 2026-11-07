@@ -85,6 +85,11 @@
 			next === undefined || next === base.colors[name] ? colors : { ...colors, [name]: next };
 	}
 
+	// The same precision as formatOklch() and the packs' colours, so a slider never snaps a value
+	// it is given: a snapped value is written back while the page hydrates, and would edit a
+	// colour nobody touched.
+	const STEPS = { l: 0.001, c: 0.001, h: 0.1 } as const;
+
 	function setPart(part: 'l' | 'c' | 'h', next: number) {
 		const { l, c, h } = parts;
 		setColor(
@@ -218,21 +223,21 @@
 			label="Lightness"
 			min={0}
 			max={1}
-			step={0.01}
+			step={STEPS.l}
 			bind:value={() => parts.l, (next) => setPart('l', next)}
 		/>
 		<Slider
 			label="Chroma"
 			min={0}
 			max={0.37}
-			step={0.005}
+			step={STEPS.c}
 			bind:value={() => parts.c, (next) => setPart('c', next)}
 		/>
 		<Slider
 			label="Hue"
 			min={0}
 			max={360}
-			step={1}
+			step={STEPS.h}
 			bind:value={() => parts.h, (next) => setPart('h', next)}
 		/>
 		<TextField
