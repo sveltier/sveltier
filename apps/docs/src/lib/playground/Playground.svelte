@@ -90,7 +90,7 @@
 		<Select
 			label="Component"
 			size="sm"
-			{items}
+			options={items}
 			bind:value={() => entry.name, (name) => name && pick(name)}
 		/>
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->

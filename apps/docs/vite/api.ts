@@ -92,6 +92,10 @@ function rows(checker: ts.TypeChecker, symbol: ts.Symbol, at: ts.Node): ApiRow[]
 		checker
 			.getPropertiesOfType(type)
 			.filter(isOwn)
+			// An old name kept only to point at the new one is not part of the API.
+			.filter(
+				(property) => !property.getJsDocTags(checker).some((tag) => tag.name === 'deprecated')
+			)
 			.map((property) => {
 				const fallback = property
 					.getJsDocTags(checker)

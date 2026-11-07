@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import SelectHarness from '../../../tests/fixtures/SelectHarness.svelte';
@@ -115,5 +115,18 @@ describe('Select', () => {
 		await render(SelectHarness, { disabled: true });
 		expect(control().tabIndex).toBe(-1);
 		await expect.element(combobox()).toHaveAttribute('aria-disabled', 'true');
+	});
+});
+
+describe('Select under its old prop name', () => {
+	it('warns in development that items is now options', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(SelectHarness, { items: [] as never });
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) => /SV4008.*takes options; items/.test(String(text)))
+			)
+			.toBe(true);
+		warn.mockRestore();
 	});
 });

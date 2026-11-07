@@ -1,7 +1,7 @@
-<script lang="ts" generics="T extends string | number, I extends SelectItem<T> = SelectItem<T>">
+<script lang="ts" generics="T extends string | number, I extends SelectOption<T> = SelectOption<T>">
 	// One value from a list under the field, as the APG select-only combobox. See SelectProps.
 	import type { Attachment } from 'svelte/attachments';
-	import { DEV, warnDuplicates, warnUnnamed } from '#dev';
+	import { DEV, warnDuplicates, warnRenamed, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { createField } from '../../core/form/field.svelte.js';
 	import type { Rule } from '../../core/form/types.js';
@@ -10,7 +10,7 @@
 	import Listbox from './Listbox.svelte';
 	import { edge, inGroupOrder, moveBy, typeaheadIndex } from './options.js';
 	import './select.css';
-	import type { SelectDefaults, SelectItem, SelectProps } from './types.js';
+	import type { SelectDefaults, SelectOption, SelectProps } from './types.js';
 
 	let {
 		variant,
@@ -19,7 +19,8 @@
 		density,
 		rounded,
 		disabled,
-		items,
+		options,
+		items: renamed,
 		value = $bindable(null),
 		onchange,
 		placeholder,
@@ -57,7 +58,7 @@
 	const controlId = $derived(id ?? uid);
 	const listId = $derived(`${controlId}-list`);
 
-	const ordered = $derived(inGroupOrder(items));
+	const ordered = $derived(inGroupOrder(options));
 	const chosen = $derived(ordered.find((item) => item.value === value));
 	const inert = $derived(p.disabled || readonly);
 	let open = $state(false);
@@ -76,12 +77,13 @@
 
 	if (DEV) {
 		$effect(() => warnUnnamed('Select', ref));
+		$effect(() => warnRenamed('Select', 'items', 'options', renamed));
 		$effect(() =>
 			warnDuplicates(
 				'Select',
-				'items',
-				items.map((item) => item.value),
-				'Give each item its own value.'
+				'options',
+				options.map((option) => option.value),
+				'Give each option its own value.'
 			)
 		);
 	}

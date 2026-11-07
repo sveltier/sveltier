@@ -3,9 +3,9 @@ import type { HTMLAttributes } from 'svelte/elements';
 import type { Rule, ValidateOn } from '../../core/form/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { FieldContentProps, FieldDefaults } from '../Field/types.js';
-import type { SelectItem } from './options.js';
+import type { SelectOption } from './options.js';
 
-export type { SelectItem };
+export type { SelectItem, SelectOption } from './options.js';
 
 /** The Select props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export type SelectDefaults = FieldDefaults;
@@ -33,7 +33,7 @@ declare module '../../core/defaults/context.js' {
  *
  * <Select
  * 	label="Market"
- * 	items={[
+ * 	options={[
  * 		{ value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
  * 		{ value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
  * 		{ value: 'btc-usd', label: 'BTC/USD', group: 'Coinbase' }
@@ -43,17 +43,19 @@ declare module '../../core/defaults/context.js' {
  */
 export type SelectProps<
 	T extends string | number = string,
-	I extends SelectItem<T> = SelectItem<T>
+	I extends SelectOption<T> = SelectOption<T>
 > = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
 	Partial<SelectDefaults> &
 		FieldContentProps & {
 			/**
-			 * The choices, in order. Items of a `group` show together under its name. Items may
+			 * The choices, in order. Options of a `group` show together under its name. Options may
 			 * carry more properties, which the `option` and `selection` snippets receive.
 			 */
-			items: readonly I[];
+			options: readonly I[];
+			/** @deprecated Renamed `options`. */
+			items?: never;
 			/** The chosen value, or `null` for none. Bindable. */
 			value?: T | null;
 			/** Called with the value the user chooses. */

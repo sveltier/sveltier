@@ -132,6 +132,15 @@ export function warnMisplaced(component: string, element: HTMLElement | null | u
 	);
 }
 
+/** Warns when a prop is passed under the name it had before it was renamed. */
+export function warnRenamed(component: string, old: string, now: string, value: unknown): void {
+	if (value === undefined) return;
+	warn(
+		'SV4008',
+		`<${component}> takes ${now}; ${old} is its old name and does nothing now. Pass ${now}={…}.`
+	);
+}
+
 /**
  * Warns when the control a tooltip is on does not point at the tooltip: an `aria-describedby`
  * written after the tooltip's attributes, such as a badge's, replaced its id.

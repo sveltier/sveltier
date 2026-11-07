@@ -200,7 +200,7 @@ const FORMS: Entry[] = [
 	{
 		name: 'Select',
 		path: 'forms/select',
-		types: ['SelectProps', 'SelectItem'],
+		types: ['SelectProps', 'SelectOption'],
 		example: selectUsage
 	},
 	{

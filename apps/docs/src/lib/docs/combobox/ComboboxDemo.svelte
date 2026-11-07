@@ -1,8 +1,8 @@
 <script lang="ts">
 	// Cities whose names carry diacritics, grouped by region: typing finds them without the marks.
-	import { Combobox, type SelectItem } from '@sveltier/ui';
+	import { Combobox, type SelectOption } from '@sveltier/ui';
 
-	const CITIES: SelectItem<string>[] = [
+	const CITIES: SelectOption<string>[] = [
 		{ value: 'sao', label: 'São Paulo', description: 'Brazil', group: 'Americas' },
 		{ value: 'bog', label: 'Bogotá', description: 'Colombia', group: 'Americas' },
 		{ value: 'mtl', label: 'Montréal', description: 'Canada', group: 'Americas' },
@@ -20,6 +20,6 @@
 </script>
 
 <div class="docs-demo docs-ticket">
-	<Combobox label="City" placeholder="Search cities" items={CITIES} bind:value={city} />
+	<Combobox label="City" placeholder="Search cities" options={CITIES} bind:value={city} />
 	<p class="docs-dim">Value: {city ?? 'null'}</p>
 </div>

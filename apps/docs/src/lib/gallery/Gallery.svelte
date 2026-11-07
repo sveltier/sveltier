@@ -181,7 +181,7 @@
 				/>
 				<Select
 					label="Market"
-					items={[
+					options={[
 						{ value: 'btc', label: 'BTC/USDT' },
 						{ value: 'eth', label: 'ETH/USDT' }
 					]}

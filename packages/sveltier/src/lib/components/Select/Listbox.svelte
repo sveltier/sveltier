@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends string | number, I extends SelectItem<T> = SelectItem<T>">
+<script lang="ts" generics="T extends string | number, I extends SelectOption<T> = SelectOption<T>">
 	// The popup list of a Select or a Combobox: options in groups, in the top layer, placed under
 	// the field. Focus stays on the field; `active` is the option it points at.
 	import type { Snippet } from 'svelte';
@@ -6,7 +6,7 @@
 	import { anchored } from '../../primitives/anchored/anchored.js';
 	import { dismissable, type DismissReason } from '../../primitives/layer/dismissable.js';
 	import { pop } from '../../primitives/motion/motion.js';
-	import { groupRuns, type SelectItem } from './options.js';
+	import { groupRuns, type SelectOption } from './options.js';
 
 	let {
 		id,

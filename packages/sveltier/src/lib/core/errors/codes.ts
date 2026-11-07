@@ -155,6 +155,13 @@ export const ERROR_CODES = {
 			"A tooltip describes its control through the `aria-describedby` in the attributes its `trigger` snippet receives. An `aria-describedby` written after those attributes, such as one pointing at a `Badge`'s text, replaces the tooltip's id instead of adding to it, so screen readers no longer read the tooltip.",
 		fix: "Join the ids, the tooltip's first: `aria-describedby={[attributes['aria-describedby'], 'inbox-label'].join(' ')}`."
 	},
+	SV4008: {
+		kind: 'warning',
+		title: 'A prop under its old name',
+		cause:
+			'Before the API settled for beta, a few props were renamed so that the same thing has the same name everywhere: the choices of a `Select` and a `Combobox` are `options`, as on `NativeSelect` and `RadioGroup`, and an `Accordion` item has a `label`, as a tab does. A prop or a field under its old name is ignored.',
+		fix: 'Use the new name the warning gives: `options` for `items` on `Select` and `Combobox`, `label` for `title` in `Accordion` items. The types name it too, on the old name.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

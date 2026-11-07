@@ -166,7 +166,7 @@ export const selectUsage = `<script lang="ts">
   name="market"
   placeholder="Choose a market"
   required
-  items={[
+  options={[
     { value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
     { value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
     { value: 'btc-usd', label: 'BTC/USD', group: 'Coinbase' },
@@ -176,15 +176,15 @@ export const selectUsage = `<script lang="ts">
 />`;
 
 export const selectCustom = `<script lang="ts">
-  import { Select, type SelectItem } from '@sveltier/ui';
+  import { Select, type SelectOption } from '@sveltier/ui';
 
-  type Market = SelectItem & { venue: string };
+  type Market = SelectOption & { venue: string };
   let { markets }: { markets: Market[] } = $props();
   let market = $state<string | null>(null);
 </script>
 
 <!-- The option and the chosen value drawn your own way: the symbol, then its venue. -->
-<Select label="Market" items={markets} bind:value={market}>
+<Select label="Market" options={markets} bind:value={market}>
   {#snippet option(item)}
     <strong>{item.label}</strong> <small>{item.venue}</small>
   {/snippet}
@@ -204,7 +204,7 @@ export const comboboxUsage = `<script lang="ts">
   label="City"
   name="city"
   placeholder="Search cities"
-  items={[
+  options={[
     { value: 'sao', label: 'São Paulo', description: 'Brazil', group: 'Americas' },
     { value: 'mtl', label: 'Montréal', description: 'Canada', group: 'Americas' },
     { value: 'zrh', label: 'Zürich', description: 'Switzerland', group: 'Europe' },
@@ -214,11 +214,11 @@ export const comboboxUsage = `<script lang="ts">
 />`;
 
 export const comboboxRemote = `<script lang="ts">
-  import { Combobox, type SelectItem } from '@sveltier/ui';
+  import { Combobox, type SelectOption } from '@sveltier/ui';
 
   let symbol = $state<string | null>(null);
   let query = $state('');
-  let found = $state<SelectItem[]>([]);
+  let found = $state<SelectOption[]>([]);
   let loading = $state(false);
 
   // Searching elsewhere: the server filters, the field shows what it found.
@@ -229,14 +229,14 @@ export const comboboxRemote = `<script lang="ts">
     const controller = new AbortController();
     fetch(\`/api/symbols?q=\${encodeURIComponent(term)}\`, { signal: controller.signal })
       .then((response) => response.json())
-      .then((items: SelectItem[]) => (found = items))
+      .then((options: SelectOption[]) => (found = options))
       .catch(() => {})
       .finally(() => (loading = false));
     return () => controller.abort();
   });
 </script>
 
-<Combobox label="Symbol" items={found} filter={false} {loading} bind:query bind:value={symbol} />`;
+<Combobox label="Symbol" options={found} filter={false} {loading} bind:query bind:value={symbol} />`;
 
 export const datePickerUsage = `<script lang="ts">
   import { DatePicker } from '@sveltier/ui';

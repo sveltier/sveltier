@@ -3,7 +3,7 @@ import type { HTMLInputAttributes } from 'svelte/elements';
 import type { Rule, ValidateOn } from '../../core/form/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { FieldContentProps, FieldDefaults } from '../Field/types.js';
-import type { SelectItem } from '../Select/options.js';
+import type { SelectOption } from '../Select/options.js';
 
 /** The Combobox props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export type ComboboxDefaults = FieldDefaults;
@@ -15,7 +15,7 @@ declare module '../../core/defaults/context.js' {
 }
 
 /**
- * One value found by typing: the list under the field shows the items that match what is
+ * One value found by typing: the list under the field shows the options that match what is
  * typed, as the APG combobox with list autocomplete. The first match is pointed at, so a few
  * letters and Enter choose; the arrows move, and a click chooses too. Matching ignores case and
  * diacritics, so "ha noi" finds "Hà Nội". `class` and `style` apply to the field; `id`, `ref`
@@ -29,7 +29,7 @@ declare module '../../core/defaults/context.js' {
  *
  * <Combobox
  * 	label="City"
- * 	items={[
+ * 	options={[
  * 		{ value: 'hn', label: 'Hà Nội' },
  * 		{ value: 'hcm', label: 'Hồ Chí Minh' },
  * 		{ value: 'dn', label: 'Đà Nẵng' }
@@ -39,29 +39,31 @@ declare module '../../core/defaults/context.js' {
  */
 export type ComboboxProps<
 	T extends string | number = string,
-	I extends SelectItem<T> = SelectItem<T>
+	I extends SelectOption<T> = SelectOption<T>
 > = ElementProps<
 	HTMLInputElement,
 	HTMLInputAttributes,
 	Partial<ComboboxDefaults> &
 		FieldContentProps & {
 			/**
-			 * The choices, in order. Items of a `group` show together under its name. Items may
+			 * The choices, in order. Options of a `group` show together under its name. Options may
 			 * carry more properties, which the `option` snippet receives.
 			 */
-			items: readonly I[];
+			options: readonly I[];
+			/** @deprecated Renamed `options`. */
+			items?: never;
 			/** The chosen value, or `null` for none. Bindable. */
 			value?: T | null;
 			/** Called with the value the user chooses, or `null` when they empty the field. */
 			onchange?: (value: T | null) => void;
 			/**
 			 * What is typed. Bindable, to search elsewhere as it changes: then pass `filter={false}`
-			 * and the items found.
+			 * and the options found.
 			 */
 			query?: string;
 			/**
-			 * Which items match what is typed. By default every word typed must appear in the label
-			 * or the description, ignoring case and diacritics. `false` shows the items as given.
+			 * Which options match what is typed. By default every word typed must appear in the label
+			 * or the description, ignoring case and diacritics. `false` shows the options as given.
 			 */
 			filter?: ((item: I, query: string) => boolean) | false;
 			/**
