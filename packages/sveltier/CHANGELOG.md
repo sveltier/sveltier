@@ -1,5 +1,25 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.8
+
+### Minor Changes
+
+- 9b1211b: **Breaking:** an Accordion item names its header with `label`, as a tab does, instead of `title`. `title` does nothing now and warns in development (SV4008) with the new name. Timeline items keep `title`: theirs is a heading.
+- a9c8e75: Checkbox, Switch and RadioGroup: `onchange` receives the new value when the user changes it, as on Select, Combobox and the date fields: `checked` for Checkbox and Switch, the picked value (in its type) for RadioGroup. It is not called when the value is set from code. Before, a caller's `onchange` reached the input as a DOM event on Checkbox and Switch, and was dropped on RadioGroup; a handler that read `event.currentTarget.checked` now takes the boolean instead.
+- 8d0f122: Every field's `onchange` receives its value, as Select, Combobox, Switch and the date fields' already do. TextField and Textarea call it with the text when the user leaves the field after changing it. NumberField, PriceInput and AmountInput call it with the number when it is committed: on leaving after typing, on each step, and on a share; `null` once emptied. Slider calls it on release. NativeSelect calls it with the value in its type, OtpInput with the code (`oncomplete` is unchanged), and a filter Chip with `selected`. None is called when the value is set from code. **Breaking:** a DOM `onchange` passed to these fields now receives the value instead of an event; `oninput` is still the DOM event.
+- bfe4acd: Menu, ContextMenu and Tree take `size`, as Select and the fields do: it sets the text and the rows, a row being a step lower than a control of the same size. The default, `md`, keeps them as they were.
+- c42d9d9: **Breaking:** Select and Combobox take their choices as `options`, as NativeSelect, RadioGroup and SegmentedControl do and as their `option` snippet already said. The type is `SelectOption`. `items` does nothing now and warns in development (SV4008) with the new name; `SelectItem` stays a deprecated name for `SelectOption` until beta.
+
+### Patch Changes
+
+- e7a99d9: Delta: a change that rounds to zero at the digits shown is no change. 0.00001 as a percentage with two decimals reads "0.00%" and is now muted, with no arrow; it took the up colour before, from the raw value, while its sign followed the rounded figure.
+- 562547b: NavigationDrawer: `onclose` tells why the modal drawer closed itself, as Dialog, Sheet and Popover do: `'escape'`, `'outside'`, or `'action'` when a link in it is followed.
+- 2631755: Menu, ContextMenu, Tree and CommandPalette: an item's `icon` accepts the components of any icon set in TypeScript. It was typed `Component<object>`, which turned away components whose props take every SVG attribute, such as phosphor-svelte's, so they needed a cast. It is now `Component<any>`.
+- 3eb3872: The conventions in `llms.txt` and `components.json` state the naming rules agents can carry from one component to the next: choices are `options` and other lists `items`, a control's text is `label` and a heading `title`, and every field calls `onchange` with its value.
+- 6027d96: The docs in the package mark the props a component requires, such as PriceInput's `tick`: `(required)` after the name in the Markdown prop tables, `required: true` in `components.json`, and those props listed first. Before, only the types said so.
+- 9358d2c: The toast region, with its styles and motion, is no longer part of what every page loads first: it loads once the page is idle, or as soon as a toast shows if that is sooner. The live regions that read toasts out stay in the page from the start, so the first toast is read out all the same. The core every app loads (UIProvider) drops from 7.25 KB to 5.6 KB gzipped.
+- 3914cfe: Tooltip: development builds warn (SV4007) when the control's `aria-describedby` replaced the tooltip's id, as one written after the trigger's attributes does, for a Badge's count say, and the tooltip was no longer read. The warning shows how to join the ids, and the Badge and Tooltip docs show a button described by both.
+
 ## 0.1.0-alpha.7
 
 ### Minor Changes
