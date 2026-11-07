@@ -46,6 +46,15 @@
 		white-space: nowrap;
 	}
 
+	/* The links: a row after the title, as wide as they are. */
+	.sv-app-bar__nav {
+		display: flex;
+		flex: none;
+		gap: var(--sv-space-5);
+		align-items: center;
+		min-inline-size: 0;
+	}
+
 	.sv-app-bar__content {
 		display: flex;
 		flex: 1;

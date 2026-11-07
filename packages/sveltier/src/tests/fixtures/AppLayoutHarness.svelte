@@ -1,7 +1,8 @@
 <script lang="ts">
 	// An app frame in a themed scope: a bar with an action, a drawer of links with icons, and main
 	// content taller than the window. The test picks which part comes first, whether there is a
-	// drawer, the props of the bar and the drawer, and whether Main is wrapped by mistake.
+	// drawer, whether the bar has links of its own, the props of the bar and the drawer, and
+	// whether Main is wrapped by mistake.
 	import AppBar from '../../lib/components/AppLayout/AppBar.svelte';
 	import AppLayout from '../../lib/components/AppLayout/AppLayout.svelte';
 	import Main from '../../lib/components/AppLayout/Main.svelte';
@@ -15,6 +16,7 @@
 	let {
 		drawerFirst = false,
 		withDrawer = true,
+		withNav = false,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -22,6 +24,7 @@
 	}: {
 		drawerFirst?: boolean;
 		withDrawer?: boolean;
+		withNav?: boolean;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -41,6 +44,11 @@
 	</Main>
 {/snippet}
 
+{#snippet links()}
+	<a href="#markets">Markets</a>
+	<a href="#trade">Trade</a>
+{/snippet}
+
 {#snippet navigation()}
 	<NavigationDrawer {...drawer} bind:open>
 		<List nav>
@@ -58,7 +66,7 @@
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
 	<AppLayout>
 		{#if withDrawer && drawerFirst}{@render navigation()}{/if}
-		<AppBar title="Ledger" {...bar}>
+		<AppBar title="Ledger" nav={withNav ? links : undefined} {...bar}>
 			{#snippet actions()}<button type="button">Sign out</button>{/snippet}
 		</AppBar>
 		{#if withDrawer && !drawerFirst}{@render navigation()}{/if}

@@ -54,14 +54,18 @@ declare module '../../core/defaults/context.js' {
 }
 
 /**
- * The bar across the top of an app, one line a control and a half tall: a title, any content,
- * and actions at the end. In an `AppLayout` with a `NavigationDrawer`, it starts with a menu
- * button that opens the drawer while the screen is too narrow to keep it beside the content. It
- * is the page's banner landmark. `class`, `style`, `ref` and other attributes go to the
- * `<header>`.
+ * The bar across the top of an app, one line a control and a half tall: a title, links, any
+ * content, and actions at the end. In an `AppLayout` with a `NavigationDrawer`, it starts with a
+ * menu button that opens the drawer while the screen is too narrow to keep it beside the content,
+ * and its `nav` links show only while that button does not. It is the page's banner landmark.
+ * `class`, `style`, `ref` and other attributes go to the `<header>`.
  *
  * @example
  * <AppBar title="Ledger">
+ *   {#snippet nav()}
+ *     <a href="/payments">Payments</a>
+ *     <a href="/cards">Cards</a>
+ *   {/snippet}
  *   {#snippet actions()}
  *     <Button variant="text" color="neutral">Sign out</Button>
  *   {/snippet}
@@ -73,7 +77,14 @@ export type AppBarProps = ElementProps<
 	Partial<AppBarDefaults> & {
 		/** The name of the app or of the current section, at the start. */
 		title?: string;
-		/** Content after the title, such as links or a search field. It takes the free space. */
+		/**
+		 * The app's navigation across the bar, after the title, in a navigation landmark named
+		 * "Main" (the locale's `mainNavigation`). In an `AppLayout` with a `NavigationDrawer`, it
+		 * shows only from the drawer's breakpoint up; below it, the menu button opens the drawer
+		 * instead. With a `modal` drawer, the links move between the bar and the drawer.
+		 */
+		nav?: Snippet;
+		/** Content after the title and the links, such as a search field. It takes the free space. */
 		children?: Snippet;
 		/** Buttons at the end. */
 		actions?: Snippet;
@@ -115,9 +126,16 @@ export type NavigationDrawerProps = ElementProps<
 		 */
 		rail?: boolean;
 		/**
-		 * The narrowest screen on which the drawer stays beside the content, at the breakpoint's
-		 * default width (`md` is 960px); below it, the drawer is modal. `xs` keeps it beside the
-		 * content at any width.
+		 * Only the modal drawer: below the breakpoint it opens from the app bar's menu button, and
+		 * from the breakpoint up there is no drawer, for an app whose bar carries the navigation
+		 * on a wide screen (the bar's `nav`). The page keeps its frame at every width.
+		 * @default false
+		 */
+		modal?: boolean;
+		/**
+		 * The narrowest screen on which the drawer stays beside the content (or, `modal`, is left
+		 * out), at the breakpoint's default width (`md` is 960px); below it, the drawer is modal.
+		 * `xs` keeps it beside the content at any width.
 		 * @default 'md'
 		 */
 		breakpoint?: Breakpoint;

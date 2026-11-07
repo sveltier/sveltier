@@ -3,7 +3,12 @@
 	import AppLayoutDemo from '#lib/docs/app-layout/AppLayoutDemo.svelte';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { appLayoutCorner, appLayoutRail, appLayoutUsage } from '#lib/snippets/layout.js';
+	import {
+		appLayoutBarLinks,
+		appLayoutCorner,
+		appLayoutRail,
+		appLayoutUsage
+	} from '#lib/snippets/layout.js';
 	import APP_BAR_PROPS from 'virtual:sveltier-api/AppBarProps';
 	import APP_LAYOUT_PROPS from 'virtual:sveltier-api/AppLayoutProps';
 	import MAIN_PROPS from 'virtual:sveltier-api/MainProps';
@@ -51,6 +56,16 @@
 		<code>UIProvider</code> do not move it.
 	</p>
 
+	<h2 id="bar-links">Links in the bar</h2>
+	<p>
+		An app can keep its navigation in the bar on a wide screen and in a drawer on a phone, as
+		trading platforms do. Put the links in the bar's <code>nav</code> and make the drawer
+		<code>modal</code>. From the drawer's breakpoint up, the links run across the bar and there is
+		no drawer; below it, the bar shows its menu button instead, which opens the drawer. The page
+		keeps one frame at every width, so turning a phone does not rebuild it.
+	</p>
+	<Code title="+layout.svelte" code={appLayoutBarLinks} />
+
 	<h2 id="rail">Rail</h2>
 	<p>
 		From the breakpoint up, <code>rail</code> narrows the drawer to the icons of the
@@ -62,9 +77,10 @@
 
 	<h2 id="bar">The bar</h2>
 	<p>
-		<code>AppBar</code> holds a <code>title</code>, any content after it (links, a search field),
-		which takes the free space, and <code>actions</code> at the end, on one line φ³ tall (about
-		68px) at the default density. It stays at the top while the page scrolls;
+		<code>AppBar</code> holds a <code>title</code>, the links of its <code>nav</code>, any content
+		after them (a search field), which takes the free space, and <code>actions</code> at the end, on
+		one line φ³ tall (about 68px) at the default density. It stays at the top while the page
+		scrolls;
 		<code>sticky=&#123;false&#125;</code>
 		lets it scroll away. Under a sticky bar, the page scrolls the target of a link and a focused control
 		into view below the bar. Buttons in the bar keep their own defaults: an icon button reads best as
@@ -87,7 +103,9 @@
 		</li>
 		<li>
 			Landmarks: the bar is the banner (<code>&lt;header&gt;</code>), the drawer a navigation named
-			<q>Main</q>, and the content the <code>&lt;main&gt;</code>.
+			<q>Main</q>, and the content the <code>&lt;main&gt;</code>. The bar's <code>nav</code> is a
+			navigation named <q>Main</q> too; with a <code>modal</code> drawer, only one of them is there at
+			a time.
 		</li>
 		<li>
 			The menu button is named <q>Navigation</q> and tells whether the drawer is open (<code

@@ -55,6 +55,11 @@
 		white-space: nowrap;
 	}
 
+	/* Only the modal drawer: none beside the content, at any width. */
+	.sv-navigation-drawer--modal {
+		display: none;
+	}
+
 	/* Below its breakpoint, the drawer leaves the grid: it opens as a modal drawer instead. */
 	@media (width < 600px) {
 		.sv-navigation-drawer--sm {

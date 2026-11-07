@@ -1,6 +1,6 @@
 <script lang="ts">
-	// The app's navigation: beside the content from its breakpoint up, a modal drawer below it.
-	// See NavigationDrawerProps.
+	// The app's navigation: beside the content from its breakpoint up (left out there when
+	// `modal`), a modal drawer below it. See NavigationDrawerProps.
 	import { MediaQuery } from 'svelte/reactivity';
 	import { checkValue, DEV, warnMisplaced } from '#dev';
 	import { BREAKPOINTS, DEFAULT_THRESHOLDS } from '../../core/display/display.js';
@@ -15,6 +15,7 @@
 	let {
 		open = $bindable(false),
 		rail = false,
+		modal = false,
 		breakpoint = 'md',
 		children,
 		'aria-label': ariaLabel,
@@ -34,10 +35,10 @@
 	const narrow = $derived(
 		breakpoint === 'xs' ? null : new MediaQuery(`(width < ${DEFAULT_THRESHOLDS[breakpoint]}px)`)
 	);
-	const modal = $derived(narrow?.current ?? false);
+	const asModal = $derived(narrow?.current ?? false);
 
 	$effect.pre(() => {
-		if (!modal && open) open = false;
+		if (!asModal && open) open = false;
 	});
 
 	// The app bar's menu button opens it.
@@ -78,14 +79,15 @@
 		'sv-navigation-drawer',
 		`sv-navigation-drawer--${breakpoint}`,
 		rail && 'sv-navigation-drawer--rail',
+		modal && 'sv-navigation-drawer--modal',
 		className
 	]}
 >
-	{#if !modal}
+	{#if !asModal && !modal}
 		<div class="sv-navigation-drawer__content">{@render children?.()}</div>
 	{/if}
 </nav>
-{#if modal}
+{#if asModal}
 	<Modal
 		component="NavigationDrawer"
 		placement="start"

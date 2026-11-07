@@ -21,6 +21,17 @@ describe('AppLayout on the server', () => {
 		expect(body).not.toContain('<dialog');
 	});
 
+	it('renders the links of the bar, and a modal drawer with nothing beside the content', () => {
+		const { body } = render(AppLayoutHarness, {
+			props: { withNav: true, drawer: { modal: true } }
+		});
+		expect(body).toMatch(
+			/<nav class="sv-app-bar__nav" aria-label="Main">(?:<!---->)?<a href="#markets">/
+		);
+		expect(body).toMatch(/<nav aria-label="Main"[^>]*class="[^"]*sv-navigation-drawer--modal/);
+		expect(body).not.toMatch(/<a[^>]*href="#payments"/);
+	});
+
 	it('renders the menu button for the CSS to show below the breakpoint, closed', () => {
 		const { body } = render(AppLayoutHarness);
 		const button = body.match(/<span class="sv-app-bar__menu">(?:<!---->)?(<button[^>]*>)/)?.[1];

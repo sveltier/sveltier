@@ -66,10 +66,17 @@
 		--sv-app-layout-top: var(--sv-app-bar-height);
 	}
 
-	/* The bar's menu button shows while the drawer is modal: below the drawer's breakpoint. */
+	/*
+	 * The bar's menu button shows while the drawer is modal, below the drawer's breakpoint, and
+	 * the bar's links give way to it.
+	 */
 	@media (width < 600px) {
 		.sv-app-layout:has(> .sv-navigation-drawer--sm) > .sv-app-bar > .sv-app-bar__menu {
 			display: contents;
+		}
+
+		.sv-app-layout:has(> .sv-navigation-drawer--sm) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
 		}
 	}
 
@@ -77,11 +84,19 @@
 		.sv-app-layout:has(> .sv-navigation-drawer--md) > .sv-app-bar > .sv-app-bar__menu {
 			display: contents;
 		}
+
+		.sv-app-layout:has(> .sv-navigation-drawer--md) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
 	}
 
 	@media (width < 1280px) {
 		.sv-app-layout:has(> .sv-navigation-drawer--lg) > .sv-app-bar > .sv-app-bar__menu {
 			display: contents;
+		}
+
+		.sv-app-layout:has(> .sv-navigation-drawer--lg) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
 		}
 	}
 
@@ -89,11 +104,19 @@
 		.sv-app-layout:has(> .sv-navigation-drawer--xl) > .sv-app-bar > .sv-app-bar__menu {
 			display: contents;
 		}
+
+		.sv-app-layout:has(> .sv-navigation-drawer--xl) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
 	}
 
 	@media (width < 2560px) {
 		.sv-app-layout:has(> .sv-navigation-drawer--xxl) > .sv-app-bar > .sv-app-bar__menu {
 			display: contents;
+		}
+
+		.sv-app-layout:has(> .sv-navigation-drawer--xxl) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
 		}
 	}
 
