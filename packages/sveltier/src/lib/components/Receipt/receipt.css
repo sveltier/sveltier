@@ -1,0 +1,46 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A slip of paper on the page: a raised surface in a hairline, the title over a rule, the rows,
+	 * then the footer. Sections a φ step apart inside Fibonacci padding, both times the density.
+	 */
+	.sv-receipt {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--sv-space-13) * var(--sv-density));
+		box-sizing: border-box;
+		min-inline-size: 0;
+		padding: calc(var(--sv-space-21) * var(--sv-density));
+		border: var(--sv-hairline) solid var(--sv-color-border);
+		border-radius: var(--sv-radius-lg);
+		background-color: var(--sv-color-surface-raised);
+		color: var(--sv-color-text);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	.sv-receipt__header {
+		padding-block-end: calc(var(--sv-space-13) * var(--sv-density));
+		border-block-end: var(--sv-hairline) dashed var(--sv-color-border-strong);
+	}
+
+	.sv-receipt__title {
+		margin: 0;
+		font-size: var(--sv-text-md);
+		font-weight: var(--sv-weight-semibold);
+		line-height: var(--sv-leading-tight);
+	}
+
+	.sv-receipt__subtitle {
+		padding-block-start: var(--sv-space-3);
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sv-receipt__footer {
+		color: var(--sv-color-text-muted);
+		font-size: var(--sv-text-xs);
+	}
+}

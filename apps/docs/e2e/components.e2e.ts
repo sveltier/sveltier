@@ -280,3 +280,43 @@ test("a timeline lists an order's events with their times, the settlement still 
 	);
 	await expect(history.getByRole('listitem').last()).toContainText('Pending');
 });
+
+test('a receipt pairs each label with its figure and rules off the total', async ({ page }) => {
+	await page.goto('/finance/receipt');
+	const receipt = page.getByRole('region', { name: 'Transfer sent' });
+	await expect(receipt.getByRole('heading', { level: 3 })).toHaveText('Transfer sent');
+	await expect(receipt.getByRole('term')).toHaveText(['To', 'Amount', 'Fee', 'Arrives', 'Total']);
+	await expect(receipt.getByRole('definition').last()).toHaveText('$1,002.50');
+});
+
+test('a PIN pad takes a PIN on its keys and refuses a wrong one', async ({ page }) => {
+	await page.goto('/finance/pin-pad');
+	const pad = page.getByRole('group', { name: 'Enter your trading PIN' });
+	for (const digit of ['1', '1', '1', '1']) {
+		await pad.getByRole('button', { name: digit, exact: true }).click();
+	}
+	await expect(pad).toHaveAccessibleDescription(/Wrong PIN/);
+	for (const digit of ['2', '5', '8', '0']) {
+		await pad.getByRole('button', { name: digit, exact: true }).click();
+	}
+	await expect(page.getByText('Order confirmed.')).toBeVisible();
+});
+
+test('an odometer rolls its digits to the new value, which it reads as text', async ({ page }) => {
+	await page.goto('/finance/odometer');
+	const figure = page.locator('.sv-odometer').first();
+	const before = await figure.locator('.sv-visually-hidden').textContent();
+	await page.getByRole('button', { name: 'Move the market' }).click();
+	await expect(figure.locator('.sv-visually-hidden')).not.toHaveText(before ?? '');
+	await expect(figure.locator('.sv-visually-hidden')).toHaveText(/^\$[\d,]+\.\d\d$/);
+});
+
+test('a guilloche is decoration behind a card, one curve drawn for every line', async ({
+	page
+}) => {
+	await page.goto('/finance/guilloche');
+	const art = page.locator('svg.sv-guilloche').first();
+	await expect(art).toHaveAttribute('aria-hidden', 'true');
+	await expect(art.locator('path')).toHaveCount(1);
+	await expect(art.locator('use')).toHaveCount(8);
+});

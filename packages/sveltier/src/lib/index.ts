@@ -269,7 +269,21 @@ export {
 	type RowJustify,
 	type RowProps
 } from './components/Grid/index.js';
+export {
+	Guilloche,
+	GUILLOCHE_PATTERNS,
+	type GuillocheDefaults,
+	type GuillochePattern,
+	type GuillocheProps
+} from './components/Guilloche/index.js';
 export { Icon, type IconProps } from './components/Icon/index.js';
+export {
+	Ledger,
+	LedgerRow,
+	type LedgerDefaults,
+	type LedgerProps,
+	type LedgerRowProps
+} from './components/Ledger/index.js';
 export {
 	List,
 	ListItem,
@@ -297,6 +311,7 @@ export {
 	type NumberFieldDefaults,
 	type NumberFieldProps
 } from './components/NumberField/index.js';
+export { Odometer, type OdometerProps } from './components/Odometer/index.js';
 export {
 	OTP_TYPES,
 	OtpInput,
@@ -310,6 +325,7 @@ export {
 	type PaginationProps
 } from './components/Pagination/index.js';
 export { Popover, type PopoverDefaults, type PopoverProps } from './components/Popover/index.js';
+export { PinPad, type PinPadDefaults, type PinPadProps } from './components/PinPad/index.js';
 export { PriceInput, type PriceInputProps } from './components/PriceInput/index.js';
 export {
 	ProgressCircular,
@@ -325,6 +341,7 @@ export {
 	type RadioGroupOption,
 	type RadioGroupProps
 } from './components/RadioGroup/index.js';
+export { Receipt, type ReceiptDefaults, type ReceiptProps } from './components/Receipt/index.js';
 export { SecureMask, type SecureMaskProps } from './components/SecureMask/index.js';
 export {
 	Select,

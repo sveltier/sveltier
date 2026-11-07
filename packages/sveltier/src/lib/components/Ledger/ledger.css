@@ -1,0 +1,68 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-ledger {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--sv-space-8) * var(--sv-density, 1));
+		margin: 0;
+		color: var(--sv-color-text);
+		font-size: var(--sv-text-sm);
+		line-height: var(--sv-leading-snug);
+	}
+
+	/*
+	 * The label, a dotted leader on the baseline filling the space, and the figure at the end,
+	 * kept on one line. A long label wraps, and the leader follows its last line.
+	 */
+	.sv-ledger-row {
+		display: flex;
+		align-items: baseline;
+		gap: var(--sv-space-5);
+	}
+
+	.sv-ledger-row__label {
+		display: flex;
+		flex: 1;
+		align-items: baseline;
+		min-inline-size: 0;
+		color: var(--sv-color-text-muted);
+	}
+
+	.sv-ledger-row__label::after {
+		content: '';
+		flex: 1;
+		min-inline-size: var(--sv-space-13);
+		margin-inline-start: var(--sv-space-5);
+		border-block-end: calc(var(--sv-hairline) * 2) dotted var(--sv-color-border-strong);
+	}
+
+	.sv-ledger-row__value {
+		flex: none;
+		margin: 0;
+		font-variant-numeric: tabular-nums;
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	/* The total: a double rule over it, as an accountant rules off a column, and a heavier figure. */
+	.sv-ledger-row--total {
+		margin-block-start: var(--sv-space-5);
+		padding-block-start: calc(var(--sv-space-8) * var(--sv-density, 1));
+		border-block-start: calc(var(--sv-hairline) * 3) double var(--sv-color-text);
+		font-size: var(--sv-text-md);
+	}
+
+	.sv-ledger-row--total .sv-ledger-row__label {
+		color: var(--sv-color-text);
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-ledger-row--total .sv-ledger-row__label::after {
+		visibility: hidden;
+	}
+
+	.sv-ledger-row--total .sv-ledger-row__value {
+		font-weight: var(--sv-weight-semibold);
+	}
+}

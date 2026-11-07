@@ -50,7 +50,12 @@ import {
 	amountInputUsage,
 	amountUsage,
 	deltaUsage,
+	guillocheUsage,
+	ledgerUsage,
+	odometerUsage,
+	pinPadUsage,
 	priceInputUsage,
+	receiptUsage,
 	secureMaskUsage
 } from '#lib/snippets/finance.js';
 import {
@@ -312,6 +317,36 @@ const FINANCE: Entry[] = [
 		path: 'finance/amount-input',
 		types: ['AmountInputProps'],
 		example: amountInputUsage
+	},
+	{
+		name: 'Guilloche',
+		path: 'finance/guilloche',
+		types: ['GuillocheProps'],
+		example: guillocheUsage
+	},
+	{
+		name: 'Ledger',
+		path: 'finance/ledger',
+		types: ['LedgerProps', 'LedgerRowProps'],
+		example: ledgerUsage
+	},
+	{
+		name: 'Odometer',
+		path: 'finance/odometer',
+		types: ['OdometerProps'],
+		example: odometerUsage
+	},
+	{
+		name: 'PinPad',
+		path: 'finance/pin-pad',
+		types: ['PinPadProps'],
+		example: pinPadUsage
+	},
+	{
+		name: 'Receipt',
+		path: 'finance/receipt',
+		types: ['ReceiptProps'],
+		example: receiptUsage
 	},
 	{
 		name: 'SecureMask',

@@ -1,0 +1,20 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* Fills its box; hairline strokes in the colour, faint, whatever the scale. */
+	.sv-guilloche {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		fill: none;
+		stroke: var(--sv-color);
+		stroke-opacity: var(--sv-guilloche-opacity, 0.236);
+		stroke-width: 1px;
+		pointer-events: none;
+	}
+
+	/* Not inherited, so on the curve itself, which every line draws. */
+	.sv-guilloche path {
+		vector-effect: non-scaling-stroke;
+	}
+}

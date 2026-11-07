@@ -1,0 +1,40 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	.sv-odometer {
+		display: inline-block;
+		font-variant-numeric: tabular-nums;
+		vertical-align: top;
+		white-space: nowrap;
+	}
+
+	.sv-odometer__figure {
+		display: inline-flex;
+	}
+
+	/* A one-line window over a column of the ten digits, moved to the one it shows. */
+	.sv-odometer__digit {
+		display: inline-block;
+		block-size: 1lh;
+		overflow: hidden;
+	}
+
+	.sv-odometer__column {
+		display: flex;
+		flex-direction: column;
+		transform: translateY(calc(var(--sv-odometer-digit) * -10%));
+		transition: transform var(--sv-duration-slow) var(--sv-ease);
+	}
+
+	.sv-odometer__column > span,
+	.sv-odometer__sign {
+		display: block;
+		block-size: 1lh;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-odometer__column {
+			transition: none;
+		}
+	}
+}

@@ -134,3 +134,79 @@ export const secureMaskFetch = `<script lang="ts">
 </script>
 
 <SecureMask label="Card number" value={revealed && number ? number : last4} toggle bind:revealed />`;
+
+export const ledgerUsage = `<script lang="ts">
+  import { Ledger, LedgerRow } from '@sveltier/ui';
+
+  const money = { style: 'currency' } as const;
+</script>
+
+<Ledger>
+  <LedgerRow label="Market value" value={18084} format={money} />
+  <LedgerRow label="Cash" value={2510.4} format={money} />
+  <LedgerRow label="Settles">Nov 9</LedgerRow>
+  <LedgerRow label="Total" value={20594.4} format={money} total />
+</Ledger>`;
+
+export const receiptUsage = `<script lang="ts">
+  import { Button, LedgerRow, Receipt } from '@sveltier/ui';
+
+  const money = { style: 'currency' } as const;
+</script>
+
+<Receipt title="Transfer sent" subtitle="Ref. TX-20261107-0042" level={2}>
+  <LedgerRow label="Amount" value={1000} format={money} />
+  <LedgerRow label="Fee" value={2.5} format={money} />
+  <LedgerRow label="Total" value={1002.5} format={money} total />
+  {#snippet footer()}
+    <Button size="sm" variant="text">Download PDF</Button>
+  {/snippet}
+</Receipt>`;
+
+export const pinPadUsage = `<script lang="ts">
+  import { PinPad } from '@sveltier/ui';
+
+  let { confirmOrder }: { confirmOrder: (pin: string) => Promise<boolean> } = $props();
+  let pin = $state('');
+  let error = $state<string>();
+
+  async function check(entered: string) {
+    if (await confirmOrder(entered)) return;
+    error = 'Wrong PIN, 2 tries left';
+    pin = '';
+  }
+</script>
+
+<PinPad label="Enter your trading PIN" bind:value={pin} {error} oncomplete={check} />`;
+
+export const odometerUsage = `<script lang="ts">
+  import { Odometer } from '@sveltier/ui';
+
+  let { balance }: { balance: number } = $props();
+</script>
+
+<Odometer value={balance} format={{ style: 'currency' }} />`;
+
+export const guillocheUsage = `<script lang="ts">
+  import { Amount, Guilloche } from '@sveltier/ui';
+</script>
+
+<div class="premium">
+  <Guilloche class="premium__art" pattern="rosette" />
+  <p>Premium account</p>
+  <Amount value={250000} format={{ style: 'currency' }} />
+</div>
+
+<style>
+  .premium {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .premium :global(.premium__art) {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+</style>`;
