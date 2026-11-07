@@ -17,6 +17,11 @@ type NumberFieldOwnProps = Partial<NumberFieldDefaults> &
 	FieldContentProps & {
 		/** The number, or `null` when the field is empty. Bindable. */
 		value?: number | null;
+		/**
+		 * Called with the number the user commits: on leaving the field after typing, and on each
+		 * step of the keys or buttons; `null` once they empty it. Not when `value` is set.
+		 */
+		onchange?: (value: number | null) => void;
 		/** The smallest value. The keys and buttons stop here; a smaller typed value is an error. */
 		min?: number;
 		/** The largest value. The keys and buttons stop here; a larger typed value is an error. */

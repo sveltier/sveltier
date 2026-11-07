@@ -47,6 +47,11 @@ type SliderOwnProps = Partial<SliderDefaults> & {
 	 * @default min
 	 */
 	value?: number;
+	/**
+	 * Called with the value when the user lets go of the thumb or moves it with a key; not when
+	 * `value` is set. `oninput` is the DOM event, for following a drag.
+	 */
+	onchange?: (value: number) => void;
 	/** @default 0 */
 	min?: number;
 	/** @default 100 */
