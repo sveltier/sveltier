@@ -8,6 +8,12 @@ build
 coverage
 *.tgz
 
+# Docs for coding agents, copied into the package by the docs build
+packages/sveltier/llms.txt
+packages/sveltier/llms-full.txt
+packages/sveltier/components.json
+packages/sveltier/docs/
+
 # Test artifacts
 test-results
 playwright-report

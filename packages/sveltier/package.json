@@ -28,8 +28,18 @@
 		"dist",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*",
-		"CHANGELOG.md"
+		"CHANGELOG.md",
+		"llms.txt",
+		"llms-full.txt",
+		"components.json",
+		"docs",
+		"agents",
+		"skills",
+		"bin"
 	],
+	"bin": {
+		"sveltier": "./bin/sveltier.js"
+	},
 	"sideEffects": [
 		"**/*.css"
 	],

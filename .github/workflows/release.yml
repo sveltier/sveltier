@@ -100,6 +100,13 @@ jobs:
       - name: Build the package
         run: pnpm --filter @sveltier/ui build
 
+      # The docs build writes the docs for coding agents into the package (llms.txt,
+      # llms-full.txt, components.json, docs/*.md), so the tarball describes its own version.
+      - name: Build the agent docs
+        run: |
+          pnpm --filter @sveltier/docs build
+          node packages/sveltier/scripts/check-agent-docs.js
+
       # Staged publishing needs npm 11.15.0 or later; Node 22 ships an older npm.
       - name: Stage on npm
         working-directory: packages/sveltier

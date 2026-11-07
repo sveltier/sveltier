@@ -8,15 +8,16 @@ polished by default, with five built-in design languages behind one theme engine
 > releases.
 
 - Docs: [sveltier.com](https://sveltier.com)
-- For agents: [llms.txt](https://sveltier.com/llms.txt) and
+- For agents: `npx sveltier init` in an app hooks its `AGENTS.md` to the docs inside the
+  package; on the web, [llms.txt](https://sveltier.com/llms.txt) and
   [llms-full.txt](https://sveltier.com/llms-full.txt)
 - What the package offers and how to set it up: [packages/sveltier](./packages/sveltier#readme)
 
 ## Principles
 
-- **Built for agents**: props tables and `llms.txt` come from the TypeScript types, shared props
-  are literal types whose errors list the valid values, and every library error has a stable
-  code and a fix.
+- **Built for agents**: props tables, `llms.txt` and the Markdown docs inside the package come
+  from the TypeScript types, shared props are literal types whose errors list the valid values,
+  and every library error has a stable code and a fix.
 - **Fast**: zero runtime dependencies, a gzip size budget on every entry checked in CI, and
   flash-free server rendering.
 - **Predictable**: Svelte 5 only (runes, snippets, callback props, `$bindable`, attachments),
@@ -49,6 +50,8 @@ pnpm size    # gzip size budgets
 ```
 
 Browser tests need Playwright's browsers once: `pnpm --filter @sveltier/ui exec playwright install`.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the conventions a change follows.
 
 ## Releasing
 
