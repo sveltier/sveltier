@@ -97,6 +97,14 @@ export const setDisplayContext = (display: DisplayInstance): DisplayInstance =>
 /**
  * Returns the viewport breakpoints. Call it during component initialisation. Without a
  * provider it returns one shared instance with the default options.
+ *
+ * @example
+ * <script>
+ *   import { useDisplay } from '@sveltier/ui';
+ *   const display = useDisplay();
+ * </script>
+ *
+ * {#if display.mdAndUp}<OrderBookPanel />{/if}
  */
 export function useDisplay(): DisplayInstance {
 	return hasContext(KEY) ? getContext<DisplayInstance>(KEY) : (shared ??= createDisplay());

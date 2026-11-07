@@ -6,6 +6,11 @@ export type KeyHandler = (event: KeyboardEvent) => void | false;
 /**
  * The combination of an event as `keymap` names it: `Ctrl+Alt+Shift+Meta+Key`. With `rtl`
  * given, horizontal arrows become `ArrowForward` / `ArrowBackward` for that direction.
+ *
+ * @example
+ * function onkeydown(event: KeyboardEvent) {
+ *   if (combination(event) === 'Ctrl+Enter') submit();
+ * }
  */
 export function combination(event: KeyboardEvent, rtl?: boolean): string {
 	let key = event.key;

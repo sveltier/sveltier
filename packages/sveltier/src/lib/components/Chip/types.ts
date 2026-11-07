@@ -47,6 +47,11 @@ declare module '../../core/defaults/context.js' {
 /**
  * A compact label: a tag (optionally `closable`), a filter that toggles (`selected`), an
  * action (`onclick`) or a link (`href`).
+ *
+ * @example
+ * <Chip>Equities</Chip>
+ * <Chip bind:selected={showFilled}>Filled</Chip>
+ * <Chip closable onclose={() => remove('EUR')} closeLabel="Remove Euro">EUR</Chip>
  */
 export type ChipProps = ElementProps<
 	HTMLSpanElement | HTMLButtonElement | HTMLAnchorElement,

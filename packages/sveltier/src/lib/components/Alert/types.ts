@@ -33,7 +33,15 @@ declare module '../../core/defaults/context.js' {
 	}
 }
 
-/** A message about something that happened or needs attention. */
+/**
+ * A message about something that happened or needs attention.
+ *
+ * @example
+ * <Alert type="error" title="Payment declined">
+ *   The card ending 4471 was declined by the issuer.
+ *   {#snippet actions()}<Button size="sm" variant="tonal" color="error">Try another card</Button>{/snippet}
+ * </Alert>
+ */
 export type AlertProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,

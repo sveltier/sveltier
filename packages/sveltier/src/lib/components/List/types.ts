@@ -28,7 +28,17 @@ declare module '../../core/defaults/context.js' {
 	}
 }
 
-/** A list of rows: `ListItem`s. Density and colour are set here, for every item. */
+/**
+ * A list of rows: `ListItem`s. Density and colour are set here, for every item.
+ *
+ * @example
+ * <nav aria-label="Banking">
+ *   <List nav>
+ *     <ListItem title="Overview" href="/" active />
+ *     <ListItem title="Cards" href="/cards" />
+ *   </List>
+ * </nav>
+ */
 export type ListProps = ElementProps<
 	HTMLUListElement,
 	HTMLAttributes<HTMLUListElement>,
@@ -41,6 +51,11 @@ export type ListProps = ElementProps<
 /**
  * A row of a `List`. With `href` it is a link and with `onclick` a button, filling the row;
  * `append` stays outside it, so it can hold controls of its own.
+ *
+ * @example
+ * <ListItem title="Savings" subtitle="Instant access">
+ *   {#snippet append()}$12,480.00{/snippet}
+ * </ListItem>
  */
 export type ListItemProps = ElementProps<
 	HTMLLIElement,

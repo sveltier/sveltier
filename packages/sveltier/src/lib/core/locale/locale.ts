@@ -199,6 +199,14 @@ export const setLocaleContext = (locale: LocaleInstance): LocaleInstance => setC
 /**
  * Returns messages and formatters for the current locale. Call it during component
  * initialisation. Without a provider it returns one shared instance with the defaults.
+ *
+ * @example
+ * <script>
+ *   import { useLocale } from '@sveltier/ui';
+ *   const locale = useLocale();
+ * </script>
+ *
+ * <p>{locale.formatCurrency(1250)} · {locale.formatRelative(order.placedAt)}</p>
  */
 export function useLocale(): LocaleInstance {
 	return hasContext(KEY) ? getContext<LocaleInstance>(KEY) : (shared ??= createLocale(() => ({})));

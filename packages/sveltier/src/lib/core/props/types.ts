@@ -61,7 +61,12 @@ export type Color = IntentColor | 'neutral' | Extract<keyof CustomColors, string
 	? C
 	: never;
 
-/** Props shared by every component that supports them. */
+/**
+ * Props shared by every component that supports them.
+ *
+ * @example
+ * <Button variant="tonal" color="success" size="lg" density="compact" rounded="full">Deposit</Button>
+ */
 export interface SharedProps {
 	variant?: Variant;
 	density?: Density;

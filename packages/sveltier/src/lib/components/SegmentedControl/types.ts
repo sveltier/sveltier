@@ -48,6 +48,13 @@ export interface SegmentedControlOption<T extends string | number = string> {
 /**
  * One choice among a few options, side by side, as a radio group with one tab stop. Name it
  * with `aria-label`.
+ *
+ * @example
+ * <SegmentedControl
+ *   aria-label="Chart range"
+ *   options={[{ value: '1W', label: '1W' }, { value: '1M', label: '1M' }, { value: '1Y', label: '1Y' }]}
+ *   bind:value={range}
+ * />
  */
 export type SegmentedControlProps<T extends string | number = string> = ElementProps<
 	HTMLDivElement,

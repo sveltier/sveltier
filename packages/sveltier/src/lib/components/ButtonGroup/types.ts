@@ -44,6 +44,12 @@ declare module '../../core/defaults/context.js' {
 /**
  * Buttons joined into one control: shared borders, square inner corners, and the same
  * variant, size, density and colour unless a Button says otherwise. Give it an `aria-label`.
+ *
+ * @example
+ * <ButtonGroup aria-label="Export" variant="outlined">
+ *   <Button onclick={exportCsv}>CSV</Button>
+ *   <Button onclick={exportPdf}>PDF</Button>
+ * </ButtonGroup>
  */
 export type ButtonGroupProps = ElementProps<
 	HTMLDivElement,

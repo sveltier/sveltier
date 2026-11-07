@@ -1,7 +1,13 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
 
-/** A hairline between groups of content: an `<hr>`, which assistive technology reads as a separator. */
+/**
+ * A hairline between groups of content: an `<hr>`, which assistive technology reads as a separator.
+ *
+ * @example
+ * <Divider />
+ * <Divider vertical />
+ */
 export type DividerProps = ElementProps<
 	HTMLHRElement,
 	HTMLAttributes<HTMLHRElement>,

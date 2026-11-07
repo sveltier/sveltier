@@ -81,6 +81,11 @@ type ButtonOwnProps = Partial<ButtonDefaults> & {
 /**
  * A button, or a link that looks like one (`href`). Every other attribute of `<button>` and
  * `<a>` passes through to the element.
+ *
+ * @example
+ * <Button onclick={save}>Save</Button>
+ * <Button variant="tonal" color="error" loading={deleting}>Delete</Button>
+ * <Button href="/statements" variant="text">Statements</Button>
  */
 export type ButtonProps = ElementProps<
 	HTMLButtonElement | HTMLAnchorElement,
