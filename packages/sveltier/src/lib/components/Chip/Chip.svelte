@@ -39,6 +39,8 @@
 	const p = $derived(resolve({ variant, size, density, color, rounded, disabled }));
 	const locale = useLocale();
 
+	// A filter chip is outlined while off and takes its variant while on, with its check: the
+	// selection reads by shape and mark, not only by a louder fill.
 	const toggle = $derived(selected !== undefined);
 	const tag = $derived.by(() => {
 		const element = href != null ? 'a' : toggle || onclick ? 'button' : 'span';
@@ -79,7 +81,7 @@
 	aria-pressed={toggle ? selected : undefined}
 	class={[
 		'sv-chip',
-		sharedClasses({ ...p, variant: selected ? 'flat' : p.variant }, 'Chip'),
+		sharedClasses({ ...p, variant: toggle && !selected ? 'outlined' : p.variant }, 'Chip'),
 		action && 'sv-chip--action',
 		p.disabled && 'sv-chip--disabled',
 		className

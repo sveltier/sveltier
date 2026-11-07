@@ -12,7 +12,9 @@ describe('Chip on the server', () => {
 		const toggle = render(Chip, { props: { selected: true, children: label } }).body;
 		expect(toggle).toContain('<button');
 		expect(toggle).toContain('aria-pressed="true"');
-		expect(toggle).toContain('sv-variant-flat');
+		expect(toggle).toContain('sv-variant-tonal');
+		const off = render(Chip, { props: { selected: false, children: label } }).body;
+		expect(off).toContain('sv-variant-outlined');
 		expect(render(Chip, { props: { href: '/eur', children: label } }).body).toContain(
 			'href="/eur"'
 		);

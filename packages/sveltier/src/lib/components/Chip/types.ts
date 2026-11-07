@@ -6,7 +6,8 @@ import type { Color, Density, Rounded, Size, Variant } from '../../core/props/ty
 /** The Chip props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface ChipDefaults {
 	/**
-	 * Visual weight. A selected chip is `flat`.
+	 * Visual weight. A filter chip (`selected` set) is `outlined` while off and takes this
+	 * variant while on.
 	 * @default 'tonal'
 	 */
 	variant: Variant;
@@ -53,7 +54,7 @@ export type ChipProps = ElementProps<
 	Partial<ChipDefaults> & {
 		/**
 		 * Makes the chip a toggle button (`aria-pressed`) that flips it when pressed: a filter.
-		 * Bindable. Shows a check while selected.
+		 * Bindable. Off, it is outlined; on, it takes its `variant` and shows a check.
 		 */
 		selected?: boolean;
 		/**

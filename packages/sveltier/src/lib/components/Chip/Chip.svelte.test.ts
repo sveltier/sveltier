@@ -25,15 +25,25 @@ describe('Chip', () => {
 		await render(ChipHarness, { selected: false });
 		expect(chip().tagName).toBe('BUTTON');
 		expect(chip().getAttribute('aria-pressed')).toBe('false');
+		expect(chip().classList).toContain('sv-variant-outlined');
 		await page.getByRole('button', { name: 'Euro' }).click();
 		expect(chip().getAttribute('aria-pressed')).toBe('true');
 		expect(state()).toBe('true');
-		expect(chip().classList).toContain('sv-variant-flat');
+		// On, it takes its variant (tonal by default), never a louder flat fill.
+		expect(chip().classList).toContain('sv-variant-tonal');
 		expect(chip().querySelector('svg')).not.toBeNull();
 		chip().focus();
 		await userEvent.keyboard('[Space]');
 		expect(state()).toBe('false');
-		expect(chip().classList).toContain('sv-variant-tonal');
+		expect(chip().classList).toContain('sv-variant-outlined');
+	});
+
+	it('keeps the variant it is given while selected', async () => {
+		const screen = await render(ChipHarness, { selected: true, variant: 'flat', color: 'primary' });
+		expect(chip().classList).toContain('sv-variant-flat');
+		await screen.rerender({ selected: false });
+		expect(chip().classList).toContain('sv-variant-outlined');
+		expect(chip().classList).toContain('sv-color-primary');
 	});
 
 	it('replaces its prepend with the check while selected', async () => {

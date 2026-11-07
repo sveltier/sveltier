@@ -21,8 +21,9 @@
 
 	<h2 id="filters">Filters</h2>
 	<p>
-		Bind <code>selected</code> and the chip becomes a toggle button that flips it when pressed. A selected
-		chip is filled and shows a check, so the state does not rely on colour alone.
+		Bind <code>selected</code> and the chip becomes a toggle button that flips it when pressed. Off,
+		it is outlined; on, it takes its <code>variant</code> (tonal unless you set one) and shows a check,
+		so a row of active filters stays calm and the state does not rely on colour alone.
 	</p>
 	<Code title="Filters.svelte" code={chipFilter} />
 
