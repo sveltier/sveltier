@@ -16,10 +16,12 @@ describe('Form', () => {
 		await render(FormHarness, { onsubmit, onlater });
 		await email().fill('ada');
 		await submit().click();
+		// Firefox can finish the click before the submit event has run, when only the email's
+		// message (shown as it lost focus) is there yet; wait for the submission's messages.
+		await expect.poll(errors).toEqual(['Required', 'Enter a valid email address']);
 		expect(onsubmit).not.toHaveBeenCalled();
 		// A listener added after the form's own, as SvelteKit's enhance is, never runs either.
 		expect(onlater).not.toHaveBeenCalled();
-		expect(errors()).toEqual(['Required', 'Enter a valid email address']);
 		await expect.element(name()).toHaveFocus();
 		await expect.element(name()).toHaveAccessibleDescription('Required');
 	});
