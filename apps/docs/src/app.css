@@ -97,6 +97,13 @@ a {
 	color: var(--sv-color-text-subtle);
 }
 
+/* A prop the type requires: a small, quiet word under its name. */
+.docs-required {
+	display: block;
+	font-size: var(--sv-text-xs);
+	color: var(--sv-color-text-muted);
+}
+
 .docs-break {
 	overflow-wrap: anywhere;
 	white-space: normal;

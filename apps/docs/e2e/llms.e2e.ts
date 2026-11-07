@@ -33,6 +33,27 @@ test('llms-full.txt has every component with its props, from the types', async (
 	expect(text).toContain('```svelte');
 });
 
+test('the prop tables say which props are required', async ({ page, request }) => {
+	// PriceInput cannot work without a tick: its type requires one.
+	const markdown = await (await request.get('/agents/docs/finance/price-input.md')).text();
+	expect(markdown).toMatch(/\| `tick` \(required\) \| `NumberStep` \|/);
+	expect(markdown).toMatch(/\| `min` \| /);
+	const manifest = (await (await request.get('/agents/components.json')).json()) as {
+		entries: { name: string; types: Record<string, { name: string; required?: boolean }[]> }[];
+	};
+	const rows = manifest.entries.find((entry) => entry.name === 'PriceInput')!.types[
+		'PriceInputProps'
+	]!;
+	expect(rows.find((row) => row.name === 'tick')?.required).toBe(true);
+	expect(rows.find((row) => row.name === 'min')?.required).toBeUndefined();
+	// Required props come first.
+	expect(rows[0]?.name).toBe('tick');
+	await page.goto('/finance/price-input');
+	const table = page.getByRole('region', { name: 'PriceInput props' });
+	await expect(table.getByRole('row', { name: /^tick required/ })).toBeVisible();
+	await expect(table.getByRole('row', { name: /^min required/ })).toHaveCount(0);
+});
+
 test('the agent docs for the package link its own Markdown pages', async ({ request }) => {
 	const index = await (await request.get('/agents/llms.txt')).text();
 	expect(index).toContain(

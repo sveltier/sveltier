@@ -404,7 +404,7 @@ const escape = (text: string) => text.replaceAll('|', '\\|').replaceAll('\n', ' 
 function table(rows: ApiRow[]): string {
 	const lines = rows.map(
 		(row) =>
-			`| \`${row.name}\` | \`${escape(row.type)}\` | ${row.default ? `\`${escape(row.default)}\`` : ''} | ${escape(row.description)} |`
+			`| \`${row.name}\`${row.required ? ' (required)' : ''} | \`${escape(row.type)}\` | ${row.default ? `\`${escape(row.default)}\`` : ''} | ${escape(row.description)} |`
 	);
 	return ['| Prop | Type | Default | Description |', '| --- | --- | --- | --- |', ...lines].join(
 		'\n'

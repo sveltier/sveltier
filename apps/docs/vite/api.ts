@@ -11,6 +11,8 @@ export interface ApiRow {
 	name: string;
 	type: string;
 	default?: string;
+	/** The type requires the prop: set only then. */
+	required?: true;
 	description: string;
 }
 
@@ -86,22 +88,27 @@ function typeText(checker: ts.TypeChecker, property: ts.Symbol, at: ts.Node): st
 
 function rows(checker: ts.TypeChecker, symbol: ts.Symbol, at: ts.Node): ApiRow[] {
 	const type = checker.getDeclaredTypeOfSymbol(symbol);
-	return checker
-		.getPropertiesOfType(type)
-		.filter(isOwn)
-		.map((property) => {
-			const fallback = property
-				.getJsDocTags(checker)
-				.find((tag) => tag.name === 'default')
-				?.text?.map((part) => part.text)
-				.join('');
-			return {
-				name: property.getName(),
-				type: typeText(checker, property, at),
-				...(fallback ? { default: fallback } : {}),
-				description: ts.displayPartsToString(property.getDocumentationComment(checker)).trim()
-			};
-		});
+	return (
+		checker
+			.getPropertiesOfType(type)
+			.filter(isOwn)
+			.map((property) => {
+				const fallback = property
+					.getJsDocTags(checker)
+					.find((tag) => tag.name === 'default')
+					?.text?.map((part) => part.text)
+					.join('');
+				return {
+					name: property.getName(),
+					type: typeText(checker, property, at),
+					...(fallback ? { default: fallback } : {}),
+					...(property.flags & ts.SymbolFlags.Optional ? {} : { required: true as const }),
+					description: ts.displayPartsToString(property.getDocumentationComment(checker)).trim()
+				};
+			})
+			// The props a component cannot do without come first, in their declared order.
+			.sort((a, b) => Number(b.required ?? false) - Number(a.required ?? false))
+	);
 }
 
 interface Extracted {
