@@ -51,6 +51,21 @@ describe('CommandPalette', () => {
 		await expect.element(page.getByRole('button', { name: 'Search' })).toHaveFocus();
 	});
 
+	it('takes focus into the search box when its shortcut opens it while it is still closing', async () => {
+		await render(CommandPaletteHarness);
+		const mod = /Mac|iPhone|iPad/.test(navigator.userAgent) ? 'Meta' : 'Control';
+		await userEvent.keyboard(`{${mod}>}k{/${mod}}`);
+		await expect.element(search()).toHaveFocus();
+		const element = palette().element();
+		await expect.poll(() => element.getAnimations({ subtree: true }).length).toBe(0);
+		// The closing transition makes it inert, which takes focus out of it to the page.
+		await userEvent.keyboard('{Escape}');
+		await expect.poll(() => document.activeElement, { interval: 5 }).toBe(document.body);
+		await userEvent.keyboard(`{${mod}>}k{/${mod}}`);
+		expect(palette().element()).toBe(element);
+		await expect.element(search()).toHaveFocus();
+	});
+
 	it('binds no shortcut when it is false', async () => {
 		await render(CommandPaletteHarness, { shortcut: false });
 		await notes().click();
