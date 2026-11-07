@@ -30,7 +30,8 @@ for (const gallery of GALLERY_PAGES) {
 		await expect(page.getByTestId('gallery')).toHaveScreenshot(`${name}.png`, {
 			animations: 'disabled',
 			caret: 'hide',
-			maxDiffPixelRatio: 0.001
+			// Same image, same pixels: a change as small as one chip has to fail the comparison.
+			maxDiffPixels: 0
 		});
 	});
 }
