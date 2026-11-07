@@ -1,5 +1,6 @@
 import { render } from 'svelte/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import LocaleNested from '../../../tests/fixtures/LocaleNested.svelte';
 import LocaleProbe from '../../../tests/fixtures/LocaleProbe.svelte';
 import { createLocale, type LocaleOptions } from './locale.js';
 
@@ -96,5 +97,37 @@ describe('locale engine', () => {
 	it('renders through useLocale without browser globals', () => {
 		const { body } = render(LocaleProbe, { props: { value: 1250 } });
 		expect(body).toContain('$1,250.00|Close');
+	});
+});
+
+describe('a nested locale', () => {
+	it('takes what it leaves out from its parent, messages included', () => {
+		const vi = createLocale(() => ({
+			locale: 'vi-VN',
+			currency: 'VND',
+			messages: { close: 'Đóng' }
+		}));
+		const en = createLocale(() => ({ locale: 'en-US' }), vi);
+		expect(en.locale).toBe('en-US');
+		expect(en.currency).toBe('VND');
+		expect(en.t('close')).toBe('Đóng');
+		expect(en.formatNumber(76088, { minimumFractionDigits: 1 })).toBe('76,088.0');
+		const own = createLocale(() => ({ messages: { close: 'Close it' } }), vi);
+		expect(own.locale).toBe('vi-VN');
+		expect(own.t('close')).toBe('Close it');
+		expect(own.t('loading')).toBe(vi.t('loading'));
+	});
+
+	it('formats the figures inside a LocaleProvider with its locale, and keeps the text', () => {
+		const { body } = render(LocaleNested);
+		const part = (id: string) => body.slice(body.indexOf(`data-testid="${id}"`));
+		const outer = part('outer').slice(0, part('outer').indexOf('data-testid="inner"'));
+		const inner = part('inner');
+		expect(outer).toContain('76.088,0');
+		expect(outer).toContain('0,60');
+		expect(outer).toContain('|Đóng');
+		expect(inner).toContain('76,088.0');
+		expect(inner).toContain('0.60%');
+		expect(inner).toContain('₫1,250|Đóng');
 	});
 });

@@ -152,11 +152,18 @@ const UNITS: Array<[Intl.RelativeTimeFormatUnit, number]> = [
 	['second', 1]
 ];
 
-/** Builds a locale whose settings are read through `options` on every call. */
-export function createLocale(options: () => LocaleOptions): LocaleInstance {
-	const locale = () => options().locale ?? 'en-US';
-	const currency = () => options().currency ?? 'USD';
-	const timeZone = () => options().timeZone;
+/**
+ * Builds a locale whose settings are read through `options` on every call. With a `parent`,
+ * what `options` leaves out comes from it, messages included: a nested provider changes only
+ * what it sets.
+ */
+export function createLocale(
+	options: () => LocaleOptions,
+	parent?: LocaleInstance
+): LocaleInstance {
+	const locale = () => options().locale ?? parent?.locale ?? 'en-US';
+	const currency = () => options().currency ?? parent?.currency ?? 'USD';
+	const timeZone = () => options().timeZone ?? parent?.timeZone;
 	const number = (format: Intl.NumberFormatOptions) => cached(Intl.NumberFormat, locale(), format);
 
 	return {
@@ -169,10 +176,13 @@ export function createLocale(options: () => LocaleOptions): LocaleInstance {
 		get timeZone() {
 			return timeZone();
 		},
-		t: (key, values) =>
-			(options().messages?.[key] ?? MESSAGES[key]).replace(/\{(\w+)\}/g, (match, name: string) =>
+		t: (key, values) => {
+			const own = options().messages?.[key];
+			if (own === undefined && parent) return parent.t(key, values);
+			return (own ?? MESSAGES[key]).replace(/\{(\w+)\}/g, (match, name: string) =>
 				String(values?.[name] ?? match)
-			),
+			);
+		},
 		formatNumber: (value, format = {}) => number(format).format(value),
 		formatCurrency: (value, code = currency(), format = {}) =>
 			number({ ...format, style: 'currency', currency: code }).format(value),
@@ -193,7 +203,7 @@ export function createLocale(options: () => LocaleOptions): LocaleInstance {
 const KEY = Symbol('sveltier.locale');
 let shared: LocaleInstance | undefined;
 
-/** Gives a subtree its locale, built from the root's options. */
+/** Gives a subtree its locale. */
 export const setLocaleContext = (locale: LocaleInstance): LocaleInstance => setContext(KEY, locale);
 
 /**

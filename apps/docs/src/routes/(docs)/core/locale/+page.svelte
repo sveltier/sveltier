@@ -2,7 +2,9 @@
 	import { resolve } from '$app/paths';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { localeExample, localeOptions } from '#lib/snippets/core.js';
+	import ApiTable from '#lib/docs/ApiTable.svelte';
+	import { localeExample, localeOptions, localeSubtree } from '#lib/snippets/core.js';
+	import LOCALE_PROVIDER_PROPS from 'virtual:sveltier-api/LocaleProviderProps';
 	import { useLocale } from '@sveltier/ui';
 
 	const locale = useLocale();
@@ -71,6 +73,16 @@
 		shows another currency or zone passes it per call.
 	</p>
 	<Code title="+layout.svelte" code={localeOptions} />
+
+	<h2 id="subtree">A part of the page in another locale</h2>
+	<p>
+		<code>LocaleProvider</code> gives what is inside it its own settings: an app in Vietnamese can show
+		a market table with figures written as exchanges write them. Everything it leaves out comes from the
+		provider above, messages included, so the table's labels stay in the app's language. It renders no
+		element.
+	</p>
+	<Code title="Markets.svelte" code={localeSubtree} />
+	<ApiTable label="LocaleProvider props" rows={LOCALE_PROVIDER_PROPS} />
 
 	<h2 id="messages">Messages</h2>
 	<p>
