@@ -681,6 +681,12 @@ a {
 	background-color: var(--sv-color-surface-raised);
 }
 
+/* A long path such as node_modules/@sveltier/ui/llms.txt breaks rather than widen the page. */
+.doc-body p code,
+.doc-body li code {
+	overflow-wrap: anywhere;
+}
+
 /* Links in the prose; a component's own links (breadcrumbs, link buttons) keep its styles. */
 .doc-body a:not([class*='sv-']) {
 	color: var(--sv-color-primary);
