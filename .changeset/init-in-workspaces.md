@@ -8,4 +8,4 @@
 - the root's `CLAUDE.md` imports it (`@web/AGENTS.md`);
 - the skill goes in the root's `.claude`, with its paths written from there (`web/node_modules/@sveltier/ui/…`).
 
-A package hoisted to the workspace root is found too. A skill that is already up to date is left as it is.
+A package hoisted to the workspace root is found too. A skill that is already up to date is left as it is. The block's rules now say they give way to the app's own instructions, so agents keep a page's deliberate exceptions.

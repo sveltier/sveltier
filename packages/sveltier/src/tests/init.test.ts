@@ -34,7 +34,7 @@ describe('sveltier init', () => {
 		init(app);
 		expect(read('AGENTS.md')).toBe(`# Project\n\nUse pnpm.\n\n${agentsBlock()}\n`);
 
-		const stale = read('AGENTS.md').replace('Rules:', 'Old rules:') + '\n## Later\n';
+		const stale = read('AGENTS.md').replace('Svelte 5 only', 'Svelte 4 too') + '\n## Later\n';
 		writeFileSync(join(app, 'AGENTS.md'), stale);
 		expect(init(app)).toEqual(['Updated the Sveltier section of AGENTS.md.']);
 		expect(read('AGENTS.md')).toBe(`# Project\n\nUse pnpm.\n\n${agentsBlock()}\n\n## Later\n`);
