@@ -3,7 +3,15 @@ import '../../styles/props.css';
 import { INTENT_COLORS } from '../theme/types.js';
 import { DENSITIES, ROUNDED, SIZES, VARIANTS, type SharedProps, type Variant } from './types.js';
 
-/** The shared props that map to classes. */
+/**
+ * The shared props that map to classes.
+ *
+ * @example
+ * const classes = sharedClasses(
+ *   { variant: 'tonal', color: 'primary', size: 'md', density: 'default', rounded: true },
+ *   'PriceTag'
+ * );
+ */
 export type SharedClassProps = Pick<
 	SharedProps,
 	'variant' | 'density' | 'size' | 'color' | 'rounded'

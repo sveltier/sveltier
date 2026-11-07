@@ -6,6 +6,10 @@ import type { Color, Size } from '../../core/props/types.js';
 /**
  * An icon: SVG path data, or any icon of your own as `children`. Decorative unless it has a
  * `label`.
+ *
+ * @example
+ * <Icon path={mdiBank} />
+ * <Icon path={mdiAlert} color="warning" label="Warning" />
  */
 export type IconProps = ElementProps<
 	HTMLSpanElement,

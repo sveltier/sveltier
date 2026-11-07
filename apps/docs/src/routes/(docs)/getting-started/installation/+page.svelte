@@ -63,12 +63,25 @@
 	</p>
 
 	<h2 id="agents">AI coding agents</h2>
+	<p>
+		The package carries its own docs for agents, generated from the same types your editor checks:
+		<code>llms.txt</code> (setup, conventions and an index), <code>llms-full.txt</code>, one
+		Markdown page per component in <code>docs/</code>, and <code>components.json</code>. Hook your
+		app's agents up to them once:
+	</p>
+	<Code title="Terminal" lang="sh" code="npx sveltier init" />
+	<p>
+		It writes a Sveltier section into <code>AGENTS.md</code> pointing at
+		<code>node_modules/@sveltier/ui/llms.txt</code>, replaced in place when you run it again after
+		an upgrade. If the app has a <code>CLAUDE.md</code>, it imports <code>AGENTS.md</code> there
+		too. If the app has a <code>.claude</code> folder, it installs the Sveltier skill.
+	</p>
 	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
 	<p>
-		Point your agent at <a href={pageHref('llms.txt')} data-sveltekit-reload>llms.txt</a>, an index
-		of these docs, or <a href={pageHref('llms-full.txt')} data-sveltekit-reload>llms-full.txt</a>:
-		setup, conventions and every component's props, generated from the same types your editor
-		checks.
+		On the web, the same reference is at <a href={pageHref('llms.txt')} data-sveltekit-reload
+			>llms.txt</a
+		>
+		and <a href={pageHref('llms-full.txt')} data-sveltekit-reload>llms-full.txt</a>.
 	</p>
 	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 

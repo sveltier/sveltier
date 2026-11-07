@@ -26,6 +26,11 @@ declare module '../../core/defaults/context.js' {
 /**
  * A count or a dot pinned to the top end corner of its content, or standing alone in a line
  * when it has none. A count of 0 hides it.
+ *
+ * @example
+ * <Badge id="inbox" content={3} label="unread messages">
+ *   <Button icon aria-label="Messages" aria-describedby="inbox-label"><Icon path={mdiEmail} /></Button>
+ * </Badge>
  */
 export type BadgeProps = ElementProps<
 	HTMLSpanElement,

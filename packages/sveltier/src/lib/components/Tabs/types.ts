@@ -44,6 +44,15 @@ export interface TabsItem<T extends string | number = string> {
 /**
  * Tabs and the panel of the selected one. Name the tab list with `aria-label` or
  * `aria-labelledby`, which go to it.
+ *
+ * @example
+ * <Tabs
+ *   aria-label="Account"
+ *   items={[{ value: 'overview', label: 'Overview' }, { value: 'activity', label: 'Activity' }]}
+ *   bind:value={section}
+ * >
+ *   {#snippet panel(item)}<AccountSection name={item.value} />{/snippet}
+ * </Tabs>
  */
 export type TabsProps<T extends string | number = string> = ElementProps<
 	HTMLDivElement,

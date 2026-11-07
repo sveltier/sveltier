@@ -32,3 +32,25 @@ test('llms-full.txt has every component with its props, from the types', async (
 	);
 	expect(text).toContain('```svelte');
 });
+
+test('the agent docs for the package link its own Markdown pages', async ({ request }) => {
+	const index = await (await request.get('/agents/llms.txt')).text();
+	expect(index).toContain(
+		'- [Button](docs/components/button.md): A button, or a link that looks like one'
+	);
+	expect(index).toContain('[Installation](https://sveltier.com/getting-started/installation)');
+	expect(index).toContain('[Full reference](llms-full.txt)');
+
+	const page = await request.get('/agents/docs/components/button.md');
+	expect(page.headers()['content-type']).toContain('text/markdown');
+	const markdown = await page.text();
+	expect(markdown).toMatch(/^# Button\n/);
+	expect(markdown).toContain('[llms.txt](../../llms.txt)');
+	expect(markdown).toContain('| `variant` |');
+
+	const manifest = await (await request.get('/agents/components.json')).json();
+	expect(manifest.package).toBe('@sveltier/ui');
+	const button = manifest.entries.find((entry: { name: string }) => entry.name === 'Button');
+	expect(button.markdown).toBe('docs/components/button.md');
+	expect(button.types.ButtonProps.map((row: { name: string }) => row.name)).toContain('variant');
+});

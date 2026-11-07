@@ -5,6 +5,11 @@ import type { Size } from '../../core/props/types.js';
 /**
  * A placeholder in the shape of content that is still loading. Hidden from assistive
  * technology: mark the region that is loading with `aria-busy="true"` instead.
+ *
+ * @example
+ * <section aria-busy={loading}>
+ *   {#if loading}<Skeleton type="circle" /><Skeleton lines={2} />{:else}<Profile {user} />{/if}
+ * </section>
  */
 export type SkeletonProps = ElementProps<
 	HTMLSpanElement,

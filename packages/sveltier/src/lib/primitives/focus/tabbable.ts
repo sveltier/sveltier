@@ -30,7 +30,12 @@ function tabIndexOf(element: FocusableElement): number {
 	return reachable ? 0 : element.tabIndex;
 }
 
-/** Whether `element` can be reached with Tab right now. */
+/**
+ * Whether `element` can be reached with Tab right now.
+ *
+ * @example
+ * if (!isTabbable(trigger)) trigger.setAttribute('tabindex', '0');
+ */
 export function isTabbable(element: Element): element is FocusableElement {
 	if (!(element instanceof HTMLElement || element instanceof SVGElement)) return false;
 	if (tabIndexOf(element) < 0 || element.matches(':disabled') || element.closest('[inert]')) {
@@ -48,6 +53,10 @@ export function isTabbable(element: Element): element is FocusableElement {
  * The elements inside `container` that Tab reaches, in the order Tab reaches them: positive
  * `tabindex` first, then document order. Like browsers, a radio group contributes one stop,
  * its checked radio or else its first.
+ *
+ * @example
+ * // Focus the first control of a panel that just opened.
+ * tabbable(panel)[0]?.focus();
  */
 export function tabbable(container: ParentNode): FocusableElement[] {
 	const found: FocusableElement[] = [];

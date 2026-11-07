@@ -374,7 +374,7 @@ const PRIMITIVES: Entry[] = [
 const SUMMARY =
 	'A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free server-side theming.';
 
-const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`@sveltier/ui/themes/monolith\`), and import components from \`@sveltier/ui\`.
+const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`@sveltier/ui/themes/monolith\`), and import components from \`@sveltier/ui\`. The installed package holds these docs for its own version (\`node_modules/@sveltier/ui/llms.txt\`, \`docs/<group>/<page>.md\`, \`components.json\`), and \`npx sveltier init\` points the app's \`AGENTS.md\` at them.
 
 - Svelte 5 only: runes (\`$state\`, \`$derived\`, \`$effect\`, \`$props\`, \`$bindable\`), snippets and callback props. Never write Svelte 4 syntax: no \`export let\`, no \`on:click\` (use \`onclick\`), no \`<slot>\` (use snippets and \`{@render}\`), no \`createEventDispatcher\`, no \`$:\`. Svelte's own tools for agents, including an MCP server and an autofixer, are listed at https://svelte.dev/docs/ai.
 - Every component takes the same names for the same things: \`variant\` (elevated, flat, tonal, outlined, text, plain), \`size\` (xs to xl), \`density\` (dense, compact, default, comfortable), \`color\` (an intent such as primary or error, neutral, or a custom colour), \`rounded\`, \`disabled\`, \`loading\`.
@@ -504,4 +504,89 @@ export function llmsFull(link: (path: string) => string): string {
 		),
 		''
 	].join('\n');
+}
+
+// The same reference, shipped inside the npm package so an agent reads the docs of the version
+// it has installed: an index whose links point at the package's own files, one Markdown file
+// per docs page with an API section, and a machine-readable manifest of the components.
+
+/** The public site, for links that leave the package. */
+export const SITE = 'https://sveltier.com';
+
+const SECTIONS: Array<[string, Entry[]]> = [
+	['Layout', LAYOUT],
+	['Components', COMPONENTS],
+	['Forms', FORMS],
+	['Overlays', OVERLAYS],
+	['Finance', FINANCE],
+	['Primitives', PRIMITIVES]
+];
+
+/** Docs paths that have a Markdown page: one per page, several entries may share it. */
+export const MARKDOWN_PAGES: string[] = [
+	...new Set(SECTIONS.flatMap(([, entries]) => entries.map((entry) => entry.path)))
+];
+
+/** Links for files inside the package: its Markdown pages, else the site. */
+export const packageLink = (path: string): string =>
+	path.endsWith('.txt')
+		? path
+		: MARKDOWN_PAGES.includes(path)
+			? `docs/${path}.md`
+			: `${SITE}/${path}`;
+
+/** Links to the site, absolute. */
+export const siteLink = (path: string): string => `${SITE}/${path}`;
+
+/** One docs page as Markdown: its entries with their descriptions, examples and API tables. */
+export function pageMarkdown(path: string): string {
+	const entries = SECTIONS.flatMap(([, list]) => list.filter((entry) => entry.path === path));
+	const title = NAV.flatMap((group) => group.items).find((item) => item.path === path)?.title;
+	const depth = path.split('/').length;
+	const up = '../'.repeat(depth);
+	return [
+		`# ${title ?? entries[0]?.name ?? path}`,
+		'',
+		`> Part of Sveltier (\`@sveltier/ui\`). Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
+		'',
+		...entries.flatMap((entry) => [section(entry, siteLink).replace(/^### /, '## '), ''])
+	].join('\n');
+}
+
+interface ManifestEntry {
+	name: string;
+	group: string;
+	docs: string;
+	markdown: string;
+	description: string;
+	example?: string;
+	/** The API tables of the entry, by exported type name. */
+	types: Record<string, ApiRow[]>;
+}
+
+/** The components and primitives with their props, for tools that read JSON. */
+export function componentsManifest(): {
+	package: string;
+	docs: string;
+	conventions: string;
+	entries: ManifestEntry[];
+} {
+	return {
+		package: '@sveltier/ui',
+		docs: SITE,
+		conventions: CONVENTIONS,
+		entries: SECTIONS.flatMap(([group, list]) =>
+			list.map((entry) => ({
+				name: entry.name,
+				group,
+				docs: siteLink(entry.path),
+				markdown: `docs/${entry.path}.md`,
+				description: descriptions[entry.types[0]!] ?? '',
+				...(entry.example ? { example: entry.example } : {}),
+				types: Object.fromEntries(
+					entry.types.flatMap((type) => (tables[type] ? [[type, tables[type]]] : []))
+				)
+			}))
+		)
+	};
 }

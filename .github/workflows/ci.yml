@@ -46,6 +46,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # The docs build copies llms.txt, llms-full.txt, components.json and docs/*.md into the
+      # package; the tarball must list them, for this version.
+      - name: Check the agent docs in the package
+        run: node packages/sveltier/scripts/check-agent-docs.js
+
       - name: Lint
         run: pnpm lint
 

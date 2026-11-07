@@ -30,7 +30,17 @@ const KEY = Symbol('sveltier.theme');
 export const hasThemeContext = (): boolean => hasContext(KEY);
 export const setThemeContext = (theme: ThemeInstance): ThemeInstance => setContext(KEY, theme);
 
-/** Returns the nearest theme. Must be called during component initialisation. */
+/**
+ * Returns the nearest theme. Must be called during component initialisation.
+ *
+ * @example
+ * <script>
+ *   import { Button, useTheme } from '@sveltier/ui';
+ *   const theme = useTheme();
+ * </script>
+ *
+ * <Button variant="text" onclick={() => theme.toggle()}>{theme.isDark ? 'Light' : 'Dark'}</Button>
+ */
 export function useTheme(): ThemeInstance {
 	if (!hasContext(KEY)) {
 		throw sveltierError(

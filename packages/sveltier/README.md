@@ -5,9 +5,10 @@ The UI framework for AI coding agents, on Svelte 5.
 Coding agents do not remember your library, cannot see the screen, and learn by running and
 fixing. Sveltier is designed around all three, and the same choices help every developer.
 
-- **Finds the right information.** Props tables, `llms.txt` and `llms-full.txt` are generated
-  from the TypeScript types, and the typed sources ship in this package. An agent reads the API
-  of the version it installed, not a guess from its training data.
+- **Finds the right information.** The docs for agents ship in this package and are generated
+  from the TypeScript types: `llms.txt`, `llms-full.txt`, one Markdown page per component and
+  `components.json`. An agent reads the API of the version it installed, not a guess from its
+  training data. Every public type and function has an `@example`.
 - **Gets it right the first time.** `variant`, `size`, `density`, `color` and `rounded` mean the
   same thing on every component, as literal types: a value that does not exist is a type error
   that lists the ones that do.
@@ -58,6 +59,23 @@ Wrap the app in `UIProvider` with a theme pack, then use the components anywhere
 Fonts are not bundled: each theme names its families and falls back to system fonts. See
 [Fonts](https://sveltier.com/getting-started/fonts).
 
+## For coding agents
+
+```sh
+npx sveltier init
+```
+
+This points the app's agents at the docs of the installed version. It writes a Sveltier section
+into `AGENTS.md`, which later runs replace in place. If the app has a `CLAUDE.md`, it imports
+`AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill.
+
+The files the section points to:
+
+- `node_modules/@sveltier/ui/llms.txt`: setup, conventions and an index of the components.
+- `node_modules/@sveltier/ui/docs/<group>/<page>.md`: one page per component, with an example
+  and every prop.
+- `node_modules/@sveltier/ui/components.json`: the same props as JSON.
+
 ## What is inside
 
 - **Layout:** AppLayout with AppBar, NavigationDrawer and Main, the frame of an app that the
@@ -86,7 +104,9 @@ Fonts are not bundled: each theme names its families and falls back to system fo
 
 - [sveltier.com](https://sveltier.com)
 - For agents: [llms.txt](https://sveltier.com/llms.txt) and
-  [llms-full.txt](https://sveltier.com/llms-full.txt)
+  [llms-full.txt](https://sveltier.com/llms-full.txt) (also inside this package)
+- [Playground](https://sveltier.com/tools/playground) and
+  [Theme builder](https://sveltier.com/tools/theme-builder)
 - [Error codes](https://sveltier.com/errors)
 
 ## License

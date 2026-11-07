@@ -15,7 +15,13 @@ export interface Oklch {
 const OKLCH =
 	/^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)(%?)\s+([\d.]+)(?:deg)?\s*(?:\/\s*([\d.]+)(%?))?\s*\)$/i;
 
-/** Parses `oklch(L C H)` or `oklch(L C H / A)` with numbers or percentages. */
+/**
+ * Parses `oklch(L C H)` or `oklch(L C H / A)` with numbers or percentages.
+ *
+ * @example
+ * parseOklch('oklch(0.55 0.16 255)'); // { l: 0.55, c: 0.16, h: 255, alpha: 1 }
+ * parseOklch('#3366ff'); // undefined: only oklch() is read
+ */
 export function parseOklch(value: string): Oklch | undefined {
 	const match = OKLCH.exec(value.trim());
 	if (!match) return undefined;
@@ -51,7 +57,13 @@ export function luminance(color: Oklch): number {
 	return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-/** WCAG 2 contrast ratio between two opaque oklch colours (1–21). */
+/**
+ * WCAG 2 contrast ratio between two opaque oklch colours (1–21).
+ *
+ * @example
+ * const ratio = contrast(parseOklch(theme.colors.text)!, parseOklch(theme.colors.background)!);
+ * const readable = ratio >= 4.5; // WCAG 1.4.3, body text
+ */
 export function contrast(a: Oklch, b: Oklch): number {
 	const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number];
 	return (hi + 0.05) / (lo + 0.05);
@@ -62,6 +74,9 @@ const format = ({ l, c, h }: Pick<Oklch, 'l' | 'c' | 'h'>) => `oklch(${l} ${c} $
 /**
  * Picks a readable text colour for a filled background: a deep ink or a near-white, both
  * tinted with the background's hue, whichever contrasts more.
+ *
+ * @example
+ * onColor('oklch(0.78 0.11 75)'); // a deep ink: 'oklch(0.2 0.02 75)'
  */
 export function onColor(background: string): string | undefined {
 	const bg = parseOklch(background);

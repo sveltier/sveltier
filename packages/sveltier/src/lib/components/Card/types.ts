@@ -37,6 +37,12 @@ declare module '../../core/defaults/context.js' {
 /**
  * A surface that groups content about one thing: a header, the content and actions. Links
  * and buttons inside it are what is clickable, not the card.
+ *
+ * @example
+ * <Card title="Savings" subtitle="Instant access" level={3}>
+ *   <p>$12,480.00</p>
+ *   {#snippet actions()}<Button variant="tonal">Add money</Button>{/snippet}
+ * </Card>
  */
 export type CardProps = ElementProps<
 	HTMLDivElement,

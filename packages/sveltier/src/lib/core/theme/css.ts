@@ -56,6 +56,10 @@ export interface ThemeCssOptions {
  * (`prefers-color-scheme`), so the right theme paints before any JavaScript runs.
  * It also holds a `.sv-color-<name>` class for every colour with an `on-` colour (intents
  * and custom colours), which a component's `color` prop sets.
+ *
+ * @example
+ * // The stylesheet the root provider writes, for a server that renders <head> itself.
+ * const css = themeCss({ themes: monolith, light: 'monolith-light', dark: 'monolith-dark', fallback: 'system' });
  */
 export function themeCss({ themes, light, dark, fallback }: ThemeCssOptions): string {
 	const attr = (name: string) => `[${THEME_ATTRIBUTE}="${name}"]`;
@@ -86,6 +90,10 @@ export function themeCss({ themes, light, dark, fallback }: ThemeCssOptions): st
 /**
  * Render-blocking script for `<head>`: applies a stored choice to `<html>` before the body
  * is parsed, if it is one of `choices`. Exposed so a Content Security Policy can hash it.
+ *
+ * @example
+ * const script = themeScript('sv-theme', ['system', ...Object.keys(monolith)]);
+ * // Allow it in script-src by the sha256 of `script`, or pass a nonce to UIProvider.
  */
 export function themeScript(storageKey: string, choices: string[]): string {
 	const json = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');

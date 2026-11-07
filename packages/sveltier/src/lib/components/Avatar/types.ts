@@ -36,6 +36,11 @@ declare module '../../core/defaults/context.js' {
 /**
  * A picture of a person or an account: an image, or initials or an icon when there is none
  * or it fails to load.
+ *
+ * @example
+ * <!-- A name is shown next to it, so the avatar is decorative; on its own, give it alt text. -->
+ * <Avatar src={user.photo}>AM</Avatar> Alex Morgan
+ * <Avatar src={user.photo} alt="Alex Morgan" size="lg">AM</Avatar>
  */
 export type AvatarProps = ElementProps<
 	HTMLSpanElement,

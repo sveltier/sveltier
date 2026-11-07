@@ -13,6 +13,10 @@ export interface Motion {
 /**
  * Reads the theme's timing where the element is: the theme in scope, and near-zero
  * durations while the user prefers reduced motion. For `element.animate()` and CSS.
+ *
+ * @example
+ * const { normal, ease } = motion(row);
+ * row.animate([{ opacity: 0 }, { opacity: 1 }], { duration: normal, easing: ease });
  */
 export function motion(element: Element): Motion {
 	const style = getComputedStyle(element);
@@ -40,6 +44,10 @@ const KEYWORDS: Record<string, [number, number, number, number]> = {
 /**
  * A CSS easing as a function, for Svelte transitions and `Tween`. Understands `cubic-bezier()`
  * and the keywords; anything else (`steps()`, `linear()`) falls back to `ease`.
+ *
+ * @example
+ * const timing = motion(element);
+ * const value = new Tween(0, { duration: timing.normal, easing: easing(timing.ease) });
  */
 export function easing(ease: string): (t: number) => number {
 	const points = /cubic-bezier\(([^)]+)\)/.exec(ease)?.[1]?.split(',').map(Number);
@@ -65,12 +73,22 @@ function themed(
 	return { delay, duration: duration ?? timing.normal, easing: easing(timing.ease), css };
 }
 
-/** Fades in and out with the theme's timing. */
+/**
+ * Fades in and out with the theme's timing.
+ *
+ * @example
+ * {#if open}<div transition:fade>Saved</div>{/if}
+ */
 export function fade(node: Element, options: TransitionOptions = {}): TransitionConfig {
 	return themed(node, options, (t) => `opacity: ${t}`);
 }
 
-/** Fades in while moving up `distance` px (8 by default), with the theme's timing. */
+/**
+ * Fades in while moving up `distance` px (8 by default), with the theme's timing.
+ *
+ * @example
+ * {#each toasts as toast (toast.id)}<div in:rise={{ distance: 13 }}>{toast.text}</div>{/each}
+ */
 export function rise(
 	node: Element,
 	{ distance = 8, ...options }: TransitionOptions & { distance?: number } = {}
@@ -78,7 +96,12 @@ export function rise(
 	return themed(node, options, (t, u) => `opacity: ${t}; transform: translateY(${u * distance}px)`);
 }
 
-/** Fades in while growing from `scale` (94.4%, 1 − φ⁻⁶), with the theme's timing. */
+/**
+ * Fades in while growing from `scale` (94.4%, 1 − φ⁻⁶), with the theme's timing.
+ *
+ * @example
+ * {#if open}<div class="menu" transition:pop>…</div>{/if}
+ */
 export function pop(
 	node: Element,
 	{ scale = 0.944, ...options }: TransitionOptions & { scale?: number } = {}

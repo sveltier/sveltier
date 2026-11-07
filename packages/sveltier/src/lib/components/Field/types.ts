@@ -69,7 +69,14 @@ export interface FieldControlAttributes {
 	readonly: boolean;
 }
 
-/** The props of a field's label, help and error, shared by every boxed field. */
+/**
+ * The props of a field's label, help and error, shared by every boxed field.
+ *
+ * @example
+ * <Field label="Start date" hint="The first payment goes out on this day" required>
+ *   {#snippet children(attributes)}<input type="date" name="start" {...attributes} />{/snippet}
+ * </Field>
+ */
 export interface FieldContentProps {
 	/** The visible label, linked to the control. Without it, name the control with `aria-label`. */
 	label?: string;

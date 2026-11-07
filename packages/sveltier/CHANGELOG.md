@@ -1,5 +1,24 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- edfe179: The package now carries its docs for coding agents, generated from its types for this very version:
+
+  - `llms.txt`: setup, conventions and an index, linking the pages below.
+  - `llms-full.txt`.
+  - `docs/<group>/<page>.md`: one page per component and primitive, with an example and every prop.
+  - `components.json`: the same props as JSON.
+
+  New command: `npx sveltier init`. It writes a Sveltier section into the app's `AGENTS.md` that points at those files; later runs replace it in place. If the app has a `CLAUDE.md`, it imports `AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill.
+
+- 2222246: Chip: a filter chip (`selected` set) is outlined while off and takes its `variant` (tonal unless you set one) while on, with its check. It no longer switches to a solid `flat` fill when selected, which made a row of active filters loud on dark themes. Tags without `selected` are unchanged.
+
+### Patch Changes
+
+- 502c1af: Every public props type and function now has an `@example` in its TSDoc, so editors and coding agents see how to use it straight from the declarations: Alert, Avatar, Badge, Button, ButtonGroup, Card, Chip, Divider, Icon, List, ListItem, ProgressLinear, ProgressCircular, SegmentedControl, Skeleton, Tabs, the shared props, `useTheme`, `useDisplay`, `useLocale`, `themeCss`, `themeScript`, the colour helpers and the focus, keyboard and motion primitives.
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes

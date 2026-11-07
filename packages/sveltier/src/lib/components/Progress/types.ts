@@ -48,14 +48,25 @@ declare module '../../core/defaults/context.js' {
 	}
 }
 
-/** A horizontal progress bar. */
+/**
+ * A horizontal progress bar.
+ *
+ * @example
+ * <ProgressLinear value={uploaded} label="Uploading statement" />
+ * <ProgressLinear indeterminate label="Loading accounts" />
+ */
 export type ProgressLinearProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
 	Partial<ProgressLinearDefaults> & ProgressOwnProps
 >;
 
-/** A circular progress indicator, with optional content in its centre. */
+/**
+ * A circular progress indicator, with optional content in its centre.
+ *
+ * @example
+ * <ProgressCircular value={62} size="lg" label="Profile complete">62%</ProgressCircular>
+ */
 export type ProgressCircularProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
