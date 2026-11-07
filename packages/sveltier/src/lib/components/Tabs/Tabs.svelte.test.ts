@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import TabsFillHarness from '../../../tests/fixtures/TabsFillHarness.svelte';
 import TabsHarness from '../../../tests/fixtures/TabsHarness.svelte';
 
 const tablist = () => page.getByRole('tablist', { name: 'Account' });
@@ -70,5 +71,22 @@ describe('Tabs', () => {
 		await render(TabsHarness, { withPanel: false });
 		expect(page.getByRole('tabpanel').query()).toBeNull();
 		expect(tabElement('Overview').hasAttribute('aria-controls')).toBe(false);
+	});
+
+	it('fills its box with fill: the list and filters stay, the table scrolls', async () => {
+		await render(TabsFillHarness, {});
+		const frame = page.getByTestId('frame').element().getBoundingClientRect();
+		const panel = document.querySelector('.sv-tabs__panel')!.getBoundingClientRect();
+		const table = document.querySelector<HTMLElement>('.sv-table')!;
+		expect(Math.abs(panel.bottom - frame.bottom)).toBeLessThan(1);
+		// The table, not the page or the panel, holds the overflow.
+		expect(table.scrollHeight).toBeGreaterThan(table.clientHeight);
+		expect(table.getBoundingClientRect().bottom).toBeLessThanOrEqual(frame.bottom + 1);
+		table.scrollTop = 400;
+		const filters = page.getByTestId('filters').element().getBoundingClientRect();
+		expect(filters.top).toBeGreaterThanOrEqual(frame.top);
+		expect(page.getByRole('tab', { name: 'Tickers' }).element().getBoundingClientRect().top).toBe(
+			frame.top
+		);
 	});
 });

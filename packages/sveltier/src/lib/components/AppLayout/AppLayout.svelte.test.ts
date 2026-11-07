@@ -187,6 +187,49 @@ describe('AppLayout', () => {
 		});
 	});
 
+	describe('with links in the bar and a modal drawer', () => {
+		const barLink = () => page.getByRole('link', { name: 'Markets' });
+		const props = { withNav: true, drawer: { modal: true } };
+
+		it('shows the links in the bar from the breakpoint up, with no drawer and no menu button', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, props);
+			const navigation = page.getByRole('navigation', { name: 'Main' });
+			expect(navigation.elements()).toHaveLength(1);
+			await expect.element(navigation.getByRole('link', { name: 'Markets' })).toBeVisible();
+			expect(part('.sv-app-bar').contains(barLink().element())).toBe(true);
+			await expect.element(menu()).not.toBeInTheDocument();
+			await expect.element(page.getByRole('link', { name: 'Payments' })).not.toBeInTheDocument();
+			expect(part('.sv-navigation-drawer').getClientRects()).toHaveLength(0);
+			expect(box('.sv-main').left).toBe(0);
+			expect(box('.sv-main').width).toBe(windowWidth());
+		});
+
+		it('trades the links in the bar for the menu button and the modal drawer below it', async () => {
+			await page.viewport(600, 800);
+			await render(AppLayoutHarness, props);
+			await expect.element(menu()).toBeVisible();
+			await expect.element(barLink()).not.toBeInTheDocument();
+			await menu().click();
+			await expect.element(modal()).toBeVisible();
+			const navigation = page.getByRole('navigation', { name: 'Main' });
+			expect(navigation.elements()).toHaveLength(1);
+			await expect.element(navigation.getByRole('link', { name: 'Payments' })).toBeVisible();
+			// Wider again, the modal drawer closes and the links come back to the bar.
+			await page.viewport(1280, 800);
+			await expect.element(modal()).not.toBeInTheDocument();
+			await expect.element(barLink()).toBeVisible();
+			await expect.element(page.getByRole('link', { name: 'Payments' })).not.toBeInTheDocument();
+		});
+
+		it('keeps the links in a bar without a drawer at any width', async () => {
+			await page.viewport(600, 800);
+			await render(AppLayoutHarness, { withNav: true, withDrawer: false });
+			await expect.element(barLink()).toBeVisible();
+			await expect.element(menu()).not.toBeInTheDocument();
+		});
+	});
+
 	it('makes a drawer modal below a wider breakpoint', async () => {
 		await page.viewport(1100, 800);
 		await render(AppLayoutHarness, { drawer: { breakpoint: 'lg' } });

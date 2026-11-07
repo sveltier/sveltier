@@ -34,7 +34,7 @@ describe('sveltier init', () => {
 		init(app);
 		expect(read('AGENTS.md')).toBe(`# Project\n\nUse pnpm.\n\n${agentsBlock()}\n`);
 
-		const stale = read('AGENTS.md').replace('Rules:', 'Old rules:') + '\n## Later\n';
+		const stale = read('AGENTS.md').replace('Svelte 5 only', 'Svelte 4 too') + '\n## Later\n';
 		writeFileSync(join(app, 'AGENTS.md'), stale);
 		expect(init(app)).toEqual(['Updated the Sveltier section of AGENTS.md.']);
 		expect(read('AGENTS.md')).toBe(`# Project\n\nUse pnpm.\n\n${agentsBlock()}\n\n## Later\n`);
@@ -54,6 +54,47 @@ describe('sveltier init', () => {
 		mkdirSync(join(app, '.claude'));
 		expect(init(app)).toContain('Installed the skill in .claude/skills/sveltier/SKILL.md.');
 		expect(read('.claude/skills/sveltier/SKILL.md')).toMatch(/^---\nname: sveltier\n/);
+	});
+
+	it('reaches the root of a workspace when the app sits in a folder of it', () => {
+		// A pnpm workspace: CLAUDE.md and .claude at the root, the app in web/ with its own
+		// node_modules, as pnpm installs it.
+		mkdirSync(join(app, '.git'));
+		writeFileSync(join(app, 'pnpm-workspace.yaml'), "packages:\n  - 'web'\n");
+		writeFileSync(join(app, 'CLAUDE.md'), '# Workspace\n');
+		mkdirSync(join(app, '.claude'));
+		const web = join(app, 'web');
+		mkdirSync(join(web, 'node_modules', '@sveltier', 'ui'), { recursive: true });
+		writeFileSync(join(web, 'node_modules', '@sveltier', 'ui', 'package.json'), '{}');
+
+		expect(init(web)).toEqual([
+			'Created web/AGENTS.md.',
+			'Added @web/AGENTS.md to CLAUDE.md.',
+			'Installed the skill in .claude/skills/sveltier/SKILL.md.'
+		]);
+		const agents = read('web/AGENTS.md');
+		expect(agents).toContain("Paths here are relative to `web/`, the app's folder.");
+		expect(agents).toContain('`node_modules/@sveltier/ui/llms.txt`');
+		expect(read('CLAUDE.md')).toBe('# Workspace\n\n@web/AGENTS.md\n');
+		// Read from the root, the skill's paths start with the app's folder.
+		const skill = read('.claude/skills/sveltier/SKILL.md');
+		expect(skill).toContain('`web/node_modules/@sveltier/ui/llms.txt`');
+		expect(skill).not.toMatch(/[^/]node_modules\/@sveltier\/ui\/llms/);
+
+		expect(init(web)).toEqual([
+			'web/AGENTS.md is up to date.',
+			'.claude/skills/sveltier/SKILL.md is up to date.'
+		]);
+	});
+
+	it('finds a package hoisted to the workspace root', () => {
+		mkdirSync(join(app, '.git'));
+		mkdirSync(join(app, 'node_modules', '@sveltier', 'ui'), { recursive: true });
+		writeFileSync(join(app, 'node_modules', '@sveltier', 'ui', 'package.json'), '{}');
+		const site = join(app, 'apps', 'site');
+		mkdirSync(site, { recursive: true });
+		init(site);
+		expect(read('apps/site/AGENTS.md')).toContain('`../../node_modules/@sveltier/ui/llms.txt`');
 	});
 
 	it('appends to an empty file without leading blank lines', () => {

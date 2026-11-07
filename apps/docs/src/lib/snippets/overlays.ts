@@ -188,6 +188,20 @@ export const commandPaletteUsage = `<script lang="ts">
   {/snippet}
 </CommandPalette>`;
 
+export const commandPaletteIcons = `<script lang="ts">
+  import { CommandPalette, type CommandItem } from '@sveltier/ui';
+  // A path from a path-based set, or a component from any other set.
+  import { mdiCog } from '@mdi/js';
+  import { ChartLine } from 'phosphor-svelte';
+
+  const commands: CommandItem[] = [
+    { label: 'Markets', icon: ChartLine },
+    { label: 'Settings', icon: mdiCog }
+  ];
+</script>
+
+<CommandPalette label="Go to" items={commands} />`;
+
 export const tooltipUsage = `<script>
   import { Button, Icon, Tooltip } from '@sveltier/ui';
   import { mdiContentCopy } from '@mdi/js';
@@ -274,6 +288,20 @@ export const toastDefaults = `<script>
 <!-- Every toast stays 8 seconds, unless show() says otherwise. -->
 <UIProvider themes={monolith} defaults={{ Toast: { duration: 8000 } }}>
   {@render children()}
+</UIProvider>`;
+
+export const toastInset = `<script>
+  import { UIProvider } from '@sveltier/ui';
+  import { monolith } from '@sveltier/ui/themes/monolith';
+  import StatusBar from './StatusBar.svelte';
+
+  let { children } = $props();
+</script>
+
+<!-- The status bar is 22px tall along the bottom: toasts stay above it. -->
+<UIProvider themes={monolith} defaults={{ Toast: { inset: 22 } }}>
+  {@render children()}
+  <StatusBar />
 </UIProvider>`;
 
 export const toastProvider = `<script>

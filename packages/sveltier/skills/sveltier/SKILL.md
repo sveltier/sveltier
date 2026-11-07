@@ -15,6 +15,8 @@ Sveltier is a UI framework for Svelte 5. Its docs for the installed version are 
 
 ## While you write
 
+These are the defaults. Where the app's own instructions, or a comment in its code, make an exception (a page that formats its figures by hand, say), keep the exception and do not rewrite it.
+
 - Svelte 5 only: `$state`, `$derived`, `$props`, `$bindable`, snippets and `{@render}`, callback props such as `onclick`. Never write `export let`, `on:click`, `<slot>`, `createEventDispatcher` or `$:`.
 - Every component takes the same shared props: `variant`, `size`, `density`, `color` and `rounded`. Set them app-wide with `defaults` on `UIProvider`.
 - Style your own elements with `--sv-*` variables (`--sv-color-*`, `--sv-space-*`, `--sv-radius-md`). Never use fixed colours.

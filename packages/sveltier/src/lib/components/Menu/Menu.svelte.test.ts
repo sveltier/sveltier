@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import MenuHarness from '../../../tests/fixtures/MenuHarness.svelte';
+import ItemIconsHarness from '../../../tests/fixtures/ItemIconsHarness.svelte';
 
 const trigger = () => page.getByRole('button', { name: 'Actions' });
 const menu = () => page.getByRole('menu', { name: 'Actions' });
@@ -116,5 +117,25 @@ describe('Menu', () => {
 		(trigger().element() as HTMLElement).click();
 		await expect.element(item('Rename F2')).toHaveFocus();
 		await expect.element(menu()).toBeVisible();
+	});
+});
+
+describe('Menu icons', () => {
+	it('draws an icon component of another set in the box of a path icon, hidden from assistive technology', async () => {
+		await render(ItemIconsHarness, { kind: 'menu' });
+		const glyph = page.getByTestId('glyph');
+		await expect.element(glyph).toBeVisible();
+		await expect.element(page.getByRole('menuitem', { name: 'Settings' })).toBeVisible();
+		const path = page
+			.getByRole('menuitem', { name: 'Rename' })
+			.element()
+			.querySelector('svg')!
+			.getBoundingClientRect();
+		const box = glyph.element().getBoundingClientRect();
+		// The component draws itself at 32px; the list sizes it like its other icons.
+		expect(box.width).not.toBe(32);
+		expect(box.width).toBeCloseTo(path.width, 1);
+		expect(box.height).toBeCloseTo(path.height, 1);
+		expect(glyph.element().closest('[aria-hidden="true"]')).not.toBeNull();
 	});
 });

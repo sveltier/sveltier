@@ -1,5 +1,28 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.7
+
+### Minor Changes
+
+- fd87d57: AppLayout: links in the bar on a wide screen, a modal drawer on a phone. `AppBar` takes a `nav` snippet: links across the bar, in a navigation landmark, that show only while the menu button does not, from the drawer's breakpoint up. `NavigationDrawer` takes `modal`: below its breakpoint it opens from the menu button as before, and from the breakpoint up there is no drawer. Together they keep one frame at every width, so a phone turned to landscape does not rebuild the page.
+- 8989bdb: Menu, ContextMenu, Tree and CommandPalette: an item's `icon` takes an icon component of any set as well as an SVG path, such as `{ label: 'Markets', icon: ChartLine }` with phosphor-svelte. The component is drawn in the box of a path icon, at the size and colour of the text, whatever size it draws itself at, and hidden from screen readers.
+- 00abf75: Add LocaleProvider: a part of the page in another locale. Figures and dates inside it (Amount, Delta, Odometer, tables and fields) are formatted with the `locale`, `currency` and `timeZone` it sets, and everything it leaves out comes from the provider above, messages included. An app in Vietnamese can then show a market table with figures in English digits, `76,088.0` and `+0.60%`, while its labels stay Vietnamese. It renders no element.
+- 8871a63: Table: a column's `cell` snippet receives the column after the row's item, so one snippet serves columns built from data: a column per venue, say, reading `column.id`. Snippets that take only the item keep working.
+- a4e18cd: Tabs: `fill` makes the Tabs take the height they are given. The tab list stays and the selected panel takes the rest. The panel's last child stretches into it, so a Table there scrolls in its own box under a sticky header, while filters above it stay put.
+- 797a354: Toast: the `inset` default keeps the toasts above a bar the app keeps along the bottom of the screen, such as a status bar: `defaults={{ Toast: { inset: 22 } }}` lifts them by its height in px, at their usual distance above it. On a phone, the safe area counts instead when it is taller.
+
+### Patch Changes
+
+- d598e06: `npx sveltier init` works for an app in a folder of a workspace, such as `web/` in a pnpm workspace. Run in the app's folder, it finds the repository root above it (the first folder with `.git` or `pnpm-workspace.yaml`, below the home folder):
+
+  - the app's `AGENTS.md` says which folder its paths are relative to;
+  - the root's `CLAUDE.md` imports it (`@web/AGENTS.md`);
+  - the skill goes in the root's `.claude`, with its paths written from there (`web/node_modules/@sveltier/ui/…`).
+
+  A package hoisted to the workspace root is found too. A skill that is already up to date is left as it is. The block's rules now say they give way to the app's own instructions, so agents keep a page's deliberate exceptions.
+
+- 5552f26: Dialog, Sheet and CommandPalette: opened again while they are still closing, they take focus back inside. Before, focus stayed on the page, so a palette opened with its shortcut right after it closed showed its search box but typing went nowhere.
+
 ## 0.1.0-alpha.6
 
 ### Minor Changes

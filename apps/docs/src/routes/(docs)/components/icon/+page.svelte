@@ -21,8 +21,9 @@
 
 	<h2 id="custom">Your own icons</h2>
 	<p>
-		Put any other icon inside: an <code>&lt;svg&gt;</code> or a component from an icon library. It is
-		sized and coloured the same way.
+		Put any other icon inside: an <code>&lt;svg&gt;</code> or a component from an icon library. It
+		is sized and coloured the same way. The <code>icon</code> of a Menu action, a Tree node or a CommandPalette
+		command takes either too: a path string, or the icon component itself.
 	</p>
 	<Code title="Account.svelte" code={iconCustom} />
 

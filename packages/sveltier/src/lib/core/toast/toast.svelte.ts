@@ -25,6 +25,13 @@ export interface ToastDefaults {
 	 * @default true
 	 */
 	rounded: Rounded;
+	/**
+	 * Room in px the app keeps along the bottom of the screen, such as the height of a status
+	 * bar: the toasts stay above it, at their usual distance. It counts the phone's safe area
+	 * when that is taller.
+	 * @default 0
+	 */
+	inset: number;
 }
 
 declare module '../defaults/context.js' {
@@ -124,10 +131,10 @@ export class Toasts {
 		return this.#outlets.at(-1) ?? this.base;
 	}
 
-	/** The density and rounding of every toast, from the provider's defaults. */
-	get style(): Pick<ToastDefaults, 'density' | 'rounded'> {
-		const { density, rounded } = this.#defaults();
-		return { density, rounded };
+	/** The density and rounding of every toast, and the room below them, from the defaults. */
+	get style(): Pick<ToastDefaults, 'density' | 'rounded' | 'inset'> {
+		const { density, rounded, inset } = this.#defaults();
+		return { density, rounded, inset };
 	}
 
 	// The methods below may run inside an effect, which must not come to depend on the lists

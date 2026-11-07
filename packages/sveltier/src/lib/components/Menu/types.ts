@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'svelte/elements';
-import type { Snippet } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { Density } from '../../core/props/types.js';
@@ -27,10 +27,11 @@ export interface MenuAction {
 	/** An identifier for `onselect` to tell the items apart. */
 	value?: string;
 	/**
-	 * An icon before the label: an SVG path on a 24×24 grid, as icon sets such as Material Design
-	 * Icons export them (`mdiPencil`).
+	 * An icon before the label, drawn at the size and colour of the text: an SVG path on a
+	 * 24×24 grid, as Material Design Icons export them (`mdiPencil`), or an icon component of any
+	 * other set, such as `PencilSimple` from phosphor-svelte. The component renders with no props.
 	 */
-	icon?: string;
+	icon?: string | Component<object>;
 	/** A keyboard shortcut shown at the end, such as `Ctrl+C`. Showing it does not bind it. */
 	shortcut?: string;
 	/** Shown but not chosen, and skipped by the arrow keys. */

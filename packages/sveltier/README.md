@@ -69,6 +69,10 @@ This points the app's agents at the docs of the installed version. It writes a S
 into `AGENTS.md`, which later runs replace in place. If the app has a `CLAUDE.md`, it imports
 `AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill.
 
+In a workspace, run it in the app's folder: `pnpm --filter <app> exec sveltier init`. It finds the
+repository root above the app, and imports the section and installs the skill there as well,
+with every path written from where it is read.
+
 The files the section points to:
 
 - `node_modules/@sveltier/ui/llms.txt`: setup, conventions and an index of the components.

@@ -27,7 +27,8 @@ const traps: Trap[] = [];
 
 /**
  * Keeps keyboard focus inside the element: Tab and Shift+Tab wrap at the edges, and focus
- * that leaves by pointer or script is brought back. Traps stack: a trap inside another, or
+ * that leaves by pointer or script, or is lost while the element is inert for a moment, is
+ * brought back. Traps stack: a trap inside another, or
  * opened after it, takes over until it ends, then the previous one resumes.
  *
  * @example
@@ -76,12 +77,22 @@ export function focusTrap({
 			else trap.resume();
 		}
 
+		// An element that turns inert loses focus to the page without a focusin event: Svelte
+		// makes an element inert while it transitions out. When the surface opens again before the
+		// transition ends, it comes back as it was, and focus comes back with it.
+		const revived = new MutationObserver(() => {
+			if (active() && !container.inert && !container.contains(document.activeElement)) {
+				trap.resume();
+			}
+		});
+
 		// A trap mounted around active traps (children attach first) goes beneath them.
 		const inner = traps.findIndex((other) => container.contains(other.container));
 		if (inner < 0) traps.push(trap);
 		else traps.splice(inner, 0, trap);
 		document.addEventListener('keydown', onkeydown, true);
 		document.addEventListener('focusin', onfocusin, true);
+		revived.observe(container, { attributeFilter: ['inert'], subtree: true });
 		if (initialFocus !== false && !container.contains(document.activeElement)) {
 			enter(
 				typeof initialFocus === 'string'
@@ -93,6 +104,7 @@ export function focusTrap({
 		return () => {
 			document.removeEventListener('keydown', onkeydown, true);
 			document.removeEventListener('focusin', onfocusin, true);
+			revived.disconnect();
 			traps.splice(traps.indexOf(trap), 1);
 			if (madeFocusable) container.removeAttribute('tabindex');
 			// In a later task: after the other attachments of the closing surface have cleaned up

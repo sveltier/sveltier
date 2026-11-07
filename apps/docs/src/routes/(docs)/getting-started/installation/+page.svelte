@@ -74,7 +74,10 @@
 		It writes a Sveltier section into <code>AGENTS.md</code> pointing at
 		<code>node_modules/@sveltier/ui/llms.txt</code>, replaced in place when you run it again after
 		an upgrade. If the app has a <code>CLAUDE.md</code>, it imports <code>AGENTS.md</code> there
-		too. If the app has a <code>.claude</code> folder, it installs the Sveltier skill.
+		too. If the app has a <code>.claude</code> folder, it installs the Sveltier skill. In a
+		workspace, run it in the app's folder (<code>pnpm --filter &lt;app&gt; exec sveltier init</code
+		>): it finds the repository root above, where <code>CLAUDE.md</code> and <code>.claude</code> usually
+		live.
 	</p>
 	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
 	<p>

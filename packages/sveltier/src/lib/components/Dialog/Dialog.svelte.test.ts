@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import DialogHarness from '../../../tests/fixtures/DialogHarness.svelte';
+import DialogReopenHarness from '../../../tests/fixtures/DialogReopenHarness.svelte';
 
 const trigger = () => page.getByRole('button', { name: 'Rename' });
 const dialog = () => page.getByRole('dialog', { name: 'Rename the account' });
@@ -29,6 +30,22 @@ describe('Dialog', () => {
 		await expect.element(dialog()).not.toBeInTheDocument();
 		await expect.element(shown('reason')).toHaveTextContent('escape');
 		await expect.element(trigger()).toHaveFocus();
+	});
+
+	it('takes focus inside again when it opens while it is still closing', async () => {
+		const screen = await render(DialogReopenHarness);
+		await screen.rerender({ open: true });
+		const name = page.getByRole('textbox', { name: 'Name' });
+		await expect.element(name).toHaveFocus();
+		const element = dialog().element();
+		await expect.poll(() => element.getAnimations({ subtree: true }).length).toBe(0);
+		// The closing transition makes it inert, which takes focus out of it to the page.
+		await screen.rerender({ open: false });
+		await expect.poll(() => document.activeElement, { interval: 5 }).toBe(document.body);
+		// Opened again before the transition ends, the same dialog comes back.
+		await screen.rerender({ open: true });
+		expect(dialog().element()).toBe(element);
+		await expect.element(name).toHaveFocus();
 	});
 
 	it('closes on a press on the backdrop, not on a press in the panel', async () => {

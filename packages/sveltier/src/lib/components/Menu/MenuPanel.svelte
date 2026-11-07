@@ -97,8 +97,10 @@
 		onclick={() => choose(item)}
 		onpointermove={follow}
 	>
-		{#if item.icon}
+		{#if typeof item.icon === 'string'}
 			<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={item.icon} /></svg>
+		{:else if item.icon}
+			<span class="sv-menu__icon" aria-hidden="true"><item.icon /></span>
 		{/if}
 		<span class="sv-menu__label">{item.label}</span>
 		{#if item.shortcut}<kbd class="sv-menu__shortcut">{item.shortcut}</kbd>{/if}

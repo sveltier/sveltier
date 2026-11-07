@@ -74,8 +74,12 @@ export interface TableColumnBase<T> {
 	 * text in the locale's order, empty values last. A function compares two items itself.
 	 */
 	sort?: boolean | ((a: T, b: T) => number);
-	/** The cell's content, in place of its text. Receives the row's item. */
-	cell?: Snippet<[item: T]>;
+	/**
+	 * The cell's content, in place of its text. Receives the row's item and the column, so one
+	 * snippet can serve columns built from data: `{#snippet rate(row, column)}`, reading
+	 * `column.id`.
+	 */
+	cell?: Snippet<[item: T, column: TableColumn<T>]>;
 }
 
 /** A column that shows a property of the items, named by `key`. */
@@ -111,7 +115,7 @@ export type TableValueColumn<T> = TableColumnBase<T> & {
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				format?: (value: any, item: T) => string;
 		  }
-		| { value?: never; format?: never; cell: Snippet<[item: T]> }
+		| { value?: never; format?: never; cell: Snippet<[item: T, column: TableColumn<T>]> }
 	);
 
 /**

@@ -8,6 +8,7 @@
 		tableDense,
 		tableEmpty,
 		tableLive,
+		tableSharedCell,
 		tableSort,
 		tableUsage
 	} from '#lib/snippets/components.js';
@@ -34,7 +35,8 @@
 		A column shows a property of the items, named by <code>key</code>. A column named by
 		<code>id</code> shows a <code>value</code> computed from each item, which it also sorts by, or
 		content of its own in a <code>cell</code> snippet, such as a button. Any column can render its
-		cells with <code>cell</code>, which receives the row's item.
+		cells with <code>cell</code>, which receives the row's item and the column. One snippet can then
+		serve columns built from data, one per venue say, by reading <code>column.id</code>.
 	</p>
 	<ul>
 		<li>
@@ -57,6 +59,7 @@
 		</li>
 	</ul>
 	<Code title="OpenPositions.svelte" code={tableColumns} />
+	<Code title="Funding.svelte" code={tableSharedCell} />
 
 	<h2 id="sorting">Sorting</h2>
 	<p>

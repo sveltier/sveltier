@@ -93,6 +93,21 @@ describe('Toasts', () => {
 		await expect.element(toast('Saved 1')).not.toBeInTheDocument();
 	});
 
+	it('stays above the room the app keeps at the bottom of the screen', async () => {
+		// How far the toasts sit from the bottom of the screen.
+		const distance = async () => {
+			await button('Save').click();
+			const list = region().getByRole('list');
+			await expect.element(list).toBeVisible();
+			return innerHeight - list.element().getBoundingClientRect().bottom;
+		};
+		const plain = await render(ToastHarness);
+		const usual = await distance();
+		plain.unmount();
+		await render(ToastHarness, { defaults: { Toast: { inset: 22 } } });
+		expect(await distance()).toBeCloseTo(usual + 22, 0);
+	});
+
 	it('stays with a duration of 0', async () => {
 		await render(ToastHarness, { duration: 0 });
 		await button('Save').click();

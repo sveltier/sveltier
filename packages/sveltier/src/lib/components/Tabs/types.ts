@@ -72,5 +72,13 @@ export type TabsProps<T extends string | number = string> = ElementProps<
 		activation?: 'automatic' | 'manual';
 		/** The content of the selected tab's panel. */
 		panel?: Snippet<[TabsItem<T>]>;
+		/**
+		 * Fills the height the Tabs are given, as a full-height panel does: the tab list stays
+		 * put and the selected panel takes the rest. The panel's last child stretches into it, so
+		 * a Table there scrolls under its header while filters above it stay; anything taller
+		 * scrolls the panel. Give the Tabs their height (`block-size`, or `flex: 1` in a column).
+		 * @default false
+		 */
+		fill?: boolean;
 	}
 >;

@@ -14,6 +14,7 @@
 		density,
 		sticky,
 		title,
+		nav,
 		children,
 		actions,
 		class: className,
@@ -72,6 +73,10 @@
 		</span>
 	{/if}
 	{#if title}<span class="sv-app-bar__title">{title}</span>{/if}
+	{#if nav}
+		<!-- The layout's CSS hides it while the menu button shows, below the drawer's breakpoint. -->
+		<nav class="sv-app-bar__nav" aria-label={locale.t('mainNavigation')}>{@render nav()}</nav>
+	{/if}
 	{#if children}<div class="sv-app-bar__content">{@render children()}</div>{/if}
 	{#if actions}<div class="sv-app-bar__actions">{@render actions()}</div>{/if}
 </header>

@@ -132,10 +132,11 @@ export default [
 	},
 	{
 		// The grid and its placement rules, the skip link, and the bar with its menu button (a
-		// Button, measured in its own entry): 1.6 KB of JS and 0.9 KB of CSS.
+		// Button, measured in its own entry) and its links, which give way to the menu button at
+		// each breakpoint: 1.6 KB of JS and 1 KB of CSS.
 		name: 'AppLayout, AppBar and Main',
 		code: "export { AppLayout, AppBar, Main } from '@sveltier/ui';",
-		limit: '2.55 KB',
+		limit: '2.65 KB',
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{
@@ -296,10 +297,11 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys.
+		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, and the
+		// rules that let the Tabs fill the height they are given.
 		name: 'Tabs',
 		code: "export { Tabs } from '@sveltier/ui';",
-		limit: '2.4 KB',
+		limit: '2.45 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -495,12 +497,13 @@ export default [
 	},
 	{
 		// Its own code: the panel it shares with ContextMenu, with the entries grouped under their
-		// headings (2.2 KB of JS, most of it the compiled rows with their icon and shortcut), the
-		// trigger's arrow keys, choosing and closing, and 0.8 KB of CSS. Roving focus, typeahead, placement, the layer stack and the motion are
-		// primitives, measured apart.
+		// headings (2.2 KB of JS, most of it the compiled rows with their icon, a path or a
+		// component, and shortcut), the trigger's arrow keys, choosing and closing, and 0.8 KB of
+		// CSS. Roving focus, typeahead, placement, the layer stack and the motion are primitives,
+		// measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '3.1 KB',
+		limit: '3.15 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -515,11 +518,11 @@ export default [
 	{
 		// The modal shell it shares with Dialog (about 2.6 KB with its CSS), the list helpers it
 		// shares with Select and Combobox, and its own code (about 3 KB with 0.8 KB of CSS): the
-		// search box, filtering, the keys, the shortcut and the rows with their groups, icons and
-		// shortcuts.
+		// search box, filtering, the keys, the shortcut and the rows with their groups, icons (a
+		// path or a component) and shortcuts.
 		name: 'CommandPalette',
 		code: "export { CommandPalette } from '@sveltier/ui';",
-		limit: '5.9 KB',
+		limit: '5.95 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -540,11 +543,12 @@ export default [
 	},
 	{
 		// useToast and ToastProvider with the outlet: the queue, its timers and announcements, the
-		// region with its live regions, F8 and Escape, and the styles. UIProvider includes it, so it
-		// also counts in the core budget above. The motion primitives are measured apart.
+		// region with its live regions and the room kept below it, F8 and Escape, and the styles.
+		// UIProvider includes it, so it also counts in the core budget above. The motion primitives
+		// are measured apart.
 		name: 'Toast (useToast, ToastProvider)',
 		code: "export { useToast, ToastProvider } from '@sveltier/ui';",
-		limit: '3.75 KB',
+		limit: '3.8 KB',
 		external: [/\/core\/(?!toast\/)/, /\/primitives\//]
 	},
 	{

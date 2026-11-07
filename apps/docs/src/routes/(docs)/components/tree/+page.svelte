@@ -18,7 +18,8 @@
 		Give the top-level nodes as <code>items</code>; a node with <code>children</code> opens and
 		closes. Every node has a <code>value</code>, unique across the tree. Bind <code>value</code>
 		to the selected node's value (<code>null</code> for none) and <code>expanded</code> to the
-		values of the open parents. Name the tree with <code>aria-label</code> or
+		values of the open parents. A node's <code>icon</code> is an SVG path on a 24-unit grid or an
+		icon component of any set. Name the tree with <code>aria-label</code> or
 		<code>aria-labelledby</code>.
 	</p>
 	<TreeDemo />

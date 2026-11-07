@@ -1,5 +1,6 @@
 import { render } from 'svelte/server';
 import { describe, expect, it } from 'vitest';
+import TableColumnsHarness from '../../../tests/fixtures/TableColumnsHarness.svelte';
 import TableHarness from '../../../tests/fixtures/TableHarness.svelte';
 import { compareValues } from './sort.js';
 
@@ -102,5 +103,12 @@ describe('compareValues', () => {
 			'lot 2',
 			'Lot 10'
 		]);
+	});
+
+	it('gives a cell snippet its column, so one snippet serves columns built from data', () => {
+		const body = render(TableColumnsHarness).body.replace(/<!--.*?-->/g, '');
+		expect(body).toContain('<a href="/chart/binance/BTC">0.01%</a>');
+		expect(body).toContain('<a href="/chart/bybit/ETH">0.05%</a>');
+		expect(body).toContain('<a href="/chart/okx/ETH">0.06%</a>');
 	});
 });

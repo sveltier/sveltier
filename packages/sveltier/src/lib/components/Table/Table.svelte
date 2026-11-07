@@ -139,7 +139,7 @@
 {#snippet content(column: TableColumn<T>, item: T)}
 	{@const value = valueOf(column, item)}
 	{#if column.cell}
-		{@render column.cell(item)}
+		{@render column.cell(item, column)}
 	{:else if value == null}
 		—
 	{:else}

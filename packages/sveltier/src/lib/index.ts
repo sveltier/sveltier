@@ -74,6 +74,10 @@ export {
 
 // Locale
 export {
+	default as LocaleProvider,
+	type LocaleProviderProps
+} from './core/locale/LocaleProvider.svelte';
+export {
 	MESSAGES,
 	useLocale,
 	type LocaleInstance,
