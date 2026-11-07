@@ -6,6 +6,7 @@
 	import { useLocale } from '../../core/locale/locale.js';
 	import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 	import { getToasts } from '../../core/toast/toast.svelte.js';
+	import ToastLive from '../../core/toast/ToastLive.svelte';
 	import ToastOutlet from '../../core/toast/ToastOutlet.svelte';
 	import { focusTrap } from '../../primitives/focus/focus-trap.js';
 	import { dismissable } from '../../primitives/layer/dismissable.js';
@@ -142,6 +143,9 @@
 				</footer>
 			{/if}
 		</div>
-		{#if toasts}<ToastOutlet {toasts} {outlet} bind:ref={toastRegion} />{/if}
+		{#if toasts}
+			<ToastLive {toasts} {outlet} />
+			<ToastOutlet {toasts} {outlet} bind:ref={toastRegion} />
+		{/if}
 	</dialog>
 {/if}

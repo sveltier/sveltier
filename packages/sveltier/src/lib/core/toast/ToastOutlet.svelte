@@ -1,11 +1,10 @@
 <script lang="ts">
-	// Where the toasts show: the region in the top layer and the live regions that read them
-	// out. The provider renders one at the end of the page, and the modal shell one inside each
-	// open dialog; only the topmost outlet shows the toasts.
+	// Where the toasts show: the region in the top layer. The provider loads one at the end of
+	// the page, and the modal shell renders one inside each open dialog; only the topmost outlet
+	// shows the toasts. ToastLive reads them out.
 	import { flip } from 'svelte/animate';
 	import { on } from 'svelte/events';
 	import { easing, fade, motion, rise } from '../../primitives/motion/motion.js';
-	import '../../styles/visually-hidden.css';
 	import { useLocale } from '../locale/locale.js';
 	import { sharedClasses } from '../props/classes.js';
 	import './toast.css';
@@ -26,7 +25,6 @@
 	const locale = useLocale();
 	const top = $derived(toasts.top === outlet);
 	const style = $derived(toasts.style);
-	const notes = $derived(top ? toasts.announcements : []);
 
 	const CLOSE =
 		'M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z';
@@ -127,16 +125,6 @@
 		return flip(node, rects, { duration: timing.normal, easing: easing(timing.ease) });
 	}
 </script>
-
-<!-- Read out once each, then emptied: the toasts themselves are not live. -->
-{#snippet read(assertive: boolean)}
-	{#each notes as note (note.id)}
-		{#if note.assertive === assertive}<p>{note.message}</p>
-			{#if note.action}<p>{note.action}</p>{/if}{/if}
-	{/each}
-{/snippet}
-<div class="sv-visually-hidden" aria-live="polite">{@render read(false)}</div>
-<div class="sv-visually-hidden" aria-live="assertive">{@render read(true)}</div>
 
 <section
 	bind:this={ref}
