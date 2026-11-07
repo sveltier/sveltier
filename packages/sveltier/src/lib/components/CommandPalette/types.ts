@@ -1,4 +1,4 @@
-import type { Snippet } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 import type { HTMLDialogAttributes } from 'svelte/elements';
 import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
@@ -22,10 +22,11 @@ export interface CommandItem {
 	/** A second line under the label, such as a venue or a path. Typing matches it too. */
 	description?: string;
 	/**
-	 * An icon before the label: an SVG path on a 24×24 grid, as icon sets such as Material Design
-	 * Icons export them (`mdiCog`).
+	 * An icon before the label, drawn at the size and colour of the text: an SVG path on a
+	 * 24×24 grid, as Material Design Icons export them (`mdiCog`), or an icon component of any
+	 * other set, such as `Gear` from phosphor-svelte. The component renders with no props.
 	 */
-	icon?: string;
+	icon?: string | Component<object>;
 	/** A keyboard shortcut shown at the end, such as `Ctrl+,`. Showing it does not bind it. */
 	shortcut?: string;
 	/**

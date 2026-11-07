@@ -94,11 +94,22 @@
 		cursor: not-allowed;
 	}
 
-	.sv-command-palette__item > svg {
+	.sv-command-palette__item > svg,
+	.sv-command-palette__icon {
 		flex: none;
 		inline-size: 1.272em;
 		block-size: 1.272em;
 		color: var(--sv-color-text-muted);
+	}
+
+	/* An icon component, whatever size it draws itself at, fills the same box as a path. */
+	.sv-command-palette__icon {
+		display: flex;
+	}
+
+	.sv-command-palette__icon > svg {
+		inline-size: 100%;
+		block-size: 100%;
 	}
 
 	.sv-command-palette__text {

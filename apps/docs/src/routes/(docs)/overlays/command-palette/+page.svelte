@@ -4,7 +4,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import CommandPaletteDemo from '#lib/docs/command-palette/CommandPaletteDemo.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { commandPaletteUsage } from '#lib/snippets/overlays.js';
+	import { commandPaletteIcons, commandPaletteUsage } from '#lib/snippets/overlays.js';
 	import COMMAND_PALETTE_PROPS from 'virtual:sveltier-api/CommandPaletteProps';
 	import COMMAND_ITEM from 'virtual:sveltier-api/CommandItem';
 </script>
@@ -33,6 +33,14 @@
 		<code>filter=&#123;false&#125;</code> and the commands found, with <code>loading</code> while they
 		come.
 	</p>
+
+	<h2 id="icons">Icons</h2>
+	<p>
+		A command's <code>icon</code> is an SVG path on a 24-unit grid, as Material Design Icons export, or
+		an icon component of any other set. Either is drawn at the size of the text, in a muted colour, and
+		hidden from screen readers, since the label says the same.
+	</p>
+	<Code title="Commands.svelte" code={commandPaletteIcons} />
 
 	<h2 id="opening">Opening</h2>
 	<p>

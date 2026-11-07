@@ -170,10 +170,12 @@
 		{#if itemSnippet}
 			{@render itemSnippet(command)}
 		{:else}
-			{#if command.icon}
+			{#if typeof command.icon === 'string'}
 				<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
 					><path d={command.icon} /></svg
 				>
+			{:else if command.icon}
+				<span class="sv-command-palette__icon" aria-hidden="true"><command.icon /></span>
 			{/if}
 			<span class="sv-command-palette__text">
 				<span class="sv-command-palette__label">{command.label}</span>

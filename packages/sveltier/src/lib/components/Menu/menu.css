@@ -65,6 +65,12 @@
 		block-size: 1.272em;
 	}
 
+	/* An icon component, whatever size it draws itself at, takes the same box as a path. */
+	.sv-menu__icon {
+		display: flex;
+		flex: none;
+	}
+
 	.sv-menu__label {
 		flex: 1;
 		min-inline-size: 0;

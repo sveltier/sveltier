@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import CommandPaletteHarness from '../../../tests/fixtures/CommandPaletteHarness.svelte';
+import ItemIconsHarness from '../../../tests/fixtures/ItemIconsHarness.svelte';
 
 const palette = () => page.getByRole('dialog', { name: 'Go to' });
 const search = () => page.getByRole('combobox', { name: 'Go to' });
@@ -137,5 +138,25 @@ describe('CommandPalette', () => {
 		await expect.element(page.getByRole('status')).toHaveTextContent('Loading');
 		await userEvent.keyboard('btc');
 		await expect.element(shown('query')).toHaveTextContent('btc');
+	});
+});
+
+describe('CommandPalette icons', () => {
+	it('draws an icon component of another set in the box of a path icon, hidden from assistive technology', async () => {
+		await render(ItemIconsHarness, { kind: 'palette' });
+		const glyph = page.getByTestId('glyph');
+		await expect.element(glyph).toBeVisible();
+		await expect.element(page.getByRole('option', { name: 'Settings' })).toBeVisible();
+		const path = page
+			.getByRole('option', { name: 'Rename' })
+			.element()
+			.querySelector('svg')!
+			.getBoundingClientRect();
+		const box = glyph.element().getBoundingClientRect();
+		// The component draws itself at 32px; the list sizes it like its other icons.
+		expect(box.width).not.toBe(32);
+		expect(box.width).toBeCloseTo(path.width, 1);
+		expect(box.height).toBeCloseTo(path.height, 1);
+		expect(glyph.element().closest('[aria-hidden="true"]')).not.toBeNull();
 	});
 });

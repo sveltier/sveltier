@@ -1,4 +1,4 @@
-import type { Snippet } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
 import type { Color, Density } from '../../core/props/types.js';
@@ -30,10 +30,11 @@ export interface TreeItem {
 	/** What the row says; typing its first letters moves to it. */
 	label: string;
 	/**
-	 * An icon before the label: an SVG path on a 24×24 grid, as icon sets such as Material Design
-	 * Icons export them (`mdiFolder`).
+	 * An icon before the label, drawn at the size and colour of the text: an SVG path on a
+	 * 24×24 grid, as Material Design Icons export them (`mdiFolder`), or an icon component of any
+	 * other set, such as `Folder` from phosphor-svelte. The component renders with no props.
 	 */
-	icon?: string;
+	icon?: string | Component<object>;
 	/** The nodes under it. A node with children, even none, opens and closes. */
 	children?: readonly TreeItem[];
 	/** Takes focus and opens, but cannot be selected. */

@@ -215,10 +215,12 @@
 				{#if itemSnippet}
 					{@render itemSnippet(item)}
 				{:else}
-					{#if item.icon}
+					{#if typeof item.icon === 'string'}
 						<svg class="sv-tree__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 							<path d={item.icon} />
 						</svg>
+					{:else if item.icon}
+						<span class="sv-tree__icon" aria-hidden="true"><item.icon /></span>
 					{/if}
 					<span class="sv-tree__label">{item.label}</span>
 				{/if}

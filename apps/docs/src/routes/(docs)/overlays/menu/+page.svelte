@@ -26,8 +26,8 @@
 	<ul>
 		<li>
 			An action has a <code>label</code>, and may have a <code>value</code>, an <code>icon</code>
-			(an SVG path on a 24-unit grid, as icon sets such as Material Design Icons export), a
-			<code>shortcut</code> to show, <code>disabled</code> and <code>danger</code>.
+			(an SVG path on a 24-unit grid, as Material Design Icons export, or an icon component of any other
+			set), a <code>shortcut</code> to show, <code>disabled</code> and <code>danger</code>.
 		</li>
 		<li><code>{'{ separator: true }'}</code> draws a line between groups.</li>
 		<li>

@@ -108,6 +108,16 @@
 		block-size: 1.272em;
 	}
 
+	/* An icon component, whatever size it draws itself at, fills the same box as a path. */
+	span.sv-tree__icon {
+		display: flex;
+	}
+
+	.sv-tree__icon > svg {
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
 	.sv-tree__label {
 		overflow: hidden;
 		min-inline-size: 0;

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import TreeHarness from '../../../tests/fixtures/TreeHarness.svelte';
+import ItemIconsHarness from '../../../tests/fixtures/ItemIconsHarness.svelte';
 
 const node = (name: string) => page.getByRole('treeitem', { name, exact: true });
 const shown = (testId: string) => page.getByTestId(testId);
@@ -137,5 +138,25 @@ describe('Tree', () => {
 		await expect.element(node('ETH/USDT')).toHaveFocus();
 		await userEvent.keyboard('e');
 		await expect.element(node('EUR/USD')).toHaveFocus();
+	});
+});
+
+describe('Tree icons', () => {
+	it('draws an icon component of another set in the box of a path icon, hidden from assistive technology', async () => {
+		await render(ItemIconsHarness, { kind: 'tree' });
+		const glyph = page.getByTestId('glyph');
+		await expect.element(glyph).toBeVisible();
+		await expect.element(page.getByRole('treeitem', { name: 'Glyph' })).toBeVisible();
+		const path = page
+			.getByRole('treeitem', { name: 'Path' })
+			.element()
+			.querySelector('svg')!
+			.getBoundingClientRect();
+		const box = glyph.element().getBoundingClientRect();
+		// The component draws itself at 32px; the list sizes it like its other icons.
+		expect(box.width).not.toBe(32);
+		expect(box.width).toBeCloseTo(path.width, 1);
+		expect(box.height).toBeCloseTo(path.height, 1);
+		expect(glyph.element().closest('[aria-hidden="true"]')).not.toBeNull();
 	});
 });
