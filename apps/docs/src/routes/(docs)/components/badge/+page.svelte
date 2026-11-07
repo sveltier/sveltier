@@ -3,7 +3,8 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import BadgeDemo from '#lib/docs/badge/BadgeDemo.svelte';
-	import { badgeUsage } from '#lib/snippets/components.js';
+	import { resolve } from '$app/paths';
+	import { badgeTooltip, badgeUsage } from '#lib/snippets/components.js';
 	import BADGE_PROPS from 'virtual:sveltier-api/BadgeProps';
 </script>
 
@@ -31,6 +32,13 @@
 		<code>id</code>, and its text gets the id <code>&lbrace;id&rbrace;-label</code>: point the
 		button's <code>aria-describedby</code> at it, and the count is read with the button.
 	</p>
+	<p>
+		A button with a <a href={resolve('overlays/tooltip')}>Tooltip</a> as well, such as a bell in a
+		header, is described by both. The tooltip's attributes already carry an
+		<code>aria-describedby</code>, so join the two ids rather than writing one over the other;
+		development builds warn when the tooltip's is lost.
+	</p>
+	<Code title="AlertsButton.svelte" code={badgeTooltip} />
 
 	<h2 id="api">API</h2>
 	<ApiTable label="Badge props" rows={BADGE_PROPS} />

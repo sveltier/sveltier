@@ -148,6 +148,13 @@ export const ERROR_CODES = {
 			'A `LedgerRow` is a term and its description (`<dt>` and `<dd>`), which mean something only inside a description list (`<dl>`). Outside one, screen readers do not pair the label with its value.',
 		fix: 'Put `LedgerRow`s inside a `Ledger` or a `Receipt`, which render the `<dl>`.'
 	},
+	SV4007: {
+		kind: 'warning',
+		title: "Tooltip's description replaced on its control",
+		cause:
+			"A tooltip describes its control through the `aria-describedby` in the attributes its `trigger` snippet receives. An `aria-describedby` written after those attributes, such as one pointing at a `Badge`'s text, replaces the tooltip's id instead of adding to it, so screen readers no longer read the tooltip.",
+		fix: "Join the ids, the tooltip's first: `aria-describedby={[attributes['aria-describedby'], 'inbox-label'].join(' ')}`."
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

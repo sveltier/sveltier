@@ -133,6 +133,19 @@ export function warnMisplaced(component: string, element: HTMLElement | null | u
 }
 
 /**
+ * Warns when the control a tooltip is on does not point at the tooltip: an `aria-describedby`
+ * written after the tooltip's attributes, such as a badge's, replaced its id.
+ */
+export function warnLostDescription(component: string, element: HTMLElement, id: string): void {
+	const ids = element.getAttribute('aria-describedby')?.split(/\s+/) ?? [];
+	if (ids.includes(id)) return;
+	warn(
+		'SV4007',
+		`<${component}> no longer describes its control: the control's aria-describedby (${show(ids.join(' '))}) replaced the tooltip's id '${id}'. Join them, the tooltip's first: aria-describedby={[attributes['aria-describedby'], 'other-id'].join(' ')}.`
+	);
+}
+
+/**
  * Warns when a tooltip describes a control that has no accessible name: a description names
  * nothing, so an icon-only button would be announced as just "button".
  */
