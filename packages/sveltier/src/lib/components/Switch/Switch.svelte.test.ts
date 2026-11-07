@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import SwitchHarness from '../../../tests/fixtures/SwitchHarness.svelte';
@@ -23,6 +23,18 @@ describe('Switch', () => {
 		await expect.element(shown('checked')).toHaveTextContent('true');
 		await screen.rerender({ checked: false });
 		await expect.element(control()).not.toBeChecked();
+	});
+
+	it('calls onchange with its new state when the user toggles it, not when code sets it', async () => {
+		const onchange = vi.fn();
+		const screen = await render(SwitchHarness, { onchange });
+		await page.getByText('Sign in with biometrics').click();
+		expect(onchange).toHaveBeenLastCalledWith(true);
+		await page.getByText('Sign in with biometrics').click();
+		expect(onchange).toHaveBeenLastCalledWith(false);
+		await screen.rerender({ checked: true });
+		await expect.element(control()).toBeChecked();
+		expect(onchange).toHaveBeenCalledTimes(2);
 	});
 
 	it('toggles with Space, and draws the focus ring on the track', async () => {

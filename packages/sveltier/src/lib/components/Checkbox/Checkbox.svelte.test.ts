@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import CheckboxHarness from '../../../tests/fixtures/CheckboxHarness.svelte';
@@ -17,6 +17,18 @@ describe('Checkbox', () => {
 		await expect.element(shown('checked')).toHaveTextContent('true');
 		await screen.rerender({ checked: false });
 		await expect.element(box()).not.toBeChecked();
+	});
+
+	it('calls onchange with its new state when the user toggles it, not when code sets it', async () => {
+		const onchange = vi.fn();
+		const screen = await render(CheckboxHarness, { onchange });
+		await page.getByText('Email me a receipt').click();
+		expect(onchange).toHaveBeenLastCalledWith(true);
+		await page.getByText('Email me a receipt').click();
+		expect(onchange).toHaveBeenLastCalledWith(false);
+		await screen.rerender({ checked: true });
+		await expect.element(box()).toBeChecked();
+		expect(onchange).toHaveBeenCalledTimes(2);
 	});
 
 	it('toggles with Space, and draws the focus ring on the box', async () => {

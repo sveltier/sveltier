@@ -17,7 +17,9 @@
 		Bind <code>checked</code>. The label is the press target, so a press anywhere on it toggles the
 		box. While checked, the form submits <code>value</code> (<code>on</code> unless you set it)
 		under
-		<code>name</code>. When the label holds a link, give it as a snippet.
+		<code>name</code>. When the label holds a link, give it as a snippet. <code>onchange</code>
+		receives the new state when the user checks or unchecks the box, not when <code>checked</code>
+		is set from code.
 	</p>
 	<CheckboxDemo />
 	<Code title="Preferences.svelte" code={checkboxUsage} />
