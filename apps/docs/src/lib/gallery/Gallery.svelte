@@ -47,6 +47,7 @@
 		VARIANTS,
 		type TableColumn
 	} from '@sveltier/ui';
+	import { resolve } from '$app/paths';
 	import { galleryStyle } from './gallery.js';
 	import type { GalleryPage } from './pages.js';
 
@@ -220,8 +221,8 @@
 			<h2 id="g-navigation">Navigation</h2>
 			<Breadcrumbs
 				items={[
-					{ label: 'Accounts', href: '#accounts' },
-					{ label: 'Savings', href: '#savings' },
+					{ label: 'Accounts', href: resolve('/') },
+					{ label: 'Savings', href: resolve('components/breadcrumbs') },
 					{ label: 'Statement' }
 				]}
 			/>
