@@ -448,6 +448,7 @@ export function llmsIndex(link: (path: string) => string): string {
 		'## Optional',
 		'',
 		`- [Full reference](${link('llms-full.txt')}): setup, conventions, and every component's props, generated from its types`,
+		`- [Component gallery](${link('examples/gallery/light/brand/default')}): every component in its main states, one page per mode, accent and density at examples/gallery/<light|dark>/<brand|amber>/<compact|default|comfortable>`,
 		''
 	].join('\n');
 }

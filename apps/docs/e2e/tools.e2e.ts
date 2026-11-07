@@ -67,11 +67,11 @@ test.describe('Theme builder', () => {
 	test('a link restores the base theme and the changes', async ({ page }) => {
 		await open(
 			page,
-			'/tools/theme-builder#pack=aurora&mode=dark&primary=oklch(0.8+0.15+80)&radius=0'
+			'/tools/theme-builder#pack=aurora&mode=dark&primary=oklch(0.78+0.11+75)&radius=0'
 		);
 		const code = page.locator('pre').last();
 		await expect(code).toContainText("import { auroraDark } from '@sveltier/ui/themes/aurora';");
-		await expect(code).toContainText("primary: 'oklch(0.8 0.15 80)'");
+		await expect(code).toContainText("primary: 'oklch(0.78 0.11 75)'");
 		await expect(code).toContainText("'radius-md': '0px'");
 		const preview = page.getByTestId('builder-preview');
 		await expect(preview).toHaveCSS('color-scheme', 'dark');
