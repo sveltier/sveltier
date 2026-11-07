@@ -1,6 +1,7 @@
 import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { Breakpoint } from '../../core/display/display.js';
+import type { CloseReason } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
 import type { Density } from '../../core/props/types.js';
 
@@ -139,6 +140,12 @@ export type NavigationDrawerProps = ElementProps<
 		 * @default 'md'
 		 */
 		breakpoint?: Breakpoint;
+		/**
+		 * Called when the modal drawer closes itself, with the reason: `'escape'`, `'outside'` (a
+		 * press beside it) or `'action'` (a link in it followed). Not when the screen grows past
+		 * the breakpoint, nor when `open` is set.
+		 */
+		onclose?: (reason: CloseReason) => void;
 		/** The navigation, usually a `List` with `nav`. */
 		children?: Snippet;
 	}
