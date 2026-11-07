@@ -58,7 +58,7 @@
 			unavailable, so people learn it exists.
 		</li>
 		<li>
-			Keep titles short and the content inside the panel; for a choice between views of one page,
+			Keep labels short and the content inside the panel; for a choice between views of one page,
 			use <a href={resolve('components/tabs')}>Tabs</a>.
 		</li>
 	</ul>

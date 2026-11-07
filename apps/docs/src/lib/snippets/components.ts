@@ -293,9 +293,9 @@ export const accordionUsage = `<script>
 
 <Accordion
   items={[
-    { value: 'fees', title: 'What does a transfer cost?' },
-    { value: 'timing', title: 'How long does a transfer take?' },
-    { value: 'limits', title: 'How much can I send?' }
+    { value: 'fees', label: 'What does a transfer cost?' },
+    { value: 'timing', label: 'How long does a transfer take?' },
+    { value: 'limits', label: 'How much can I send?' }
   ]}
   bind:value={open}
 >
@@ -314,13 +314,13 @@ export const accordionMultiple = `<script>
 <Accordion
   multiple
   items={[
-    { value: 'payments', title: 'Payments' },
-    { value: 'security', title: 'Security' }
+    { value: 'payments', label: 'Payments' },
+    { value: 'security', label: 'Security' }
   ]}
   bind:value={open}
 >
   {#snippet panel(item)}
-    <Checkbox label="Email me about {item.title.toLowerCase()}" />
+    <Checkbox label="Email me about {item.label.toLowerCase()}" />
   {/snippet}
 </Accordion>`;
 

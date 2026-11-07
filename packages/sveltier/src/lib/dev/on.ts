@@ -137,7 +137,7 @@ export function warnRenamed(component: string, old: string, now: string, value: 
 	if (value === undefined) return;
 	warn(
 		'SV4008',
-		`<${component}> takes ${now}; ${old} is its old name and does nothing now. Pass ${now}={…}.`
+		`<${component}> takes ${now}; ${old} is its old name and does nothing now. Use ${now} instead.`
 	);
 }
 
