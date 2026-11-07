@@ -389,7 +389,8 @@ const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` wi
 - Figures for people to read are \`Amount\` (numbers, prices, money, percentages) and \`Delta\` (changes, signed and in the up or down colour), not strings from \`toFixed\` or a hand-made \`Intl.NumberFormat\`: \`decimals={2}\` fixes the digits, \`format\` takes Intl options (\`{ style: 'currency' }\` uses the locale's currency), a missing value shows a dash, \`flash\` marks live updates, and \`masked\` set through \`DefaultsProvider\` hides every figure at once. A price the user types is a \`PriceInput\` with its \`tick\` (fixed, or bands that change with the price); an amount out of what is available is an \`AmountInput\` with \`max\` and the lot as \`step\`, whose share buttons round down to whole lots.
 - Overlays open from a control through a \`trigger\` snippet: spread the attributes it receives onto your own Button (\`{#snippet trigger(attributes)}<Button {...attributes}>Open</Button>{/snippet}\`), which wires the ARIA, opening and focus return. Without a trigger, \`bind:open\` opens and closes them. A \`ContextMenu\` opens on right click instead, from a \`target\` snippet whose attributes go on the element or on every row; \`onopen\` receives the element, and \`label\` names the menu. A \`CommandPalette\` also opens from anywhere with its \`shortcut\` (\`'Mod+K'\` by default, \`false\` for none), and runs the command chosen through \`onselect\`.
 - Toasts come from \`useToast()\`, which \`UIProvider\` provides: call it while a component initialises, then \`toast.show('Payment sent', { action: { label: 'Undo', onclick: undo } })\` when something happens. There is no toast component to place, and no other toast library is needed.
-- Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.`;
+- Style your own elements with the theme's CSS variables, never fixed values: \`--sv-color-*\` for colour, \`--sv-space-*\` for spacing, \`--sv-radius-md\` for one-line controls. A theme may make \`--sv-radius-md\` a pill, so a box that grows with its content takes \`min(var(--sv-radius-md), var(--sv-radius-lg))\`.
+- Sveltier's CSS sits in the \`sv\` cascade layer, so unlayered app CSS wins without \`!important\`. With Tailwind 4, or any CSS of your own in layers, declare the order in the HTML before any stylesheet (\`src/app.html\` in SvelteKit, \`index.html\` with Vite alone): \`<style>@layer theme, base, sv, components, utilities;</style>\`. Without it, Tailwind's reset can strip the components' backgrounds and padding. Reach a component's element from a Svelte \`<style>\` through its \`class\` prop and \`:global()\`.`;
 
 /** The first sentence of a description, on one line. */
 const sentence = (text: string) => {
@@ -447,6 +448,7 @@ export function llmsIndex(link: (path: string) => string): string {
 		'## Optional',
 		'',
 		`- [Full reference](${link('llms-full.txt')}): setup, conventions, and every component's props, generated from its types`,
+		`- [Component gallery](${link('examples/gallery/light/brand/default')}): every component in its main states, one page per mode, accent and density at examples/gallery/<light|dark>/<brand|amber>/<compact|default|comfortable>`,
 		''
 	].join('\n');
 }

@@ -18,6 +18,8 @@ export const NAV: NavGroup[] = [
 		items: [
 			{ title: 'Installation', path: 'getting-started/installation' },
 			{ title: 'Quick start', path: 'getting-started/quick-start' },
+			{ title: 'SvelteKit', path: 'getting-started/sveltekit' },
+			{ title: 'Vite', path: 'getting-started/vite' },
 			{ title: 'Fonts', path: 'getting-started/fonts' },
 			{ title: 'Server-side rendering', path: 'getting-started/server-rendering' }
 		]
@@ -44,10 +46,18 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Tools',
+		items: [
+			{ title: 'Playground', path: 'tools/playground' },
+			{ title: 'Theme builder', path: 'tools/theme-builder' }
+		]
+	},
+	{
 		title: 'Core',
 		items: [
 			{ title: 'Defaults', path: 'core/defaults' },
 			{ title: 'Shared props', path: 'core/shared-props' },
+			{ title: 'Styling', path: 'core/styling' },
 			{ title: 'Display', path: 'core/display' },
 			{ title: 'Locale', path: 'core/locale' },
 			{ title: 'Building components', path: 'core/building-components' }
