@@ -560,3 +560,19 @@ export const stepperUsage = `<script lang="ts">
 </Button>`;
 
 export const stepperVertical = `<Stepper aria-label="Verification" orientation="vertical" items={steps} bind:value={step} />`;
+
+export const tabsFill = `<!-- A full-height panel: the tabs and the filters stay, the table scrolls under its header. -->
+<div class="markets">
+  <Tabs fill aria-label="Markets" items={views} bind:value={view}>
+    {#snippet panel()}
+      <Filters />
+      <Table aria-label="Markets" items={markets} {columns} size="xs" density="dense" />
+    {/snippet}
+  </Tabs>
+</div>
+
+<style>
+  .markets {
+    block-size: 100dvh;
+  }
+</style>`;

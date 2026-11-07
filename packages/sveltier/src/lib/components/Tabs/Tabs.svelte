@@ -16,6 +16,7 @@
 		onchange,
 		activation = 'automatic',
 		panel,
+		fill = false,
 		id,
 		'aria-label': ariaLabel,
 		'aria-labelledby': ariaLabelledby,
@@ -52,7 +53,13 @@
 	bind:this={ref}
 	{...rest}
 	id={prefix}
-	class={['sv-tabs', sharedClasses(p, 'Tabs'), p.grow && 'sv-tabs--grow', className]}
+	class={[
+		'sv-tabs',
+		sharedClasses(p, 'Tabs'),
+		p.grow && 'sv-tabs--grow',
+		fill && 'sv-tabs--fill',
+		className
+	]}
 >
 	<div
 		role="tablist"

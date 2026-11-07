@@ -35,6 +35,28 @@
 		flex: 1;
 	}
 
+	/*
+	 * fill: the tab list keeps its height and the panel takes the rest. The panel is a column
+	 * whose last child stretches, so a Table there scrolls in its own box under a sticky header.
+	 */
+	.sv-tabs--fill {
+		grid-template-rows: auto minmax(0, 1fr);
+		block-size: 100%;
+		min-block-size: 0;
+	}
+
+	.sv-tabs--fill > .sv-tabs__panel {
+		display: flex;
+		flex-direction: column;
+		min-block-size: 0;
+		overflow: auto;
+	}
+
+	.sv-tabs--fill > .sv-tabs__panel > :last-child {
+		flex: 1 1 auto;
+		min-block-size: 0;
+	}
+
 	@media (hover: hover) {
 		.sv-tabs__tab:not(:disabled):hover {
 			color: var(--sv-color-text);

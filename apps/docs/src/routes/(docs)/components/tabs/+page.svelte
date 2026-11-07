@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import TabsDemo from '#lib/docs/tabs/TabsDemo.svelte';
-	import { tabsUsage } from '#lib/snippets/components.js';
+	import { tabsFill, tabsUsage } from '#lib/snippets/components.js';
 	import TABS_PROPS from 'virtual:sveltier-api/TabsProps';
 </script>
 
@@ -19,6 +19,15 @@
 	</p>
 	<TabsDemo />
 	<Code title="Account.svelte" code={tabsUsage} />
+
+	<h2 id="fill">Filling a panel</h2>
+	<p>
+		With <code>fill</code>, the Tabs take the height they are given and the selected panel takes
+		what the tab list leaves. The panel's last child stretches into it, so a Table there scrolls in
+		its own box, under a header that stays, while filters above it stay put. Give the Tabs their
+		height: <code>block-size</code> on a container, or <code>flex: 1</code> in a column.
+	</p>
+	<Code title="Markets.svelte" code={tabsFill} />
 
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
