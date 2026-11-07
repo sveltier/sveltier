@@ -46,6 +46,13 @@ export const NAV: NavGroup[] = [
 		]
 	},
 	{
+		title: 'Tools',
+		items: [
+			{ title: 'Playground', path: 'tools/playground' },
+			{ title: 'Theme builder', path: 'tools/theme-builder' }
+		]
+	},
+	{
 		title: 'Core',
 		items: [
 			{ title: 'Defaults', path: 'core/defaults' },
