@@ -26,7 +26,10 @@ export interface CommandItem {
 	 * 24×24 grid, as Material Design Icons export them (`mdiCog`), or an icon component of any
 	 * other set, such as `Gear` from phosphor-svelte. The component renders with no props.
 	 */
-	icon?: string | Component<object>;
+	// Any props: a component's props are checked the other way round, so a narrower type would
+	// turn away icon sets whose props take every SVG attribute.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	icon?: string | Component<any>;
 	/** A keyboard shortcut shown at the end, such as `Ctrl+,`. Showing it does not bind it. */
 	shortcut?: string;
 	/**
