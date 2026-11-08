@@ -57,14 +57,15 @@ jobs:
       - name: Type check
         run: pnpm check
 
-      # Vitest browser mode (Chromium, Firefox, WebKit) + SSR tests, then docs e2e tests.
-      - name: Test
-        run: pnpm test
+      # Vitest browser mode (Chromium, Firefox, WebKit) + SSR tests. The docs e2e tests run in
+      # the e2e jobs, one per browser, at the same time as this one.
+      - name: Test the package
+        run: pnpm --filter @sveltier/ui test
 
       - name: Size budgets
         run: pnpm size
 
-      # The tested build is the one that gets deployed.
+      # Deployed once every job has passed on this commit.
       - name: Keep the docs build
         uses: actions/upload-artifact@v7
         with:
@@ -72,9 +73,46 @@ jobs:
           path: apps/docs/build
           retention-days: 3
 
+  # The docs e2e tests are most of CI's time, so each browser gets its own runner.
+  e2e:
+    name: Docs e2e (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
+    strategy:
+      # One browser failing still lets the others finish, so a run shows every failure.
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Check the Playwright version matches the container
+        run: test "$(pnpm --filter @sveltier/ui exec playwright --version)" = "Version $PLAYWRIGHT_VERSION"
+
+      # The docs are built from the package's dist.
+      - name: Build the package
+        run: pnpm --filter @sveltier/ui build
+
+      # Playwright's web server builds the docs, then previews them.
+      - name: Test the docs in ${{ matrix.browser }}
+        run: pnpm --filter @sveltier/docs exec playwright test --project=${{ matrix.browser }}
+
   deploy-docs:
     name: Deploy the docs
-    needs: ci
+    needs: [ci, e2e]
     # main goes to production; branches of this repository get a preview. Pull requests from
     # forks have no access to the secrets, so they are skipped.
     if: >-
