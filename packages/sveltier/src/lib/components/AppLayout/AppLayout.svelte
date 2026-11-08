@@ -1,5 +1,7 @@
 <script lang="ts">
 	// The frame of an app: AppBar, NavigationDrawer and Main on a CSS grid. See AppLayoutProps.
+	import { checkValue, DEV } from '#dev';
+	import { BREAKPOINTS } from '../../core/display/display.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import './app-layout.css';
 	import { Layout, setLayout } from './context.svelte.js';
@@ -13,12 +15,19 @@
 		...rest
 	}: AppLayoutProps = $props();
 
+	if (DEV) $effect(() => checkValue('AppLayout', 'fill', fill, [true, false, ...BREAKPOINTS]));
+
+	// From every width, or from a breakpoint up, the CSS fills the window.
+	const filling = $derived(
+		fill === true || fill === 'xs' ? 'sv-app-layout--fill' : fill && `sv-app-layout--fill-${fill}`
+	);
+
 	const uid = $props.id();
 	const layout = setLayout(new Layout(`${uid}-main`));
 	const locale = useLocale();
 </script>
 
-<div bind:this={ref} {...rest} class={['sv-app-layout', fill && 'sv-app-layout--fill', className]}>
+<div bind:this={ref} {...rest} class={['sv-app-layout', filling, className]}>
 	<a class="sv-app-layout__skip" href="#{layout.mainId}">{locale.t('skipToContent')}</a>
 	{@render children?.()}
 </div>

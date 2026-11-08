@@ -12,6 +12,7 @@
 	import type {
 		AppBarProps,
 		AppFooterProps,
+		AppLayoutProps,
 		NavigationDrawerProps
 	} from '../../lib/components/AppLayout/types.js';
 	import List from '../../lib/components/List/List.svelte';
@@ -38,7 +39,7 @@
 		withNav?: boolean;
 		brand?: boolean;
 		navList?: boolean;
-		fill?: boolean;
+		fill?: AppLayoutProps['fill'];
 		pane?: boolean;
 		footer?: Partial<AppFooterProps>;
 		bar?: Partial<AppBarProps>;

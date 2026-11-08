@@ -29,7 +29,8 @@
 	/*
 	 * Filling the window: the layout is the window's height and the page never scrolls. Main
 	 * takes the rest and scrolls on its own when its content is taller, and the drawer fills its
-	 * area instead of sticking to the window.
+	 * area instead of sticking to the window. With a breakpoint, only from its width up: below
+	 * it the page scrolls, so a phone's browser bars collapse as the page moves.
 	 */
 	.sv-app-layout--fill {
 		block-size: 100dvh;
@@ -45,6 +46,96 @@
 	.sv-app-layout--fill > .sv-navigation-drawer > .sv-navigation-drawer__content {
 		position: static;
 		block-size: 100%;
+	}
+
+	@media (width >= 600px) {
+		.sv-app-layout--fill-sm {
+			block-size: 100dvh;
+			min-block-size: 0;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
+
+		.sv-app-layout--fill-sm > .sv-main {
+			min-block-size: 0;
+			overflow: auto;
+		}
+
+		.sv-app-layout--fill-sm > .sv-navigation-drawer > .sv-navigation-drawer__content {
+			position: static;
+			block-size: 100%;
+		}
+	}
+
+	@media (width >= 960px) {
+		.sv-app-layout--fill-md {
+			block-size: 100dvh;
+			min-block-size: 0;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
+
+		.sv-app-layout--fill-md > .sv-main {
+			min-block-size: 0;
+			overflow: auto;
+		}
+
+		.sv-app-layout--fill-md > .sv-navigation-drawer > .sv-navigation-drawer__content {
+			position: static;
+			block-size: 100%;
+		}
+	}
+
+	@media (width >= 1280px) {
+		.sv-app-layout--fill-lg {
+			block-size: 100dvh;
+			min-block-size: 0;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
+
+		.sv-app-layout--fill-lg > .sv-main {
+			min-block-size: 0;
+			overflow: auto;
+		}
+
+		.sv-app-layout--fill-lg > .sv-navigation-drawer > .sv-navigation-drawer__content {
+			position: static;
+			block-size: 100%;
+		}
+	}
+
+	@media (width >= 1920px) {
+		.sv-app-layout--fill-xl {
+			block-size: 100dvh;
+			min-block-size: 0;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
+
+		.sv-app-layout--fill-xl > .sv-main {
+			min-block-size: 0;
+			overflow: auto;
+		}
+
+		.sv-app-layout--fill-xl > .sv-navigation-drawer > .sv-navigation-drawer__content {
+			position: static;
+			block-size: 100%;
+		}
+	}
+
+	@media (width >= 2560px) {
+		.sv-app-layout--fill-xxl {
+			block-size: 100dvh;
+			min-block-size: 0;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
+
+		.sv-app-layout--fill-xxl > .sv-main {
+			min-block-size: 0;
+			overflow: auto;
+		}
+
+		.sv-app-layout--fill-xxl > .sv-navigation-drawer > .sv-navigation-drawer__content {
+			position: static;
+			block-size: 100%;
+		}
 	}
 
 	/*

@@ -310,6 +310,15 @@ describe('AppLayout', () => {
 			expect(pageHeight()).toBe(800);
 		});
 
+		it('fills only from a breakpoint up, the page scrolling below it', async () => {
+			await page.viewport(800, 800);
+			await render(AppLayoutHarness, { fill: 'md' });
+			expect(pageHeight()).toBeGreaterThan(800);
+			await page.viewport(1280, 800);
+			await expect.poll(pageHeight).toBe(800);
+			expect(box('.sv-main').bottom).toBe(800);
+		});
+
 		it('gives a drawer written first the full height', async () => {
 			await page.viewport(1280, 800);
 			await render(AppLayoutHarness, { fill: true, drawerFirst: true });

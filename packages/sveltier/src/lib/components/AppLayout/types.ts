@@ -34,11 +34,13 @@ export type AppLayoutProps = ElementProps<
 		/**
 		 * Fills the window and never scrolls the page, for an app whose panes scroll on their own
 		 * (a trading terminal, a mail client). Main takes the height the bar leaves and scrolls on
-		 * its own when its content is taller; content with `block-size: 100%` fills it. Without
-		 * it, the layout is at least the window's height and the page scrolls.
+		 * its own when its content is taller; content with `block-size: 100%` fills it. A
+		 * breakpoint fills only from its default width up (`md` is 960px): below it the page
+		 * scrolls, so a phone's browser bars collapse as the page moves. Without it, the layout
+		 * is at least the window's height and the page scrolls.
 		 * @default false
 		 */
-		fill?: boolean;
+		fill?: boolean | Breakpoint;
 		/** The parts: `AppBar`, `NavigationDrawer`, `Main` and `AppFooter`. */
 		children?: Snippet;
 	}
