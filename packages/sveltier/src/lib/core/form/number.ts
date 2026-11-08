@@ -83,6 +83,21 @@ export function parseNumber(text: string, locale: string): number | null {
 }
 
 /**
+ * How many decimals a number is written with, its exponent counted: 0.25 has two, and 1e-7,
+ * which `String` writes with an exponent, has seven. For rounding sums of steps with `toFixed`.
+ *
+ * @example
+ * decimalPlaces(0.05); // 2
+ * decimalPlaces(1e-8); // 8
+ */
+export function decimalPlaces(number: number | null | undefined): number {
+	if (number == null || !Number.isFinite(number)) return 0;
+	const [mantissa = '', exponent = '0'] = String(number).split('e');
+	const fraction = mantissa.split('.')[1]?.length ?? 0;
+	return Math.max(0, fraction - Number(exponent));
+}
+
+/**
  * A band of values with a step of its own: from `from` up to the next band's start, values move
  * by `step`, as the tick size of a market changes with the price.
  */

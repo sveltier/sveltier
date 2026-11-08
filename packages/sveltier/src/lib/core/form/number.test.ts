@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createLocale } from '../locale/locale.js';
 import {
+	decimalPlaces,
 	numberConstraintMessage,
 	parseNumber,
 	stepAt,
@@ -14,6 +15,20 @@ const TICKS: StepBand[] = [
 	{ from: 10000, step: 50 },
 	{ from: 50000, step: 100 }
 ];
+
+describe('decimalPlaces', () => {
+	it('counts the decimals a number is written with, from its exponent too', () => {
+		expect(decimalPlaces(1)).toBe(0);
+		expect(decimalPlaces(0.25)).toBe(2);
+		expect(decimalPlaces(0.000001)).toBe(6);
+		// String() writes these with an exponent: "1e-7", "1.5e-7".
+		expect(decimalPlaces(1e-7)).toBe(7);
+		expect(decimalPlaces(1e-8)).toBe(8);
+		expect(decimalPlaces(1.5e-7)).toBe(8);
+		expect(decimalPlaces(1e21)).toBe(0);
+		expect(decimalPlaces(undefined)).toBe(0);
+	});
+});
 
 describe('parseNumber', () => {
 	it('reads numbers as the locale writes them', () => {

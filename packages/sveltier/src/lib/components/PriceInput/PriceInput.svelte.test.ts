@@ -27,6 +27,13 @@ describe('PriceInput', () => {
 		expect(element().value).toBe('61.25');
 	});
 
+	it('keeps the decimals of a tick below a millionth', async () => {
+		await render(TicketHarness, { price: 0.00001234, priceProps: { tick: 1e-8 } });
+		expect(element().value).toBe('0.00001234');
+		await press('{ArrowUp}');
+		await expect.element(bound()).toHaveTextContent('0.00001235');
+	});
+
 	it('starts at the smallest tick, never zero', async () => {
 		await render(TicketHarness, {});
 		await press('{ArrowUp}');
