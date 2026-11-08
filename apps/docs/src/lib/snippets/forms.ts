@@ -1,453 +1,58 @@
 // Code samples for the form pages, shown on the pages and in llms-full.txt.
+// Svelte and TypeScript samples are files in ../examples that svelte-check compiles, shown with
+// ?raw. What stays a string cannot be checked as a file of its own: shell, CSS, HTML, a
+// signature, a route file, or two files in one block.
 
-export const textFieldUsage = `<script>
-  import { TextField } from '@sveltier/ui';
-  let email = $state('');
-</script>
-
-<TextField
-  label="Email"
-  type="email"
-  name="email"
-  autocomplete="email"
-  hint="Receipts go to this address"
-  required
-  bind:value={email}
-/>`;
-
-export const textFieldValidation = `<script>
-  import { TextField } from '@sveltier/ui';
-
-  // The result of a SvelteKit form action, with the server's own errors.
-  let { form } = $props();
-  let username = $state('');
-
-  const rules = [
-    (value) => /^[a-z0-9_]+$/.test(value) || 'Use lowercase letters, digits and _',
-    (value) => !value.startsWith('_') || 'Start with a letter or a digit'
-  ];
-</script>
-
-<TextField
-  label="Username"
-  name="username"
-  required
-  minlength={3}
-  maxlength={20}
-  {rules}
-  error={form?.errors?.username}
-  bind:value={username}
-/>`;
-
-export const textFieldAffixes = `<script>
-  import { Button, Icon, TextField } from '@sveltier/ui';
-  let visible = $state(false);
-</script>
-
-<TextField label="Search" type="search" variant="elevated">
-  {#snippet prepend()}<Icon path={SEARCH} />{/snippet}
-</TextField>
-
-<TextField label="Password" type={visible ? 'text' : 'password'} autocomplete="current-password">
-  {#snippet append()}
-    <Button variant="text" size="sm" onclick={() => (visible = !visible)}>
-      {visible ? 'Hide' : 'Show'}
-    </Button>
-  {/snippet}
-</TextField>`;
-
-export const fieldUsage = `<script>
-  import { Field } from '@sveltier/ui';
-  let start = $state('');
-</script>
-
-<Field label="Start date" hint="The first payment goes out on this day" required>
-  {#snippet children(attributes)}
-    <input type="date" name="start" {...attributes} bind:value={start} />
-  {/snippet}
-</Field>`;
-
-export const formUsage = `<script>
-  import { Button, Form, TextField } from '@sveltier/ui';
-
-  let email = $state('');
-  let password = $state('');
-  let sending = $state(false);
-
-  // Called only when every field is valid.
-  async function signUp(event) {
-    event.preventDefault();
-    sending = true;
-    await createAccount({ email, password });
-    sending = false;
-  }
-</script>
-
-<Form onsubmit={signUp}>
-  <TextField label="Email" type="email" name="email" required bind:value={email} />
-  <TextField label="Password" type="password" name="password" minlength={8} required bind:value={password} />
-  <Button type="submit" loading={sending}>Create account</Button>
-</Form>`;
-
-export const formSvelteKit = `<script>
-  import { enhance } from '$app/forms';
-  import { fromAction } from 'svelte/attachments';
-  import { Button, Form, TextField } from '@sveltier/ui';
-
-  // What the form action returned, such as { errors: { email: 'This email is taken' } }.
-  let { form } = $props();
-</script>
-
-<!-- Without JavaScript the form posts to the action as HTML does; with it, enhance sends it,
-     and only once every field is valid. -->
-<Form method="POST" action="?/signup" {@attach fromAction(enhance)}>
-  <TextField label="Email" type="email" name="email" required error={form?.errors?.email} />
-  <TextField label="Password" type="password" name="password" minlength={8} required />
-  <Button type="submit">Create account</Button>
-</Form>`;
-
-export const formMethods = `<script>
-  import { Button, Form } from '@sveltier/ui';
-  let form;
-</script>
-
-<Form bind:this={form}>…</Form>
-
-<Button onclick={() => form.validate()}>Check</Button>  <!-- shows every message, returns true when valid -->
-<Button onclick={() => form.reset()}>Start over</Button>  <!-- every field back to its starting value, messages hidden -->
-<Button onclick={() => form.resetValidation()}>Hide messages</Button>`;
-
-export const textareaUsage = `<script>
-  import { Textarea } from '@sveltier/ui';
-  let note = $state('');
-</script>
-
-<!-- Grows with its text from 2 to 8 lines, then scrolls. -->
-<Textarea
-  label="Note to the payee"
-  name="note"
-  hint="They see it on their statement"
-  maxlength={280}
-  rows={2}
-  autoGrow
-  maxRows={8}
-  bind:value={note}
-/>`;
-
-export const numberFieldUsage = `<script>
-  import { NumberField } from '@sveltier/ui';
-  let quantity = $state(1);
-  let amount = $state(null);
-</script>
-
-<NumberField label="Quantity" name="quantity" min={1} max={99} step={1} bind:value={quantity} />
-
-<!-- Digits only in format: the currency goes in prepend, so the text stays editable. -->
-<NumberField
-  label="Amount"
-  name="amount"
-  min={0}
-  format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-  required
-  bind:value={amount}
->
-  {#snippet prepend()}USD{/snippet}
-</NumberField>`;
-
-export const selectUsage = `<script lang="ts">
-  import { Select } from '@sveltier/ui';
-
-  let market = $state<string | null>(null);
-</script>
-
-<!-- Items with a group show under its name; a disabled one is skipped by the keys. -->
-<Select
-  label="Market"
-  name="market"
-  placeholder="Choose a market"
-  required
-  options={[
-    { value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
-    { value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
-    { value: 'btc-usd', label: 'BTC/USD', group: 'Coinbase' },
-    { value: 'eth-usd', label: 'ETH/USD', group: 'Coinbase', disabled: true }
-  ]}
-  bind:value={market}
-/>`;
-
-export const selectCustom = `<script lang="ts">
-  import { Select, type SelectOption } from '@sveltier/ui';
-
-  type Market = SelectOption & { venue: string };
-  let { markets }: { markets: Market[] } = $props();
-  let market = $state<string | null>(null);
-</script>
-
-<!-- The option and the chosen value drawn your own way: the symbol, then its venue. -->
-<Select label="Market" options={markets} bind:value={market}>
-  {#snippet option(item)}
-    <strong>{item.label}</strong> <small>{item.venue}</small>
-  {/snippet}
-  {#snippet selection(item)}
-    {item.label} · {item.venue}
-  {/snippet}
-</Select>`;
-
-export const comboboxUsage = `<script lang="ts">
-  import { Combobox } from '@sveltier/ui';
-
-  let city = $state<string | null>(null);
-</script>
-
-<!-- Type "sao" for São Paulo or "da nang" for Đà Nẵng: case and diacritics do not matter. -->
-<Combobox
-  label="City"
-  name="city"
-  placeholder="Search cities"
-  options={[
-    { value: 'sao', label: 'São Paulo', description: 'Brazil', group: 'Americas' },
-    { value: 'mtl', label: 'Montréal', description: 'Canada', group: 'Americas' },
-    { value: 'zrh', label: 'Zürich', description: 'Switzerland', group: 'Europe' },
-    { value: 'dad', label: 'Đà Nẵng', description: 'Vietnam', group: 'Asia' }
-  ]}
-  bind:value={city}
-/>`;
-
-export const comboboxRemote = `<script lang="ts">
-  import { Combobox, type SelectOption } from '@sveltier/ui';
-
-  let symbol = $state<string | null>(null);
-  let query = $state('');
-  let found = $state<SelectOption[]>([]);
-  let loading = $state(false);
-
-  // Searching elsewhere: the server filters, the field shows what it found.
-  $effect(() => {
-    const term = query.trim();
-    if (!term) return;
-    loading = true;
-    const controller = new AbortController();
-    fetch(\`/api/symbols?q=\${encodeURIComponent(term)}\`, { signal: controller.signal })
-      .then((response) => response.json())
-      .then((options: SelectOption[]) => (found = options))
-      .catch(() => {})
-      .finally(() => (loading = false));
-    return () => controller.abort();
-  });
-</script>
-
-<Combobox label="Symbol" options={found} filter={false} {loading} bind:query bind:value={symbol} />`;
-
-export const datePickerUsage = `<script lang="ts">
-  import { DatePicker } from '@sveltier/ui';
-
-  // An ISO date, 'YYYY-MM-DD', or null: no time zone moves it across midnight.
-  let day = $state<string | null>(null);
-</script>
-
-<!-- Typed in the reader's order (10/26/2026 here, 26/10/2026 in en-GB), or chosen in the calendar. -->
-<DatePicker label="Trade date" name="day" required bind:value={day} />`;
-
-export const datePickerTradingDays = `<script lang="ts">
-  import { DatePicker } from '@sveltier/ui';
-
-  const HOLIDAYS = new Set(['2026-12-25', '2027-01-01']);
-  // Markets close on weekends and holidays: those days can be reached, not chosen.
-  const closed = (date: string) => [0, 6].includes(new Date(date).getUTCDay()) || HOLIDAYS.has(date);
-
-  let day = $state<string | null>(null);
-</script>
-
-<DatePicker
-  label="Settlement date"
-  min="2026-10-01"
-  max="2027-03-31"
-  isDateDisabled={closed}
-  bind:value={day}
-/>`;
-
-export const dateRangeUsage = `<script lang="ts">
-  import { DateRangePicker } from '@sveltier/ui';
-
-  let start = $state<string | null>(null);
-  let end = $state<string | null>(null);
-</script>
-
-<!-- The first day chosen is the start, the second the end; the form gets both under one name. -->
-<DateRangePicker label="Holding period" name="period" bind:start bind:end />`;
-
-export const calendarUsage = `<script lang="ts">
-  import { Calendar } from '@sveltier/ui';
-
-  let day = $state<string | null>('2026-10-26');
-</script>
-
-<!-- A month on the page, as a dashboard shows the day it reports on. -->
-<Calendar aria-label="Report day" bind:value={day} />`;
-
-export const timeFieldUsage = `<script lang="ts">
-  import { TimeField } from '@sveltier/ui';
-
-  // HH:mm on the 24-hour clock, as <input type="time"> gives it, or null.
-  let opens = $state<string | null>('09:30');
-</script>
-
-<!-- Typed as 9:30, 0930 or 9:30 pm; the arrows move by 15 minutes, within the session. -->
-<TimeField label="Order at" min="09:30" max="16:00" step={15} name="at" bind:value={opens} />`;
-
-export const dateTimeFieldUsage = `<script lang="ts">
-  import { DateTimeField } from '@sveltier/ui';
-
-  // YYYY-MM-DDTHH:mm, local, as <input type="datetime-local"> gives it, or null.
-  let opened = $state<string | null>(null);
-  let closed = $state<string | null>(null);
-</script>
-
-<DateTimeField label="Opened" required name="opened" bind:value={opened} />
-<!-- A trade closes after it opens: the opening time is the earliest the closing one can be. -->
-<DateTimeField label="Closed" min={opened ?? undefined} name="closed" bind:value={closed} />`;
-
-export const nativeSelectUsage = `<script>
-  import { NativeSelect } from '@sveltier/ui';
-  let country = $state(null);
-</script>
-
-<NativeSelect
-  label="Country"
-  name="country"
-  placeholder="Choose a country"
-  required
-  options={[
-    { value: 'gb', label: 'United Kingdom' },
-    { value: 'jp', label: 'Japan' },
-    { value: 'vn', label: 'Vietnam' }
-  ]}
-  bind:value={country}
-/>`;
-
-export const checkboxUsage = `<script>
-  import { Checkbox } from '@sveltier/ui';
-  let receipt = $state(true);
-  let accepted = $state(false);
-</script>
-
-<Checkbox
-  label="Email me a receipt"
-  name="receipt"
-  hint="Sent after every transfer"
-  bind:checked={receipt}
-/>
-
-<!-- A label with a link in it is a snippet. -->
-<Checkbox name="licence" required bind:checked={accepted}>
-  {#snippet label()}
-    I accept the <a href="/licence">licence terms</a>
-  {/snippet}
-</Checkbox>`;
-
-export const checkboxSelectAll = `<script>
-  import { Checkbox } from '@sveltier/ui';
-
-  const DOCUMENTS = ['Statements', 'Tax forms', 'Trade confirmations'];
-  let chosen = $state(['Statements']);
-  const all = $derived(chosen.length === DOCUMENTS.length);
-</script>
-
-<!-- Checked when every document is, a dash when only some are. -->
-<Checkbox
-  label="All documents"
-  bind:checked={() => all, (on) => (chosen = on ? [...DOCUMENTS] : [])}
-  indeterminate={chosen.length > 0 && !all}
-/>
-{#each DOCUMENTS as document (document)}
-  <Checkbox
-    label={document}
-    bind:checked={
-      () => chosen.includes(document),
-      (on) => (chosen = on ? [...chosen, document] : chosen.filter((d) => d !== document))
-    }
-  />
-{/each}`;
-
-export const radioGroupUsage = `<script>
-  import { RadioGroup } from '@sveltier/ui';
-  let days = $state(null);
-</script>
-
-<RadioGroup
-  label="Pay out"
-  name="payout"
-  required
-  options={[
-    { value: 1, label: 'Every day' },
-    { value: 7, label: 'Every Monday', hint: 'Fewer, larger transfers' },
-    { value: 30, label: 'On the first of the month', disabled: true }
-  ]}
-  bind:value={days}
-/>`;
-
-export const otpInputUsage = `<script>
-  import { OtpInput } from '@sveltier/ui';
-  let code = $state('');
-  let form;
-</script>
-
-<form method="POST" action="?/verify" bind:this={form}>
-  <!-- Submits itself once the last box is filled. -->
-  <OtpInput
-    label="Verification code"
-    name="code"
-    hint="Sent to •••• 4821"
-    required
-    oncomplete={() => form.requestSubmit()}
-    bind:value={code}
-  />
-</form>`;
-
-export const sliderUsage = `<script>
-  import { Slider } from '@sveltier/ui';
-  let risk = $state(50);
-  let share = $state(40);
-</script>
-
-<!-- On a labelled tick, the slider reads out the tick's label. -->
-<Slider
-  label="Risk"
-  name="risk"
-  step={50}
-  ticks={[
-    { value: 0, label: 'Careful' },
-    { value: 50, label: 'Balanced' },
-    { value: 100, label: 'Bold' }
-  ]}
-  bind:value={risk}
-/>
-
-<Slider
-  label="Share in stocks"
-  name="share"
-  step={10}
-  ticks
-  format={(value) => \`\${value}%\`}
-  rules={[(value) => value <= 80 || 'Keep it at 80% or under']}
-  bind:value={share}
-/>`;
-
-export const switchOnchange = `<script>
-  import { Switch } from '@sveltier/ui';
-  let { settings, save } = $props();
-</script>
-
-<!-- Saved as soon as it changes: onchange receives the new state. -->
-<Switch label="Sound" checked={settings.sound} onchange={(sound) => save({ ...settings, sound })} />`;
-
-export const switchUsage = `<script>
-  import { Switch } from '@sveltier/ui';
-  let notifications = $state(true);
-</script>
-
-<Switch
-  label="Payment notifications"
-  hint="Money in and out, as it happens"
-  bind:checked={notifications}
-/>`;
+export { default as textFieldUsage } from '../examples/forms/TextFieldUsage.svelte?raw';
+
+export { default as textFieldValidation } from '../examples/forms/TextFieldValidation.svelte?raw';
+
+export { default as textFieldAffixes } from '../examples/forms/TextFieldAffixes.svelte?raw';
+
+export { default as fieldUsage } from '../examples/forms/FieldUsage.svelte?raw';
+
+export { default as formUsage } from '../examples/forms/FormUsage.svelte?raw';
+
+export { default as formSvelteKit } from '../examples/forms/FormSvelteKit.svelte?raw';
+
+export { default as formMethods } from '../examples/forms/FormMethods.svelte?raw';
+
+export { default as textareaUsage } from '../examples/forms/TextareaUsage.svelte?raw';
+
+export { default as numberFieldUsage } from '../examples/forms/NumberFieldUsage.svelte?raw';
+
+export { default as selectUsage } from '../examples/forms/SelectUsage.svelte?raw';
+
+export { default as selectCustom } from '../examples/forms/SelectCustom.svelte?raw';
+
+export { default as comboboxUsage } from '../examples/forms/ComboboxUsage.svelte?raw';
+
+export { default as comboboxRemote } from '../examples/forms/ComboboxRemote.svelte?raw';
+
+export { default as datePickerUsage } from '../examples/forms/DatePickerUsage.svelte?raw';
+
+export { default as datePickerTradingDays } from '../examples/forms/DatePickerTradingDays.svelte?raw';
+
+export { default as dateRangeUsage } from '../examples/forms/DateRangeUsage.svelte?raw';
+
+export { default as calendarUsage } from '../examples/forms/CalendarUsage.svelte?raw';
+
+export { default as timeFieldUsage } from '../examples/forms/TimeFieldUsage.svelte?raw';
+
+export { default as dateTimeFieldUsage } from '../examples/forms/DateTimeFieldUsage.svelte?raw';
+
+export { default as nativeSelectUsage } from '../examples/forms/NativeSelectUsage.svelte?raw';
+
+export { default as checkboxUsage } from '../examples/forms/CheckboxUsage.svelte?raw';
+
+export { default as checkboxSelectAll } from '../examples/forms/CheckboxSelectAll.svelte?raw';
+
+export { default as radioGroupUsage } from '../examples/forms/RadioGroupUsage.svelte?raw';
+
+export { default as otpInputUsage } from '../examples/forms/OtpInputUsage.svelte?raw';
+
+export { default as sliderUsage } from '../examples/forms/SliderUsage.svelte?raw';
+
+export { default as switchOnchange } from '../examples/forms/SwitchOnchange.svelte?raw';
+
+export { default as switchUsage } from '../examples/forms/SwitchUsage.svelte?raw';

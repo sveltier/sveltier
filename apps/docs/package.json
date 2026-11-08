@@ -8,7 +8,7 @@
 		"build": "vite build && node scripts/agent-docs.js",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && node scripts/check-examples.js",
 		"test": "playwright test"
 	},
 	"dependencies": {
@@ -30,10 +30,12 @@
 		"@fontsource/instrument-serif": "^5.3.0",
 		"@fontsource/noto-serif-display": "^5.3.0",
 		"@fontsource/titillium-web": "^5.3.0",
+		"@mdi/js": "^7.4.47",
 		"@playwright/test": "^1.64.1",
 		"@sveltejs/adapter-static": "^4.0.0",
 		"@sveltejs/kit": "^3.1.0",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
+		"phosphor-svelte": "^3.1.1",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.7",
 		"typescript": "~6.0.3",
