@@ -4,6 +4,7 @@
 	import { DEV, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { createField } from '../../core/form/field.svelte.js';
+	import { decimalPlaces } from '../../core/form/number.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import './slider.css';
@@ -54,14 +55,13 @@
 
 	// Steps in decimals add up with float errors (0.1 + 0.2), so tick values are rounded to the
 	// decimals of min and step, the same values the input stops at.
-	const decimals = (at: number) => `${at}`.split('.')[1]?.length ?? 0;
 	const marks = $derived.by((): Array<{ value: number; label?: string }> => {
 		if (!ticks) return [];
 		if (ticks !== true) {
 			return ticks.map((tick) => (typeof tick === 'number' ? { value: tick } : tick));
 		}
 		if (!(step > 0) || max <= min) return [];
-		const places = Math.max(decimals(min), decimals(step));
+		const places = Math.max(decimalPlaces(min), decimalPlaces(step));
 		const count = Math.floor((max - min) / step + 1e-9);
 		return Array.from({ length: count + 1 }, (_, index) => ({
 			value: Number((min + index * step).toFixed(places))

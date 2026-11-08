@@ -34,6 +34,14 @@ describe('AmountInput', () => {
 		await expect.element(bound()).toHaveTextContent('0.3');
 	});
 
+	it('sets a share in steps below a millionth, as some coins trade', async () => {
+		await render(TicketHarness, {
+			quantityProps: { step: 1e-7, min: 1e-7, max: 0.0000005 }
+		});
+		await share('100% of the maximum').click();
+		await expect.element(bound()).toHaveTextContent('5e-7');
+	});
+
 	it('has no shares to press when read-only', async () => {
 		await render(TicketHarness, { quantityProps: { readonly: true } });
 		await expect.element(share('25% of the maximum')).toBeDisabled();

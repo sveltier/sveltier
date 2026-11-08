@@ -5,7 +5,12 @@
 	import { checkValue, DEV, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { createField } from '../../core/form/field.svelte.js';
-	import { numberConstraintMessage, parseNumber, stepThrough } from '../../core/form/number.js';
+	import {
+		decimalPlaces,
+		numberConstraintMessage,
+		parseNumber,
+		stepThrough
+	} from '../../core/form/number.js';
 	import type { Rule } from '../../core/form/types.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
@@ -84,7 +89,6 @@
 		}
 	});
 
-	const places = (number: number | undefined) => (String(number ?? '').split('.')[1] ?? '').length;
 	// The keys and buttons move by step, or by 1 when no step is set (and then any number is
 	// valid). Bands of steps are put in order of where they start. Enough decimals for every step
 	// and the starting point, so 0.1 + 0.2 lands on 0.3. Declared before the field, whose check
@@ -94,7 +98,10 @@
 	);
 	const increment = $derived(typeof step === 'number' ? step : 1);
 	const decimals = $derived(
-		Math.max(places(min), ...(bands ?? [{ step: increment }]).map((band) => places(band.step)))
+		Math.max(
+			decimalPlaces(min),
+			...(bands ?? [{ step: increment }]).map((band) => decimalPlaces(band.step))
+		)
 	);
 
 	const field = createField<number | null>({

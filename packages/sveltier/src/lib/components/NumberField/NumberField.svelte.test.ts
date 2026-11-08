@@ -73,7 +73,7 @@ describe('NumberField', () => {
 		await render(NumberFieldHarness, { min: 10, max: 1000, step: 10 });
 		await input().fill('12a');
 		await userEvent.keyboard('{Tab}');
-		await expect.element(input()).toHaveAccessibleDescription('Enter a number');
+		await expect.element(input()).toHaveAccessibleDescription('Enter a number, such as 1,234.5');
 		await input().fill('5');
 		await expect.element(input()).toHaveAccessibleDescription('Enter 10 or more');
 		await input().fill('2000');
@@ -81,6 +81,20 @@ describe('NumberField', () => {
 		await input().fill('15');
 		await expect.element(input()).toHaveAccessibleDescription('Enter a value in steps of 10');
 		await input().fill('20');
+		expect(element().hasAttribute('aria-invalid')).toBe(false);
+	});
+
+	it('never reads a separator that breaks the grouping as a group, and shows the format', async () => {
+		// vi-VN groups with a point and writes the decimal with a comma.
+		await render(NumberFieldHarness, { locale: 'vi-VN' });
+		await input().fill('0.5');
+		await userEvent.keyboard('{Tab}');
+		await expect.element(input()).toHaveAccessibleDescription('Enter a number, such as 1.234,5');
+		expect(value().element().textContent).toBe('null');
+		await input().fill('0,5');
+		await expect.element(value()).toHaveTextContent('0.5');
+		await input().fill('1.352,6');
+		await expect.element(value()).toHaveTextContent('1352.6');
 		expect(element().hasAttribute('aria-invalid')).toBe(false);
 	});
 

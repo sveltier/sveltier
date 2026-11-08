@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createLocale } from '../locale/locale.js';
 import {
+	decimalPlaces,
 	numberConstraintMessage,
 	parseNumber,
 	stepAt,
@@ -14,6 +15,20 @@ const TICKS: StepBand[] = [
 	{ from: 10000, step: 50 },
 	{ from: 50000, step: 100 }
 ];
+
+describe('decimalPlaces', () => {
+	it('counts the decimals a number is written with, from its exponent too', () => {
+		expect(decimalPlaces(1)).toBe(0);
+		expect(decimalPlaces(0.25)).toBe(2);
+		expect(decimalPlaces(0.000001)).toBe(6);
+		// String() writes these with an exponent: "1e-7", "1.5e-7".
+		expect(decimalPlaces(1e-7)).toBe(7);
+		expect(decimalPlaces(1e-8)).toBe(8);
+		expect(decimalPlaces(1.5e-7)).toBe(8);
+		expect(decimalPlaces(1e21)).toBe(0);
+		expect(decimalPlaces(undefined)).toBe(0);
+	});
+});
 
 describe('parseNumber', () => {
 	it('reads numbers as the locale writes them', () => {
@@ -31,6 +46,31 @@ describe('parseNumber', () => {
 		expect(parseNumber('12a', 'en-US')).toBeNaN();
 		expect(parseNumber('1.2.3', 'en-US')).toBeNaN();
 		expect(parseNumber('--1', 'en-US')).toBeNaN();
+	});
+
+	it('reads a separator as a group only where it groups digits, never changing the size', () => {
+		// In vi-VN a point groups thousands: a point typed as the decimal breaks the grouping.
+		expect(parseNumber('0.5', 'vi-VN')).toBeNaN();
+		expect(parseNumber('0.01', 'vi-VN')).toBeNaN();
+		expect(parseNumber('1352.6', 'vi-VN')).toBeNaN();
+		expect(parseNumber('80000.5', 'vi-VN')).toBeNaN();
+		// A group separator after the decimal one.
+		expect(parseNumber('1,352.6', 'vi-VN')).toBeNaN();
+		expect(parseNumber('1.352,6', 'vi-VN')).toBe(1352.6);
+		expect(parseNumber('1.234.567', 'vi-VN')).toBe(1234567);
+		expect(parseNumber('0,5', 'vi-VN')).toBe(0.5);
+		// The same in en-US, with a comma.
+		expect(parseNumber('1,5', 'en-US')).toBeNaN();
+		expect(parseNumber('12,34', 'en-US')).toBeNaN();
+		expect(parseNumber('1.234,5', 'en-US')).toBeNaN();
+		expect(parseNumber('1,234,567.25', 'en-US')).toBe(1234567.25);
+		// Spaces group digits under the same rule.
+		expect(parseNumber('1 5', 'en-US')).toBeNaN();
+		expect(parseNumber('1 234 567', 'fr-FR')).toBe(1234567);
+		// Indian grouping: twos, then the last three.
+		expect(parseNumber('12,34,567.5', 'en-IN')).toBe(1234567.5);
+		// Where the point is no separator of the locale, it stays the decimal.
+		expect(parseNumber('0.5', 'fr-FR')).toBe(0.5);
 	});
 
 	it('gives the same answer every time', () => {
@@ -51,7 +91,7 @@ describe('numberConstraintMessage', () => {
 	});
 
 	it('says what to enter for text, range and step, with numbers in the locale format', () => {
-		expect(check(Number.NaN, {})).toBe('Enter a number');
+		expect(check(Number.NaN, {})).toBe('Enter a number, such as 1,234.5');
 		expect(check(5, { min: 1000 })).toBe('Enter 1,000 or more');
 		expect(check(2000, { max: 1500.5 })).toBe('Enter 1,500.5 or less');
 		expect(check(0.3, { step: 0.25 })).toBe('Enter a value in steps of 0.25');

@@ -27,32 +27,60 @@ function symbolsOf(locale: string): Symbols {
 }
 
 const SPACE = /[\s\u00a0\u202f]/;
-const SPACES = /[\s\u00a0\u202f]/g;
+// Marks a group separator in the whole part, a character nobody types.
+const MARK = '\ue000';
+// A whole part with its groups marked: one to three digits first, then groups of two or three
+// (Indian grouping has twos), the last of three. A separator that breaks this was most likely
+// meant as the decimal one, and reading it as a group would change the size of the number.
+const GROUPED = /^\d{1,3}(?:\ue000\d{2,3})*\ue000\d{3}$/;
 const PLAIN = /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/;
 
 /**
- * Reads what the user typed as a number written in `locale`: group separators and spaces are
- * ignored, the locale's decimal separator and minus sign are understood. `null` when nothing was
- * typed, `NaN` when the text is not a number.
+ * Reads what the user typed as a number written in `locale`: the locale's decimal separator and
+ * minus sign are understood, and its group separator and spaces where they group digits. `null`
+ * when nothing was typed, `NaN` when the text is not a number, including a separator that does
+ * not group digits (in vi-VN, "0.5" is not 5) and one after the decimal separator.
  *
  * @example
  * parseNumber('1,234.5', 'en-US'); // 1234.5
  * parseNumber('1.234,5', 'de-DE'); // 1234.5
+ * parseNumber('0.5', 'vi-VN'); // NaN: a point groups thousands there
  * parseNumber('', 'en-US'); // null
  */
 export function parseNumber(text: string, locale: string): number | null {
 	const { group, decimal, minus } = symbolsOf(locale);
 	let plain = text.trim();
 	if (plain === '') return null;
-	if (!SPACE.test(group)) plain = plain.split(group).join('');
-	plain = plain
-		.replace(SPACES, '')
-		.split(minus)
-		.join('-')
-		.replace('\u2212', '-')
-		.split(decimal)
-		.join('.');
+	plain = plain.split(minus).join('-').replace('\u2212', '-');
+	const at = plain.indexOf(decimal);
+	let whole = '';
+	for (const char of at < 0 ? plain : plain.slice(0, at)) {
+		whole += char === group || SPACE.test(char) ? MARK : char;
+	}
+	const sign = /^[-+]/.exec(whole)?.[0] ?? '';
+	whole = whole.slice(sign.length);
+	if (whole.includes(MARK)) {
+		if (!GROUPED.test(whole)) return Number.NaN;
+		whole = whole.split(MARK).join('');
+	}
+	// The fraction keeps any separator, so a group after the decimal one is not a number.
+	plain = sign + whole + (at < 0 ? '' : '.' + plain.slice(at + decimal.length));
 	return PLAIN.test(plain) ? Number(plain) : Number.NaN;
+}
+
+/**
+ * How many decimals a number is written with, its exponent counted: 0.25 has two, and 1e-7,
+ * which `String` writes with an exponent, has seven. For rounding sums of steps with `toFixed`.
+ *
+ * @example
+ * decimalPlaces(0.05); // 2
+ * decimalPlaces(1e-8); // 8
+ */
+export function decimalPlaces(number: number | null | undefined): number {
+	if (number == null || !Number.isFinite(number)) return 0;
+	const [mantissa = '', exponent = '0'] = String(number).split('e');
+	const fraction = mantissa.split('.')[1]?.length ?? 0;
+	return Math.max(0, fraction - Number(exponent));
 }
 
 /**
@@ -122,8 +150,8 @@ export function numberConstraintMessage(
 ): string | undefined {
 	const { required, min, max, step } = constraints;
 	if (value === null) return required ? locale.t('required') : undefined;
-	if (Number.isNaN(value)) return locale.t('badInput');
 	const format = (number: number) => locale.formatNumber(number, { maximumFractionDigits: 20 });
+	if (Number.isNaN(value)) return locale.t('badInput', { example: format(1234.5) });
 	if (min != null && value < min) return locale.t('rangeUnderflow', { min: format(min) });
 	if (max != null && value > max) return locale.t('rangeOverflow', { max: format(max) });
 	if (step == null) return undefined;
