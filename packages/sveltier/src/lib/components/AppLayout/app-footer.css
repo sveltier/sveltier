@@ -1,0 +1,29 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * The status bar along the bottom: one line a control tall times its density, in the small
+	 * subtle text of a status, on the page's background with a hairline over it. Sticky, it stays
+	 * at the bottom of the window while the page scrolls.
+	 */
+	.sv-app-footer {
+		box-sizing: border-box;
+		display: flex;
+		gap: var(--sv-space-13);
+		align-items: center;
+		block-size: var(--sv-app-footer-height, calc(var(--sv-control-md) * var(--sv-density)));
+		min-inline-size: 0;
+		padding-inline: calc(var(--sv-space-13) * var(--sv-density));
+		border-block-start: var(--sv-hairline) solid var(--sv-color-border-soft);
+		background-color: var(--sv-color-background);
+		color: var(--sv-color-text-subtle);
+		font-family: var(--sv-font-ui);
+		font-size: var(--sv-text-xs);
+	}
+
+	.sv-app-footer--sticky {
+		position: sticky;
+		inset-block-end: 0;
+		z-index: 1;
+	}
+}

@@ -84,9 +84,15 @@ interface Entry {
 
 const LAYOUT: Entry[] = [
 	{
-		name: 'AppLayout, AppBar, NavigationDrawer and Main',
+		name: 'AppLayout, AppBar, NavigationDrawer, Main and AppFooter',
 		path: 'layout/app-layout',
-		types: ['AppLayoutProps', 'AppBarProps', 'NavigationDrawerProps', 'MainProps'],
+		types: [
+			'AppLayoutProps',
+			'AppBarProps',
+			'NavigationDrawerProps',
+			'MainProps',
+			'AppFooterProps'
+		],
 		example: appLayoutUsage
 	},
 	{

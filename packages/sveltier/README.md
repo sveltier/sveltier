@@ -82,7 +82,7 @@ The files the section points to:
 
 ## What is inside
 
-- **Layout:** AppLayout with AppBar, NavigationDrawer and Main, the frame of an app that the
+- **Layout:** AppLayout with AppBar, NavigationDrawer, Main and AppFooter, the frame of an app that the
   server renders as it stays; Container, Row and Col, a twelve-column grid.
 - **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,

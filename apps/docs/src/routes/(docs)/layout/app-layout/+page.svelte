@@ -10,6 +10,7 @@
 		appLayoutUsage
 	} from '#lib/snippets/layout.js';
 	import APP_BAR_PROPS from 'virtual:sveltier-api/AppBarProps';
+	import APP_FOOTER_PROPS from 'virtual:sveltier-api/AppFooterProps';
 	import APP_LAYOUT_PROPS from 'virtual:sveltier-api/AppLayoutProps';
 	import MAIN_PROPS from 'virtual:sveltier-api/MainProps';
 	import NAVIGATION_DRAWER_PROPS from 'virtual:sveltier-api/NavigationDrawerProps';
@@ -124,4 +125,5 @@
 	<ApiTable label="AppBar props" rows={APP_BAR_PROPS} />
 	<ApiTable label="NavigationDrawer props" rows={NAVIGATION_DRAWER_PROPS} />
 	<ApiTable label="Main props" rows={MAIN_PROPS} />
+	<ApiTable label="AppFooter props" rows={APP_FOOTER_PROPS} />
 </DocPage>

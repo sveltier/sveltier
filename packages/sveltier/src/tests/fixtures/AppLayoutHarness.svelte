@@ -2,12 +2,18 @@
 	// An app frame in a themed scope: a bar with an action, a drawer of links with icons, and main
 	// content taller than the window. The test picks which part comes first, whether there is a
 	// drawer, whether the bar has a mark and links of its own, the props of the bar and the
-	// drawer, and whether Main is wrapped by mistake.
+	// drawer, whether the layout fills the window around a pane, whether there is a footer, and
+	// whether Main is wrapped by mistake.
 	import AppBar from '../../lib/components/AppLayout/AppBar.svelte';
+	import AppFooter from '../../lib/components/AppLayout/AppFooter.svelte';
 	import AppLayout from '../../lib/components/AppLayout/AppLayout.svelte';
 	import Main from '../../lib/components/AppLayout/Main.svelte';
 	import NavigationDrawer from '../../lib/components/AppLayout/NavigationDrawer.svelte';
-	import type { AppBarProps, NavigationDrawerProps } from '../../lib/components/AppLayout/types.js';
+	import type {
+		AppBarProps,
+		AppFooterProps,
+		NavigationDrawerProps
+	} from '../../lib/components/AppLayout/types.js';
 	import List from '../../lib/components/List/List.svelte';
 	import ListItem from '../../lib/components/List/ListItem.svelte';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
@@ -21,6 +27,7 @@
 		navList = false,
 		fill = false,
 		pane = false,
+		footer,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -33,6 +40,7 @@
 		navList?: boolean;
 		fill?: boolean;
 		pane?: boolean;
+		footer?: Partial<AppFooterProps>;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -111,5 +119,6 @@
 		{:else}
 			{@render main()}
 		{/if}
+		{#if footer}<AppFooter {...footer}>Market open</AppFooter>{/if}
 	</AppLayout>
 </ThemeProvider>

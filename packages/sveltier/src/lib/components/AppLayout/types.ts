@@ -6,7 +6,8 @@ import type { ElementProps } from '../../core/props/element.js';
 import type { Density } from '../../core/props/types.js';
 
 /**
- * The frame of an app: an `AppBar`, a `NavigationDrawer` and the `Main` content on a CSS grid.
+ * The frame of an app: an `AppBar`, a `NavigationDrawer`, the `Main` content and an `AppFooter` on
+ * a CSS grid.
  * Each part takes its own area, so the content never sits under the bar or the drawer, with
  * nothing measured and the right layout from the server; a part left out leaves no gap. The part
  * written first takes the corner: the bar first runs across the top, with the drawer below it;
@@ -38,7 +39,7 @@ export type AppLayoutProps = ElementProps<
 		 * @default false
 		 */
 		fill?: boolean;
-		/** The parts: `AppBar`, `NavigationDrawer` and `Main`. */
+		/** The parts: `AppBar`, `NavigationDrawer`, `Main` and `AppFooter`. */
 		children?: Snippet;
 	}
 >;
@@ -165,6 +166,48 @@ export type NavigationDrawerProps = ElementProps<
 		 */
 		onclose?: (reason: CloseReason) => void;
 		/** The navigation, usually a `List` with `nav`. */
+		children?: Snippet;
+	}
+>;
+
+/** The AppFooter props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
+export interface AppFooterDefaults {
+	/**
+	 * Multiplies the height and padding, never the text.
+	 * @default 'default'
+	 */
+	density: Density;
+	/**
+	 * Stays at the bottom of the window while the page scrolls.
+	 * @default false
+	 */
+	sticky: boolean;
+}
+
+declare module '../../core/defaults/context.js' {
+	interface ComponentDefaults {
+		AppFooter: AppFooterDefaults;
+	}
+}
+
+/**
+ * The status bar along the bottom of an app, one line a control tall, such as a market clock or
+ * the state of a connection. In an `AppLayout` it sits under the content, as wide as the bar: the
+ * full width with the bar written first, beside the drawer with the drawer written first. It is
+ * the page's contentinfo landmark. A multi-line site footer belongs at the end of `Main` instead.
+ * `class`, `style`, `ref` and other attributes go to the `<footer>`.
+ *
+ * @example
+ * <AppFooter>
+ *   <span>Market open</span>
+ *   <span>Connected</span>
+ * </AppFooter>
+ */
+export type AppFooterProps = ElementProps<
+	HTMLElement,
+	HTMLAttributes<HTMLElement>,
+	Partial<AppFooterDefaults> & {
+		/** The content of the line. */
 		children?: Snippet;
 	}
 >;

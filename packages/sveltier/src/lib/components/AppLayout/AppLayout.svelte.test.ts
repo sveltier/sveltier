@@ -5,6 +5,7 @@ import AppLayoutHarness from '../../../tests/fixtures/AppLayoutHarness.svelte';
 
 const BAR = 4.2361 * 16; // φ³rem
 const DRAWER = 16.18 * 16; // 10φ rem
+const FOOTER = 2.618 * 16; // φ²rem
 
 const part = (selector: string) => document.querySelector(selector) as HTMLElement;
 const box = (selector: string) => part(selector).getBoundingClientRect();
@@ -316,6 +317,53 @@ describe('AppLayout', () => {
 			expect(navigation.top).toBe(0);
 			expect(navigation.bottom).toBe(800);
 			expect(pageHeight()).toBe(800);
+		});
+	});
+
+	describe('with a footer', () => {
+		const footer = () => page.getByRole('contentinfo');
+
+		it('puts it under the content, as wide as the bar, as the contentinfo landmark', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { footer: {} });
+			await expect.element(footer()).toHaveTextContent('Market open');
+			window.scrollTo(0, document.documentElement.scrollHeight);
+			await expect.poll(() => box('.sv-app-footer').bottom).toBeCloseTo(800, 0);
+			const line = box('.sv-app-footer');
+			expect(line.left).toBe(0);
+			expect(line.width).toBe(windowWidth());
+			expect(line.height).toBeCloseTo(FOOTER, 0);
+			expect(line.top).toBeGreaterThanOrEqual(box('.sv-main').bottom - 0.5);
+			// The drawer's navigation ends above the footer.
+			expect(box('.sv-navigation-drawer__content').bottom).toBeLessThanOrEqual(line.top + 0.5);
+		});
+
+		it('keeps a sticky footer at the bottom of the window, the navigation above it', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { footer: { sticky: true } });
+			window.scrollTo(0, 1000);
+			await expect.poll(() => box('.sv-main').top).toBeCloseTo(BAR - 1000, 0);
+			expect(box('.sv-app-footer').bottom).toBeCloseTo(800, 0);
+			const navigation = box('.sv-navigation-drawer__content');
+			expect(navigation.top).toBeCloseTo(BAR, 0);
+			expect(navigation.bottom).toBeCloseTo(800 - FOOTER, 0);
+		});
+
+		it('puts it beside a drawer written first', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { footer: { sticky: true }, drawerFirst: true });
+			expect(box('.sv-app-footer').left).toBeCloseTo(DRAWER, 0);
+			expect(box('.sv-app-footer').bottom).toBeCloseTo(800, 0);
+			expect(box('.sv-navigation-drawer__content').bottom).toBeCloseTo(800, 0);
+		});
+
+		it('keeps it at the bottom of a layout that fills the window, Main between', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { footer: {}, fill: true, pane: true });
+			expect(box('.sv-app-footer').bottom).toBe(800);
+			expect(box('.sv-main').bottom).toBeCloseTo(800 - FOOTER, 0);
+			expect(box('.sv-navigation-drawer__content').bottom).toBeCloseTo(800 - FOOTER, 0);
+			expect(document.documentElement.scrollHeight).toBe(800);
 		});
 	});
 
