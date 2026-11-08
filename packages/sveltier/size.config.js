@@ -132,12 +132,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// The grid and its placement rules, the skip link, and the bar with its menu button (a
-		// Button, measured in its own entry) and its links, which give way to the menu button at
-		// each breakpoint: 1.6 KB of JS and 1 KB of CSS.
-		name: 'AppLayout, AppBar and Main',
-		code: "export { AppLayout, AppBar, Main } from '@sveltier/ui';",
-		limit: '2.65 KB',
+		// The grid and its placement rules, filling the window, the skip link, the bar with its
+		// mark, its menu button (a Button, measured in its own entry) and its links, which give way
+		// to the menu button at each breakpoint, and the footer.
+		name: 'AppLayout, AppBar, Main and AppFooter',
+		code: "export { AppLayout, AppBar, Main, AppFooter } from '@sveltier/ui';",
+		limit: '3.05 KB',
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{
@@ -328,7 +328,7 @@ export default [
 		// loading bar). The locale and the shared props are core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '3.7 KB',
+		limit: '3.75 KB',
 		external: [/\/core\//]
 	},
 	{
