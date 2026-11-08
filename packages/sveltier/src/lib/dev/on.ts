@@ -128,7 +128,7 @@ export function warnMisplaced(component: string, element: HTMLElement | null | u
 	if (!element || element.parentElement?.classList.contains('sv-app-layout')) return;
 	warn(
 		'SV4004',
-		`<${component}> is not directly inside <AppLayout>, so the layout's grid cannot place it. Write AppBar, NavigationDrawer and Main straight inside AppLayout, and put wrappers inside Main.`
+		`<${component}> is not directly inside <AppLayout>, so the layout's grid cannot place it. Write AppBar, NavigationDrawer, Main and AppFooter straight inside AppLayout, and put wrappers inside Main.`
 	);
 }
 

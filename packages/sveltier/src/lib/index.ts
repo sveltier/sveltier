@@ -175,11 +175,14 @@ export { Amount, type AmountDefaults, type AmountProps } from './components/Amou
 export { AmountInput, type AmountInputProps } from './components/AmountInput/index.js';
 export {
 	AppBar,
+	AppFooter,
 	AppLayout,
 	Main,
 	NavigationDrawer,
 	type AppBarDefaults,
 	type AppBarProps,
+	type AppFooterDefaults,
+	type AppFooterProps,
 	type AppLayoutProps,
 	type MainProps,
 	type NavigationDrawerProps

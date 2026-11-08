@@ -28,7 +28,8 @@ export interface ToastDefaults {
 	/**
 	 * Room in px the app keeps along the bottom of the screen, such as the height of a status
 	 * bar: the toasts stay above it, at their usual distance. It counts the phone's safe area
-	 * when that is taller.
+	 * when that is taller. An `AppFooter` in the layout needs none: the toasts clear it on their
+	 * own.
 	 * @default 0
 	 */
 	inset: number;

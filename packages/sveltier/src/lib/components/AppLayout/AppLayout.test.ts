@@ -26,7 +26,7 @@ describe('AppLayout on the server', () => {
 			props: { withNav: true, drawer: { modal: true } }
 		});
 		expect(body).toMatch(
-			/<nav class="sv-app-bar__nav" aria-label="Main">(?:<!---->)?<a href="#markets">/
+			/<nav class="sv-app-bar__nav" aria-label="Main">(?:<!--[^>]*-->)?<a href="#markets">/
 		);
 		expect(body).toMatch(/<nav aria-label="Main"[^>]*class="[^"]*sv-navigation-drawer--modal/);
 		expect(body).not.toMatch(/<a[^>]*href="#payments"/);

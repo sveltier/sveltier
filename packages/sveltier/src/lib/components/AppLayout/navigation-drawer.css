@@ -4,7 +4,7 @@
 	/*
 	 * The drawer beside the content, 10φ wide: it runs the height of the page, and its navigation
 	 * fills the window beside the bar and stays there while the page scrolls, below a sticky bar
-	 * written before it. Content with `margin-block-start: auto` sits at the bottom. A hairline
+	 * written before it and above a footer under it. Content with `margin-block-start: auto` sits at the bottom. A hairline
 	 * separates the drawer from the content.
 	 */
 	.sv-navigation-drawer {
@@ -26,7 +26,7 @@
 	.sv-navigation-drawer__content {
 		position: sticky;
 		inset-block-start: var(--sv-app-layout-top, 0px);
-		block-size: calc(100dvh - var(--sv-app-layout-bar, 0px));
+		block-size: calc(100dvh - var(--sv-app-layout-bar, 0px) - var(--sv-app-layout-footer, 0px));
 		padding-block: var(--sv-space-8);
 		overflow: hidden auto;
 		overscroll-behavior: contain;

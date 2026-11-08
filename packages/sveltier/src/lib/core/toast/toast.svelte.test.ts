@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import FullWindowHarness from '../../../tests/fixtures/FullWindowHarness.svelte';
 import ToastHarness from '../../../tests/fixtures/ToastHarness.svelte';
 import ToastProviders from '../../../tests/fixtures/ToastProviders.svelte';
 
@@ -24,6 +25,18 @@ async function press(name: string) {
 }
 
 describe('Toasts', () => {
+	it('keeps its live regions out of the page height, so a full-window app does not scroll', async () => {
+		const margin = document.body.style.margin;
+		document.body.style.margin = '0';
+		try {
+			await render(FullWindowHarness);
+			await expect.element(page.getByText('Terminal')).toBeVisible();
+			expect(document.documentElement.scrollHeight).toBe(window.innerHeight);
+		} finally {
+			document.body.style.margin = margin;
+		}
+	});
+
 	it('shows a toast in a named region in the top layer, and reads it out politely', async () => {
 		await render(ToastHarness);
 		await button('Save').click();
@@ -107,6 +120,24 @@ describe('Toasts', () => {
 		plain.unmount();
 		await render(ToastHarness, { defaults: { Toast: { inset: 22 } } });
 		expect(await distance()).toBeCloseTo(usual + 22, 0);
+	});
+
+	it('keeps clear of an AppFooter on its own, taking the larger of it and the inset', async () => {
+		const FOOTER = 2.618 * 16;
+		const distance = async () => {
+			await button('Save').click();
+			const list = region().getByRole('list');
+			await expect.element(list).toBeVisible();
+			return innerHeight - list.element().getBoundingClientRect().bottom;
+		};
+		const plain = await render(ToastHarness);
+		const usual = await distance();
+		plain.unmount();
+		const framed = await render(ToastHarness, { footer: true });
+		expect(await distance()).toBeCloseTo(usual + FOOTER, 0);
+		framed.unmount();
+		await render(ToastHarness, { footer: true, defaults: { Toast: { inset: 22 } } });
+		expect(await distance()).toBeCloseTo(usual + FOOTER, 0);
 	});
 
 	it('stays with a duration of 0', async () => {

@@ -6,10 +6,13 @@
 	import {
 		appLayoutBarLinks,
 		appLayoutCorner,
+		appLayoutFill,
+		appLayoutPanes,
 		appLayoutRail,
 		appLayoutUsage
 	} from '#lib/snippets/layout.js';
 	import APP_BAR_PROPS from 'virtual:sveltier-api/AppBarProps';
+	import APP_FOOTER_PROPS from 'virtual:sveltier-api/AppFooterProps';
 	import APP_LAYOUT_PROPS from 'virtual:sveltier-api/AppLayoutProps';
 	import MAIN_PROPS from 'virtual:sveltier-api/MainProps';
 	import NAVIGATION_DRAWER_PROPS from 'virtual:sveltier-api/NavigationDrawerProps';
@@ -17,16 +20,16 @@
 
 <DocPage
 	title="App layout"
-	lede="The frame of an app: a bar across the top, the navigation at the start and the main content, on a CSS grid that the server renders as it will stay."
+	lede="The frame of an app: a bar across the top, the navigation at the start, the main content and a status bar, on a CSS grid that the server renders as it will stay."
 >
 	<h2 id="usage">Usage</h2>
 	<p>
 		Put <code>AppLayout</code> in the root layout with its parts: <code>AppBar</code>,
-		<code>NavigationDrawer</code> and <code>Main</code>. Each part takes its own area of a CSS grid,
-		so the content never sits under the bar or the drawer. Nothing is measured: the server sends the
-		finished layout, and a part left out leaves no gap. The page itself scrolls, so the browser
-		keeps its scroll position, find in page and printing as on any page. <code>Main</code> adds no padding:
-		lay the page out inside it.
+		<code>NavigationDrawer</code>, <code>Main</code> and, for a status bar, <code>AppFooter</code>.
+		Each part takes its own area of a CSS grid, so the content never sits under the bar or the
+		drawer. Nothing is measured: the server sends the finished layout, and a part left out leaves no
+		gap. The page itself scrolls, so the browser keeps its scroll position, find in page and
+		printing as on any page. <code>Main</code> adds no padding: lay the page out inside it.
 	</p>
 	<AppLayoutDemo />
 	<Code title="+layout.svelte" code={appLayoutUsage} />
@@ -64,7 +67,39 @@
 		no drawer; below it, the bar shows its menu button instead, which opens the drawer. The page
 		keeps one frame at every width, so turning a phone does not rebuild it.
 	</p>
+	<p>
+		Write the links once, as a <code>List nav</code> in a snippet. In the bar's <code>nav</code> the
+		list lays out in a row, each link as wide as its text, with the same rounded rows and the same
+		mark on the current page (<code>ListItem active</code>, <code>aria-current="page"</code>) as in
+		the drawer. The bar's <code>prepend</code> holds the app's mark, usually a link home, at every width.
+	</p>
 	<Code title="+layout.svelte" code={appLayoutBarLinks} />
+
+	<h2 id="fill">Filling the window</h2>
+	<p>
+		A trading terminal or a mail client keeps its frame still and scrolls its panes.
+		<code>fill</code> makes the layout the window's height: the page never scrolls, and
+		<code>Main</code> takes the height the bar and the footer leave. Content with
+		<code>block-size: 100%</code> fills it, and <code>Main</code> scrolls on its own if its content is
+		taller. The drawer fills its area instead of sticking to the window.
+	</p>
+	<p>
+		<code>fill</code> also takes a breakpoint: <code>fill="md"</code> fills from 960px up, and below it
+		the page scrolls as usual, so a phone's browser bars collapse as the page moves. The switch is in
+		CSS, so the server renders the right frame for every screen.
+	</p>
+	<Code title="+layout.svelte" code={appLayoutFill} />
+	<Code title="+page.svelte" code={appLayoutPanes} />
+
+	<h2 id="footer">Footer</h2>
+	<p>
+		<code>AppFooter</code> is a status bar along the bottom: a market clock, the state of a
+		connection, a notice. The layout places it under the content, as wide as the bar (beside the
+		drawer when the drawer comes first), one line a control tall (about 42px) at the default
+		density, in the small, subtle text of a status. <code>sticky</code> keeps it at the bottom of
+		the window while the page scrolls. A drawer under the bar leaves room for it, and toasts stay
+		above it on their own. A site footer of several lines belongs at the end of <code>Main</code> instead.
+	</p>
 
 	<h2 id="rail">Rail</h2>
 	<p>
@@ -77,10 +112,10 @@
 
 	<h2 id="bar">The bar</h2>
 	<p>
-		<code>AppBar</code> holds a <code>title</code>, the links of its <code>nav</code>, any content
-		after them (a search field), which takes the free space, and <code>actions</code> at the end, on
-		one line φ³ tall (about 68px) at the default density. It stays at the top while the page
-		scrolls;
+		<code>AppBar</code> holds the app's mark in <code>prepend</code>, a <code>title</code>, the
+		links of its <code>nav</code>, any content after them (a search field), which takes the free
+		space, and <code>actions</code> at the end, on one line φ³ tall (about 68px) at the default
+		density. It stays at the top while the page scrolls;
 		<code>sticky=&#123;false&#125;</code>
 		lets it scroll away. Under a sticky bar, the page scrolls the target of a link and a focused control
 		into view below the bar. Buttons in the bar keep their own defaults: an icon button reads best as
@@ -94,6 +129,11 @@
 		<code>--sv-navigation-drawer-rail-width</code> on the <code>AppLayout</code>; the modal drawer
 		takes the same width.
 	</p>
+	<p>
+		The layout gives the bar's height, at its density, to everything inside it as
+		<code>--sv-app-bar-height</code>: content that places itself under a sticky bar, such as a
+		sticky header, reads it for its offset.
+	</p>
 
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
@@ -103,9 +143,11 @@
 		</li>
 		<li>
 			Landmarks: the bar is the banner (<code>&lt;header&gt;</code>), the drawer a navigation named
-			<q>Main</q>, and the content the <code>&lt;main&gt;</code>. The bar's <code>nav</code> is a
-			navigation named <q>Main</q> too; with a <code>modal</code> drawer, only one of them is there at
-			a time.
+			<q>Main</q>, the content the <code>&lt;main&gt;</code>, and the footer the contentinfo (<code
+				>&lt;footer&gt;</code
+			>), as it sits outside <code>Main</code>. The bar's <code>nav</code> is a navigation named
+			<q>Main</q>
+			too; with a <code>modal</code> drawer, only one of them is there at a time.
 		</li>
 		<li>
 			The menu button is named <q>Navigation</q> and tells whether the drawer is open (<code
@@ -124,4 +166,5 @@
 	<ApiTable label="AppBar props" rows={APP_BAR_PROPS} />
 	<ApiTable label="NavigationDrawer props" rows={NAVIGATION_DRAWER_PROPS} />
 	<ApiTable label="Main props" rows={MAIN_PROPS} />
+	<ApiTable label="AppFooter props" rows={APP_FOOTER_PROPS} />
 </DocPage>

@@ -1,13 +1,20 @@
 <script lang="ts">
 	// An app frame in a themed scope: a bar with an action, a drawer of links with icons, and main
 	// content taller than the window. The test picks which part comes first, whether there is a
-	// drawer, whether the bar has links of its own, the props of the bar and the drawer, and
+	// drawer, whether the bar has a mark and links of its own, the props of the bar and the
+	// drawer, whether the layout fills the window around a pane, whether there is a footer, and
 	// whether Main is wrapped by mistake.
 	import AppBar from '../../lib/components/AppLayout/AppBar.svelte';
+	import AppFooter from '../../lib/components/AppLayout/AppFooter.svelte';
 	import AppLayout from '../../lib/components/AppLayout/AppLayout.svelte';
 	import Main from '../../lib/components/AppLayout/Main.svelte';
 	import NavigationDrawer from '../../lib/components/AppLayout/NavigationDrawer.svelte';
-	import type { AppBarProps, NavigationDrawerProps } from '../../lib/components/AppLayout/types.js';
+	import type {
+		AppBarProps,
+		AppFooterProps,
+		AppLayoutProps,
+		NavigationDrawerProps
+	} from '../../lib/components/AppLayout/types.js';
 	import List from '../../lib/components/List/List.svelte';
 	import ListItem from '../../lib/components/List/ListItem.svelte';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
@@ -17,6 +24,11 @@
 		drawerFirst = false,
 		withDrawer = true,
 		withNav = false,
+		brand = false,
+		navList = false,
+		fill = false,
+		pane = false,
+		footer,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -25,6 +37,11 @@
 		drawerFirst?: boolean;
 		withDrawer?: boolean;
 		withNav?: boolean;
+		brand?: boolean;
+		navList?: boolean;
+		fill?: AppLayoutProps['fill'];
+		pane?: boolean;
+		footer?: Partial<AppFooterProps>;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -37,16 +54,39 @@
 
 {#snippet main()}
 	<Main>
-		<h1>Overview</h1>
-		<div style:block-size="1500px"></div>
-		<h2 id="payments">Payments</h2>
-		<div style:block-size="1500px"></div>
+		{#if pane}
+			<!-- A pane as tall as Main, scrolling on its own. -->
+			<div class="pane" style:block-size="100%" style:overflow="auto">
+				<div style:block-size="3000px">Order book</div>
+			</div>
+		{:else}
+			<h1>Overview</h1>
+			<div style:block-size="1500px"></div>
+			<h2 id="payments">Payments</h2>
+			<div style:block-size="1500px"></div>
+		{/if}
 	</Main>
 {/snippet}
 
+{#snippet mark()}
+	<a href="#home" class="brand">
+		<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+			<path d={ICON} />
+		</svg>
+		Dek
+	</a>
+{/snippet}
+
 {#snippet links()}
-	<a href="#markets">Markets</a>
-	<a href="#trade">Trade</a>
+	{#if navList}
+		<List nav>
+			<ListItem title="Markets" href="#markets" active />
+			<ListItem title="Trade" href="#trade" />
+		</List>
+	{:else}
+		<a href="#markets">Markets</a>
+		<a href="#trade">Trade</a>
+	{/if}
 {/snippet}
 
 {#snippet navigation()}
@@ -64,9 +104,14 @@
 {/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<AppLayout>
+	<AppLayout {fill}>
 		{#if withDrawer && drawerFirst}{@render navigation()}{/if}
-		<AppBar title="Ledger" nav={withNav ? links : undefined} {...bar}>
+		<AppBar
+			title="Ledger"
+			prepend={brand ? mark : undefined}
+			nav={withNav ? links : undefined}
+			{...bar}
+		>
 			{#snippet actions()}<button type="button">Sign out</button>{/snippet}
 		</AppBar>
 		{#if withDrawer && !drawerFirst}{@render navigation()}{/if}
@@ -75,5 +120,6 @@
 		{:else}
 			{@render main()}
 		{/if}
+		{#if footer}<AppFooter {...footer}>Market open</AppFooter>{/if}
 	</AppLayout>
 </ThemeProvider>

@@ -1,5 +1,20 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.9
+
+### Minor Changes
+
+- 60c5968: A `List` with `nav` in `AppBar`'s `nav` lays out in a row: the rounded rows and the active wash it has in the drawer, each row as wide as its text, and `ListItem active` marked as the current page (`aria-current="page"`). The same links serve the bar and the drawer, so a `modal` drawer and the bar can share one snippet.
+- b073542: `AppBar` takes a `prepend` snippet for the app's mark: after the menu button and before the title, at every width, usually a link home with the logo and the name. A brand no longer has to be written twice, once in `nav` for wide screens and once more for narrow ones.
+- 80ebd0c: New `AppFooter`: a status bar along the bottom of an `AppLayout`, one line a control tall, such as a market clock or the state of a connection. The layout places it under the content, as wide as the bar (beside a drawer written first), and it is the page's contentinfo landmark, which a footer inside `Main` is not. `sticky` keeps it at the bottom of the window while the page scrolls, and a drawer under the bar leaves room for it. Its `density` and `sticky` can be set for a subtree with `DefaultsProvider`.
+- 80e178d: `AppLayout` takes `fill` for an app whose panes scroll on their own, such as a trading terminal: the layout is the window's height and the page never scrolls. Main takes the height the bar leaves and scrolls on its own when its content is taller; content with `block-size: 100%` fills it, and the drawer fills its area. A breakpoint fills only from its width up (`fill="md"`, from 960px): below it the page scrolls, so a phone's browser bars collapse as the page moves. The switch is in CSS, so the server renders it right. The bar's height, `--sv-app-bar-height`, is now documented for content that places itself under a sticky bar.
+- 6d4cf91: Toasts keep clear of an `AppFooter` on their own, at their usual distance above it, whatever its density. A Toast `inset` is no longer needed for it; when one is given, the toasts take the larger of the two.
+
+### Patch Changes
+
+- 7637d5c: The code samples in the packed docs (`llms-full.txt`, `docs/*.md`) are compiled before each release, so each one runs as written when copied alone: every sample imports what it uses and declares the values it reads. Samples that leaned on names they never defined (an icon path, a `user`, a `loading` flag, the page's own components) now define them, and a few JavaScript samples are TypeScript where they need types. The `keymap` sample uses block bodies, since a handler that returns a value other than `false` does not fit `KeyHandler`. The samples are indented with tabs, as Prettier and `sv create` write them.
+- 7bc09a0: Visually hidden text no longer adds a pixel to the page's height. The toast live regions, which stay in the page since the toast region loads apart, made an app whose content is exactly the window's height scroll by 1px. The hidden box now has `margin: -1px`, so it stays at its place without reaching past the content.
+
 ## 0.1.0-alpha.8
 
 ### Minor Changes

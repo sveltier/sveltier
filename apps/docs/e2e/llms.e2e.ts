@@ -15,6 +15,9 @@ test('llms.txt indexes every docs page', async ({ request }) => {
 	expect(text).toContain('Never write Svelte 4 syntax: no `export let`');
 	// One name for one thing, so an agent can carry a prop from one component to the next.
 	expect(text).toContain('choices are `options`');
+	expect(text).toContain('Select and Combobox take `options`');
+	expect(text).not.toContain('Select and Combobox take `items`');
+	expect(text).toContain('uses `AppLayout fill`');
 	expect(text).toContain('calls `onchange` with its new value');
 	// Hand-written CSS keeps to the theme, pill-shaped controls included.
 	expect(text).toContain('`min(var(--sv-radius-md), var(--sv-radius-lg))`');

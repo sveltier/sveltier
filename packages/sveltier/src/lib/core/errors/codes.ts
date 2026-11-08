@@ -131,8 +131,8 @@ export const ERROR_CODES = {
 		kind: 'warning',
 		title: 'Layout part not directly inside AppLayout',
 		cause:
-			'`AppLayout` places `AppBar`, `NavigationDrawer` and `Main` on its grid by area, which works only for its own children. A part inside another element takes no area: it lands in a cell of its own, and the content can sit under the bar or beside an empty drawer.',
-		fix: 'Write `AppBar`, `NavigationDrawer` and `Main` straight inside `AppLayout`, with no element around them. Put padding and wrappers inside `Main`.'
+			'`AppLayout` places `AppBar`, `NavigationDrawer`, `Main` and `AppFooter` on its grid by area, which works only for its own children. A part inside another element takes no area: it lands in a cell of its own, and the content can sit under the bar or beside an empty drawer.',
+		fix: 'Write `AppBar`, `NavigationDrawer`, `Main` and `AppFooter` straight inside `AppLayout`, with no element around them. Put padding and wrappers inside `Main`.'
 	},
 	SV4005: {
 		kind: 'warning',
