@@ -1,621 +1,88 @@
 // Code samples for the Components pages.
+// Svelte and TypeScript samples are files in ../examples that svelte-check compiles, shown with
+// ?raw. What stays a string cannot be checked as a file of its own: shell, CSS, HTML, a
+// signature, a route file, or two files in one block.
 
-export const buttonUsage = `<script>
-  import { Button } from '@sveltier/ui';
-</script>
-
-<Button onclick={() => (open = true)}>New transfer</Button>
-<Button variant="outlined" color="error">Cancel payment</Button>`;
-
-export const buttonIcons = `<Button>
-  {#snippet prepend()}<PlusIcon />{/snippet}
-  New transfer
-</Button>
-
-<!-- An icon alone needs a label for screen readers. -->
-<Button icon variant="text" aria-label="Close"><CloseIcon /></Button>`;
-
-export const buttonWrap = `<Button size="sm" variant="outlined" wrap>
-  Add the method's indicators: SMA 20 · SMA 50 · SMA 200
-</Button>`;
-
-export const buttonLoading = `<script>
-  import { Button } from '@sveltier/ui';
-  let paying = $state(false);
-
-  async function pay() {
-    paying = true;
-    try {
-      await payInvoice();
-    } finally {
-      paying = false;
-    }
-  }
-</script>
-
-<!-- Ignores presses while loading, so the invoice is paid once. -->
-<Button loading={paying} onclick={pay}>Pay invoice</Button>`;
-
-export const buttonLink = `<!-- href makes it a link: middle-click, open in a new tab and
-     client-side navigation work as they do for any link. -->
-<Button href="/statements" variant="tonal">Statements</Button>`;
-
-export const buttonDefaults = `<UIProvider
-  themes={monolith}
-  defaults={{ Button: { variant: 'tonal', rounded: 'full' } }}
->
-  <!-- Every Button below is tonal and round unless it says otherwise. -->
-</UIProvider>`;
-
-export const iconUsage = `<script>
-  import { Icon } from '@sveltier/ui';
-  // Path-based sets export path strings, for example Material Design Icons.
-  import { mdiBank } from '@mdi/js';
-</script>
-
-<Icon path={mdiBank} />
-<Icon path={mdiBank} size="lg" color="primary" />`;
-
-export const iconCustom = `<script>
-  import { Icon } from '@sveltier/ui';
-  import BankIcon from './BankIcon.svelte';
-</script>
-
-<!-- Any SVG or icon component, sized and coloured like a path icon. -->
-<Icon><BankIcon /></Icon>`;
-
-export const iconLabel = `<!-- Decorative: next to text that says the same thing. -->
-<Icon path={mdiCheck} /> Verified
-
-<!-- Meaningful on its own: give it a name. -->
-<Icon path={mdiCheck} label="Verified" color="success" />`;
-
-export const dividerUsage = `<script>
-  import { Divider } from '@sveltier/ui';
-</script>
-
-<p>Available</p>
-<Divider />
-<p>Pending</p>
-
-<!-- In a row, a vertical divider is as tall as the row. -->
-<div style="display: flex">
-  <Button variant="text">Week</Button>
-  <Divider vertical />
-  <Button variant="text">Export</Button>
-</div>`;
-
-export const breadcrumbsUsage = `<script>
-  import { Breadcrumbs } from '@sveltier/ui';
-</script>
-
-<!-- The pages above this one as links, this page last. -->
-<Breadcrumbs
-  items={[
-    { label: 'Accounts', href: '/accounts' },
-    { label: 'Savings', href: '/accounts/savings' },
-    { label: 'Statement for October' }
-  ]}
-/>`;
-
-export const badgeTooltip = `<script>
-  import { mdiBell } from '@mdi/js';
-  import { Badge, Button, Icon, Tooltip } from '@sveltier/ui';
-  let { waiting } = $props();
-</script>
-
-<!-- Described by the tooltip and by the count: join the ids, the tooltip's first. -->
-<Badge id="alerts" content={waiting} label="alerts waiting">
-  <Tooltip text="Price alerts">
-    {#snippet trigger(attributes)}
-      <Button
-        {...attributes}
-        icon
-        aria-label="Alerts"
-        aria-describedby={[attributes['aria-describedby'], waiting > 0 && 'alerts-label']
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <Icon path={mdiBell} />
-      </Button>
-    {/snippet}
-  </Tooltip>
-</Badge>`;
-
-export const badgeUsage = `<script>
-  import { Badge, Button, Icon } from '@sveltier/ui';
-</script>
-
-<!-- The button is described by the badge's text, so the count is heard on focus. -->
-<Badge id="inbox" content={3} label="unread messages">
-  <Button icon aria-label="Messages" aria-describedby="inbox-label">
-    <Icon path={mdiEmail} />
-  </Button>
-</Badge>
-
-<!-- Alone in a line. -->
-Savings <Badge content="New" />`;
-
-export const avatarUsage = `<script>
-  import { Avatar } from '@sveltier/ui';
-</script>
-
-<!-- A name is shown next to it, so the avatar is decorative. -->
-<Avatar src={user.photo}>AM</Avatar> Alex Morgan
-
-<!-- On its own, it needs alt text. -->
-<Avatar src={user.photo} alt="Alex Morgan" size="lg">AM</Avatar>`;
-
-export const chipFilter = `<script>
-  import { Chip } from '@sveltier/ui';
-  let card = $state(true);
-  let transfer = $state(false);
-</script>
-
-<Chip bind:selected={card}>Card</Chip>
-<Chip bind:selected={transfer}>Transfer</Chip>`;
-
-export const chipClosable = `<script>
-  import { Chip } from '@sveltier/ui';
-  let currencies = $state(['EUR', 'GBP', 'USD']);
-</script>
-
-{#each currencies as currency (currency)}
-  <Chip
-    closable
-    closeLabel="Remove {currency}"
-    onclose={() => (currencies = currencies.filter((c) => c !== currency))}
-  >
-    {currency}
-  </Chip>
-{/each}`;
-
-export const paginationUsage = `<script>
-  import { Pagination } from '@sveltier/ui';
-
-  let page = $state(1);
-</script>
-
-<!-- Buttons: bind:page follows the page the user picks. -->
-<Pagination count={9} bind:page />`;
-
-export const paginationLinks = `<script>
-  import { page } from '$app/state';
-  import { Pagination } from '@sveltier/ui';
-
-  let { data } = $props();
-  const current = $derived(Number(page.url.searchParams.get('page') ?? 1));
-</script>
-
-<!-- Links: the address holds the page, so it can be shared, reloaded and crawled. -->
-<Pagination count={data.pages} page={current} href={(n) => \`?page=\${n}\`} />`;
-
-export const progressUsage = `<script>
-  import { ProgressCircular, ProgressLinear } from '@sveltier/ui';
-</script>
-
-<ProgressLinear value={uploaded} label="Uploading statement" />
-<ProgressCircular value={62} size="lg">62%</ProgressCircular>
-<ProgressCircular indeterminate label="Loading accounts" />`;
-
-export const skeletonUsage = `<script>
-  import { Skeleton } from '@sveltier/ui';
-</script>
-
-<!-- aria-busy tells assistive technology to wait for the real content. -->
-<section aria-busy={loading}>
-  {#if loading}
-    <Skeleton type="circle" />
-    <Skeleton lines={2} />
-    <Skeleton type="rect" />
-  {:else}
-    …
-  {/if}
-</section>`;
-
-export const alertUsage = `<script>
-  import { Alert, Button } from '@sveltier/ui';
-</script>
-
-<Alert type="error" title="Payment declined">
-  The card ending 4471 was declined by the issuer.
-  {#snippet actions()}
-    <Button size="sm" variant="tonal" color="error">Try another card</Button>
-  {/snippet}
-</Alert>
-
-<Alert type="success" closable>Transfer sent.</Alert>`;
-
-export const cardUsage = `<script>
-  import { Avatar, Button, Card } from '@sveltier/ui';
-</script>
-
-<Card title="Savings" subtitle="Instant access" level={3}>
-  {#snippet prepend()}<Avatar color="success">SV</Avatar>{/snippet}
-  <p>$12,480.00</p>
-  {#snippet actions()}
-    <Button variant="tonal">Add money</Button>
-    <Button variant="text">Statement</Button>
-  {/snippet}
-</Card>`;
-
-export const listUsage = `<script>
-  import { List, ListItem } from '@sveltier/ui';
-</script>
-
-<nav aria-label="Banking">
-  <List nav>
-    <ListItem title="Overview" href="/" active />
-    <ListItem title="Cards" href="/cards" />
-  </List>
-</nav>
-
-<List>
-  <ListItem title="Savings" subtitle="Instant access">
-    {#snippet append()}$12,480.00{/snippet}
-  </ListItem>
-</List>`;
-
-export const buttonGroupUsage = `<script>
-  import { Button, ButtonGroup } from '@sveltier/ui';
-</script>
-
-<ButtonGroup aria-label="Export">
-  <Button onclick={exportCsv}>CSV</Button>
-  <Button onclick={exportPdf}>PDF</Button>
-</ButtonGroup>`;
-
-export const segmentedUsage = `<script>
-  import { SegmentedControl } from '@sveltier/ui';
-  let range = $state('1M');
-</script>
-
-<SegmentedControl
-  aria-label="Chart range"
-  options={[
-    { value: '1W', label: '1W' },
-    { value: '1M', label: '1M' },
-    { value: '1Y', label: '1Y' }
-  ]}
-  bind:value={range}
-/>`;
-
-export const accordionUsage = `<script>
-  import { Accordion } from '@sveltier/ui';
-
-  const answers = {
-    fees: 'Transfers in euros are free. Other currencies cost 0.4% of the amount.',
-    timing: 'Most transfers arrive the same day; some banks take up to two working days.',
-    limits: 'You can send up to €20,000 a day.'
-  };
-  let open = $state('fees');
-</script>
-
-<Accordion
-  items={[
-    { value: 'fees', label: 'What does a transfer cost?' },
-    { value: 'timing', label: 'How long does a transfer take?' },
-    { value: 'limits', label: 'How much can I send?' }
-  ]}
-  bind:value={open}
->
-  {#snippet panel(item)}
-    <p>{answers[item.value]}</p>
-  {/snippet}
-</Accordion>`;
-
-export const accordionMultiple = `<script>
-  import { Accordion, Checkbox } from '@sveltier/ui';
-
-  // With multiple, the value is the list of open sections.
-  let open = $state(['payments']);
-</script>
-
-<Accordion
-  multiple
-  items={[
-    { value: 'payments', label: 'Payments' },
-    { value: 'security', label: 'Security' }
-  ]}
-  bind:value={open}
->
-  {#snippet panel(item)}
-    <Checkbox label="Email me about {item.label.toLowerCase()}" />
-  {/snippet}
-</Accordion>`;
-
-export const tabsUsage = `<script>
-  import { Tabs } from '@sveltier/ui';
-  let section = $state('overview');
-</script>
-
-<Tabs
-  aria-label="Account"
-  items={[
-    { value: 'overview', label: 'Overview' },
-    { value: 'activity', label: 'Activity' }
-  ]}
-  bind:value={section}
->
-  {#snippet panel(item)}
-    <AccountSection name={item.value} />
-  {/snippet}
-</Tabs>`;
-
-export const tableUsage = `<script lang="ts">
-  import { Table, type TableColumn } from '@sveltier/ui';
-
-  type Position = { symbol: string; name: string; quantity: number; price: number };
-  let { positions }: { positions: Position[] } = $props();
-
-  // A key is a property of the items: a typo is a type error that lists the real ones.
-  const columns: TableColumn<Position>[] = [
-    { key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
-    { key: 'name', label: 'Name', sort: true },
-    { key: 'quantity', label: 'Quantity', sort: true },
-    { key: 'price', label: 'Price', sort: true, format: (price) => price.toFixed(2) }
-  ];
-</script>
-
-<Table caption="Positions" {columns} items={positions} />`;
-
-export const tableColumns = `<script lang="ts">
-  import { Button, Delta, Table, type TableColumn } from '@sveltier/ui';
-
-  type Position = { symbol: string; quantity: number; cost: number; price: number };
-  let { positions, onclose }: { positions: Position[]; onclose: (p: Position) => void } =
-    $props();
-
-  const pnlOf = (p: Position) => (p.price - p.cost) * p.quantity;
-
-  const columns: TableColumn<Position>[] = [
-    { key: 'symbol', label: 'Symbol', rowHeader: true },
-    // An id with a value: computed from the item, and sorted by that value.
-    { id: 'pnl', label: 'P&L', value: pnlOf, sort: true, cell: pnl },
-    // An id with only a cell: content of its own, with a label for screen readers only.
-    { id: 'close', label: 'Close', hideLabel: true, cell: close }
-  ];
-</script>
-
-{#snippet pnl(p: Position)}
-  <Delta value={pnlOf(p)} decimals={2} />
-{/snippet}
-
-{#snippet close(p: Position)}
-  <Button size="sm" variant="text" onclick={() => onclose(p)}>Close {p.symbol}</Button>
-{/snippet}
-
-<Table aria-label="Open positions" {columns} items={positions} />`;
-
-export const tableSort = `<script lang="ts">
-  import { Table, type TableColumn, type TableSort } from '@sveltier/ui';
-
-  type Order = { id: string; placed: Date; status: 'open' | 'filled' | 'cancelled' };
-  let { orders }: { orders: Order[] } = $props();
-
-  const RANK = { open: 0, filled: 1, cancelled: 2 };
-  const columns: TableColumn<Order>[] = [
-    { key: 'id', label: 'Order', rowHeader: true },
-    { key: 'placed', label: 'Placed', sort: true, format: (date) => date.toLocaleString() },
-    // A comparator decides the order itself: open orders first.
-    { key: 'status', label: 'Status', sort: (a, b) => RANK[a.status] - RANK[b.status] }
-  ];
-
-  // Bindable: newest first to begin with, then whatever the user clicks.
-  let sortBy = $state<TableSort | undefined>({ column: 'placed', direction: 'descending' });
-</script>
-
-<Table caption="Orders" {columns} items={orders} bind:sortBy />`;
-
-export const tableLive = `<script lang="ts">
-  import { Table, type TableColumn } from '@sveltier/ui';
-
-  type Quote = { symbol: string; last: number; volume: number };
-  let { quotes, selected = $bindable() }: { quotes: Quote[]; selected?: string } = $props();
-
-  const columns: TableColumn<Quote>[] = [
-    { key: 'symbol', label: 'Symbol', rowHeader: true, cell: pick },
-    { key: 'last', label: 'Last', sort: true },
-    { key: 'volume', label: 'Volume', sort: true }
-  ];
-</script>
-
-{#snippet pick(quote: Quote)}
-  <button type="button" onclick={() => (selected = quote.symbol)}>{quote.symbol}</button>
-{/snippet}
-
-<!-- Fresh quote objects arrive every second: itemKey keeps each row's element, the sort
-     stays, and the header stays in view while the box scrolls. -->
-<Table
-  aria-label="Watchlist"
-  {columns}
-  items={quotes}
-  itemKey="symbol"
-  rowAttributes={(quote) => ({ 'aria-current': quote.symbol === selected })}
-  density="compact"
-  style="max-block-size: 24rem"
-/>`;
-
-export const tableEmpty = `<script lang="ts">
-  import { Button, Table, type TableColumn } from '@sveltier/ui';
-
-  type Payment = { id: string; payee: string; amount: number };
-  let {
-    payments,
-    loading,
-    onretry
-  }: { payments: Payment[]; loading: boolean; onretry: () => void } = $props();
-
-  const columns: TableColumn<Payment>[] = [
-    { key: 'payee', label: 'Payee' },
-    { key: 'amount', label: 'Amount', format: (amount) => amount.toFixed(2) }
-  ];
-</script>
-
-<!-- While loading, a bar runs along the top and the empty row says "Loading". -->
-<Table caption="Payments" {columns} items={payments} itemKey="id" {loading}>
-  {#snippet empty()}
-    Nothing yet. <Button size="sm" variant="text" onclick={onretry}>Check again</Button>
-  {/snippet}
-</Table>`;
-
-export const tableDense = `<script lang="ts">
-  import { DefaultsProvider, Table, type TableColumn } from '@sveltier/ui';
-
-  type Trade = { id: string; time: string; price: number; size: number };
-  let { trades }: { trades: Trade[] } = $props();
-
-  const columns: TableColumn<Trade>[] = [
-    { key: 'time', label: 'Time' },
-    { key: 'price', label: 'Price', format: (price) => price.toFixed(2) },
-    { key: 'size', label: 'Size' }
-  ];
-</script>
-
-<!-- Rows about 20px tall: one table, or every table and control under the provider. -->
-<Table caption="Trades" {columns} items={trades} itemKey="id" size="xs" density="dense" />
-
-<DefaultsProvider defaults={{ global: { size: 'xs', density: 'dense' } }}>
-  <Table caption="Trades" {columns} items={trades} itemKey="id" />
-</DefaultsProvider>`;
-
-export const timelineUsage = `<script lang="ts">
-  import { Timeline, type TimelineItem } from '@sveltier/ui';
-
-  const events: TimelineItem[] = [
-    { title: 'Order placed', time: '2026-11-07T09:30:00Z', description: 'Buy 300 VNM at 61.20' },
-    { title: 'Filled', time: '2026-11-07T09:34:05Z', color: 'success' },
-    { title: 'Settles', time: '2026-11-09T09:00:00Z', pending: true }
-  ];
-</script>
-
-<Timeline aria-label="Order history" items={events} />`;
-
-export const timelineCustom = `<script lang="ts">
-  import { Amount, Timeline, type TimelineItem } from '@sveltier/ui';
-
-  type Transfer = TimelineItem & { amount: number };
-  let { transfers }: { transfers: Transfer[] } = $props();
-</script>
-
-<Timeline aria-label="Transfers" items={transfers} relative>
-  {#snippet item(transfer)}
-    <strong>{transfer.title}</strong>
-    <Amount value={transfer.amount} format={{ style: 'currency' }} />
-  {/snippet}
-</Timeline>`;
-
-export const treeUsage = `<script lang="ts">
-  import { Tree, type TreeItem } from '@sveltier/ui';
-  import { mdiFolder, mdiFormatListBulleted } from '@mdi/js';
-
-  const watchlists: TreeItem[] = [
-    {
-      value: 'crypto',
-      label: 'Crypto',
-      icon: mdiFolder,
-      children: [
-        { value: 'majors', label: 'Majors', icon: mdiFormatListBulleted },
-        { value: 'defi', label: 'DeFi', icon: mdiFormatListBulleted }
-      ]
-    },
-    {
-      value: 'fx',
-      label: 'FX',
-      icon: mdiFolder,
-      children: [{ value: 'crosses', label: 'Crosses', icon: mdiFormatListBulleted }]
-    },
-    { value: 'metals', label: 'Metals', icon: mdiFormatListBulleted }
-  ];
-  let selected = $state<string | null>('majors');
-  let open = $state(['crypto']);
-</script>
-
-<Tree aria-label="Watchlists" items={watchlists} bind:value={selected} bind:expanded={open} />`;
-
-export const treeRows = `<script lang="ts">
-  import { goto } from '$app/navigation';
-  import { Tree, type TreeItem } from '@sveltier/ui';
-
-  // Nodes carry their own fields: onselect and the item snippet receive them typed.
-  type Account = TreeItem & { href: string; balance: string; children?: Account[] };
-  let { accounts }: { accounts: Account[] } = $props();
-</script>
-
-<Tree aria-label="Accounts" items={accounts} onselect={(account) => goto(account.href)}>
-  {#snippet item(account)}
-    <span class="name">{account.label}</span>
-    <span class="balance">{account.balance}</span>
-  {/snippet}
-</Tree>
-
-<style>
-  .name {
-    flex: 1;
-  }
-  .balance {
-    font-variant-numeric: tabular-nums;
-  }
-</style>`;
-
-export const stepperUsage = `<script lang="ts">
-  import { Button, Stepper, type StepperItem } from '@sveltier/ui';
-
-  const steps: StepperItem[] = [
-    { value: 'details', label: 'Details', description: 'Amount and account' },
-    { value: 'review', label: 'Review' },
-    { value: 'confirm', label: 'Confirm' }
-  ];
-  let step = $state('details');
-  const index = $derived(steps.findIndex((item) => item.value === step));
-</script>
-
-<Stepper aria-label="Transfer" items={steps} bind:value={step} />
-
-{#if step === 'details'}
-  <!-- The form of the first step -->
-{/if}
-
-<Button variant="text" disabled={index === 0} onclick={() => (step = steps[index - 1]?.value ?? step)}>
-  Back
-</Button>
-<Button disabled={index === steps.length - 1} onclick={() => (step = steps[index + 1]?.value ?? step)}>
-  Next
-</Button>`;
-
-export const stepperVertical = `<Stepper aria-label="Verification" orientation="vertical" items={steps} bind:value={step} />`;
-
-export const tabsFill = `<!-- A full-height panel: the tabs and the filters stay, the table scrolls under its header. -->
-<div class="markets">
-  <Tabs fill aria-label="Markets" items={views} bind:value={view}>
-    {#snippet panel()}
-      <Filters />
-      <Table aria-label="Markets" items={markets} {columns} size="xs" density="dense" />
-    {/snippet}
-  </Tabs>
-</div>
-
-<style>
-  .markets {
-    block-size: 100dvh;
-  }
-</style>`;
-
-export const tableSharedCell = `<script lang="ts">
-  import { Table, type TableColumn } from '@sveltier/ui';
-
-  type Row = { symbol: string; funding: Record<string, number> };
-  let { rows, venues }: { rows: Row[]; venues: string[] } = $props();
-
-  // One column per venue the reader picked, all drawn by the same snippet.
-  const columns: TableColumn<Row>[] = $derived([
-    { key: 'symbol', label: 'Symbol', rowHeader: true },
-    ...venues.map((venue): TableColumn<Row> => ({ id: venue, label: venue, cell: rate }))
-  ]);
-</script>
-
-{#snippet rate(row: Row, column: TableColumn<Row>)}
-  <a href="/chart/{column.id}/{row.symbol}">{row.funding[column.id ?? '']}%</a>
-{/snippet}
-
-<Table aria-label="Funding" items={rows} {columns} />`;
+export { default as buttonUsage } from '../examples/components/ButtonUsage.svelte?raw';
+
+export { default as buttonIcons } from '../examples/components/ButtonIcons.svelte?raw';
+
+export { default as buttonWrap } from '../examples/components/ButtonWrap.svelte?raw';
+
+export { default as buttonLoading } from '../examples/components/ButtonLoading.svelte?raw';
+
+export { default as buttonLink } from '../examples/components/ButtonLink.svelte?raw';
+
+export { default as buttonDefaults } from '../examples/components/ButtonDefaults.svelte?raw';
+
+export { default as iconUsage } from '../examples/components/IconUsage.svelte?raw';
+
+export { default as iconCustom } from '../examples/components/IconCustom.svelte?raw';
+
+export { default as iconLabel } from '../examples/components/IconLabel.svelte?raw';
+
+export { default as dividerUsage } from '../examples/components/DividerUsage.svelte?raw';
+
+export { default as breadcrumbsUsage } from '../examples/components/BreadcrumbsUsage.svelte?raw';
+
+export { default as badgeTooltip } from '../examples/components/BadgeTooltip.svelte?raw';
+
+export { default as badgeUsage } from '../examples/components/BadgeUsage.svelte?raw';
+
+export { default as avatarUsage } from '../examples/components/AvatarUsage.svelte?raw';
+
+export { default as chipFilter } from '../examples/components/ChipFilter.svelte?raw';
+
+export { default as chipClosable } from '../examples/components/ChipClosable.svelte?raw';
+
+export { default as paginationUsage } from '../examples/components/PaginationUsage.svelte?raw';
+
+export { default as paginationLinks } from '../examples/components/PaginationLinks.svelte?raw';
+
+export { default as progressUsage } from '../examples/components/ProgressUsage.svelte?raw';
+
+export { default as skeletonUsage } from '../examples/components/SkeletonUsage.svelte?raw';
+
+export { default as alertUsage } from '../examples/components/AlertUsage.svelte?raw';
+
+export { default as cardUsage } from '../examples/components/CardUsage.svelte?raw';
+
+export { default as listUsage } from '../examples/components/ListUsage.svelte?raw';
+
+export { default as buttonGroupUsage } from '../examples/components/ButtonGroupUsage.svelte?raw';
+
+export { default as segmentedUsage } from '../examples/components/SegmentedUsage.svelte?raw';
+
+export { default as accordionUsage } from '../examples/components/AccordionUsage.svelte?raw';
+
+export { default as accordionMultiple } from '../examples/components/AccordionMultiple.svelte?raw';
+
+export { default as tabsUsage } from '../examples/components/TabsUsage.svelte?raw';
+
+export { default as tableUsage } from '../examples/components/TableUsage.svelte?raw';
+
+export { default as tableColumns } from '../examples/components/TableColumns.svelte?raw';
+
+export { default as tableSort } from '../examples/components/TableSort.svelte?raw';
+
+export { default as tableLive } from '../examples/components/TableLive.svelte?raw';
+
+export { default as tableEmpty } from '../examples/components/TableEmpty.svelte?raw';
+
+export { default as tableDense } from '../examples/components/TableDense.svelte?raw';
+
+export { default as timelineUsage } from '../examples/components/TimelineUsage.svelte?raw';
+
+export { default as timelineCustom } from '../examples/components/TimelineCustom.svelte?raw';
+
+export { default as treeUsage } from '../examples/components/TreeUsage.svelte?raw';
+
+export { default as treeRows } from '../examples/components/TreeRows.svelte?raw';
+
+export { default as stepperUsage } from '../examples/components/StepperUsage.svelte?raw';
+
+export { default as stepperVertical } from '../examples/components/StepperVertical.svelte?raw';
+
+export { default as tabsFill } from '../examples/components/TabsFill.svelte?raw';
+
+export { default as tableSharedCell } from '../examples/components/TableSharedCell.svelte?raw';

@@ -39,5 +39,11 @@ export default defineConfig(
 			'svelte/button-has-type': 'error',
 			'svelte/no-target-blank': 'error'
 		}
+	},
+	{
+		// The docs' code samples link to the reader's routes, which the docs' typed resolve() does
+		// not know.
+		files: ['apps/docs/src/lib/examples/**'],
+		rules: { 'svelte/no-navigation-without-resolve': 'off' }
 	}
 );

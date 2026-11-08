@@ -1,5 +1,7 @@
-// Code samples shown in the docs. Kept in a .ts module because a literal closing script tag
-// cannot appear inside a Svelte <script> block.
+// Code samples for the theming pages.
+// Svelte and TypeScript samples are files in ../examples that svelte-check compiles, shown with
+// ?raw. What stays a string cannot be checked as a file of its own: shell, CSS, HTML, a
+// signature, a route file, or two files in one block.
 
 export const install = {
 	pnpm: 'pnpm add @sveltier/ui',
@@ -8,17 +10,7 @@ export const install = {
 	bun: 'bun add @sveltier/ui'
 };
 
-export const setup = `<!-- src/routes/+layout.svelte -->
-<script>
-  import { UIProvider } from '@sveltier/ui';
-  import { monolith } from '@sveltier/ui/themes/monolith';
-  let { children } = $props();
-</script>
-
-<!-- Monolith, light or dark following the OS -->
-<UIProvider themes={monolith}>
-  {@render children()}
-</UIProvider>`;
+export { default as setup } from '../examples/theme/Setup.svelte?raw';
 
 export const viteSetup = `// src/main.ts (Vite without SvelteKit)
 import { mount } from 'svelte';
@@ -36,63 +28,17 @@ mount(App, { target: document.getElementById('app')! });
   <h1>Hello</h1>
 </UIProvider>`;
 
-export const pack = `<script>
-  import { UIProvider } from '@sveltier/ui';
-  import { maison } from '@sveltier/ui/themes/maison';
-  let { children } = $props();
-</script>
+export { default as pack } from '../examples/theme/Pack.svelte?raw';
 
-<UIProvider themes={maison}>
-  {@render children()}
-</UIProvider>`;
+export { default as severalPacks } from '../examples/theme/SeveralPacks.svelte?raw';
 
-export const severalPacks = `<script>
-  import { UIProvider, monolith, milano } from '@sveltier/ui';
-</script>
+export { default as toggle } from '../examples/theme/Toggle.svelte?raw';
 
-<!-- "system" switches between monolith-light and monolith-dark;
-     users can also pick milano-light or milano-dark -->
-<UIProvider themes={{ ...monolith, ...milano }}
-  light="monolith-light" dark="monolith-dark">
-  …
-</UIProvider>`;
+export { default as nested } from '../examples/theme/Nested.svelte?raw';
 
-export const toggle = `<script>
-  import { useTheme } from '@sveltier/ui';
-  const theme = useTheme();
-</script>
+export { default as bindTheme } from '../examples/theme/BindTheme.svelte?raw';
 
-<button type="button" onclick={() => theme.toggle()}>
-  {theme.isDark ? 'Light' : 'Dark'}
-</button>`;
-
-export const nested = `<UIProvider themes={monolith}>
-  <p>The page follows the user's choice.</p>
-
-  <ThemeProvider theme="monolith-dark" withBackground class="card">
-    <p>This card is always dark.</p>
-  </ThemeProvider>
-</UIProvider>`;
-
-export const bindTheme = `<script>
-  import { UIProvider } from '@sveltier/ui';
-  import { monolith } from '@sveltier/ui/themes/monolith';
-  let theme = $state('system');
-</script>
-
-<UIProvider themes={monolith} bind:theme>…</UIProvider>
-<p>Current choice: {theme}</p>`;
-
-export const fonts = `<!-- src/routes/+layout.svelte -->
-<script>
-  import '@fontsource-variable/geist';
-  import '@fontsource-variable/geist-mono';
-  import { UIProvider } from '@sveltier/ui';
-  import { monolith } from '@sveltier/ui/themes/monolith';
-  let { children } = $props();
-</script>
-
-<UIProvider themes={monolith}>{@render children()}</UIProvider>`;
+export { default as fonts } from '../examples/theme/Fonts.svelte?raw';
 
 export const cookie = `<!-- src/routes/+layout.svelte -->
 <script>
@@ -121,33 +67,11 @@ import { themeScript, monolith } from '@sveltier/ui';
 const script = themeScript('sv-theme', ['system', ...Object.keys(monolith)]);
 // sha256 of \`script\` goes into script-src`;
 
-export const defineCustom = `import { defineTheme } from '@sveltier/ui';
-import { monolithLight } from '@sveltier/ui/themes/monolith';
+export { default as defineCustom } from '../examples/theme/defineCustom.ts?raw';
 
-// Extends Monolith light; everything you leave out comes from it.
-export const brand = defineTheme({
-  colors: {
-    primary: 'oklch(0.52 0.16 255)',   // on-primary is computed for you
-    brand: 'oklch(0.62 0.17 35)'        // custom colour: --sv-color-brand, --sv-on-brand
-  },
-  variables: {
-    'radius-md': '13px',
-    'font-display': "'Fraunces Variable', Georgia, serif"
-  }
-}, monolithLight);`;
+export { default as extendPack } from '../examples/theme/extendPack.ts?raw';
 
-export const extendPack = `import { defineTheme } from '@sveltier/ui';
-import { aurora, auroraDark } from '@sveltier/ui/themes/aurora';
-
-// Aurora with a teal primary; everything else is Aurora's.
-const teal = defineTheme({ colors: { primary: 'oklch(0.78 0.11 190)' } }, auroraDark);
-
-const themes = { ...aurora, 'aurora-teal': teal };`;
-
-export const checkContrast = `import { contrast, parseOklch } from '@sveltier/ui';
-
-const ratio = contrast(parseOklch(theme.colors.text)!, parseOklch(theme.colors.background)!);
-// ≥ 4.5 for body text (WCAG 1.4.3)`;
+export { default as checkContrast } from '../examples/theme/checkContrast.ts?raw';
 
 export const contractCss = `.my-card {
   border-radius: var(--sv-radius-xl);

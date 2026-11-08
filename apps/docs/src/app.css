@@ -754,6 +754,8 @@ a {
 	padding: var(--sv-space-13);
 	overflow-x: auto;
 	line-height: var(--sv-leading-normal);
+	/* The samples are indented with tabs, as Prettier writes them. */
+	tab-size: 2;
 }
 
 /* Tables */

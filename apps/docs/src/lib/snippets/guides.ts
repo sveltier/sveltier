@@ -1,5 +1,8 @@
 // Code for the SvelteKit, Vite and Styling guides. Every sample was run in a fresh app scaffolded
 // by the official tools (sv create, create-vite) with the published package installed.
+// Svelte and TypeScript samples are files in ../examples that svelte-check compiles, shown with
+// ?raw. What stays a string cannot be checked as a file of its own: shell, CSS, HTML, a
+// signature, a route file, or two files in one block.
 
 export const kitCreate = `npx sv create my-app
 cd my-app
@@ -82,46 +85,11 @@ cd my-app
 npm install
 npm install @sveltier/ui @fontsource-variable/geist @fontsource-variable/geist-mono`;
 
-export const viteMain = `// src/main.ts
-import { mount } from 'svelte';
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
-import App from './App.svelte';
+export { default as viteMain } from '../examples/guides/vite/main.ts?raw';
 
-const app = mount(App, { target: document.getElementById('app')! });
+export { default as viteApp } from '../examples/guides/vite/App.svelte?raw';
 
-export default app;`;
-
-export const viteApp = `<!-- src/App.svelte -->
-<script lang="ts">
-  import { Button, Card, TextField, UIProvider } from '@sveltier/ui';
-  import { monolith } from '@sveltier/ui/themes/monolith';
-  import ThemeToggle from './ThemeToggle.svelte';
-
-  let email = $state('');
-</script>
-
-<UIProvider themes={monolith}>
-  <main>
-    <ThemeToggle />
-    <Card title="Sign up">
-      <TextField label="Email" type="email" bind:value={email} />
-      <Button color="primary">Continue</Button>
-    </Card>
-  </main>
-</UIProvider>`;
-
-export const viteToggle = `<!-- src/ThemeToggle.svelte -->
-<script lang="ts">
-  import { Button, useTheme } from '@sveltier/ui';
-
-  // Inside the provider, so it finds the theme.
-  const theme = useTheme();
-</script>
-
-<Button variant="text" onclick={() => theme.toggle()}>
-  {theme.isDark ? 'Light' : 'Dark'} mode
-</Button>`;
+export { default as viteToggle } from '../examples/guides/vite/ThemeToggle.svelte?raw';
 
 export const viteHtml = `<!-- index.html -->
 <head>
@@ -143,34 +111,9 @@ export const unlayered = `/* app.css: unlayered, so it wins over every Sveltier 
   border-width: 2px;
 }`;
 
-export const classProp = `<script>
-  import { Button } from '@sveltier/ui';
-</script>
+export { default as classProp } from '../examples/guides/ClassProp.svelte?raw';
 
-<section class="hero">
-  <Button class="cta" color="primary">Open an account</Button>
-</section>
-
-<style>
-  /* The Button's element is not in this component's markup, so reach it
-     through :global(), kept inside a local class. */
-  .hero :global(.cta) {
-    min-inline-size: 16rem;
-  }
-</style>`;
-
-export const scopedTokens = `<div class="square">
-  <Button>Square corners</Button>
-  <TextField label="Reference" />
-</div>
-
-<style>
-  /* Tokens are custom properties: set one on a container and
-     everything inside follows. */
-  .square {
-    --sv-radius-md: 0;
-  }
-</style>`;
+export { default as scopedTokens } from '../examples/guides/ScopedTokens.svelte?raw';
 
 export const ownLayers = `<!-- app.html or index.html, before any stylesheet -->
 <style>
