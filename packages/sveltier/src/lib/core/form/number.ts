@@ -57,7 +57,7 @@ export function parseNumber(text: string, locale: string): number | null {
 	for (const char of at < 0 ? plain : plain.slice(0, at)) {
 		whole += char === group || SPACE.test(char) ? MARK : char;
 	}
-	const sign = /^[-+]/.test(whole) ? whole[0] : '';
+	const sign = /^[-+]/.exec(whole)?.[0] ?? '';
 	whole = whole.slice(sign.length);
 	if (whole.includes(MARK)) {
 		if (!GROUPED.test(whole)) return Number.NaN;
