@@ -1,5 +1,5 @@
 /** One choice of a Select or a Combobox. */
-export interface SelectItem<T extends string | number = string> {
+export interface SelectOption<T extends string | number = string> {
 	/** What the field's value becomes. */
 	value: T;
 	/** What the option says, and what typing and filtering match. */
@@ -10,6 +10,9 @@ export interface SelectItem<T extends string | number = string> {
 	/** The name of the group the option shows under. Groups show in the order they first appear. */
 	group?: string;
 }
+
+/** @deprecated Renamed `SelectOption`, as Select and Combobox take `options`. */
+export type SelectItem<T extends string | number = string> = SelectOption<T>;
 
 /** The items with each group gathered where it first appears, the order the list shows. */
 export function inGroupOrder<I extends { group?: string }>(items: readonly I[]): I[] {
@@ -61,7 +64,7 @@ export function moveBy(
  * items starting with that letter; a longer one may stay on `current`. -1 without a match.
  */
 export function typeaheadIndex(
-	items: readonly SelectItem<string | number>[],
+	items: readonly SelectOption<string | number>[],
 	search: string,
 	current: number
 ): number {
@@ -96,7 +99,7 @@ export function matchesWords(text: string, query: string): boolean {
  * Whether every word of `query` appears in the item's label or description, ignoring case and
  * diacritics. An empty query matches everything.
  */
-export function matchesQuery(item: SelectItem<string | number>, query: string): boolean {
+export function matchesQuery(item: SelectOption<string | number>, query: string): boolean {
 	return matchesWords(`${item.label} ${item.description ?? ''}`, query);
 }
 

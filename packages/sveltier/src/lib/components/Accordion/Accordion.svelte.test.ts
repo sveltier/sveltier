@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import AccordionHarness from '../../../tests/fixtures/AccordionHarness.svelte';
@@ -76,5 +76,20 @@ describe('Accordion', () => {
 		expect(names()[0]).toBeTruthy();
 		await screen.rerender({ multiple: true });
 		await expect.poll(names).toEqual([null, null, null]);
+	});
+});
+
+describe('Accordion items under their old field name', () => {
+	it('warns in development that title is now label', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(AccordionHarness, { items: [{ value: 'fees', title: 'Fees' }] as never });
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) =>
+					/SV4008.*takes label; title in its items/.test(String(text))
+				)
+			)
+			.toBe(true);
+		warn.mockRestore();
 	});
 });

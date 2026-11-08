@@ -20,6 +20,7 @@
 		rounded,
 		disabled,
 		value = $bindable(null),
+		onchange,
 		min,
 		max,
 		step,
@@ -133,6 +134,16 @@
 		if (number === null || Number.isFinite(number)) value = number;
 	}
 
+	// What onchange last reported, from the value focus came in with, so a number is reported
+	// once: a step reports at once, and leaving afterwards adds nothing.
+	let reported: number | null = null;
+	function report() {
+		const now = value ?? null;
+		if (now === reported) return;
+		reported = now;
+		onchange?.(now);
+	}
+
 	/** Sets a number the keys or buttons chose, within min and max. */
 	function commit(number: number) {
 		const bounded = Math.min(max ?? Infinity, Math.max(min ?? -Infinity, number));
@@ -141,6 +152,7 @@
 		value = next;
 		text = show(next);
 		field.changed();
+		report();
 	}
 
 	// Moves along the steps counted from min, as a native number input does: from a value between
@@ -235,6 +247,8 @@
 	class={['sv-number-field', className]}
 	{style}
 	oninput={field.changed}
+	onchange={report}
+	onfocusin={() => (reported = value ?? null)}
 	onfocusout={leave}
 >
 	{#snippet children(attributes)}

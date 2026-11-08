@@ -49,6 +49,8 @@ type RadioGroupOwnProps<T extends string | number> = Partial<RadioGroupDefaults>
 	options: readonly RadioGroupOption<T>[];
 	/** The chosen value, or `null` for none. Bindable. */
 	value?: T | null;
+	/** Called with the value the user picks; not when `value` is set. */
+	onchange?: (value: T) => void;
 	/** The question the radios answer, as the group's legend. Without it, use `aria-label`. */
 	label?: string;
 	/** Help under the radios. An error replaces it. */
@@ -96,6 +98,6 @@ type RadioGroupOwnProps<T extends string | number> = Partial<RadioGroupDefaults>
  */
 export type RadioGroupProps<T extends string | number = string> = ElementProps<
 	HTMLFieldSetElement,
-	Omit<HTMLFieldsetAttributes, 'children'>,
+	Omit<HTMLFieldsetAttributes, 'children' | 'onchange'>,
 	RadioGroupOwnProps<T>
 >;

@@ -66,30 +66,38 @@
 		--sv-state-press: 0%;
 	}
 
-	/* Sizes: a half step of φ in height and a quarter step in text per size. */
+	/*
+	 * Sizes: a half step of φ in height and a quarter step in text per size. A row of a list
+	 * (a menu, a tree) is a step lower than a control of the same size.
+	 */
 	.sv-size-xs {
 		--sv-size-height: var(--sv-control-xs);
 		--sv-size-text: var(--sv-text-label);
+		--sv-size-row: var(--sv-control-xs);
 	}
 
 	.sv-size-sm {
 		--sv-size-height: var(--sv-control-sm);
 		--sv-size-text: var(--sv-text-xs);
+		--sv-size-row: var(--sv-control-xs);
 	}
 
 	.sv-size-md {
 		--sv-size-height: var(--sv-control-md);
 		--sv-size-text: var(--sv-text-sm);
+		--sv-size-row: var(--sv-control-sm);
 	}
 
 	.sv-size-lg {
 		--sv-size-height: var(--sv-control-lg);
 		--sv-size-text: var(--sv-text-md);
+		--sv-size-row: var(--sv-control-md);
 	}
 
 	.sv-size-xl {
 		--sv-size-height: var(--sv-control-xl);
 		--sv-size-text: var(--sv-text-lg);
+		--sv-size-row: var(--sv-control-lg);
 	}
 
 	/* Density multiplies heights and paddings, never the text. */

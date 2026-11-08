@@ -15,6 +15,7 @@
 		density,
 		disabled,
 		value = $bindable(),
+		onchange,
 		min = 0,
 		max = 100,
 		step = 1,
@@ -89,6 +90,7 @@
 	function committed() {
 		field.changed();
 		field.left();
+		onchange?.(current);
 	}
 </script>
 

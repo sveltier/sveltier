@@ -2,11 +2,16 @@ import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { CloseReason } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Density } from '../../core/props/types.js';
+import type { Density, Size } from '../../core/props/types.js';
 import type { MenuAction, MenuItem } from '../Menu/types.js';
 
 /** The ContextMenu props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface ContextMenuDefaults {
+	/**
+	 * The text and the rows: a row is a step lower than a control of the same size.
+	 * @default 'md'
+	 */
+	size: Size;
 	/**
 	 * Multiplies the height and padding of the items, never the text.
 	 * @default 'default'

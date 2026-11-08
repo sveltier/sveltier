@@ -351,6 +351,7 @@ export {
 	Select,
 	type SelectDefaults,
 	type SelectItem,
+	type SelectOption,
 	type SelectProps
 } from './components/Select/index.js';
 export {

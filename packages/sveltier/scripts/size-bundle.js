@@ -45,9 +45,10 @@ for (const entry of entries) {
 			rolldownOptions: {
 				input: entryFile,
 				preserveEntrySignatures: 'strict',
-				// Lazily loaded modules can be left out and measured as entries of their own, so the
-				// bundler's preload helper (shared by every dynamic import of an app) is not counted.
-				external: [/^svelte($|\/)/, ...(entry.external ?? [])],
+				// Lazily loaded modules can be left out and measured as entries of their own. The
+				// bundler's preload helper is shared by every dynamic import of an app, a SvelteKit
+				// app's routes included, so it is not counted either.
+				external: [/^svelte($|\/)/, /preload-helper/, ...(entry.external ?? [])],
 				output: {
 					entryFileNames: 'index.js',
 					chunkFileNames: 'chunk-[name].js',

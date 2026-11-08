@@ -11,6 +11,7 @@
 	import type { MenuAction, MenuDefaults, MenuProps } from './types.js';
 
 	let {
+		size,
 		density,
 		items,
 		onselect,
@@ -25,8 +26,8 @@
 		...rest
 	}: MenuProps = $props();
 
-	const resolve = useDefaults<MenuDefaults>('Menu', { density: 'default' });
-	const p = $derived(resolve({ density }));
+	const resolve = useDefaults<MenuDefaults>('Menu', { size: 'md', density: 'default' });
+	const p = $derived(resolve({ size, density }));
 
 	if (DEV) {
 		$effect(() => checkValue('Menu', 'side', side, SIDES));

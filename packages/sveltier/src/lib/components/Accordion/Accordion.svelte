@@ -1,5 +1,6 @@
 <script lang="ts" generics="T extends string | number">
 	// Sections that open and close, on the platform's <details>. See AccordionProps.
+	import { DEV, warnRenamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import './accordion.css';
@@ -16,6 +17,13 @@
 		ref = $bindable(null),
 		...rest
 	}: AccordionProps<T> = $props();
+
+	if (DEV) {
+		$effect(() => {
+			const old = items.find((item) => item.title !== undefined && item.label === undefined);
+			warnRenamed('Accordion', 'title in its items', 'label', old?.title);
+		});
+	}
 
 	const resolve = useDefaults<AccordionDefaults>('Accordion', { density: 'default' });
 	const p = $derived(resolve({ density }));
@@ -63,7 +71,7 @@
 				aria-disabled={item.disabled || undefined}
 				onclick={(event) => item.disabled && event.preventDefault()}
 			>
-				<span class="sv-accordion__title">{item.title}</span>
+				<span class="sv-accordion__title">{item.label}</span>
 				<svg class="sv-accordion__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 					<path d={CHEVRON} />
 				</svg>

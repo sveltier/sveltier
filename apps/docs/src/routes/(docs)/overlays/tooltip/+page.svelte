@@ -51,7 +51,11 @@
 		<li>
 			The text is the control's description: <code>role="tooltip"</code>, linked with
 			<code>aria-describedby</code>, and in the page from the start, so screen readers read it
-			whether it shows or not.
+			whether it shows or not. When the control has another description, such as a badge's count,
+			join the ids:
+			<code
+				>aria-describedby=&lbrace;[attributes['aria-describedby'], 'inbox-label'].join(' ')&rbrace;</code
+			>; one written after the attributes replaces the tooltip's, and development builds warn.
 		</li>
 		<li>
 			A description is not a name. An icon-only button still needs <code>aria-label</code>;

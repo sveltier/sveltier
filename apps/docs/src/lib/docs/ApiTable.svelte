@@ -23,7 +23,10 @@
 		<tbody>
 			{#each rows as row (row.name)}
 				<tr>
-					<td><code>{row.name}</code></td>
+					<td>
+						<code>{row.name}</code>{#if row.required}
+							<span class="docs-required">required</span>{/if}
+					</td>
 					<td><code class="docs-dim">{row.type}</code></td>
 					{#if hasDefault}<td><code class="docs-dim">{row.default ?? '–'}</code></td>{/if}
 					<td>

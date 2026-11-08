@@ -10,14 +10,14 @@
 
 <DocPage
 	title="Combobox"
-	lede="One value found by typing: the list under the field keeps the items that match, whatever the case or the diacritics."
+	lede="One value found by typing: the list under the field keeps the options that match, whatever the case or the diacritics."
 >
 	<h2 id="usage">Usage</h2>
 	<p>
-		Give the choices as <code>items</code>, the same items a
+		Give the choices as <code>options</code>, the same options a
 		<a href={resolve('forms/select')}>Select</a> takes, and bind the <code>value</code>. Typing
 		filters the list and points at the first match, so a few letters and <kbd>Enter</kbd> choose. The
-		list opens on every item until the user types.
+		list opens on every option until the user types.
 	</p>
 	<ComboboxDemo />
 	<Code title="City.svelte" code={comboboxUsage} />
@@ -26,13 +26,14 @@
 	<p>
 		Every word typed must appear in the label or the description, in any order, ignoring case and
 		diacritics: <q>sao</q> finds São Paulo, <q>da nang</q> finds Đà Nẵng, <q>usdt</q> finds BTCUSDT.
-		Items keep their order. <code>filter</code> takes a function of the item and the query for other rules.
+		Options keep their order. <code>filter</code> takes a function of the option and the query for other
+		rules.
 	</p>
 
 	<h2 id="remote">Searching elsewhere</h2>
 	<p>
 		To search on a server, bind <code>query</code>, pass <code>filter=&#123;false&#125;</code> and
-		give the items found; <code>loading</code> says so while there are none yet.
+		give the options found; <code>loading</code> says so while there are none yet.
 	</p>
 	<Code title="Symbol.svelte" code={comboboxRemote} />
 

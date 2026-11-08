@@ -33,7 +33,10 @@ export type DeltaProps = ElementProps<
 	HTMLSpanElement,
 	HTMLAttributes<HTMLSpanElement>,
 	Partial<DeltaDefaults> & {
-		/** The change: above zero a rise, below a fall. `null` or `undefined` shows a dash. */
+		/**
+		 * The change: above zero a rise, below a fall, as the figure shows it: one that rounds to
+		 * zero at the digits shown is no change. `null` or `undefined` shows a dash.
+		 */
 		value: number | bigint | null | undefined;
 		/** Intl.NumberFormat options, as Amount takes them; the sign shows unless the change is zero. */
 		format?: Intl.NumberFormatOptions;

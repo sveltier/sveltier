@@ -3,7 +3,7 @@
 	// query and each change shown, and a field after it to tab to.
 	import Combobox from '../../lib/components/Combobox/Combobox.svelte';
 	import type { ComboboxProps } from '../../lib/components/Combobox/types.js';
-	import type { SelectItem } from '../../lib/components/Select/options.js';
+	import type { SelectOption } from '../../lib/components/Select/options.js';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
@@ -14,7 +14,7 @@
 	}: Partial<ComboboxProps<string>> = $props();
 	let changes = $state<string[]>([]);
 
-	const CITIES: SelectItem<string>[] = [
+	const CITIES: SelectOption<string>[] = [
 		{ value: 'hn', label: 'Hà Nội', description: 'Thủ đô', group: 'North' },
 		{ value: 'hp', label: 'Hải Phòng', group: 'North' },
 		{ value: 'dn', label: 'Đà Nẵng', group: 'Centre' },
@@ -29,7 +29,7 @@
 		<Combobox
 			label="City"
 			name="city"
-			items={CITIES}
+			options={CITIES}
 			onchange={(next) => changes.push(String(next))}
 			{...props}
 			bind:value

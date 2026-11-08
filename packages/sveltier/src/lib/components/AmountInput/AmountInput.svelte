@@ -16,6 +16,7 @@
 		readonly,
 		density,
 		value = $bindable(null),
+		onchange,
 		ref = $bindable(null),
 		class: className,
 		style,
@@ -34,12 +35,14 @@
 		const raw = max * part;
 		const size = step == null ? undefined : stepAt(step, raw);
 		value = size ? Number((Math.floor(raw / size + 1e-6) * size).toFixed(places(size))) : raw;
+		onchange?.(value);
 	}
 </script>
 
 <div class={['sv-amount-input', className]} {style}>
 	<NumberField
 		{...rest}
+		{onchange}
 		id={inputId}
 		{max}
 		{step}

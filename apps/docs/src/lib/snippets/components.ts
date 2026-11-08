@@ -98,6 +98,30 @@ export const breadcrumbsUsage = `<script>
   ]}
 />`;
 
+export const badgeTooltip = `<script>
+  import { mdiBell } from '@mdi/js';
+  import { Badge, Button, Icon, Tooltip } from '@sveltier/ui';
+  let { waiting } = $props();
+</script>
+
+<!-- Described by the tooltip and by the count: join the ids, the tooltip's first. -->
+<Badge id="alerts" content={waiting} label="alerts waiting">
+  <Tooltip text="Price alerts">
+    {#snippet trigger(attributes)}
+      <Button
+        {...attributes}
+        icon
+        aria-label="Alerts"
+        aria-describedby={[attributes['aria-describedby'], waiting > 0 && 'alerts-label']
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <Icon path={mdiBell} />
+      </Button>
+    {/snippet}
+  </Tooltip>
+</Badge>`;
+
 export const badgeUsage = `<script>
   import { Badge, Button, Icon } from '@sveltier/ui';
 </script>
@@ -269,9 +293,9 @@ export const accordionUsage = `<script>
 
 <Accordion
   items={[
-    { value: 'fees', title: 'What does a transfer cost?' },
-    { value: 'timing', title: 'How long does a transfer take?' },
-    { value: 'limits', title: 'How much can I send?' }
+    { value: 'fees', label: 'What does a transfer cost?' },
+    { value: 'timing', label: 'How long does a transfer take?' },
+    { value: 'limits', label: 'How much can I send?' }
   ]}
   bind:value={open}
 >
@@ -290,13 +314,13 @@ export const accordionMultiple = `<script>
 <Accordion
   multiple
   items={[
-    { value: 'payments', title: 'Payments' },
-    { value: 'security', title: 'Security' }
+    { value: 'payments', label: 'Payments' },
+    { value: 'security', label: 'Security' }
   ]}
   bind:value={open}
 >
   {#snippet panel(item)}
-    <Checkbox label="Email me about {item.title.toLowerCase()}" />
+    <Checkbox label="Email me about {item.label.toLowerCase()}" />
   {/snippet}
 </Accordion>`;
 

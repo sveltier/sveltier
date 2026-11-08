@@ -41,6 +41,8 @@ type SwitchOwnProps = Partial<SwitchDefaults> &
 		 * @default false
 		 */
 		checked?: boolean;
+		/** Called with the new state when the user turns it on or off; not when `checked` is set. */
+		onchange?: (checked: boolean) => void;
 		/**
 		 * What the form submits under `name` while the switch is on.
 		 * @default 'on'
@@ -70,6 +72,6 @@ type SwitchOwnProps = Partial<SwitchDefaults> &
  */
 export type SwitchProps = ElementProps<
 	HTMLInputElement,
-	Omit<HTMLInputAttributes, 'type' | 'role' | 'children'>,
+	Omit<HTMLInputAttributes, 'type' | 'role' | 'children' | 'onchange'>,
 	SwitchOwnProps
 >;

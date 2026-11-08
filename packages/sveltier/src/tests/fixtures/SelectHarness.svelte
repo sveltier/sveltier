@@ -2,7 +2,7 @@
 	// Markets in groups by venue, one of them closed, in a Select inside a form, with the bound
 	// value and the submitted form data shown and a field after it to tab to.
 	import Select from '../../lib/components/Select/Select.svelte';
-	import type { SelectItem, SelectProps } from '../../lib/components/Select/types.js';
+	import type { SelectOption, SelectProps } from '../../lib/components/Select/types.js';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
@@ -10,7 +10,7 @@
 	let submitted = $state('');
 	let changes = $state<string[]>([]);
 
-	const MARKETS: SelectItem<string>[] = [
+	const MARKETS: SelectOption<string>[] = [
 		{ value: 'btc-usdt', label: 'BTC/USDT', group: 'Binance' },
 		{ value: 'eth-usdt', label: 'ETH/USDT', group: 'Binance' },
 		{ value: 'btc-usd', label: 'BTC/USD', description: 'Spot', group: 'Coinbase' },
@@ -31,7 +31,7 @@
 			label="Market"
 			name="market"
 			placeholder="Choose a market"
-			items={MARKETS}
+			options={MARKETS}
 			onchange={(next) => changes.push(next)}
 			{...props}
 			bind:value

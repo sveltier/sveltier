@@ -7,22 +7,27 @@
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
-	let { multiple = false, initial }: { multiple?: boolean; initial?: string } = $props();
+	const SECTIONS: AccordionItem[] = [
+		{ value: 'fees', label: 'Fees' },
+		{ value: 'limits', label: 'Limits' },
+		{ value: 'cards', label: 'Cards', disabled: true }
+	];
+
+	let {
+		multiple = false,
+		initial,
+		items = SECTIONS
+	}: { multiple?: boolean; initial?: string; items?: AccordionItem[] } = $props();
 
 	let one = $state<string | null>(untrack(() => initial ?? null));
 	let many = $state<string[]>([]);
 	let changes = $state<string[]>([]);
 
-	const items: AccordionItem[] = [
-		{ value: 'fees', title: 'Fees' },
-		{ value: 'limits', title: 'Limits' },
-		{ value: 'cards', title: 'Cards', disabled: true }
-	];
 	const report = (next: unknown) => (changes = [...changes, JSON.stringify(next)]);
 </script>
 
 {#snippet panel(item: AccordionItem)}
-	<p>About {item.title.toLowerCase()}.</p>
+	<p>About {item.label?.toLowerCase()}.</p>
 {/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>

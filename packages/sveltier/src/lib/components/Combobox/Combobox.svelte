@@ -1,14 +1,20 @@
-<script lang="ts" generics="T extends string | number, I extends SelectItem<T> = SelectItem<T>">
+<script lang="ts" generics="T extends string | number, I extends SelectOption<T> = SelectOption<T>">
 	// A value found by typing, as the APG combobox with list autocomplete. See ComboboxProps.
 	import type { Attachment } from 'svelte/attachments';
-	import { DEV, warnDuplicates, warnUnnamed } from '#dev';
+	import { DEV, warnDuplicates, warnRenamed, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { createField } from '../../core/form/field.svelte.js';
 	import type { Rule } from '../../core/form/types.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
 	import Listbox from '../Select/Listbox.svelte';
-	import { edge, inGroupOrder, matchesQuery, moveBy, type SelectItem } from '../Select/options.js';
+	import {
+		edge,
+		inGroupOrder,
+		matchesQuery,
+		moveBy,
+		type SelectOption
+	} from '../Select/options.js';
 	import '../Select/select.css';
 	import type { ComboboxDefaults, ComboboxProps } from './types.js';
 
@@ -19,7 +25,8 @@
 		density,
 		rounded,
 		disabled,
-		items,
+		options,
+		items: renamed,
 		value = $bindable(null),
 		onchange,
 		query = $bindable(''),
@@ -60,7 +67,7 @@
 	const listId = $derived(`${inputId}-list`);
 	const inert = $derived(p.disabled || readonly);
 
-	const ordered = $derived(inGroupOrder(items));
+	const ordered = $derived(inGroupOrder(options));
 	const chosen = $derived(ordered.find((item) => item.value === value));
 	let open = $state(false);
 	let active = $state(-1);
@@ -87,12 +94,13 @@
 
 	if (DEV) {
 		$effect(() => warnUnnamed('Combobox', ref));
+		$effect(() => warnRenamed('Combobox', 'items', 'options', renamed));
 		$effect(() =>
 			warnDuplicates(
 				'Combobox',
-				'items',
-				items.map((item) => item.value),
-				'Give each item its own value.'
+				'options',
+				options.map((option) => option.value),
+				'Give each option its own value.'
 			)
 		);
 	}

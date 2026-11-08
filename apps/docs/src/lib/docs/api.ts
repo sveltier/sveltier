@@ -5,6 +5,8 @@ export interface ApiRow {
 	name: string;
 	type: string;
 	default?: string;
+	/** The type requires the prop: set only then. */
+	required?: true;
 	description: string;
 }
 
