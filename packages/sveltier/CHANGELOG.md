@@ -1,5 +1,12 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.10
+
+### Patch Changes
+
+- 663f29e: Number fields (NumberField, PriceInput, AmountInput) no longer read a separator that breaks the grouping as a group. In vi-VN, where a point groups thousands and a comma is the decimal, "0.5" was read as 5 and "1352.6" as 13526, and a price became ten or a thousand times larger with no error. Each group after a separator must now have three digits (two, then three, for Indian grouping), and nothing may group after the decimal separator. Text that breaks this is not a number: the field says so, with an example in the locale's format ("Enter a number, such as 1.234,5"). The same holds in en-US, where "1,5" was read as 15. The `badInput` message takes an `{example}`.
+- 2ec9479: Steps and ticks below a millionth keep their decimals. Their count was read from how `String` writes the step, and `String(1e-7)` is `"1e-7"`, so AmountInput's shares rounded to 0, PriceInput showed a 1e-8 tick's prices with no decimals, NumberField's keys stepped to 0, and Slider's tick marks all sat at 0. The decimals now count the exponent, for the lots and ticks of coins traded in units of 1e-8.
+
 ## 0.1.0-alpha.9
 
 ### Minor Changes
