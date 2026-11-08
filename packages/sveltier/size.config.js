@@ -132,12 +132,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// The grid and its placement rules, filling the window, the skip link, the bar with its
-		// mark, its menu button (a Button, measured in its own entry) and its links, which give way
-		// to the menu button at each breakpoint, and the footer.
+		// The grid and its placement rules, filling the window (from each breakpoint up), the skip
+		// link, the bar with its mark, its menu button (a Button, measured in its own entry) and its
+		// links, which give way to the menu button at each breakpoint, and the footer, which the
+		// toasts keep clear of.
 		name: 'AppLayout, AppBar, Main and AppFooter',
 		code: "export { AppLayout, AppBar, Main, AppFooter } from '@sveltier/ui';",
-		limit: '3.05 KB',
+		limit: '3.25 KB',
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{
