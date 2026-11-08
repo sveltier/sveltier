@@ -27,31 +27,58 @@ function symbolsOf(locale: string): Symbols {
 }
 
 const SPACE = /[\s\u00a0\u202f]/;
-const SPACES = /[\s\u00a0\u202f]/g;
+const DIGITS = /^\d+$/;
 const PLAIN = /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/;
 
 /**
- * Reads what the user typed as a number written in `locale`: group separators and spaces are
- * ignored, the locale's decimal separator and minus sign are understood. `null` when nothing was
- * typed, `NaN` when the text is not a number.
+ * The digits of a whole part written with group separators, or `null` when its groups do not
+ * fit how numbers are grouped: the last group has three digits, those before it two or three
+ * (Indian grouping has twos), the first one to three. A separator that breaks this was most
+ * likely meant as the decimal one, and reading it as a group would change the size of the
+ * number: "0.5" in a locale that groups with a point is not 5.
+ */
+function ungroup(whole: string, isGroup: (char: string) => boolean): string | null {
+	const groups = [''];
+	for (const char of whole) {
+		if (isGroup(char)) groups.push('');
+		else groups[groups.length - 1] += char;
+	}
+	if (groups.length === 1) return whole;
+	const last = groups.length - 1;
+	const fits = groups.every((digits, index) => {
+		if (!DIGITS.test(digits)) return false;
+		if (index === last) return digits.length === 3;
+		return index === 0 ? digits.length <= 3 : digits.length === 2 || digits.length === 3;
+	});
+	return fits ? groups.join('') : null;
+}
+
+/**
+ * Reads what the user typed as a number written in `locale`: the locale's decimal separator and
+ * minus sign are understood, and its group separator and spaces where they group digits. `null`
+ * when nothing was typed, `NaN` when the text is not a number, including a separator that does
+ * not group digits (in vi-VN, "0.5" is not 5) and one after the decimal separator.
  *
  * @example
  * parseNumber('1,234.5', 'en-US'); // 1234.5
  * parseNumber('1.234,5', 'de-DE'); // 1234.5
+ * parseNumber('0.5', 'vi-VN'); // NaN: a point groups thousands there
  * parseNumber('', 'en-US'); // null
  */
 export function parseNumber(text: string, locale: string): number | null {
 	const { group, decimal, minus } = symbolsOf(locale);
 	let plain = text.trim();
 	if (plain === '') return null;
-	if (!SPACE.test(group)) plain = plain.split(group).join('');
-	plain = plain
-		.replace(SPACES, '')
-		.split(minus)
-		.join('-')
-		.replace('\u2212', '-')
-		.split(decimal)
-		.join('.');
+	plain = plain.split(minus).join('-').replace('\u2212', '-');
+	const sign = plain[0] === '-' || plain[0] === '+' ? plain[0] : '';
+	const body = plain.slice(sign.length);
+	const at = body.indexOf(decimal);
+	const isGroup = (char: string) => char === group || SPACE.test(char);
+	const whole = ungroup(at < 0 ? body : body.slice(0, at), isGroup);
+	if (whole === null) return Number.NaN;
+	// The fraction keeps any separator, so a group after the decimal one is not a number.
+	const fraction = at < 0 ? '' : '.' + body.slice(at + decimal.length);
+	plain = sign + whole + fraction;
 	return PLAIN.test(plain) ? Number(plain) : Number.NaN;
 }
 
@@ -122,8 +149,8 @@ export function numberConstraintMessage(
 ): string | undefined {
 	const { required, min, max, step } = constraints;
 	if (value === null) return required ? locale.t('required') : undefined;
-	if (Number.isNaN(value)) return locale.t('badInput');
 	const format = (number: number) => locale.formatNumber(number, { maximumFractionDigits: 20 });
+	if (Number.isNaN(value)) return locale.t('badInput', { example: format(1234.5) });
 	if (min != null && value < min) return locale.t('rangeUnderflow', { min: format(min) });
 	if (max != null && value > max) return locale.t('rangeOverflow', { max: format(max) });
 	if (step == null) return undefined;
