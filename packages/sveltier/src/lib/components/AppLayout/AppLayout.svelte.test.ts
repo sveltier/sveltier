@@ -245,6 +245,22 @@ describe('AppLayout', () => {
 		});
 	});
 
+	it("starts the bar with the app's mark, after the menu button and before the title, at every width", async () => {
+		await page.viewport(600, 800);
+		await render(AppLayoutHarness, { brand: true });
+		const home = page.getByRole('link', { name: 'Dek' });
+		await expect.element(home).toBeVisible();
+		const mark = home.element().getBoundingClientRect();
+		expect(mark.left).toBeGreaterThanOrEqual(menu().element().getBoundingClientRect().right);
+		expect(box('.sv-app-bar__title').left).toBeGreaterThanOrEqual(mark.right);
+		await page.viewport(1280, 800);
+		await expect.element(menu()).not.toBeInTheDocument();
+		await expect.element(home).toBeVisible();
+		expect(home.element().getBoundingClientRect().right).toBeLessThanOrEqual(
+			box('.sv-app-bar__title').left
+		);
+	});
+
 	it('makes a drawer modal below a wider breakpoint', async () => {
 		await page.viewport(1100, 800);
 		await render(AppLayoutHarness, { drawer: { breakpoint: 'lg' } });

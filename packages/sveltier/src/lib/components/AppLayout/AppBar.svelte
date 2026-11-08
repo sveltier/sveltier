@@ -13,6 +13,7 @@
 	let {
 		density,
 		sticky,
+		prepend,
 		title,
 		nav,
 		children,
@@ -72,6 +73,7 @@
 			</Button>
 		</span>
 	{/if}
+	{#if prepend}<div class="sv-app-bar__prepend">{@render prepend()}</div>{/if}
 	{#if title}<span class="sv-app-bar__title">{title}</span>{/if}
 	{#if nav}
 		<!-- The layout's CSS hides it while the menu button shows, below the drawer's breakpoint. -->

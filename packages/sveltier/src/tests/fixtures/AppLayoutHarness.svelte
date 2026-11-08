@@ -1,8 +1,8 @@
 <script lang="ts">
 	// An app frame in a themed scope: a bar with an action, a drawer of links with icons, and main
 	// content taller than the window. The test picks which part comes first, whether there is a
-	// drawer, whether the bar has links of its own, the props of the bar and the drawer, and
-	// whether Main is wrapped by mistake.
+	// drawer, whether the bar has a mark and links of its own, the props of the bar and the
+	// drawer, and whether Main is wrapped by mistake.
 	import AppBar from '../../lib/components/AppLayout/AppBar.svelte';
 	import AppLayout from '../../lib/components/AppLayout/AppLayout.svelte';
 	import Main from '../../lib/components/AppLayout/Main.svelte';
@@ -17,6 +17,7 @@
 		drawerFirst = false,
 		withDrawer = true,
 		withNav = false,
+		brand = false,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -25,6 +26,7 @@
 		drawerFirst?: boolean;
 		withDrawer?: boolean;
 		withNav?: boolean;
+		brand?: boolean;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -42,6 +44,15 @@
 		<h2 id="payments">Payments</h2>
 		<div style:block-size="1500px"></div>
 	</Main>
+{/snippet}
+
+{#snippet mark()}
+	<a href="#home" class="brand">
+		<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+			<path d={ICON} />
+		</svg>
+		Dek
+	</a>
 {/snippet}
 
 {#snippet links()}
@@ -66,7 +77,12 @@
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
 	<AppLayout>
 		{#if withDrawer && drawerFirst}{@render navigation()}{/if}
-		<AppBar title="Ledger" nav={withNav ? links : undefined} {...bar}>
+		<AppBar
+			title="Ledger"
+			prepend={brand ? mark : undefined}
+			nav={withNav ? links : undefined}
+			{...bar}
+		>
 			{#snippet actions()}<button type="button">Sign out</button>{/snippet}
 		</AppBar>
 		{#if withDrawer && !drawerFirst}{@render navigation()}{/if}

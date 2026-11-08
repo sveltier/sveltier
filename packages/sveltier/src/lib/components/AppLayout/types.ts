@@ -55,8 +55,8 @@ declare module '../../core/defaults/context.js' {
 }
 
 /**
- * The bar across the top of an app, one line a control and a half tall: a title, links, any
- * content, and actions at the end. In an `AppLayout` with a `NavigationDrawer`, it starts with a
+ * The bar across the top of an app, one line a control and a half tall: the app's mark, a title,
+ * links, any content, and actions at the end. In an `AppLayout` with a `NavigationDrawer`, it starts with a
  * menu button that opens the drawer while the screen is too narrow to keep it beside the content,
  * and its `nav` links show only while that button does not. It is the page's banner landmark.
  * `class`, `style`, `ref` and other attributes go to the `<header>`.
@@ -76,6 +76,11 @@ export type AppBarProps = ElementProps<
 	HTMLElement,
 	HTMLAttributes<HTMLElement>,
 	Partial<AppBarDefaults> & {
+		/**
+		 * The app's mark at the start, after the menu button and before the title: usually a link
+		 * home with the logo and the name. It shows at every width.
+		 */
+		prepend?: Snippet;
 		/** The name of the app or of the current section, at the start. */
 		title?: string;
 		/**

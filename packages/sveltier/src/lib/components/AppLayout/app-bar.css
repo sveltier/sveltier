@@ -36,6 +36,14 @@
 		margin-inline-start: calc((1.272em - var(--sv-size-height) * var(--sv-density)) / 2);
 	}
 
+	/* The app's mark, as wide as it is: a logo and a name side by side. */
+	.sv-app-bar__prepend {
+		display: flex;
+		flex: none;
+		gap: var(--sv-space-8);
+		align-items: center;
+	}
+
 	/* The title in the theme's display voice; a long one ends in an ellipsis. */
 	.sv-app-bar__title {
 		min-inline-size: 0;
