@@ -27,31 +27,13 @@ function symbolsOf(locale: string): Symbols {
 }
 
 const SPACE = /[\s\u00a0\u202f]/;
-const DIGITS = /^\d+$/;
+// Marks a group separator in the whole part, a character nobody types.
+const MARK = '\ue000';
+// A whole part with its groups marked: one to three digits first, then groups of two or three
+// (Indian grouping has twos), the last of three. A separator that breaks this was most likely
+// meant as the decimal one, and reading it as a group would change the size of the number.
+const GROUPED = /^\d{1,3}(?:\ue000\d{2,3})*\ue000\d{3}$/;
 const PLAIN = /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/;
-
-/**
- * The digits of a whole part written with group separators, or `null` when its groups do not
- * fit how numbers are grouped: the last group has three digits, those before it two or three
- * (Indian grouping has twos), the first one to three. A separator that breaks this was most
- * likely meant as the decimal one, and reading it as a group would change the size of the
- * number: "0.5" in a locale that groups with a point is not 5.
- */
-function ungroup(whole: string, isGroup: (char: string) => boolean): string | null {
-	const groups = [''];
-	for (const char of whole) {
-		if (isGroup(char)) groups.push('');
-		else groups[groups.length - 1] += char;
-	}
-	if (groups.length === 1) return whole;
-	const last = groups.length - 1;
-	const fits = groups.every((digits, index) => {
-		if (!DIGITS.test(digits)) return false;
-		if (index === last) return digits.length === 3;
-		return index === 0 ? digits.length <= 3 : digits.length === 2 || digits.length === 3;
-	});
-	return fits ? groups.join('') : null;
-}
 
 /**
  * Reads what the user typed as a number written in `locale`: the locale's decimal separator and
@@ -70,15 +52,19 @@ export function parseNumber(text: string, locale: string): number | null {
 	let plain = text.trim();
 	if (plain === '') return null;
 	plain = plain.split(minus).join('-').replace('\u2212', '-');
-	const sign = plain[0] === '-' || plain[0] === '+' ? plain[0] : '';
-	const body = plain.slice(sign.length);
-	const at = body.indexOf(decimal);
-	const isGroup = (char: string) => char === group || SPACE.test(char);
-	const whole = ungroup(at < 0 ? body : body.slice(0, at), isGroup);
-	if (whole === null) return Number.NaN;
+	const at = plain.indexOf(decimal);
+	let whole = '';
+	for (const char of at < 0 ? plain : plain.slice(0, at)) {
+		whole += char === group || SPACE.test(char) ? MARK : char;
+	}
+	const sign = /^[-+]/.test(whole) ? whole[0] : '';
+	whole = whole.slice(sign.length);
+	if (whole.includes(MARK)) {
+		if (!GROUPED.test(whole)) return Number.NaN;
+		whole = whole.split(MARK).join('');
+	}
 	// The fraction keeps any separator, so a group after the decimal one is not a number.
-	const fraction = at < 0 ? '' : '.' + body.slice(at + decimal.length);
-	plain = sign + whole + fraction;
+	plain = sign + whole + (at < 0 ? '' : '.' + plain.slice(at + decimal.length));
 	return PLAIN.test(plain) ? Number(plain) : Number.NaN;
 }
 
