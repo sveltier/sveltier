@@ -281,6 +281,44 @@ describe('AppLayout', () => {
 		);
 	});
 
+	describe('filling the window', () => {
+		const pageHeight = () => document.documentElement.scrollHeight;
+
+		it('is the height of the window, and Main scrolls instead of the page', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { fill: true });
+			expect(box('.sv-app-layout').height).toBe(800);
+			expect(pageHeight()).toBe(800);
+			const main = part('.sv-main');
+			expect(box('.sv-main').top).toBeCloseTo(BAR, 0);
+			expect(box('.sv-main').bottom).toBe(800);
+			expect(main.scrollHeight).toBeGreaterThan(main.clientHeight);
+			// The drawer fills the height beside it.
+			const navigation = box('.sv-navigation-drawer__content');
+			expect(navigation.top).toBeCloseTo(BAR, 0);
+			expect(navigation.bottom).toBe(800);
+		});
+
+		it('gives a pane of 100% the height the bar leaves, scrolling on its own', async () => {
+			await page.viewport(600, 800);
+			await render(AppLayoutHarness, { fill: true, pane: true });
+			const pane = part('.pane');
+			expect(pane.getBoundingClientRect().height).toBeCloseTo(800 - BAR, 0);
+			expect(pane.scrollHeight).toBeGreaterThan(pane.clientHeight);
+			expect(part('.sv-main').scrollHeight).toBe(part('.sv-main').clientHeight);
+			expect(pageHeight()).toBe(800);
+		});
+
+		it('gives a drawer written first the full height', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { fill: true, drawerFirst: true });
+			const navigation = box('.sv-navigation-drawer__content');
+			expect(navigation.top).toBe(0);
+			expect(navigation.bottom).toBe(800);
+			expect(pageHeight()).toBe(800);
+		});
+	});
+
 	it('makes a drawer modal below a wider breakpoint', async () => {
 		await page.viewport(1100, 800);
 		await render(AppLayoutHarness, { drawer: { breakpoint: 'lg' } });

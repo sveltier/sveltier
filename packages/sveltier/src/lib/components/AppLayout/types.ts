@@ -11,7 +11,8 @@ import type { Density } from '../../core/props/types.js';
  * nothing measured and the right layout from the server; a part left out leaves no gap. The part
  * written first takes the corner: the bar first runs across the top, with the drawer below it;
  * the drawer first runs the full height, with the bar beside it. The layout starts with a "Skip
- * to content" link that shows on focus. `class`, `style`, `ref` and other attributes go to the
+ * to content" link that shows on focus. The bar's height is in `--sv-app-bar-height`, for content
+ * that places itself under a sticky bar. `class`, `style`, `ref` and other attributes go to the
  * root `<div>`.
  *
  * @example
@@ -29,6 +30,14 @@ export type AppLayoutProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
 	{
+		/**
+		 * Fills the window and never scrolls the page, for an app whose panes scroll on their own
+		 * (a trading terminal, a mail client). Main takes the height the bar leaves and scrolls on
+		 * its own when its content is taller; content with `block-size: 100%` fills it. Without
+		 * it, the layout is at least the window's height and the page scrolls.
+		 * @default false
+		 */
+		fill?: boolean;
 		/** The parts: `AppBar`, `NavigationDrawer` and `Main`. */
 		children?: Snippet;
 	}

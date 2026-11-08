@@ -19,6 +19,8 @@
 		withNav = false,
 		brand = false,
 		navList = false,
+		fill = false,
+		pane = false,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -29,6 +31,8 @@
 		withNav?: boolean;
 		brand?: boolean;
 		navList?: boolean;
+		fill?: boolean;
+		pane?: boolean;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -41,10 +45,17 @@
 
 {#snippet main()}
 	<Main>
-		<h1>Overview</h1>
-		<div style:block-size="1500px"></div>
-		<h2 id="payments">Payments</h2>
-		<div style:block-size="1500px"></div>
+		{#if pane}
+			<!-- A pane as tall as Main, scrolling on its own. -->
+			<div class="pane" style:block-size="100%" style:overflow="auto">
+				<div style:block-size="3000px">Order book</div>
+			</div>
+		{:else}
+			<h1>Overview</h1>
+			<div style:block-size="1500px"></div>
+			<h2 id="payments">Payments</h2>
+			<div style:block-size="1500px"></div>
+		{/if}
 	</Main>
 {/snippet}
 
@@ -84,7 +95,7 @@
 {/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<AppLayout>
+	<AppLayout {fill}>
 		{#if withDrawer && drawerFirst}{@render navigation()}{/if}
 		<AppBar
 			title="Ledger"

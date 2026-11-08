@@ -23,6 +23,27 @@
 		min-block-size: 100dvh;
 	}
 
+	/*
+	 * Filling the window: the layout is the window's height and the page never scrolls. Main
+	 * takes the rest and scrolls on its own when its content is taller, and the drawer fills its
+	 * area instead of sticking to the window.
+	 */
+	.sv-app-layout--fill {
+		block-size: 100dvh;
+		min-block-size: 0;
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.sv-app-layout--fill > .sv-main {
+		min-block-size: 0;
+		overflow: auto;
+	}
+
+	.sv-app-layout--fill > .sv-navigation-drawer > .sv-navigation-drawer__content {
+		position: static;
+		block-size: 100%;
+	}
+
 	/* A drawer written before the bar takes the corner: the full height, with the bar beside it. */
 	.sv-app-layout:has(> .sv-navigation-drawer ~ .sv-app-bar) {
 		grid-template-areas:

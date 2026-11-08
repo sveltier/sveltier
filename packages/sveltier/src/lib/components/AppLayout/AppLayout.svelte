@@ -5,14 +5,20 @@
 	import { Layout, setLayout } from './context.svelte.js';
 	import type { AppLayoutProps } from './types.js';
 
-	let { children, class: className, ref = $bindable(null), ...rest }: AppLayoutProps = $props();
+	let {
+		fill = false,
+		children,
+		class: className,
+		ref = $bindable(null),
+		...rest
+	}: AppLayoutProps = $props();
 
 	const uid = $props.id();
 	const layout = setLayout(new Layout(`${uid}-main`));
 	const locale = useLocale();
 </script>
 
-<div bind:this={ref} {...rest} class={['sv-app-layout', className]}>
+<div bind:this={ref} {...rest} class={['sv-app-layout', fill && 'sv-app-layout--fill', className]}>
 	<a class="sv-app-layout__skip" href="#{layout.mainId}">{locale.t('skipToContent')}</a>
 	{@render children?.()}
 </div>
