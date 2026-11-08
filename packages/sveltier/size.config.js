@@ -499,6 +499,15 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// The file input over the box, the chosen names, files set from code put in the input,
+		// the clear button, the drop zone and the accept check (1.95 KB of JS), and their styles
+		// (0.85 KB). The Field and the shared validation are measured apart.
+		name: 'FileField',
+		code: "export { FileField } from '@sveltier/ui';",
+		limit: '2.8 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		// Its own code: the panel it shares with ContextMenu, with the entries grouped under their
 		// headings (2.2 KB of JS, most of it the compiled rows with their icon, a path or a
 		// component, and shortcut), the trigger's arrow keys, choosing and closing, and 0.8 KB of

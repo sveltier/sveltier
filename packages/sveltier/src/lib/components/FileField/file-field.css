@@ -1,0 +1,128 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/* A press anywhere in the box chooses. */
+	.sv-file-field .sv-field__box {
+		cursor: pointer;
+	}
+
+	.sv-file-field__shown {
+		display: flex;
+		flex: 1;
+		gap: 0.618em;
+		align-items: center;
+		min-inline-size: 0;
+	}
+
+	/* The chooser's button, drawn tonal in the field's colour; the input under it takes the press. */
+	.sv-file-field__choose {
+		flex: none;
+		padding: 0.236em 0.618em;
+		border-radius: var(--sv-radius-sm);
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+		color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-text-mix), var(--sv-color-text));
+		font-weight: var(--sv-weight-medium);
+		white-space: nowrap;
+	}
+
+	/* The chosen names; a long one ends in an ellipsis. */
+	.sv-file-field__names {
+		min-inline-size: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.sv-file-field__names--none,
+	.sv-file-field__drop {
+		color: var(--sv-color-text-subtle);
+	}
+
+	/* The control: over the whole box, out of sight. */
+	.sv-file-field__input.sv-field__control {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.sv-file-field__input::file-selector-button {
+		cursor: pointer;
+	}
+
+	.sv-file-field__input.sv-field__control:disabled {
+		cursor: not-allowed;
+	}
+
+	.sv-field--readonly .sv-file-field__input.sv-field__control {
+		cursor: default;
+	}
+
+	/* Square, φ⁻¹ of the field's height and never under 24px (WCAG 2.5.8), above the input. */
+	.sv-file-field__clear {
+		--sv-clear: max(1.5rem, calc(var(--sv-size-height) * var(--sv-density) * 0.618));
+		position: relative;
+		z-index: 1;
+		display: grid;
+		flex: none;
+		place-items: center;
+		inline-size: var(--sv-clear);
+		block-size: var(--sv-clear);
+		margin-inline-end: calc(var(--sv-size-height) * var(--sv-density) * -0.146);
+		padding: 0;
+		border: 0;
+		border-radius: var(--sv-radius-sm);
+		background: none;
+		color: var(--sv-color-text-muted);
+		cursor: pointer;
+	}
+
+	/* The state layer, as on a Button: only its opacity changes. */
+	.sv-file-field__clear::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: currentColor;
+		opacity: 0;
+		transition: opacity var(--sv-duration-fast) var(--sv-ease);
+	}
+
+	@media (hover: hover) {
+		.sv-file-field__clear:hover::before {
+			opacity: var(--sv-state-hover);
+		}
+	}
+
+	.sv-file-field__clear:focus-visible {
+		outline: var(--sv-focus-width) solid var(--sv-color);
+		outline-offset: 1px;
+	}
+
+	.sv-file-field__clear > svg {
+		inline-size: 61.8%;
+		block-size: 61.8%;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+	}
+
+	/* A drop zone: φ² taller, dashed, its words in the middle. */
+	.sv-file-field--drop .sv-field__box {
+		min-block-size: calc(var(--sv-size-height) * var(--sv-density) * 2.618);
+		border-style: dashed;
+	}
+
+	.sv-file-field--drop .sv-file-field__shown {
+		justify-content: center;
+	}
+
+	/* A file dragged over the box: the field's colour washes it. */
+	.sv-file-field--over .sv-field__box {
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+	}
+}

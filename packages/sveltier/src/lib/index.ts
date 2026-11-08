@@ -259,6 +259,11 @@ export {
 	type FieldProps,
 	type FieldVariant
 } from './components/Field/index.js';
+export {
+	FileField,
+	type FileFieldDefaults,
+	type FileFieldProps
+} from './components/FileField/index.js';
 export { Form, type FormProps } from './components/Form/index.js';
 export {
 	Col,

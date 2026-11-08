@@ -23,6 +23,17 @@ export const MESSAGES = {
 	// The buttons of a number field.
 	increase: 'Increase',
 	decrease: 'Decrease',
+	// A file field: the button-like part of its box, what it shows with nothing chosen and with
+	// several files, its clear button, the words of a drop zone, and a file of another kind.
+	chooseFile: 'Choose a file',
+	chooseFiles: 'Choose files',
+	noFile: 'No file chosen',
+	fileCount: '{count} files',
+	clearFile: 'Clear the file',
+	clearFiles: 'Clear the files',
+	dropFile: 'or drop it here',
+	dropFiles: 'or drop them here',
+	fileType: 'Choose a file of type {accept}',
 	// Pagination: its landmark, its steps and the name of each page.
 	pagination: 'Pagination',
 	previous: 'Previous page',
