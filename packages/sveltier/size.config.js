@@ -341,13 +341,14 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
-		// Parsing in the locale with its range and step checks (about 0.5 KB), stepping by keys and
-		// buttons on the step grid or through bands of steps, two named buttons, and the hidden input
-		// that submits the plain number (2.8 KB of JS, 0.6 KB of CSS). The Field and the shared
-		// validation are measured apart.
+		// Parsing in the locale, which checks the grouping so a misplaced separator is an error and
+		// not a change of size, with its range and step checks; stepping by keys and buttons on the
+		// step grid or through bands of steps, with the decimals of steps below a millionth; two
+		// named buttons, and the hidden input that submits the plain number. The Field and the
+		// shared validation are measured apart.
 		name: 'NumberField',
 		code: "export { NumberField } from '@sveltier/ui';",
-		limit: '3.5 KB',
+		limit: '3.7 KB',
 		external: [/\/core\/(?!form\/number)/, /\/components\/Field\//]
 	},
 	{
