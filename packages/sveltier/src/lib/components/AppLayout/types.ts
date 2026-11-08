@@ -63,9 +63,12 @@ declare module '../../core/defaults/context.js' {
  *
  * @example
  * <AppBar title="Ledger">
+ *   {#snippet prepend()}<a href="/"><Logo /></a>{/snippet}
  *   {#snippet nav()}
- *     <a href="/payments">Payments</a>
- *     <a href="/cards">Cards</a>
+ *     <List nav>
+ *       <ListItem title="Payments" href="/payments" active />
+ *       <ListItem title="Cards" href="/cards" />
+ *     </List>
  *   {/snippet}
  *   {#snippet actions()}
  *     <Button variant="text" color="neutral">Sign out</Button>
@@ -85,7 +88,8 @@ export type AppBarProps = ElementProps<
 		title?: string;
 		/**
 		 * The app's navigation across the bar, after the title, in a navigation landmark named
-		 * "Main" (the locale's `mainNavigation`). In an `AppLayout` with a `NavigationDrawer`, it
+		 * "Main" (the locale's `mainNavigation`). A `List` with `nav` in it lays out in a row, its
+		 * `ListItem active` marked as the current page, as it is in the drawer. In an `AppLayout` with a `NavigationDrawer`, it
 		 * shows only from the drawer's breakpoint up; below it, the menu button opens the drawer
 		 * instead. With a `modal` drawer, the links move between the bar and the drawer.
 		 */

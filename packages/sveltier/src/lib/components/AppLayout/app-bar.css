@@ -63,6 +63,21 @@
 		min-inline-size: 0;
 	}
 
+	/*
+	 * A List in the links lays out in a row, with the rounded rows and the active wash it has in
+	 * the drawer, each row as wide as its text: the same markup serves the bar and the drawer.
+	 */
+	.sv-app-bar__nav > .sv-list {
+		display: flex;
+		gap: var(--sv-space-2);
+		align-items: center;
+		padding: 0;
+	}
+
+	.sv-app-bar__nav > .sv-list > .sv-list-item {
+		flex: none;
+	}
+
 	.sv-app-bar__content {
 		display: flex;
 		flex: 1;

@@ -237,6 +237,26 @@ describe('AppLayout', () => {
 			await expect.element(page.getByRole('link', { name: 'Payments' })).not.toBeInTheDocument();
 		});
 
+		it('lays a List of links out in a row, the current page marked as in the drawer', async () => {
+			await page.viewport(1280, 800);
+			await render(AppLayoutHarness, { ...props, navList: true });
+			const markets = page.getByRole('link', { name: 'Markets' });
+			const trade = page.getByRole('link', { name: 'Trade' });
+			await expect.element(markets).toHaveAttribute('aria-current', 'page');
+			await expect.element(trade).not.toHaveAttribute('aria-current');
+			const first = markets.element().getBoundingClientRect();
+			const second = trade.element().getBoundingClientRect();
+			expect(second.top).toBeCloseTo(first.top, 0);
+			expect(second.left).toBeGreaterThan(first.right);
+			// As wide as their text, and inside the bar's height.
+			expect(first.width).toBeLessThan(200);
+			const bar = box('.sv-app-bar');
+			expect(first.top).toBeGreaterThan(bar.top);
+			expect(first.bottom).toBeLessThan(bar.bottom);
+			expect(getComputedStyle(markets.element()).backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+			expect(getComputedStyle(trade.element()).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+		});
+
 		it('keeps the links in a bar without a drawer at any width', async () => {
 			await page.viewport(600, 800);
 			await render(AppLayoutHarness, { withNav: true, withDrawer: false });

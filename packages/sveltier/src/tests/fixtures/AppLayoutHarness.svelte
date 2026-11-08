@@ -18,6 +18,7 @@
 		withDrawer = true,
 		withNav = false,
 		brand = false,
+		navList = false,
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
@@ -27,6 +28,7 @@
 		withDrawer?: boolean;
 		withNav?: boolean;
 		brand?: boolean;
+		navList?: boolean;
 		bar?: Partial<AppBarProps>;
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
@@ -56,8 +58,15 @@
 {/snippet}
 
 {#snippet links()}
-	<a href="#markets">Markets</a>
-	<a href="#trade">Trade</a>
+	{#if navList}
+		<List nav>
+			<ListItem title="Markets" href="#markets" active />
+			<ListItem title="Trade" href="#trade" />
+		</List>
+	{:else}
+		<a href="#markets">Markets</a>
+		<a href="#trade">Trade</a>
+	{/if}
 {/snippet}
 
 {#snippet navigation()}
