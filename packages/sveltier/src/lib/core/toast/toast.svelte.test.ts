@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import FullWindowHarness from '../../../tests/fixtures/FullWindowHarness.svelte';
 import ToastHarness from '../../../tests/fixtures/ToastHarness.svelte';
 import ToastProviders from '../../../tests/fixtures/ToastProviders.svelte';
 
@@ -24,6 +25,18 @@ async function press(name: string) {
 }
 
 describe('Toasts', () => {
+	it('keeps its live regions out of the page height, so a full-window app does not scroll', async () => {
+		const margin = document.body.style.margin;
+		document.body.style.margin = '0';
+		try {
+			await render(FullWindowHarness);
+			await expect.element(page.getByText('Terminal')).toBeVisible();
+			expect(document.documentElement.scrollHeight).toBe(window.innerHeight);
+		} finally {
+			document.body.style.margin = margin;
+		}
+	});
+
 	it('shows a toast in a named region in the top layer, and reads it out politely', async () => {
 		await render(ToastHarness);
 		await button('Save').click();
