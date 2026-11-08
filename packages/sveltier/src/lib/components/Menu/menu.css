@@ -71,6 +71,27 @@
 		flex: none;
 	}
 
+	/*
+	 * The tick of a checked item, checkbox or radio, as Select ticks its chosen option. Every item
+	 * keeps its slot once one can be checked, so the labels line up; other menus leave it out.
+	 */
+	.sv-menu__mark {
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		visibility: hidden;
+	}
+
+	[aria-checked='true'] > .sv-menu__mark {
+		visibility: visible;
+	}
+
+	.sv-menu:not(:has([aria-checked])) .sv-menu__mark {
+		display: none;
+	}
+
 	.sv-menu__label {
 		flex: 1;
 		min-inline-size: 0;

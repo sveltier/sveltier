@@ -509,22 +509,22 @@ export default [
 	},
 	{
 		// Its own code: the panel it shares with ContextMenu, with the entries grouped under their
-		// headings (2.2 KB of JS, most of it the compiled rows with their icon, a path or a
-		// component, and shortcut), the trigger's arrow keys, choosing and closing, and 0.8 KB of
-		// CSS. Roving focus, typeahead, placement, the layer stack and the motion are primitives,
-		// measured apart.
+		// headings (2.4 KB of JS, most of it the compiled rows with their icon, a path or a
+		// component, shortcut, and the tick and role of a checked item), the trigger's arrow keys,
+		// choosing and closing, and 0.9 KB of CSS. Roving focus, typeahead, placement, the layer
+		// stack and the motion are primitives, measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '3.2 KB',
+		limit: '3.4 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
-		// Menu's panel and CSS, which it shares (about 3 KB with them), and its own code: where it
-		// opens, kept in the viewport, the right click and the keys on its targets, choosing and
+		// Menu's panel and CSS, which it shares (about 3.2 KB with them), and its own code: where
+		// it opens, kept in the viewport, the right click and the keys on its targets, choosing and
 		// closing.
 		name: 'ContextMenu',
 		code: "export { ContextMenu } from '@sveltier/ui';",
-		limit: '3.45 KB',
+		limit: '3.65 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{

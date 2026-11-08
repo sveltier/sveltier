@@ -1,7 +1,7 @@
 <script lang="ts">
 	// A list of actions that opens from a control. See MenuProps.
 	import { createAttachmentKey, type Attachment } from 'svelte/attachments';
-	import { checkValue, DEV } from '#dev';
+	import { checkValue, DEV, warnRadioGroups } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 	import { sharedClasses } from '../../core/props/classes.js';
@@ -32,6 +32,7 @@
 	if (DEV) {
 		$effect(() => checkValue('Menu', 'side', side, SIDES));
 		$effect(() => checkValue('Menu', 'align', align, ALIGNS));
+		$effect(() => warnRadioGroups('Menu', items));
 	}
 
 	const uid = $props.id();

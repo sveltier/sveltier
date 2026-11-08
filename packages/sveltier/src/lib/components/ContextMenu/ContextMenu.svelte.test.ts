@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import ContextMenuHarness from '../../../tests/fixtures/ContextMenuHarness.svelte';
@@ -44,6 +44,42 @@ const near = (actual: [number, number], expected: [number, number], within = 1) 
 	expect(Math.abs(actual[0] - expected[0])).toBeLessThanOrEqual(within);
 	expect(Math.abs(actual[1] - expected[1])).toBeLessThanOrEqual(within);
 };
+
+describe('ContextMenu radios', () => {
+	it('warns in development when a group checks more than one radio, as Menu does', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(ContextMenuHarness, {
+			items: [
+				{ label: 'Bid', radio: true, checked: true },
+				{ label: 'Ask', radio: true, checked: true }
+			]
+		});
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) => /SV4009.*<ContextMenu>.*'Bid', 'Ask'/.test(String(text)))
+			)
+			.toBe(true);
+		warn.mockRestore();
+	});
+
+	it('says which item is on, from the panel it shares with Menu', async () => {
+		await render(ContextMenuHarness, {
+			items: [
+				{ label: 'Bid', value: 'bid', radio: true, checked: true },
+				{ label: 'Ask', value: 'ask', radio: true }
+			]
+		});
+		const box = row('A-1').element().getBoundingClientRect();
+		rightClick(row('A-1').element(), box.left + 20, box.top + 10);
+		await expect.element(menu()).toBeVisible();
+		await expect
+			.element(page.getByRole('menuitemradio', { name: 'Bid' }))
+			.toHaveAttribute('aria-checked', 'true');
+		await expect
+			.element(page.getByRole('menuitemradio', { name: 'Ask' }))
+			.toHaveAttribute('aria-checked', 'false');
+	});
+});
 
 describe('ContextMenu', () => {
 	it('opens at the pointer on a right click, named by its label, on the row clicked', async () => {
