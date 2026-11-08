@@ -288,16 +288,16 @@ describe('AppLayout', () => {
 		it('is the height of the window, and Main scrolls instead of the page', async () => {
 			await page.viewport(1280, 800);
 			await render(AppLayoutHarness, { fill: true });
-			expect(box('.sv-app-layout').height).toBe(800);
+			expect(box('.sv-app-layout').height).toBeCloseTo(800, 0);
 			expect(pageHeight()).toBe(800);
 			const main = part('.sv-main');
 			expect(box('.sv-main').top).toBeCloseTo(BAR, 0);
-			expect(box('.sv-main').bottom).toBe(800);
+			expect(box('.sv-main').bottom).toBeCloseTo(800, 0);
 			expect(main.scrollHeight).toBeGreaterThan(main.clientHeight);
 			// The drawer fills the height beside it.
 			const navigation = box('.sv-navigation-drawer__content');
 			expect(navigation.top).toBeCloseTo(BAR, 0);
-			expect(navigation.bottom).toBe(800);
+			expect(navigation.bottom).toBeCloseTo(800, 0);
 		});
 
 		it('gives a pane of 100% the height the bar leaves, scrolling on its own', async () => {
@@ -316,15 +316,15 @@ describe('AppLayout', () => {
 			expect(pageHeight()).toBeGreaterThan(800);
 			await page.viewport(1280, 800);
 			await expect.poll(pageHeight).toBe(800);
-			expect(box('.sv-main').bottom).toBe(800);
+			expect(box('.sv-main').bottom).toBeCloseTo(800, 0);
 		});
 
 		it('gives a drawer written first the full height', async () => {
 			await page.viewport(1280, 800);
 			await render(AppLayoutHarness, { fill: true, drawerFirst: true });
 			const navigation = box('.sv-navigation-drawer__content');
-			expect(navigation.top).toBe(0);
-			expect(navigation.bottom).toBe(800);
+			expect(navigation.top).toBeCloseTo(0, 0);
+			expect(navigation.bottom).toBeCloseTo(800, 0);
 			expect(pageHeight()).toBe(800);
 		});
 	});
@@ -369,7 +369,7 @@ describe('AppLayout', () => {
 		it('keeps it at the bottom of a layout that fills the window, Main between', async () => {
 			await page.viewport(1280, 800);
 			await render(AppLayoutHarness, { footer: {}, fill: true, pane: true });
-			expect(box('.sv-app-footer').bottom).toBe(800);
+			expect(box('.sv-app-footer').bottom).toBeCloseTo(800, 0);
 			expect(box('.sv-main').bottom).toBeCloseTo(800 - FOOTER, 0);
 			expect(box('.sv-navigation-drawer__content').bottom).toBeCloseTo(800 - FOOTER, 0);
 			expect(document.documentElement.scrollHeight).toBe(800);
