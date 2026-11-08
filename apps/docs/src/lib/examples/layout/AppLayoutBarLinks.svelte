@@ -1,39 +1,31 @@
 <script>
 	import { page } from '$app/state';
-	import { AppBar, AppLayout, Button, List, ListItem, Main, NavigationDrawer } from '@sveltier/ui';
+	import { AppBar, AppLayout, List, ListItem, Main, NavigationDrawer } from '@sveltier/ui';
 
 	let { children } = $props();
 
-	const links = [
+	const pages = [
 		{ title: 'Markets', href: '/markets' },
 		{ title: 'Trade', href: '/trade' },
 		{ title: 'Portfolio', href: '/portfolio' }
 	];
 </script>
 
+<!-- The links, written once: a row in the bar, a column in the drawer. -->
+{#snippet links()}
+	<List nav>
+		{#each pages as item (item.href)}
+			<ListItem title={item.title} href={item.href} active={page.url.pathname === item.href} />
+		{/each}
+	</List>
+{/snippet}
+
 <AppLayout>
-	<AppBar title="Desk">
-		<!-- From the drawer's breakpoint up: the links across the bar. -->
-		{#snippet nav()}
-			{#each links as link (link.href)}
-				<Button
-					href={link.href}
-					variant="text"
-					color="neutral"
-					aria-current={page.url.pathname === link.href ? 'page' : undefined}
-				>
-					{link.title}
-				</Button>
-			{/each}
-		{/snippet}
+	<AppBar nav={links}>
+		<!-- The app's mark, a link home, at every width. -->
+		{#snippet prepend()}<a href="/">Desk</a>{/snippet}
 	</AppBar>
-	<!-- Below it: the menu button opens the same links in a modal drawer. -->
-	<NavigationDrawer modal>
-		<List nav>
-			{#each links as link (link.href)}
-				<ListItem title={link.title} href={link.href} active={page.url.pathname === link.href} />
-			{/each}
-		</List>
-	</NavigationDrawer>
+	<!-- Below the breakpoint, the menu button opens the same links in a modal drawer. -->
+	<NavigationDrawer modal>{@render links()}</NavigationDrawer>
 	<Main>{@render children()}</Main>
 </AppLayout>
