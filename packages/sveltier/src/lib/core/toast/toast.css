@@ -22,7 +22,14 @@
 		max-block-size: none;
 		margin: 0;
 		padding-block: 0
-			calc(max(var(--sv-toasts-inset, 0px), env(safe-area-inset-bottom, 0px)) + var(--sv-space-21));
+			calc(
+				max(
+						var(--sv-toasts-inset, 0px),
+						var(--sv-toasts-footer, 0px),
+						env(safe-area-inset-bottom, 0px)
+					) +
+					var(--sv-space-21)
+			);
 		padding-inline: 0;
 		border: 0;
 		overflow: visible;

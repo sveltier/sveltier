@@ -283,6 +283,26 @@
 	}
 
 	/*
+	 * Toasts keep clear of the footer. The toast region renders outside the layout, so the
+	 * footer's height is given to it from the root.
+	 */
+	:root:has(.sv-app-layout > .sv-app-footer) {
+		--sv-toasts-footer: var(--sv-control-md);
+	}
+
+	:root:has(.sv-app-layout > .sv-app-footer.sv-density-dense) {
+		--sv-toasts-footer: calc(var(--sv-control-md) * var(--sv-density-dense));
+	}
+
+	:root:has(.sv-app-layout > .sv-app-footer.sv-density-compact) {
+		--sv-toasts-footer: calc(var(--sv-control-md) * var(--sv-density-compact));
+	}
+
+	:root:has(.sv-app-layout > .sv-app-footer.sv-density-comfortable) {
+		--sv-toasts-footer: calc(var(--sv-control-md) * var(--sv-density-comfortable));
+	}
+
+	/*
 	 * Under a sticky bar, the page scrolls a link's target or a focused control into view below
 	 * the bar, with room to spare.
 	 */

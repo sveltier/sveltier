@@ -122,6 +122,24 @@ describe('Toasts', () => {
 		expect(await distance()).toBeCloseTo(usual + 22, 0);
 	});
 
+	it('keeps clear of an AppFooter on its own, taking the larger of it and the inset', async () => {
+		const FOOTER = 2.618 * 16;
+		const distance = async () => {
+			await button('Save').click();
+			const list = region().getByRole('list');
+			await expect.element(list).toBeVisible();
+			return innerHeight - list.element().getBoundingClientRect().bottom;
+		};
+		const plain = await render(ToastHarness);
+		const usual = await distance();
+		plain.unmount();
+		const framed = await render(ToastHarness, { footer: true });
+		expect(await distance()).toBeCloseTo(usual + FOOTER, 0);
+		framed.unmount();
+		await render(ToastHarness, { footer: true, defaults: { Toast: { inset: 22 } } });
+		expect(await distance()).toBeCloseTo(usual + FOOTER, 0);
+	});
+
 	it('stays with a duration of 0', async () => {
 		await render(ToastHarness, { duration: 0 });
 		await button('Save').click();
