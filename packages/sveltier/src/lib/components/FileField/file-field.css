@@ -111,8 +111,12 @@
 		stroke-linecap: round;
 	}
 
-	/* A drop zone: φ² taller, dashed, its words in the middle. */
+	/*
+	 * A drop zone: φ² taller, dashed, its words in the middle. Its corners take the control radius
+	 * but never rounder than a card, so it stays a box where controls are pills.
+	 */
 	.sv-file-field--drop .sv-field__box {
+		--sv-field-radius: min(var(--sv-radius-md), var(--sv-radius-lg));
 		min-block-size: calc(var(--sv-size-height) * var(--sv-density) * 2.618);
 		border-style: dashed;
 	}
