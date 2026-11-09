@@ -93,11 +93,12 @@ export default [
 		limit: '1.8 KB'
 	},
 	{
-		// Shared by every form control: when a message shows, the HTML constraints with their
-		// messages, the native validity kept in step, and joining the Form around it.
+		// Shared by every form control: when a message shows (after the click of a press that
+		// took focus away, 0.15 KB), the HTML constraints with their messages, the native
+		// validity kept in step, and joining the Form around it.
 		name: 'form validation (shared by the form controls)',
 		code: "export { createField } from '@sveltier/ui/core/form/field.svelte.js';\nexport { textConstraintMessage } from '@sveltier/ui/core/form/constraints.js';",
-		limit: '0.85 KB'
+		limit: '1 KB'
 	},
 	{
 		// A landmark, a list, links or text and the current page (0.65 KB of JS); the separators

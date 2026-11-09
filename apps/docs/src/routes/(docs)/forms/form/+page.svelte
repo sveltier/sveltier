@@ -29,7 +29,8 @@
 	<ul>
 		<li>
 			<code>"blur"</code> (default): when the user leaves a field they have changed. Tabbing through the
-			form shows nothing.
+			form shows nothing. When the user leaves by pressing a button below, the message waits for the click,
+			so the line it adds cannot move the button away from the pointer.
 		</li>
 		<li><code>"input"</code>: from the first change.</li>
 		<li><code>"submit"</code>: when the form is submitted.</li>
