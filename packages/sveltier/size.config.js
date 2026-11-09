@@ -502,11 +502,12 @@ export default [
 	},
 	{
 		// The file input over the box, the chosen names, files set from code put in the input,
-		// the clear button, the drop zone and the accept check (1.95 KB of JS), and their styles
-		// (0.85 KB). The Field and the shared validation are measured apart.
+		// the clear button, the drop zone, and the accept check whose message names the
+		// extensions (2 KB of JS), and their styles (0.85 KB). The Field and the shared
+		// validation are measured apart.
 		name: 'FileField',
 		code: "export { FileField } from '@sveltier/ui';",
-		limit: '2.8 KB',
+		limit: '2.9 KB',
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{

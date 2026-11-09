@@ -28,7 +28,8 @@ type FileFieldOwnProps = Partial<FileFieldDefaults> &
 		/**
 		 * The kinds of file to choose, as on `<input type="file">`: extensions and media types,
 		 * comma-separated (`'.json,application/json'`, `'image/*'`). The chooser filters by it;
-		 * a dropped file of another kind is an error.
+		 * a dropped file of another kind is an error, which names the extensions (".json"), or
+		 * the media types when there are none. For other words, set the locale's `fileType`.
 		 */
 		accept?: string;
 		/**

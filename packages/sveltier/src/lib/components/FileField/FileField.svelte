@@ -5,7 +5,7 @@
 	import { createField } from '../../core/form/field.svelte.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
-	import { accepts } from './accept.js';
+	import { accepts, shownKinds } from './accept.js';
 	import './file-field.css';
 	import type { FileFieldDefaults, FileFieldProps } from './types.js';
 
@@ -54,9 +54,11 @@
 		empty: (list) => list.length === 0,
 		check: (list) => {
 			if (list.length === 0) return required ? locale.t('required') : undefined;
-			// The chooser filters by accept; a dropped file is not filtered.
+			// The chooser filters by accept; a dropped file is not filtered. The message names the
+			// extensions, as people know their files by them: ".png or .jpg".
 			if (accept && list.some((file) => !accepts(file, accept))) {
-				return locale.t('fileType', { accept });
+				const kinds = new Intl.ListFormat(locale.locale, { type: 'disjunction' });
+				return locale.t('fileType', { accept: kinds.format(shownKinds(accept)) });
 			}
 			return undefined;
 		},

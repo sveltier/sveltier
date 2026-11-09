@@ -25,6 +25,8 @@ export const MESSAGES = {
 	decrease: 'Decrease',
 	// A file field: the button-like part of its box, what it shows with nothing chosen and with
 	// several files, its clear button, the words of a drop zone, and a file of another kind.
+	// {accept} is the extensions `accept` names (".png or .jpg"), or its media types when it
+	// names none.
 	chooseFile: 'Choose a file',
 	chooseFiles: 'Choose files',
 	noFile: 'No file chosen',

@@ -66,11 +66,27 @@ describe('FileField', () => {
 	it('says a file of another kind is an error, as a drop is not filtered', async () => {
 		await render(FileFieldHarness, { accept: '.json,application/json', validateOn: 'input' });
 		await userEvent.upload(input(), new File(['x'], 'notes.txt', { type: 'text/plain' }));
-		await expect
-			.element(input())
-			.toHaveAccessibleDescription('Choose a file of type .json,application/json');
+		// Named by its extensions, as people know their files.
+		await expect.element(input()).toHaveAccessibleDescription('Choose a file of type .json');
 		await userEvent.upload(input(), json());
 		await expect.element(input()).not.toHaveAttribute('aria-invalid');
+	});
+
+	it('names the kinds it takes in the locale’s words, or their media types without extensions', async () => {
+		const text = new File(['x'], 'notes.txt', { type: 'text/plain' });
+		const screen = await render(FileFieldHarness, {
+			accept: 'image/png, .png, .jpg',
+			validateOn: 'input'
+		});
+		await userEvent.upload(input(), text);
+		await expect.element(input()).toHaveAccessibleDescription('Choose a file of type .png or .jpg');
+		screen.unmount();
+
+		await render(FileFieldHarness, { accept: 'image/png,image/jpeg', validateOn: 'input' });
+		await userEvent.upload(input(), text);
+		await expect
+			.element(input())
+			.toHaveAccessibleDescription('Choose a file of type image/png or image/jpeg');
 	});
 
 	it('blocks a form without a file when required', async () => {
