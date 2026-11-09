@@ -68,7 +68,8 @@
 
 	if (DEV) $effect(() => warnUnnamed('FileField', ref));
 
-	// Files set from code go into the input, so a form submits what the field shows.
+	// Files set from code go into the input, so a form submits what the field shows. An empty
+	// list clears it as the clear button does, which needs no DataTransfer (a test DOM has none).
 	$effect(() => {
 		const input = ref;
 		if (!input) return;
@@ -76,6 +77,7 @@
 		if (current.length === chosen.length && current.every((file, at) => file === chosen[at])) {
 			return;
 		}
+		if (chosen.length === 0) return void (input.value = '');
 		const transfer = new DataTransfer();
 		for (const file of chosen) transfer.items.add(file);
 		input.files = transfer.files;

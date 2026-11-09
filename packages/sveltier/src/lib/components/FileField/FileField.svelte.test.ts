@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import FileFieldHarness from '../../../tests/fixtures/FileFieldHarness.svelte';
@@ -91,6 +91,21 @@ describe('FileField', () => {
 		expect(testId('changes').element().textContent).toBe('');
 		await screen.rerender({ files: [] });
 		await expect.poll(() => element().files?.length).toBe(0);
+	});
+
+	it('clears the input when code empties the files, without a DataTransfer', async () => {
+		// An app's unit tests may run in a DOM without one, and clear the field from code.
+		const screen = await render(FileFieldHarness);
+		await userEvent.upload(input(), json());
+		await expect.element(testId('files')).toHaveTextContent('backup.json');
+		vi.stubGlobal('DataTransfer', undefined);
+		try {
+			await screen.rerender({ files: [] });
+			await expect.poll(() => element().files?.length).toBe(0);
+			expect(shown()).toBe('Choose a file No file chosen');
+		} finally {
+			vi.unstubAllGlobals();
+		}
 	});
 
 	it('marks the box while a file is dragged over it, and grows into a drop zone', async () => {
