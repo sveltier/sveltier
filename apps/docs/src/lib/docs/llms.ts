@@ -42,6 +42,7 @@ import {
 	sliderUsage,
 	switchUsage,
 	textareaUsage,
+	fileFieldUsage,
 	textFieldValidation,
 	timeFieldUsage,
 	dateTimeFieldUsage
@@ -191,6 +192,12 @@ const FORMS: Entry[] = [
 		example: textFieldValidation
 	},
 	{ name: 'Textarea', path: 'forms/textarea', types: ['TextareaProps'], example: textareaUsage },
+	{
+		name: 'FileField',
+		path: 'forms/file-field',
+		types: ['FileFieldProps'],
+		example: fileFieldUsage
+	},
 	{
 		name: 'NumberField',
 		path: 'forms/number-field',

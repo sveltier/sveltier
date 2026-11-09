@@ -88,7 +88,8 @@
 {#snippet action(item: MenuAction)}
 	<button
 		type="button"
-		role="menuitem"
+		role={item.radio ? 'menuitemradio' : item.checked == null ? 'menuitem' : 'menuitemcheckbox'}
+		aria-checked={item.checked ?? (item.radio ? false : undefined)}
 		tabindex="-1"
 		disabled={item.disabled}
 		data-sv-item
@@ -97,6 +98,10 @@
 		onclick={() => choose(item)}
 		onpointermove={follow}
 	>
+		<!-- Shown on a checked item; the menu makes room for it once one item can be checked. -->
+		<svg class="sv-menu__mark" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M5 12.5l4.5 4.5L19 7.5" />
+		</svg>
 		{#if typeof item.icon === 'string'}
 			<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={item.icon} /></svg>
 		{:else if item.icon}

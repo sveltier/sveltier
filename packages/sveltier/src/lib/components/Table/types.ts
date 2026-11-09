@@ -70,6 +70,12 @@ export interface TableColumnBase<T> {
 	 */
 	rowHeader?: boolean;
 	/**
+	 * Keeps the column at the start of the box while the table scrolls across, so a wide table
+	 * on a narrow screen keeps the name of each row in view. One column per table; the usual one
+	 * is the `rowHeader`.
+	 */
+	pinned?: boolean;
+	/**
 	 * Lets the header sort the table. `true` compares the column's values: numbers, dates and
 	 * text in the locale's order, empty values last. A function compares two items itself.
 	 */
@@ -126,8 +132,9 @@ export type TableColumn<T> = TableKeyColumn<T> | TableValueColumn<T>;
 
 /**
  * A table of items, one row each, in the columns you describe. Headers stay in view while it
- * scrolls, numbers line up at the end, and a column with `sort` sorts by its header. Name it
- * with `caption`, `aria-label` or `aria-labelledby`, which go to the `<table>`.
+ * scrolls, a `pinned` column stays in view while it scrolls across, numbers line up at the end,
+ * and a column with `sort` sorts by its header. Name it with `caption`, `aria-label` or
+ * `aria-labelledby`, which go to the `<table>`.
  *
  * @example
  * <script lang="ts">
@@ -135,7 +142,7 @@ export type TableColumn<T> = TableKeyColumn<T> | TableValueColumn<T>;
  * 	type Position = { symbol: string; quantity: number; price: number };
  * 	let { positions }: { positions: Position[] } = $props();
  * 	const columns: TableColumn<Position>[] = [
- * 		{ key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
+ * 		{ key: 'symbol', label: 'Symbol', rowHeader: true, pinned: true, sort: true },
  * 		{ key: 'quantity', label: 'Quantity', sort: true },
  * 		{ key: 'price', label: 'Price', format: (price) => price.toFixed(2) },
  * 		{ id: 'value', label: 'Value', value: (p) => p.quantity * p.price, sort: true }

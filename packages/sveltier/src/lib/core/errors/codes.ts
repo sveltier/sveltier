@@ -162,6 +162,20 @@ export const ERROR_CODES = {
 			'Before the API settled for beta, a few props were renamed so that the same thing has the same name everywhere: the choices of a `Select` and a `Combobox` are `options`, as on `NativeSelect` and `RadioGroup`, and an `Accordion` item has a `label`, as a tab does. A prop or a field under its old name is ignored.',
 		fix: 'Use the new name the warning gives: `options` for `items` on `Select` and `Combobox`, `label` for `title` in `Accordion` items. The types name it too, on the old name.'
 	},
+	SV4009: {
+		kind: 'warning',
+		title: 'Menu radios that are not one choice of their group',
+		cause:
+			'Menu items with `radio` are one choice of several, and their group is the items between two headings or separators. A group that mixes radios with other items, or checks more than one radio, is not one choice: screen readers announce it as something other than what it shows.',
+		fix: 'Put the radios under a heading of their own, or between separators, and check one of them, for example `checked: layout === value`. For settings that each turn on or off, leave out `radio` and keep `checked`.'
+	},
+	SV4010: {
+		kind: 'warning',
+		title: 'A table that pins more than one column',
+		cause:
+			"A column with `pinned` stays at the start of the table's box while the others scroll across under it. Two pinned columns would stay at the same edge, one over the other, so a table pins one.",
+		fix: 'Pin the column that names the rows, usually the one with `rowHeader`, and leave `pinned` out of the others.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

@@ -37,7 +37,9 @@ declare module '../../core/defaults/context.js' {
 type CheckboxOwnProps = Partial<CheckboxDefaults> &
 	ChoiceContentProps & {
 		/**
-		 * Whether the box is checked. Bindable.
+		 * Whether the box is checked. Bindable. To refuse a change, bind it through a setter that keeps
+		 * your state, as `bind:checked={() => on, (next) => save(next) && (on = next)}`: the box shows
+		 * that state again, and `onchange` is not called.
 		 * @default false
 		 */
 		checked?: boolean;

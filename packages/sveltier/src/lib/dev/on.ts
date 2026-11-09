@@ -3,6 +3,7 @@
 // whose functions do nothing. Callers also guard with `if (DEV)`, so production bundles drop
 // the calls as well.
 import { parseIso } from '../components/Calendar/dates.js';
+import type { MenuAction, MenuItem } from '../components/Menu/types.js';
 import { parseClock } from '../components/TimeField/time.js';
 import type { ErrorCode } from '../core/errors/codes.js';
 import { ERRORS_URL } from '../core/errors/errors.js';
@@ -109,6 +110,42 @@ export function warnDuplicates(
 	const duplicate = keys.find((key, i) => keys.indexOf(key) !== i);
 	if (duplicate === undefined) return;
 	warn('SV4005', `<${component}> has two ${entries} with the key ${show(duplicate)}. ${fix}`);
+}
+
+/** Warns when a table pins more than one column: they would stack at the same edge. */
+export function warnPinned(component: string, labels: readonly string[]): void {
+	if (labels.length < 2) return;
+	warn(
+		'SV4010',
+		`<${component}> pins ${labels.length} columns: ${labels.map(show).join(', ')}. One column stays at the start of the box; pin the one that names the rows, such as the rowHeader, and leave pinned out of the others.`
+	);
+}
+
+/**
+ * Warns when the radio items of a menu are not one choice of their group (the items between two
+ * headings or separators): the group also has other items, or checks more than one radio.
+ */
+export function warnRadioGroups(component: string, items: readonly MenuItem[]): void {
+	let group: MenuAction[] = [];
+	for (const item of [...items, { separator: true } as const]) {
+		if ('label' in item) {
+			group.push(item);
+			continue;
+		}
+		const radios = group.filter((action) => action.radio);
+		const problem =
+			radios.length < group.length
+				? 'also has items that are not radios'
+				: radios.filter((radio) => radio.checked).length > 1 && 'checks more than one';
+		if (radios.length && problem) {
+			const labels = radios.map((radio) => show(radio.label)).join(', ');
+			warn(
+				'SV4009',
+				`<${component}> has a group with the radios ${labels} that ${problem}. A group is the items between two headings or separators: give the radios one of their own and check one, such as checked: layout === value.`
+			);
+		}
+		group = [];
+	}
 }
 
 /** Warns when a row of a description list is not inside one (`<dl>`). */

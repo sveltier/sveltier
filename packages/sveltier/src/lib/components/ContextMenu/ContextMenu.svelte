@@ -1,6 +1,7 @@
 <script lang="ts">
 	// A menu of actions on an element, opened where it is right-clicked. See ContextMenuProps.
 	import type { Attachment } from 'svelte/attachments';
+	import { DEV, warnRadioGroups } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import type { CloseReason } from '../../core/overlay/types.js';
 	import { sharedClasses } from '../../core/props/classes.js';
@@ -35,6 +36,8 @@
 		density: 'default'
 	});
 	const p = $derived(resolve({ size, density }));
+
+	if (DEV) $effect(() => warnRadioGroups('ContextMenu', items));
 
 	const uid = $props.id();
 	const id = $derived(idProp ?? uid);

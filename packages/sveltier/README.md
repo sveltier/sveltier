@@ -87,7 +87,7 @@ The files the section points to:
 - **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
   Stepper, Table, Tabs, Timeline, Tree.
-- **Forms:** Form, Field, TextField, Textarea, NumberField, NativeSelect, Select, Combobox,
+- **Forms:** Form, Field, TextField, Textarea, FileField, NumberField, NativeSelect, Select, Combobox,
   Checkbox, Switch, RadioGroup, Slider, OtpInput, Calendar, DatePicker, DateRangePicker,
   TimeField and DateTimeField, validated by the HTML constraints first, then your rules.
 - **Finance:** Amount and Delta for figures people read, Odometer for a headline figure that

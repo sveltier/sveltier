@@ -3,8 +3,9 @@
 	import ApiTable from '#lib/docs/ApiTable.svelte';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
+	import MenuCheckedDemo from '#lib/docs/menu/MenuCheckedDemo.svelte';
 	import MenuDemo from '#lib/docs/menu/MenuDemo.svelte';
-	import { menuIconButton, menuUsage } from '#lib/snippets/overlays.js';
+	import { menuChecked, menuIconButton, menuUsage } from '#lib/snippets/overlays.js';
 	import MENU_ACTION from 'virtual:sveltier-api/MenuAction';
 	import MENU_PROPS from 'virtual:sveltier-api/MenuProps';
 </script>
@@ -35,6 +36,17 @@
 			for screen readers as well.
 		</li>
 	</ul>
+
+	<h2 id="checked">Checked items</h2>
+	<p>
+		An item with <code>checked</code> shows whether it is on, with a tick: for settings that each
+		turn on or off. An item with <code>radio</code> is one choice of its group (the items between
+		two headings or separators), ticked when it is the one <code>checked</code>. The menu does not
+		change them: set them from your state and update it in <code>onselect</code>. Once one item can
+		be checked, every label leaves room for the tick, so they line up.
+	</p>
+	<MenuCheckedDemo />
+	<Code title="ChartView.svelte" code={menuChecked} />
 
 	<h2 id="keyboard">Keyboard</h2>
 	<ul>
@@ -72,7 +84,13 @@
 			<code>separator</code>s.
 		</li>
 		<li>
-			A menu holds actions. For a choice that stays selected, use a <a
+			Checked items are <code>menuitemcheckbox</code> and <code>menuitemradio</code> rows with
+			<code>aria-checked</code>; the tick is hidden from screen readers, which say the state
+			instead. In development, a group that mixes radios with other items, or checks more than one,
+			warns (SV4009).
+		</li>
+		<li>
+			A menu holds actions and the settings of a view. For a choice in a form, use a <a
 				href={resolve('forms/radio-group')}>RadioGroup</a
 			>
 			or a <a href={resolve('forms/native-select')}>NativeSelect</a>; for fields, a

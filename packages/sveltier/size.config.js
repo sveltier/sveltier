@@ -325,19 +325,21 @@ export default [
 	},
 	{
 		// Its own code: the columns, their alignment, the sort with its comparator and the scroll
-		// region (2.45 KB of JS), and 1.2 KB of CSS (sticky header, sort arrow, current row,
-		// loading bar). The locale and the shared props are core, measured apart.
+		// region (2.5 KB of JS), and 1.4 KB of CSS (sticky header and caption, pinned column with
+		// its edge, sort arrow, current row, loading bar). The locale and the shared props are
+		// core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '3.75 KB',
+		limit: '3.9 KB',
 		external: [/\/core\//]
 	},
 	{
-		// Its own code: the options with the placeholder and the reset target, and the arrow, an
-		// inline SVG mask in the CSS. The Field and the shared validation are measured apart.
+		// Its own code: the options with the placeholder and the reset target, a choice its owner
+		// refused put back, and the arrow, an inline SVG mask in the CSS. The Field and the shared
+		// validation are measured apart.
 		name: 'NativeSelect',
 		code: "export { NativeSelect } from '@sveltier/ui';",
-		limit: '1.8 KB',
+		limit: '1.85 KB',
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
@@ -499,23 +501,32 @@ export default [
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{
+		// The file input over the box, the chosen names, files set from code put in the input,
+		// the clear button, the drop zone and the accept check (1.95 KB of JS), and their styles
+		// (0.85 KB). The Field and the shared validation are measured apart.
+		name: 'FileField',
+		code: "export { FileField } from '@sveltier/ui';",
+		limit: '2.8 KB',
+		external: [/\/core\//, /\/components\/Field\//]
+	},
+	{
 		// Its own code: the panel it shares with ContextMenu, with the entries grouped under their
-		// headings (2.2 KB of JS, most of it the compiled rows with their icon, a path or a
-		// component, and shortcut), the trigger's arrow keys, choosing and closing, and 0.8 KB of
-		// CSS. Roving focus, typeahead, placement, the layer stack and the motion are primitives,
-		// measured apart.
+		// headings (2.4 KB of JS, most of it the compiled rows with their icon, a path or a
+		// component, shortcut, and the tick and role of a checked item), the trigger's arrow keys,
+		// choosing and closing, and 0.9 KB of CSS. Roving focus, typeahead, placement, the layer
+		// stack and the motion are primitives, measured apart.
 		name: 'Menu',
 		code: "export { Menu } from '@sveltier/ui';",
-		limit: '3.2 KB',
+		limit: '3.4 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
-		// Menu's panel and CSS, which it shares (about 3 KB with them), and its own code: where it
-		// opens, kept in the viewport, the right click and the keys on its targets, choosing and
+		// Menu's panel and CSS, which it shares (about 3.2 KB with them), and its own code: where
+		// it opens, kept in the viewport, the right click and the keys on its targets, choosing and
 		// closing.
 		name: 'ContextMenu',
 		code: "export { ContextMenu } from '@sveltier/ui';",
-		limit: '3.45 KB',
+		limit: '3.65 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -613,7 +624,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '82 KB'
+		limit: '84 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two

@@ -19,6 +19,10 @@ export { default as formMethods } from '../examples/forms/FormMethods.svelte?raw
 
 export { default as textareaUsage } from '../examples/forms/TextareaUsage.svelte?raw';
 
+export { default as fileFieldUsage } from '../examples/forms/FileFieldUsage.svelte?raw';
+
+export { default as fileFieldDrop } from '../examples/forms/FileFieldDrop.svelte?raw';
+
 export { default as numberFieldUsage } from '../examples/forms/NumberFieldUsage.svelte?raw';
 
 export { default as selectUsage } from '../examples/forms/SelectUsage.svelte?raw';

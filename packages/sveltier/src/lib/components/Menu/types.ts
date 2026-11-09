@@ -46,6 +46,19 @@ export interface MenuAction {
 	disabled?: boolean;
 	/** In the error colour, for an action that deletes or cannot be undone. */
 	danger?: boolean;
+	/**
+	 * Whether it is on, for an item that toggles a setting: set to `true` or `false`, the item is a
+	 * `menuitemcheckbox` with a tick when on. The menu does not change it; set it from your state
+	 * and update that in `onselect`.
+	 * @example { label: 'Show volume', value: 'volume', checked: showVolume }
+	 */
+	checked?: boolean;
+	/**
+	 * One choice of several, a `menuitemradio`, ticked when `checked`. Its group is the items
+	 * between two headings or separators: give them all `radio` and check one.
+	 * @example { label: 'Two side by side', value: 'columns', radio: true, checked: layout === 'columns' }
+	 */
+	radio?: boolean;
 }
 
 /** A line between groups of items. */
@@ -65,7 +78,8 @@ export type MenuItem = MenuAction | MenuSeparator | MenuHeading;
  * A list of actions that opens from a control, as the APG menu button pattern describes. Arrow
  * keys move through the items and wrap, Home and End jump to the ends, typing moves to the item
  * that starts with it, Enter and Space choose, Escape closes and gives focus back, and Tab closes
- * and moves on. `class`, `style`, `ref` and other attributes go to the menu.
+ * and moves on. `class`, `style`, `ref` and other attributes go to the menu. Items with `checked`
+ * show whether they are on, and `radio` items are one choice of their group.
  *
  * @example
  * <Menu

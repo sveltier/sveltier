@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import TableHarness, {
@@ -91,7 +91,7 @@ describe('Table', () => {
 		});
 		const rows = table().element().querySelectorAll('tbody tr');
 		expect(rows[1]!.getAttribute('aria-current')).toBe('true');
-		const wash = (row: Element) => getComputedStyle(row.children[1]!).backgroundColor;
+		const wash = (row: Element) => getComputedStyle(row.children[1]!).backgroundImage;
 		expect(wash(rows[1]!)).not.toBe(wash(rows[0]!));
 	});
 
@@ -146,5 +146,92 @@ describe('Table', () => {
 		const head = header('Symbol').element().getBoundingClientRect();
 		expect(cell.height).toBeCloseTo(expected, 0);
 		expect(head.height).toBeCloseTo(expected, 0);
+	});
+});
+
+const PINNED: TableColumn<Position>[] = [
+	{ key: 'symbol', label: 'Symbol', rowHeader: true, pinned: true },
+	{ key: 'quantity', label: 'Quantity' },
+	{ key: 'price', label: 'Price', format: (price) => price.toFixed(2) },
+	{ id: 'value', label: 'Value', value: (p) => (p.price ?? 0) * p.quantity },
+	{ key: 'status', label: 'Status' }
+];
+
+describe('Table pinned column', () => {
+	const cell = (name: string) => page.getByRole('rowheader', { name }).element();
+	const rect = (element: Element) => element.getBoundingClientRect();
+	const at = (x: number, y: number) => document.elementFromPoint(x, y)?.closest('th, td');
+
+	it('stays at the start of the box while the others scroll across under it, its header over all', async () => {
+		await render(TableHarness, {
+			columns: PINNED,
+			style: 'inline-size: 12rem; max-block-size: 10rem',
+			rowAttributes: (position: Position) => ({ 'aria-current': position.symbol === 'VNM' })
+		});
+		const scroller = box();
+		await expect.poll(() => scroller.scrollWidth > scroller.clientWidth).toBe(true);
+		expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+		const quantity = rect(header('Quantity').element()).left;
+		scroller.scrollLeft = 80;
+		const edge = rect(scroller).left;
+		expect(rect(header('Quantity').element()).left).toBeLessThan(quantity - 40);
+		expect(Math.abs(rect(header('Symbol').element()).left - edge)).toBeLessThan(1);
+		const vnm = rect(cell('VNM'));
+		expect(Math.abs(vnm.left - edge)).toBeLessThan(1);
+		// The scrolled cells pass under the pinned ones.
+		expect(at(edge + 4, vnm.top + vnm.height / 2)).toBe(cell('VNM'));
+		// The caption's words stay in view as well.
+		const words = rect(table().element().querySelector('caption > span')!);
+		expect(words.left).toBeGreaterThan(edge);
+		expect(words.right).toBeLessThan(rect(scroller).right);
+
+		// Scrolled down too, the rows pass under the pinned header.
+		scroller.scrollTop = scroller.scrollHeight;
+		const head = rect(header('Symbol').element());
+		expect(Math.abs(head.top - rect(scroller).top)).toBeLessThan(1);
+		expect(at(edge + 4, head.top + head.height / 2)).toBe(header('Symbol').element());
+		// On the surface, with its row's wash over it.
+		const style = getComputedStyle(cell('VNM'));
+		expect(style.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+		expect(style.backgroundImage).not.toBe('none');
+	});
+
+	it('stays at the right in a right-to-left table', async () => {
+		await render(TableHarness, { columns: PINNED, style: 'inline-size: 12rem', dir: 'rtl' });
+		const scroller = box();
+		await expect.poll(() => scroller.scrollWidth > scroller.clientWidth).toBe(true);
+		scroller.scrollLeft = -80;
+		expect(Math.abs(rect(cell('VNM')).right - rect(scroller).right)).toBeLessThan(1);
+	});
+
+	it('draws its edge only while the table scrolls across, at the same width', async () => {
+		const screen = await render(TableHarness, { columns: PINNED.slice(0, 2) });
+		const edge = () => getComputedStyle(cell('VNM')).borderInlineEndColor;
+		await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+		expect(box().classList.contains('sv-table--across')).toBe(false);
+		expect(edge()).toBe('rgba(0, 0, 0, 0)');
+		const border = getComputedStyle(cell('VNM')).borderInlineEndWidth;
+		expect(border).not.toBe('0px');
+		await screen.rerender({ style: 'inline-size: 4rem' });
+		await expect.poll(() => box().classList.contains('sv-table--across')).toBe(true);
+		expect(edge()).not.toBe('rgba(0, 0, 0, 0)');
+		expect(getComputedStyle(cell('VNM')).borderInlineEndWidth).toBe(border);
+	});
+
+	it('warns in development when more than one column is pinned', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		const pinned = (text: string) =>
+			warn.mock.calls.some(([message]) => String(message).includes(text));
+		const one = await render(TableHarness, { columns: PINNED });
+		await expect.element(table()).toBeVisible();
+		expect(pinned('SV4010')).toBe(false);
+		one.unmount();
+		await render(TableHarness, {
+			columns: PINNED.map((column, i) => (i === 1 ? { ...column, pinned: true } : column))
+		});
+		await expect
+			.poll(() => pinned("SV4010] <Table> pins 2 columns: 'Symbol', 'Quantity'"))
+			.toBe(true);
+		warn.mockRestore();
 	});
 });

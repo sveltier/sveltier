@@ -4,9 +4,10 @@
 	/*
 	 * The box scrolls the table both ways and paints a surface, so the header can stick over the
 	 * rows. Set --sv-table-background to sit the table on another surface; give the box a
-	 * max-block-size to scroll within it.
+	 * max-block-size to scroll within it. It keeps the layers of its sticky parts to itself.
 	 */
 	.sv-table {
+		isolation: isolate;
 		max-inline-size: 100%;
 		overflow: auto;
 		background-color: var(--sv-table-background, var(--sv-color-surface));
@@ -27,6 +28,13 @@
 			calc(var(--sv-size-height) * var(--sv-density) * 0.382);
 		font-weight: var(--sv-weight-medium);
 		text-align: start;
+	}
+
+	/* Its words stay at the start of the box while a wide table scrolls across. */
+	.sv-table__caption > span {
+		display: inline-block;
+		position: sticky;
+		inset-inline-start: calc(var(--sv-size-height) * var(--sv-density) * 0.382);
 	}
 
 	/*
@@ -54,7 +62,7 @@
 	.sv-table__head {
 		position: sticky;
 		inset-block-start: 0;
-		z-index: 1;
+		z-index: 2;
 		border-block-end-color: var(--sv-color-border);
 		background-color: var(--sv-table-background, var(--sv-color-surface));
 		color: var(--sv-color-text-muted);
@@ -63,6 +71,27 @@
 
 	th.sv-table__cell {
 		font-weight: var(--sv-weight-medium);
+	}
+
+	/*
+	 * A pinned column stays at the start of the box while the others scroll across under it, on
+	 * the table's surface, its header over both. Its edge shows once the table scrolls across;
+	 * the border is there before, unseen, so the column keeps its width.
+	 */
+	.sv-table__cell--pinned {
+		position: sticky;
+		inset-inline-start: 0;
+		z-index: 1;
+		border-inline-end: var(--sv-hairline) solid transparent;
+		background-color: var(--sv-table-background, var(--sv-color-surface));
+	}
+
+	.sv-table__head.sv-table__cell--pinned {
+		z-index: 3;
+	}
+
+	.sv-table--across .sv-table__cell--pinned {
+		border-inline-end-color: var(--sv-color-border-soft);
 	}
 
 	.sv-table__table > tbody > tr:last-child > * {
@@ -154,9 +183,11 @@
 		transform: rotate(180deg);
 	}
 
+	/* Row washes are images over the cell's colour, so a pinned cell keeps its surface under them. */
 	@media (hover: hover) {
 		.sv-table--hover > .sv-table__table > tbody > tr:hover > * {
-			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+			--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+			background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 		}
 	}
 
@@ -166,7 +197,8 @@
 	 * among them, keep 4.5:1 on it.
 	 */
 	.sv-table__table > tbody > tr[aria-current]:not([aria-current='false']) > * {
-		background-color: color-mix(in oklch, var(--sv-color) var(--sv-state-hover), transparent);
+		--sv-table-wash: color-mix(in oklch, var(--sv-color) var(--sv-state-hover), transparent);
+		background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 	}
 
 	.sv-table__table > tbody > tr[aria-current]:not([aria-current='false']) > :first-child {
@@ -186,7 +218,7 @@
 		position: sticky;
 		inset-block-start: 0;
 		inset-inline-start: 0;
-		z-index: 2;
+		z-index: 4;
 		inline-size: 100%;
 		block-size: 2px;
 		margin-block-end: -2px;

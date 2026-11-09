@@ -63,8 +63,17 @@
 			.join(' ') || undefined
 	);
 
-	// A choice is a whole edit, so it also counts as leaving: the message shows at once.
+	// A choice is a whole edit, so it also counts as leaving: the message shows at once. A choice
+	// its owner refused, with a binding whose setter keeps the value, is no change: the radios
+	// show that value again.
 	function chose() {
+		let refused = false;
+		ref?.querySelectorAll<HTMLInputElement>('.sv-radio__input').forEach((radio, index) => {
+			const on = Object.is(options[index]?.value, value);
+			refused ||= radio.checked !== on;
+			radio.checked = on;
+		});
+		if (refused) return;
 		field.changed();
 		field.left();
 		if (value != null) onchange?.(value);
