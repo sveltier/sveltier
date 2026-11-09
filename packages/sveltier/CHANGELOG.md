@@ -1,5 +1,14 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.12
+
+### Patch Changes
+
+- f989f90: `FileField` clears its input without a `DataTransfer` when code sets `files` to an empty list, as its clear button does. An app's unit tests in a DOM without `DataTransfer`, such as jsdom, no longer throw when the page clears the field.
+- 30a835e: `FileField`'s message for a file of another kind names the extensions in `accept`, joined in the locale's words: "Choose a file of type .png or .jpg" where it showed the raw `image/png,.png,.jpg`. With no extensions it names the media types. The locale's `fileType` message still changes the words.
+- 6933aa4: `npx sveltier init` installs one copy of the skill. In a workspace whose root and app folder both have a `.claude`, it went into both, and agents saw two Sveltier skills. It now goes in the root's `.claude`, or the app's when the root has none, and init names a copy an earlier run left in the app's folder.
+- a410311: A field's message no longer swallows the click of a button below it. When the user changed a field with no hint and then pressed a button under it, the press took focus away, the message added a line under the field, and the button moved before the release, so the click landed elsewhere. When a press takes focus away, the message now waits for its click (or, for a press that makes no click, a moment after the release). Leaving by the keyboard shows it at once, as before.
+
 ## 0.1.0-alpha.11
 
 ### Minor Changes

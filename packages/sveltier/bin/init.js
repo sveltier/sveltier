@@ -1,9 +1,10 @@
 // `npx sveltier init`: points the coding agents of an app at the docs of the installed
 // Sveltier. Run it in the app's folder. It writes a marked block into the app's AGENTS.md
-// (replaced in place on later runs), lets a CLAUDE.md import it, and installs the skill where
-// a .claude folder is. In a workspace, the app may sit below the repository root, where
-// CLAUDE.md and .claude usually live: init finds that root and writes each path from where it
-// is read. Plain Node, no dependencies; every file it reads ships in this package.
+// (replaced in place on later runs), lets a CLAUDE.md import it, and installs the skill in a
+// .claude folder. In a workspace, the app may sit below the repository root, where CLAUDE.md
+// and .claude usually live: init finds that root, puts the skill in its .claude (the app's only
+// when the root has none), and writes each path from where it is read. Plain Node, no
+// dependencies; every file it reads ships in this package.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join, relative, sep } from 'node:path';
@@ -16,6 +17,12 @@ export const END = '<!-- sveltier:end -->';
 
 /** A relative path as Markdown and Claude's imports write it: forward slashes. */
 const posix = (path) => path.split(sep).join('/');
+
+/**
+ * Where the skill goes in a folder that has a .claude.
+ * @param {string} folder
+ */
+const skillIn = (folder) => join(folder, '.claude', 'skills', 'sveltier', 'SKILL.md');
 
 /**
  * The nearest folder, from `from` up, where `found` holds. The search stops below the home
@@ -124,19 +131,26 @@ export function init(app) {
 		}
 	}
 
-	// A skill's paths are read from the folder that holds its .claude.
-	for (const folder of new Set([where.root, app])) {
-		if (!existsSync(join(folder, '.claude'))) continue;
-		const skill = join(folder, '.claude', 'skills', 'sveltier', 'SKILL.md');
+	// One copy of the skill, so an agent finds one: in the root's .claude, or the app's when the
+	// root has none. Its paths are read from the folder that holds that .claude.
+	const holder = [where.root, app].find((folder) => existsSync(join(folder, '.claude')));
+	if (holder) {
+		const skill = skillIn(holder);
 		const shownSkill = posix(relative(where.root, skill));
-		const text = adapted(join('skills', 'sveltier', 'SKILL.md'), where.installed, folder);
+		const text = adapted(join('skills', 'sveltier', 'SKILL.md'), where.installed, holder);
 		if (existsSync(skill) && readFileSync(skill, 'utf8') === text) {
 			done.push(`${shownSkill} is up to date.`);
-			continue;
+		} else {
+			mkdirSync(dirname(skill), { recursive: true });
+			writeFileSync(skill, text);
+			done.push(`Installed the skill in ${shownSkill}.`);
 		}
-		mkdirSync(dirname(skill), { recursive: true });
-		writeFileSync(skill, text);
-		done.push(`Installed the skill in ${shownSkill}.`);
+		// An earlier init may have put a second copy in the app's folder.
+		const other = skillIn(app);
+		if (holder !== app && existsSync(other)) {
+			const shownOther = posix(relative(where.root, dirname(other)));
+			done.push(`${shownOther} is a second copy of the skill: delete it, so agents find one.`);
+		}
 	}
 
 	return done;

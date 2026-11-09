@@ -37,9 +37,14 @@
 	<h2 id="validation">Validation</h2>
 	<p>
 		<code>required</code> asks for a file. The chooser filters by <code>accept</code>, but a dropped
-		file is not filtered, so a file of another kind is an error. <code>rules</code> receive the
-		files (their number, size or names), and <code>error</code> and <code>validateOn</code> work as
-		they do on a <a href={resolve('forms/text-field')}>TextField</a> and inside a
+		file is not filtered, so a file of another kind is an error. Its message names the extensions in
+		<code>accept</code>
+		("Choose a file of type .json"), or its media types when it names none; the locale's
+		<code>fileType</code>
+		message changes the words. <code>rules</code> receive the files (their number, size or names),
+		and <code>error</code> and <code>validateOn</code> work as they do on a
+		<a href={resolve('forms/text-field')}>TextField</a>
+		and inside a
 		<a href={resolve('forms/form')}>Form</a>.
 	</p>
 

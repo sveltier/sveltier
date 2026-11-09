@@ -1,4 +1,5 @@
 import { getFormContext } from './context.js';
+import { afterPress, followPresses } from './press.js';
 import type { FieldError, Rule, ValidateOn } from './types.js';
 
 // A native control, whose validity blocks a plain <form>, or an element in the role of one, such
@@ -61,6 +62,9 @@ export function createField<T>(options: FieldOptions<T>): FieldState {
 	const outside = $derived(readError(options.error()));
 	const mode = $derived(options.validateOn() ?? form?.validateOn ?? 'blur');
 
+	// Fields follow presses on the page, so leaving for one can wait for its click.
+	$effect(followPresses);
+
 	// A plain <form> refuses to submit with the same words. Errors from outside are left out,
 	// so a server's answer never blocks submitting again.
 	$effect(() => {
@@ -92,7 +96,13 @@ export function createField<T>(options: FieldOptions<T>): FieldState {
 			if (mode === 'input') shown = true;
 		},
 		left() {
-			if (dirty && mode !== 'submit') shown = true;
+			// Focus that left for a press shows the message once the press has clicked; a reset
+			// in between leaves it hidden.
+			if (dirty && mode !== 'submit') {
+				afterPress(() => {
+					if (dirty) shown = true;
+				});
+			}
 		}
 	};
 }

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import FileFieldHarness from '../../../tests/fixtures/FileFieldHarness.svelte';
@@ -66,11 +66,27 @@ describe('FileField', () => {
 	it('says a file of another kind is an error, as a drop is not filtered', async () => {
 		await render(FileFieldHarness, { accept: '.json,application/json', validateOn: 'input' });
 		await userEvent.upload(input(), new File(['x'], 'notes.txt', { type: 'text/plain' }));
-		await expect
-			.element(input())
-			.toHaveAccessibleDescription('Choose a file of type .json,application/json');
+		// Named by its extensions, as people know their files.
+		await expect.element(input()).toHaveAccessibleDescription('Choose a file of type .json');
 		await userEvent.upload(input(), json());
 		await expect.element(input()).not.toHaveAttribute('aria-invalid');
+	});
+
+	it('names the kinds it takes in the locale’s words, or their media types without extensions', async () => {
+		const text = new File(['x'], 'notes.txt', { type: 'text/plain' });
+		const screen = await render(FileFieldHarness, {
+			accept: 'image/png, .png, .jpg',
+			validateOn: 'input'
+		});
+		await userEvent.upload(input(), text);
+		await expect.element(input()).toHaveAccessibleDescription('Choose a file of type .png or .jpg');
+		screen.unmount();
+
+		await render(FileFieldHarness, { accept: 'image/png,image/jpeg', validateOn: 'input' });
+		await userEvent.upload(input(), text);
+		await expect
+			.element(input())
+			.toHaveAccessibleDescription('Choose a file of type image/png or image/jpeg');
 	});
 
 	it('blocks a form without a file when required', async () => {
@@ -91,6 +107,21 @@ describe('FileField', () => {
 		expect(testId('changes').element().textContent).toBe('');
 		await screen.rerender({ files: [] });
 		await expect.poll(() => element().files?.length).toBe(0);
+	});
+
+	it('clears the input when code empties the files, without a DataTransfer', async () => {
+		// An app's unit tests may run in a DOM without one, and clear the field from code.
+		const screen = await render(FileFieldHarness);
+		await userEvent.upload(input(), json());
+		await expect.element(testId('files')).toHaveTextContent('backup.json');
+		vi.stubGlobal('DataTransfer', undefined);
+		try {
+			await screen.rerender({ files: [] });
+			await expect.poll(() => element().files?.length).toBe(0);
+			expect(shown()).toBe('Choose a file No file chosen');
+		} finally {
+			vi.unstubAllGlobals();
+		}
 	});
 
 	it('marks the box while a file is dragged over it, and grows into a drop zone', async () => {

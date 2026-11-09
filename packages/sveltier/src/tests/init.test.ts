@@ -87,6 +87,40 @@ describe('sveltier init', () => {
 		]);
 	});
 
+	it('installs one copy of the skill, at the root, when the app has a .claude of its own', () => {
+		// Another tool made web/.claude for its own skill.
+		mkdirSync(join(app, '.git'));
+		mkdirSync(join(app, '.claude'));
+		const web = join(app, 'web');
+		mkdirSync(join(web, '.claude'), { recursive: true });
+
+		expect(init(web)).toEqual([
+			'Created web/AGENTS.md.',
+			'Installed the skill in .claude/skills/sveltier/SKILL.md.'
+		]);
+		expect(existsSync(join(web, '.claude', 'skills', 'sveltier'))).toBe(false);
+
+		// A copy an earlier init left in the app's folder is named, not deleted.
+		mkdirSync(join(web, '.claude', 'skills', 'sveltier'), { recursive: true });
+		writeFileSync(join(web, '.claude', 'skills', 'sveltier', 'SKILL.md'), '---\nname: sveltier\n');
+		expect(init(web)).toEqual([
+			'web/AGENTS.md is up to date.',
+			'.claude/skills/sveltier/SKILL.md is up to date.',
+			'web/.claude/skills/sveltier is a second copy of the skill: delete it, so agents find one.'
+		]);
+		expect(existsSync(join(web, '.claude', 'skills', 'sveltier', 'SKILL.md'))).toBe(true);
+	});
+
+	it('installs the skill in the app when only the app has a .claude', () => {
+		mkdirSync(join(app, '.git'));
+		const web = join(app, 'web');
+		mkdirSync(join(web, '.claude'), { recursive: true });
+		expect(init(web)).toContain('Installed the skill in web/.claude/skills/sveltier/SKILL.md.');
+		expect(read('web/.claude/skills/sveltier/SKILL.md')).toContain(
+			'`node_modules/@sveltier/ui/llms.txt`'
+		);
+	});
+
 	it('finds a package hoisted to the workspace root', () => {
 		mkdirSync(join(app, '.git'));
 		mkdirSync(join(app, 'node_modules', '@sveltier', 'ui'), { recursive: true });

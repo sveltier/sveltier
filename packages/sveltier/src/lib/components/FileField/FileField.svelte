@@ -5,7 +5,7 @@
 	import { createField } from '../../core/form/field.svelte.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import Field from '../Field/Field.svelte';
-	import { accepts } from './accept.js';
+	import { accepts, shownKinds } from './accept.js';
 	import './file-field.css';
 	import type { FileFieldDefaults, FileFieldProps } from './types.js';
 
@@ -54,9 +54,11 @@
 		empty: (list) => list.length === 0,
 		check: (list) => {
 			if (list.length === 0) return required ? locale.t('required') : undefined;
-			// The chooser filters by accept; a dropped file is not filtered.
+			// The chooser filters by accept; a dropped file is not filtered. The message names the
+			// extensions, as people know their files by them: ".png or .jpg".
 			if (accept && list.some((file) => !accepts(file, accept))) {
-				return locale.t('fileType', { accept });
+				const kinds = new Intl.ListFormat(locale.locale, { type: 'disjunction' });
+				return locale.t('fileType', { accept: kinds.format(shownKinds(accept)) });
 			}
 			return undefined;
 		},
@@ -68,7 +70,8 @@
 
 	if (DEV) $effect(() => warnUnnamed('FileField', ref));
 
-	// Files set from code go into the input, so a form submits what the field shows.
+	// Files set from code go into the input, so a form submits what the field shows. An empty
+	// list clears it as the clear button does, which needs no DataTransfer (a test DOM has none).
 	$effect(() => {
 		const input = ref;
 		if (!input) return;
@@ -76,6 +79,7 @@
 		if (current.length === chosen.length && current.every((file, at) => file === chosen[at])) {
 			return;
 		}
+		if (chosen.length === 0) return void (input.value = '');
 		const transfer = new DataTransfer();
 		for (const file of chosen) transfer.items.add(file);
 		input.files = transfer.files;
