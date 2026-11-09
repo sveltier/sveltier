@@ -1,5 +1,17 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.11
+
+### Minor Changes
+
+- 92b1a77: New `FileField`: a file to choose, in the same field as a TextField. The control is the platform's own `<input type="file">` over the whole box, so the keyboard, screen readers, `required`, `accept` and form data work as they do natively, while the box shows "Choose a file" and the chosen names (or how many). `files` is a bindable array and `onchange(files)` is called when the user chooses, drops or clears; files set from code go into the input, so a form submits what the field shows. `drop` makes the box a taller place to drop files, marked while one is dragged over, and a dropped file of a kind `accept` does not name is an error. A clear button empties it. Label, hint, error, rules and the Field's look work as on every field.
+- 22416ac: Menu and ContextMenu items can show whether they are on. `checked` makes an item a `menuitemcheckbox` with a tick when on; `radio` makes it a `menuitemradio`, one choice of its group (the items between two headings or separators), with a tick on the checked one. The app keeps the state and updates it in `onselect`. Labels line up once one item can be checked. In development, a group that mixes radios with other items, or checks more than one, warns (SV4009).
+- 413c1d9: Table columns take `pinned`: the column stays at the start of the box while a wide table scrolls across under it, so on a narrow screen every row keeps its name in view. Pin the `rowHeader`; a table pins one column, and a development warning (SV4010) names the columns when more than one is pinned. Once the table scrolls across, a hairline marks the pinned column's edge, and the caption's words stay in view as well. Row washes (hover and `aria-current`) now paint as an image over the cell, so a pinned cell keeps its surface under them.
+
+### Patch Changes
+
+- 98b96aa: Switch, Checkbox, RadioGroup and NativeSelect show their owner's state again when it refuses a change. Bound through a setter that keeps the state (`bind:checked={() => on, (next) => save(next) && (on = next)}`), the control used to keep showing the user's change; it now goes back, dash and all for a Checkbox, and `onchange` is not called for a change that did not happen.
+
 ## 0.1.0-alpha.10
 
 ### Patch Changes
