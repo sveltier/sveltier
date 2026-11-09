@@ -3,11 +3,13 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import TableDemo from '#lib/docs/table/TableDemo.svelte';
+	import TablePinnedDemo from '#lib/docs/table/TablePinnedDemo.svelte';
 	import {
 		tableColumns,
 		tableDense,
 		tableEmpty,
 		tableLive,
+		tablePinned,
 		tableSharedCell,
 		tableSort,
 		tableUsage
@@ -78,6 +80,14 @@
 		stays at the top while the rows scroll under it. The box paints the surface colour so the header
 		covers the rows; on another surface, set <code>--sv-table-background</code>.
 	</p>
+	<p>
+		A table wider than its box scrolls across. A column with <code>pinned</code> stays at the start
+		of the box while the others scroll under it, so on a narrow screen every row keeps its name in
+		view: pin the <code>rowHeader</code>. A table pins one column. Once the table scrolls across, a
+		line marks the pinned column's edge.
+	</p>
+	<TablePinnedDemo />
+	<Code title="Venues.svelte" code={tablePinned} />
 	<p>
 		For items that arrive as fresh objects, as live data does, <code>itemKey</code> names the
 		property that tells them apart, so each row keeps its element. <code>rowAttributes</code> adds

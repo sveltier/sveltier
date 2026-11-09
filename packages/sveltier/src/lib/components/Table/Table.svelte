@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	// Items in rows and columns, sortable by the headers. See TableProps for the props.
-	import { checkValue, DEV, warnDuplicates, warnUnnamed } from '#dev';
+	import { checkValue, DEV, warnDuplicates, warnPinned, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
@@ -103,11 +103,14 @@
 	}
 
 	// A table wider or taller than its box scrolls, so the box becomes a named region that
-	// keyboard users can focus and scroll (WCAG 2.1.1).
+	// keyboard users can focus and scroll (WCAG 2.1.1). Scrolling across, it also draws the edge
+	// of a pinned column.
 	let scrollable = $state(false);
+	let across = $state(false);
 	function watchOverflow(node: HTMLDivElement) {
 		const update = () => {
-			scrollable = node.scrollWidth > node.clientWidth || node.scrollHeight > node.clientHeight;
+			across = node.scrollWidth > node.clientWidth;
+			scrollable = across || node.scrollHeight > node.clientHeight;
 		};
 		const observer = new ResizeObserver(update);
 		observer.observe(node);
@@ -125,6 +128,12 @@
 				'columns',
 				columns.map(nameOf),
 				'Give each column its own key, or an id with a value function for a computed one.'
+			)
+		);
+		$effect(() =>
+			warnPinned(
+				'Table',
+				columns.filter((column) => column.pinned).map((column) => column.label)
 			)
 		);
 		$effect(() => {
@@ -157,6 +166,7 @@
 		sharedClasses(p, 'Table'),
 		p.hover && 'sv-table--hover',
 		loading && 'sv-table--loading',
+		across && 'sv-table--across',
 		className
 	]}
 	role={scrollable ? 'region' : rest.role}
@@ -179,7 +189,7 @@
 		aria-busy={loading || undefined}
 	>
 		{#if caption}
-			<caption id="{id}-caption" class="sv-table__caption">{caption}</caption>
+			<caption id="{id}-caption" class="sv-table__caption"><span>{caption}</span></caption>
 		{/if}
 		<thead>
 			<tr>
@@ -188,7 +198,11 @@
 					{@const sorted = sortBy?.column === nameOf(column) ? sortBy.direction : undefined}
 					<th
 						scope="col"
-						class={['sv-table__head', `sv-table__cell--${aligns[i]}`]}
+						class={[
+							'sv-table__head',
+							`sv-table__cell--${aligns[i]}`,
+							column.pinned && 'sv-table__cell--pinned'
+						]}
 						style:inline-size={column.width}
 						aria-sort={column.sort ? sorted : undefined}
 					>
@@ -224,7 +238,8 @@
 							class={[
 								'sv-table__cell',
 								`sv-table__cell--${aligns[i]}`,
-								column.wrap && 'sv-table__cell--wrap'
+								column.wrap && 'sv-table__cell--wrap',
+								column.pinned && 'sv-table__cell--pinned'
 							]}
 						>
 							{@render content(column, item)}

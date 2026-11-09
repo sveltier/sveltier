@@ -169,6 +169,13 @@ export const ERROR_CODES = {
 			'Menu items with `radio` are one choice of several, and their group is the items between two headings or separators. A group that mixes radios with other items, or checks more than one radio, is not one choice: screen readers announce it as something other than what it shows.',
 		fix: 'Put the radios under a heading of their own, or between separators, and check one of them, for example `checked: layout === value`. For settings that each turn on or off, leave out `radio` and keep `checked`.'
 	},
+	SV4010: {
+		kind: 'warning',
+		title: 'A table that pins more than one column',
+		cause:
+			"A column with `pinned` stays at the start of the table's box while the others scroll across under it. Two pinned columns would stay at the same edge, one over the other, so a table pins one.",
+		fix: 'Pin the column that names the rows, usually the one with `rowHeader`, and leave `pinned` out of the others.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

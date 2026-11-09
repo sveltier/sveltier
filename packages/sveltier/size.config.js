@@ -325,11 +325,12 @@ export default [
 	},
 	{
 		// Its own code: the columns, their alignment, the sort with its comparator and the scroll
-		// region (2.45 KB of JS), and 1.2 KB of CSS (sticky header, sort arrow, current row,
-		// loading bar). The locale and the shared props are core, measured apart.
+		// region (2.5 KB of JS), and 1.4 KB of CSS (sticky header and caption, pinned column with
+		// its edge, sort arrow, current row, loading bar). The locale and the shared props are
+		// core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '3.75 KB',
+		limit: '3.9 KB',
 		external: [/\/core\//]
 	},
 	{

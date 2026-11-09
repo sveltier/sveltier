@@ -112,6 +112,15 @@ export function warnDuplicates(
 	warn('SV4005', `<${component}> has two ${entries} with the key ${show(duplicate)}. ${fix}`);
 }
 
+/** Warns when a table pins more than one column: they would stack at the same edge. */
+export function warnPinned(component: string, labels: readonly string[]): void {
+	if (labels.length < 2) return;
+	warn(
+		'SV4010',
+		`<${component}> pins ${labels.length} columns: ${labels.map(show).join(', ')}. One column stays at the start of the box; pin the one that names the rows, such as the rowHeader, and leave pinned out of the others.`
+	);
+}
+
 /**
  * Warns when the radio items of a menu are not one choice of their group (the items between two
  * headings or separators): the group also has other items, or checks more than one radio.

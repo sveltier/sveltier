@@ -15,7 +15,7 @@ describe('Table on the server', () => {
 	it('renders the caption, the headers and a row per item', () => {
 		const body = html();
 		expect(body).toContain('<caption');
-		expect(body).toContain('Positions</caption>');
+		expect(body).toContain('<span>Positions</span></caption>');
 		expect(body.match(/scope="col"/g)).toHaveLength(6);
 		expect(symbols(body)).toEqual(['VNM', 'FPT', 'HPG', 'ACB']);
 	});

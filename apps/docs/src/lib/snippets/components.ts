@@ -86,3 +86,5 @@ export { default as stepperVertical } from '../examples/components/StepperVertic
 export { default as tabsFill } from '../examples/components/TabsFill.svelte?raw';
 
 export { default as tableSharedCell } from '../examples/components/TableSharedCell.svelte?raw';
+
+export { default as tablePinned } from '../examples/components/TablePinned.svelte?raw';
