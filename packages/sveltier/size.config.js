@@ -333,11 +333,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Its own code: the options with the placeholder and the reset target, and the arrow, an
-		// inline SVG mask in the CSS. The Field and the shared validation are measured apart.
+		// Its own code: the options with the placeholder and the reset target, a choice its owner
+		// refused put back, and the arrow, an inline SVG mask in the CSS. The Field and the shared
+		// validation are measured apart.
 		name: 'NativeSelect',
 		code: "export { NativeSelect } from '@sveltier/ui';",
-		limit: '1.8 KB',
+		limit: '1.85 KB',
 		external: [/\/core\//, /\/components\/Field\//]
 	},
 	{

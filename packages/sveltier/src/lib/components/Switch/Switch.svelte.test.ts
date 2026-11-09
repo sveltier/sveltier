@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import SwitchHarness from '../../../tests/fixtures/SwitchHarness.svelte';
+import RefusedChoices from '../../../tests/fixtures/RefusedChoices.svelte';
 
 const control = () => page.getByRole('switch', { name: 'Sign in with biometrics' });
 const input = () => control().element() as HTMLInputElement;
@@ -89,5 +90,21 @@ describe('Switch', () => {
 		await expect.element(control()).toBeDisabled();
 		await page.getByText('Sign in with biometrics').click({ force: true });
 		await expect.element(shown('checked')).toHaveTextContent('false');
+	});
+});
+
+describe('Switch refused', () => {
+	it("shows its owner's state again when a binding's setter keeps it, and calls no onchange", async () => {
+		const screen = await render(RefusedChoices);
+		const venues = page.getByRole('switch', { name: 'Venues' });
+		await page.getByText('Venues').click();
+		await expect.element(venues).toBeChecked();
+		await expect.element(page.getByTestId('state')).toHaveTextContent('true false true 7 gb');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('');
+		await screen.rerender({ locked: false });
+		await page.getByText('Venues').click();
+		await expect.element(venues).not.toBeChecked();
+		await expect.element(page.getByTestId('state')).toHaveTextContent('false false true 7 gb');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('venues');
 	});
 });

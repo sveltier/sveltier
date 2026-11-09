@@ -56,11 +56,14 @@
 	if (DEV) $effect(() => warnUnnamed('Switch', ref));
 
 	// A toggle is a whole edit, so it also counts as leaving: the message shows at once, even in
-	// Safari, where a click does not focus the input.
+	// Safari, where a click does not focus the input. A toggle its owner refused, with a binding
+	// whose setter keeps the state, is no change: the input shows that state again.
 	function toggled() {
+		const on = checked ?? false;
+		if (ref && ref.checked !== on) return void (ref.checked = on);
 		field.changed();
 		field.left();
-		onchange?.(checked ?? false);
+		onchange?.(on);
 	}
 </script>
 

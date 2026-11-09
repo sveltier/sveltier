@@ -63,6 +63,14 @@
 
 	if (DEV) $effect(() => warnUnnamed('NativeSelect', ref));
 
+	// A choice its owner refused, with a binding whose setter keeps the value, is no change: the
+	// select shows that value again.
+	function chose() {
+		const shown = String(value ?? '');
+		if (ref && ref.value !== shown) return void (ref.value = shown);
+		onchange?.(value ?? null);
+	}
+
 	// Leaving means focus went outside the field.
 	function leave(event: FocusEvent) {
 		const root = event.currentTarget as HTMLElement;
@@ -85,7 +93,7 @@
 	]}
 	{style}
 	oninput={field.changed}
-	onchange={() => onchange?.(value ?? null)}
+	onchange={chose}
 	onfocusout={leave}
 >
 	{#snippet children(attributes)}

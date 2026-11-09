@@ -47,7 +47,11 @@ export type NativeSelectProps<T extends string | number = string> = ElementProps
 		Omit<FieldContentProps, 'append'> & {
 			/** The choices, in order. */
 			options: readonly NativeSelectOption<T>[];
-			/** The chosen value, or `null` for none. Bindable. */
+			/**
+			 * The chosen value, or `null` for none. Bindable. To refuse a choice, bind it through a
+			 * setter that keeps your value, as `bind:value={() => plan, (next) => save(next) && (plan = next)}`:
+			 * the select shows that value again, and `onchange` is not called.
+			 */
 			value?: T | null;
 			/** Called with the value the user chooses, or `null` for the placeholder; not when `value` is set. */
 			onchange?: (value: T | null) => void;

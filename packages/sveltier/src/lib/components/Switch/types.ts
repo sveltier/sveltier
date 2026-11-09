@@ -37,7 +37,9 @@ declare module '../../core/defaults/context.js' {
 type SwitchOwnProps = Partial<SwitchDefaults> &
 	ChoiceContentProps & {
 		/**
-		 * Whether the switch is on. Bindable.
+		 * Whether the switch is on. Bindable. To refuse a change, bind it through a setter that keeps
+		 * your state, as `bind:checked={() => on, (next) => save(next) && (on = next)}`: the switch
+		 * shows that state again, and `onchange` is not called.
 		 * @default false
 		 */
 		checked?: boolean;

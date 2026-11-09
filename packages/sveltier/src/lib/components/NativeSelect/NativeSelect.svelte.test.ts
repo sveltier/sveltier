@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import NativeSelectHarness from '../../../tests/fixtures/NativeSelectHarness.svelte';
+import RefusedChoices from '../../../tests/fixtures/RefusedChoices.svelte';
 
 const select = () => page.getByRole('combobox', { name: 'Country' });
 const element = () => select().element() as HTMLSelectElement;
@@ -54,5 +55,20 @@ describe('NativeSelect', () => {
 		expect(arrow.pointerEvents).toBe('none');
 		await select().selectOptions('Vietnam');
 		expect(field.classList).not.toContain('sv-native-select--empty');
+	});
+});
+
+describe('NativeSelect refused', () => {
+	it("shows its owner's value again when a binding's setter keeps it, and calls no onchange", async () => {
+		const screen = await render(RefusedChoices);
+		await select().selectOptions('Vietnam');
+		await expect.element(select()).toHaveValue('gb');
+		await expect.element(page.getByTestId('state')).toHaveTextContent('true false true 7 gb');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('');
+		await screen.rerender({ locked: false });
+		await select().selectOptions('Vietnam');
+		await expect.element(select()).toHaveValue('vn');
+		await expect.element(page.getByTestId('state')).toHaveTextContent('true false true 7 vn');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('country');
 	});
 });

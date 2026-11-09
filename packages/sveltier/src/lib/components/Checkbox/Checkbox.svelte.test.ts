@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import CheckboxHarness from '../../../tests/fixtures/CheckboxHarness.svelte';
+import RefusedChoices from '../../../tests/fixtures/RefusedChoices.svelte';
 
 const box = () => page.getByRole('checkbox', { name: 'Email me a receipt' });
 const input = () => box().element() as HTMLInputElement;
@@ -107,5 +108,22 @@ describe('Checkbox', () => {
 		await expect.element(box()).toBeDisabled();
 		await page.getByText('Email me a receipt').click({ force: true });
 		await expect.element(shown('checked')).toHaveTextContent('false');
+	});
+});
+
+describe('Checkbox refused', () => {
+	it("shows its owner's state again, dash included, when the setters keep it, and calls no onchange", async () => {
+		const screen = await render(RefusedChoices);
+		const all = page.getByRole('checkbox', { name: 'Select all' });
+		await page.getByText('Select all').click();
+		await expect.element(all).not.toBeChecked();
+		await expect.element(all).toBePartiallyChecked();
+		await expect.element(page.getByTestId('state')).toHaveTextContent('true false true 7 gb');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('');
+		await screen.rerender({ locked: false });
+		await page.getByText('Select all').click();
+		await expect.element(all).toBeChecked();
+		await expect.element(page.getByTestId('state')).toHaveTextContent('true true false 7 gb');
+		await expect.element(page.getByTestId('changes')).toHaveTextContent('all');
 	});
 });

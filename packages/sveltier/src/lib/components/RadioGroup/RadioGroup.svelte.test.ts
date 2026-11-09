@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import RadioGroupHarness from '../../../tests/fixtures/RadioGroupHarness.svelte';
+import RefusedChoices from '../../../tests/fixtures/RefusedChoices.svelte';
 
 const group = () => page.getByRole('radiogroup', { name: 'Pay out' });
 const radio = (name: string) => page.getByRole('radio', { name });
@@ -91,5 +92,21 @@ describe('RadioGroup', () => {
 		const week = radio('Every week').element().getBoundingClientRect();
 		expect(Math.abs(day.top - week.top)).toBeLessThan(1);
 		expect(week.left).toBeGreaterThan(day.right);
+	});
+});
+
+describe('RadioGroup refused', () => {
+	it("shows its owner's value again when a binding's setter keeps it, and calls no onchange", async () => {
+		const screen = await render(RefusedChoices);
+		await page.getByText('Every day').click();
+		await expect.element(radio('Every week')).toBeChecked();
+		await expect.element(radio('Every day')).not.toBeChecked();
+		await expect.element(shown('state')).toHaveTextContent('true false true 7 gb');
+		await expect.element(shown('changes')).toHaveTextContent('');
+		await screen.rerender({ locked: false });
+		await page.getByText('Every day').click();
+		await expect.element(radio('Every day')).toBeChecked();
+		await expect.element(shown('state')).toHaveTextContent('true false true 1 gb');
+		await expect.element(shown('changes')).toHaveTextContent('payout');
 	});
 });
