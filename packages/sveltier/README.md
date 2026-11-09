@@ -70,8 +70,9 @@ into `AGENTS.md`, which later runs replace in place. If the app has a `CLAUDE.md
 `AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill.
 
 In a workspace, run it in the app's folder: `pnpm --filter <app> exec sveltier init`. It finds the
-repository root above the app, and imports the section and installs the skill there as well,
-with every path written from where it is read.
+repository root above the app and imports the section there as well. The skill goes in the
+root's `.claude` (the app's only when the root has none), so agents find one copy. Every path is
+written from where it is read.
 
 The files the section points to:
 

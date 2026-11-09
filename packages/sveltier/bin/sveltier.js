@@ -8,7 +8,8 @@ const HELP = `Usage: npx sveltier init   (in the app's folder)
 Points this app's coding agents at the docs of the installed @sveltier/ui:
   - writes a Sveltier section into the app's AGENTS.md (replaced in place on later runs),
   - adds an import of it to CLAUDE.md, the app's and the repository root's, where there is one,
-  - installs the skill in .claude/skills/sveltier where there is a .claude folder.
+  - installs the skill in .claude/skills/sveltier: the repository root's .claude, or the
+    app's when the root has none.
 In a workspace, run it in the app's folder (pnpm --filter <app> exec sveltier init): it finds
 the repository root above it and writes each path from where it is read.`;
 
