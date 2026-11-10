@@ -16,7 +16,8 @@
 		The control that opens the dialog is a <code>trigger</code> snippet: spread the attributes it
 		receives onto your Button, and the dialog wires the rest, from <code>aria-haspopup</code> to
 		giving focus back when it closes. <code>title</code> is the heading and names the dialog;
-		<code>actions</code> receives <code>close()</code> for its buttons.
+		<code>actions</code> receives <code>close()</code> for its buttons. The dialog grows out of the control
+		that opened it and shrinks back into it as it closes.
 	</p>
 	<DialogDemo />
 	<Code title="DeleteCard.svelte" code={dialogUsage} />

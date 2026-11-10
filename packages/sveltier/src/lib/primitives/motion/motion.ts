@@ -113,6 +113,55 @@ export function pop(
 	);
 }
 
+/** Where `grow` starts: an element's box, a point on the screen, or nowhere. */
+export type GrowSource = Element | { x: number; y: number } | null | undefined;
+
+export interface GrowOptions extends TransitionOptions {
+	/**
+	 * What it grows out of, read as it starts each way: the control that opened it, or a point
+	 * such as the pointer. Without one, or once it has no box, it pops in place.
+	 */
+	from?: () => GrowSource;
+}
+
+/**
+ * Grows out of what opened it while fading in, and shrinks back into it as it goes, with the
+ * theme's timing. It scales about the source's centre, from the source's size up to 94.4%
+ * (1 − φ⁻⁶), never from less than 38.2% (φ⁻²). Without a source it pops in place.
+ *
+ * @example
+ * {#if open}<div popover="manual" transition:grow={{ from: () => button }}>…</div>{/if}
+ */
+export function grow(
+	node: Element,
+	{ from, ...options }: GrowOptions = {}
+): () => TransitionConfig {
+	// Deferred, so it measures once the element is shown and placed.
+	return () => {
+		const source = from?.();
+		const box = node.getBoundingClientRect();
+		let rect: DOMRect | undefined;
+		if (source instanceof Element) {
+			const r = source.getBoundingClientRect();
+			if (r.width || r.height) rect = r;
+		} else if (source) {
+			rect = new DOMRect(source.x, source.y);
+		}
+		let scale = 0.944;
+		let origin = 'center';
+		if (rect && box.width && box.height) {
+			scale = Math.min(scale, Math.max(0.382, rect.width / box.width, rect.height / box.height));
+			origin = `${rect.x + rect.width / 2 - box.x}px ${rect.y + rect.height / 2 - box.y}px`;
+		}
+		return themed(
+			node,
+			options,
+			(t) =>
+				`opacity: ${t}; transform-origin: ${origin}; transform: scale(${scale + (1 - scale) * t})`
+		);
+	};
+}
+
 /** Spring presets on the φ series: stiffness 1/φⁿ, damping 1 − 1/φⁿ. */
 export const SPRINGS = {
 	snappy: { stiffness: 0.236, damping: 0.764 },

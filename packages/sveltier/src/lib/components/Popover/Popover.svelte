@@ -8,7 +8,7 @@
 	import { ALIGNS, anchored, SIDES } from '../../primitives/anchored/anchored.js';
 	import { tabbable } from '../../primitives/focus/tabbable.js';
 	import { dismissable } from '../../primitives/layer/dismissable.js';
-	import { pop } from '../../primitives/motion/motion.js';
+	import { grow } from '../../primitives/motion/motion.js';
 	import './popover.css';
 	import type { PopoverDefaults, PopoverProps } from './types.js';
 
@@ -111,7 +111,7 @@
 			focusOutside: !persistent,
 			inside: () => [anchor]
 		})}
-		transition:pop
+		transition:grow={{ from: () => anchor }}
 	>
 		{#if title}<div class="sv-popover__title" id="{id}-title">{title}</div>{/if}
 		{#if children}<div class="sv-popover__body">{@render children()}</div>{/if}

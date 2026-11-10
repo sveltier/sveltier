@@ -5,7 +5,7 @@
 	import type { Attachment } from 'svelte/attachments';
 	import { anchored } from '../../primitives/anchored/anchored.js';
 	import { dismissable, type DismissReason } from '../../primitives/layer/dismissable.js';
-	import { pop } from '../../primitives/motion/motion.js';
+	import { grow } from '../../primitives/motion/motion.js';
 	import { groupRuns, type SelectOption } from './options.js';
 
 	let {
@@ -94,7 +94,7 @@
 	{@attach anchored({ anchor })}
 	{@attach dismissable({ onDismiss: onclose, inside: () => [anchor] })}
 	{@attach enter}
-	transition:pop
+	transition:grow={{ from: () => anchor }}
 >
 	{#each runs as run, r (r)}
 		{#if run.group === undefined}

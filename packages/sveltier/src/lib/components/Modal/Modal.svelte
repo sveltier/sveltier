@@ -67,8 +67,11 @@
 		onclose?.(reason);
 	}
 
-	// The top layer, with the rest of the page inert.
+	// The top layer, with the rest of the page inert. The panel grows out of the control that
+	// opened it, else out of what had focus.
+	let focused: Element | null = null;
 	const modal: Attachment<HTMLDialogElement> = (dialog) => {
+		focused = document.activeElement;
 		dialog.showModal();
 		if (DEV) warnUnnamed(component, dialog, 'a title');
 	};
@@ -117,7 +120,7 @@
 				outside: !persistent,
 				inside: () => [toastRegion]
 			})}
-			transition:enter
+			transition:enter={{ from: () => returnFocus ?? opener ?? focused }}
 		>
 			{#if title || closable}
 				<header class="sv-modal__header">

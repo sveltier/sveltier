@@ -192,12 +192,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Its own code, with the outlet that shows toasts inside it while it is open (0.15 KB). The
-		// primitives it stands on (focus trap, layer stack, scroll lock, motion) are shared by every
-		// overlay and measured in their own entries.
+		// Its own code, with the outlet that shows toasts inside it while it is open (0.15 KB) and
+		// what it grows out of: the control that opened it, else what had focus. The primitives it
+		// stands on (focus trap, layer stack, scroll lock, motion) are shared by every overlay and
+		// measured in their own entries.
 		name: 'Dialog',
 		code: "export { Dialog } from '@sveltier/ui';",
-		limit: '2.85 KB',
+		limit: '2.9 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -275,7 +276,7 @@ export default [
 		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
 		name: 'Sheet',
 		code: "export { Sheet } from '@sveltier/ui';",
-		limit: '3.15 KB',
+		limit: '3.2 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -633,9 +634,10 @@ export default [
 		// What a typical app loads first: the root provider with a theme pack, a button, two
 		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
+		// Overlays growing out of what opened them add 0.2 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '22 KB'
+		limit: '22.2 KB'
 	}
 ];

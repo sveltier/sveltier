@@ -6,6 +6,7 @@
 	import TransitionDemo from '#lib/docs/TransitionDemo.svelte';
 	import { MOTION_API, SPRING_API, TRANSITION_OPTIONS } from '#lib/docs/api.js';
 	import {
+		growExample,
 		motionCss,
 		motionExample,
 		springExample,
@@ -40,6 +41,15 @@
 	<TransitionDemo />
 	<Code title="Receipt.svelte" code={transitionExample} />
 	<ApiTable label="transition options" rows={TRANSITION_OPTIONS} />
+
+	<h2 id="from-where-it-was">From where it was</h2>
+	<p>
+		Things move from where they were, so the eye can follow. <code>grow</code> brings an element out of
+		what opened it and takes it back there as it closes. Dialog grows out of the control that opened it,
+		Popover, Menu and the Select list out of their trigger, and ContextMenu out of the pointer. Sheet
+		keeps sliding from its edge, and Tabs slide their underline from the old tab to the new one.
+	</p>
+	<Code title="Filters.svelte" code={growExample} />
 
 	<h2 id="springs">Springs</h2>
 	<p>

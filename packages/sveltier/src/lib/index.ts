@@ -143,11 +143,14 @@ export { cubicBezier } from './primitives/motion/easing.js';
 export {
 	easing,
 	fade,
+	grow,
 	motion,
 	pop,
 	rise,
 	spring,
 	SPRINGS,
+	type GrowOptions,
+	type GrowSource,
 	type Motion,
 	type SpringPreset,
 	type TransitionOptions
