@@ -387,6 +387,10 @@ const PRIMITIVES: Entry[] = [
 const SUMMARY =
 	'A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free server-side theming.';
 
+// Said first in llms.txt and llms-full.txt: an agent told the app uses Sveltier may take it as
+// set up, and a page without the provider renders with no theme and raises no error.
+const SETUP_NOTE = `Once per app, before any page: the root layout (\`src/routes/+layout.svelte\` in SvelteKit, the root component with Vite alone) wraps everything in \`UIProvider\` with at least one theme pack. Without it, components render without the theme's styles and \`useToast()\` has nowhere to show. Check it is there before you build a page, and add it if it is missing.`;
+
 const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`@sveltier/ui/themes/monolith\`), and import components from \`@sveltier/ui\`. The installed package holds these docs for its own version (\`node_modules/@sveltier/ui/llms.txt\`, \`docs/<group>/<page>.md\`, \`components.json\`), and \`npx sveltier init\` points the app's \`AGENTS.md\` at them.
 
 - Svelte 5 only: runes (\`$state\`, \`$derived\`, \`$effect\`, \`$props\`, \`$bindable\`), snippets and callback props. Never write Svelte 4 syntax: no \`export let\`, no \`on:click\` (use \`onclick\`), no \`<slot>\` (use snippets and \`{@render}\`), no \`createEventDispatcher\`, no \`$:\`. Svelte's own tools for agents, including an MCP server and an autofixer, are listed at https://svelte.dev/docs/ai.
@@ -457,6 +461,16 @@ export function llmsIndex(link: (path: string) => string): string {
 		'',
 		`> ${SUMMARY}`,
 		'',
+		'## Setup',
+		'',
+		SETUP_NOTE,
+		'',
+		'```svelte',
+		setup.trimEnd(),
+		'```',
+		'',
+		'## Conventions',
+		'',
 		CONVENTIONS,
 		'',
 		...groups.flatMap((group) => [group, '']),
@@ -477,12 +491,14 @@ export function llmsFull(link: (path: string) => string): string {
 		'',
 		'## Setup',
 		'',
+		SETUP_NOTE,
+		'',
 		'```sh',
 		install.pnpm,
 		'```',
 		'',
 		'```svelte',
-		setup,
+		setup.trimEnd(),
 		'```',
 		'',
 		'## Conventions',
@@ -562,7 +578,8 @@ export function pageMarkdown(path: string): string {
 	return [
 		`# ${title ?? entries[0]?.name ?? path}`,
 		'',
-		`> Part of Sveltier (\`@sveltier/ui\`). Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
+		// Agents often open one page and nothing else, so it names the setup they must not skip.
+		`> Part of Sveltier (\`@sveltier/ui\`). Once per app, the root layout wraps everything in \`UIProvider\` with a theme pack (\`<UIProvider themes={monolith}>\`); without it, components render without the theme. Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
 		'',
 		...entries.flatMap((entry) => [section(entry, siteLink).replace(/^### /, '## '), ''])
 	].join('\n');
