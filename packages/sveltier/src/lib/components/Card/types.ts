@@ -48,7 +48,10 @@ export type CardProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
 	Partial<CardDefaults> & {
-		/** The title, in the header. */
+		/**
+		 * The title, in the header: styled text unless `level` makes it a heading. A card whose
+		 * title names the page or a section, such as a form's, needs `level`.
+		 */
 		title?: string;
 		/** A line under the title. */
 		subtitle?: string;
