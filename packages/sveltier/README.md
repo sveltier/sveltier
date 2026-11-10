@@ -67,7 +67,8 @@ npx sveltier init
 
 This points the app's agents at the docs of the installed version. It writes a Sveltier section
 into `AGENTS.md`, which later runs replace in place. If the app has a `CLAUDE.md`, it imports
-`AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill.
+`AGENTS.md` there too. If the app has a `.claude` folder, it installs the Sveltier skill. It also
+says when the app's root layout has no `UIProvider` yet.
 
 In a workspace, run it in the app's folder: `pnpm --filter <app> exec sveltier init`. It finds the
 repository root above the app and imports the section there as well. The skill goes in the
