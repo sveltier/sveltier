@@ -300,11 +300,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, and the
-		// rules that let the Tabs fill the height they are given.
+		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, the rules that
+		// let the Tabs fill the height they are given, and the underline that slides over from the
+		// old tab with the theme's timing (0.3 KB).
 		name: 'Tabs',
 		code: "export { Tabs } from '@sveltier/ui';",
-		limit: '2.45 KB',
+		limit: '2.8 KB',
 		external: [/\/core\//]
 	},
 	{

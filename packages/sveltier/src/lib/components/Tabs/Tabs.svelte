@@ -3,6 +3,7 @@
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import { rovingFocus } from '../../primitives/focus/roving-focus.js';
+	import { motion } from '../../primitives/motion/motion.js';
 	import './tabs.css';
 	import type { TabsDefaults, TabsItem, TabsProps } from './types.js';
 
@@ -42,6 +43,29 @@
 	});
 	const selected = $derived(items[index]);
 
+	// The underline slides from the tab that was selected to the new one: it starts over the old
+	// tab, moved between the centres and scaled between the widths.
+	let list = $state<HTMLElement>();
+	let last: Element | undefined;
+	$effect(() => {
+		const tab = list?.children[index];
+		if (last && tab && last !== tab && last.isConnected) {
+			const a = last.getBoundingClientRect();
+			const b = tab.getBoundingClientRect();
+			const { normal, ease } = motion(tab);
+			tab.animate(
+				{
+					transform: [
+						`translateX(${a.x + a.width / 2 - b.x - b.width / 2}px) scaleX(${a.width / b.width})`,
+						'none'
+					]
+				},
+				{ duration: normal, easing: ease, pseudoElement: '::after' }
+			);
+		}
+		last = tab;
+	});
+
 	function select(item: TabsItem<T>) {
 		if (item.disabled || item.value === selected?.value) return;
 		value = item.value;
@@ -62,6 +86,7 @@
 	]}
 >
 	<div
+		bind:this={list}
 		role="tablist"
 		aria-label={ariaLabel}
 		aria-labelledby={ariaLabelledby}

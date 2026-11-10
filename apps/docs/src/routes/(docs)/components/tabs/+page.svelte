@@ -15,7 +15,8 @@
 	<p>
 		Give the tabs as <code>items</code>, bind the <code>value</code>, and render the selected tab's
 		content in the <code>panel</code> snippet, which receives that item. A long row of tabs scrolls.
-		<code>grow</code> shares the width equally.
+		<code>grow</code> shares the width equally. Choosing a tab slides the underline over from the tab
+		that was selected.
 	</p>
 	<TabsDemo />
 	<Code title="Account.svelte" code={tabsUsage} />
