@@ -635,6 +635,12 @@ export const MOTION_API: ApiRow[] = [
 			'A CSS easing as a function. Reads cubic-bezier() and the keywords; anything else falls back to ease.'
 	},
 	{
+		name: 'move(node, { from, to }, options)',
+		type: '(node: Element, rects: { from: DOMRect; to: DOMRect }, options?: TransitionOptions) => AnimationConfig',
+		description:
+			'For animate: on a keyed #each. Slides the item from its old place to its new one with the theme timing. A duration of 0 turns it off, for lists too long to animate.'
+	},
+	{
 		name: 'cubicBezier(x1, y1, x2, y2)',
 		type: '(x1: number, y1: number, x2: number, y2: number) => (t: number) => number',
 		description: 'An easing function from control points, as CSS defines them.'

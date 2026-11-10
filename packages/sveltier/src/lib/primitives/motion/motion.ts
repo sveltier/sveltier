@@ -1,3 +1,4 @@
+import type { AnimationConfig } from 'svelte/animate';
 import { Spring, prefersReducedMotion } from 'svelte/motion';
 import type { TransitionConfig } from 'svelte/transition';
 import { cubicBezier } from './easing.js';
@@ -160,6 +161,24 @@ export function grow(
 				`opacity: ${t}; transform-origin: ${origin}; transform: scale(${scale + (1 - scale) * t})`
 		);
 	};
+}
+
+/**
+ * Slides an item of a keyed `#each` from its old place to its new one, with the theme's timing.
+ * For `animate:`. A duration of 0 turns it off, for lists too long to animate.
+ *
+ * @example
+ * {#each watchlist as row (row.symbol)}<li animate:move>{row.symbol}</li>{/each}
+ */
+export function move(
+	node: Element,
+	{ from, to }: { from: DOMRect; to: DOMRect },
+	options: TransitionOptions = {}
+): AnimationConfig {
+	if (options.duration === 0) return {};
+	const x = from.left - to.left;
+	const y = from.top - to.top;
+	return themed(node, options, (_, u) => `transform: translate(${u * x}px, ${u * y}px)`);
 }
 
 /** Spring presets on the φ series: stiffness 1/φⁿ, damping 1 − 1/φⁿ. */

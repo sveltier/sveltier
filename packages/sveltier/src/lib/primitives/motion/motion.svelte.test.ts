@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import MotionHarness from '../../../tests/fixtures/MotionHarness.svelte';
 import { monolithLight } from '../../themes/monolith.js';
-import { grow, motion, pop, rise, spring } from './motion.js';
+import { grow, motion, move, pop, rise, spring } from './motion.js';
 
 const scope = () => page.getByTestId('scope').element() as HTMLElement;
 
@@ -51,6 +51,16 @@ describe('motion', () => {
 		const gone = document.createElement('button');
 		expect(start(grow(scope(), { from: () => gone }))).toContain('transform-origin: center');
 		expect(grow(scope(), { duration: 89 })().duration).toBe(89);
+	});
+
+	it('moves an item from its old box, or not at all with no duration', async () => {
+		await render(MotionHarness);
+		const rects = { from: new DOMRect(0, 40, 10, 10), to: new DOMRect(5, 0, 10, 10) };
+		const config = move(scope(), rects);
+		expect(config.duration).toBe(233);
+		expect(config.css?.(0, 1)).toBe('transform: translate(-5px, 40px)');
+		expect(config.css?.(1, 0)).toBe('transform: translate(0px, 0px)');
+		expect(move(scope(), rects, { duration: 0 })).toEqual({});
 	});
 
 	it('runs as a Svelte transition in and out', async () => {

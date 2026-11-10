@@ -329,11 +329,12 @@ export default [
 	{
 		// Its own code: the columns, their alignment, the sort with its comparator and the scroll
 		// region (2.5 KB of JS), and 1.4 KB of CSS (sticky header and caption, pinned column with
-		// its edge, sort arrow, current row, loading bar). The locale and the shared props are
-		// core, measured apart.
+		// its edge, sort arrow, current row, loading bar). Rows slide to their new places with
+		// Svelte's animate: (0.7 KB, mostly Svelte's transition runtime, which an app with any
+		// overlay or toast already loads). The locale and the shared props are core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '3.9 KB',
+		limit: '4.6 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -634,7 +635,7 @@ export default [
 		// What a typical app loads first: the root provider with a theme pack, a button, two
 		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
-		// Overlays growing out of what opened them add 0.2 KB.
+		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],

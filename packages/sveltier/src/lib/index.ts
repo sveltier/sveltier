@@ -145,6 +145,7 @@ export {
 	fade,
 	grow,
 	motion,
+	move,
 	pop,
 	rise,
 	spring,
