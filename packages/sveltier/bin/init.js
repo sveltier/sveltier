@@ -3,8 +3,9 @@
 // (replaced in place on later runs), lets a CLAUDE.md import it, and installs the skill in a
 // .claude folder. In a workspace, the app may sit below the repository root, where CLAUDE.md
 // and .claude usually live: init finds that root, puts the skill in its .claude (the app's only
-// when the root has none), and writes each path from where it is read. Plain Node, no
-// dependencies; every file it reads ships in this package.
+// when the root has none), and writes each path from where it is read. It also says when the
+// root layout has no UIProvider, which nothing else reports. Plain Node, no dependencies; every
+// file it reads ships in this package.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join, relative, sep } from 'node:path';
@@ -151,6 +152,17 @@ export function init(app) {
 			const shownOther = posix(relative(where.root, dirname(other)));
 			done.push(`${shownOther} is a second copy of the skill: delete it, so agents find one.`);
 		}
+	}
+
+	// A page without the provider renders with no theme and raises no error, so say it here.
+	const layout = ['src/routes/+layout.svelte', 'src/App.svelte']
+		.map((file) => join(app, file))
+		.find((file) => existsSync(file));
+	if (layout && !/\b(UIProvider|ThemeProvider)\b/.test(readFileSync(layout, 'utf8'))) {
+		const shownLayout = posix(relative(where.root, layout));
+		done.push(
+			`${shownLayout} has no UIProvider yet: wrap the app in <UIProvider themes={monolith}> there, once (llms.txt, Setup).`
+		);
 	}
 
 	return done;

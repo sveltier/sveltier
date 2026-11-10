@@ -98,6 +98,11 @@
 		border-block-end: 0;
 	}
 
+	/* Rows paint the surface, so rows sliding past each other do not show through. */
+	.sv-table__table > tbody > tr {
+		background-color: var(--sv-table-background, var(--sv-color-surface));
+	}
+
 	.sv-table__cell--center {
 		text-align: center;
 	}

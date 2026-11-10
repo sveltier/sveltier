@@ -78,7 +78,8 @@
 		workspace, run it in the app's folder (<code>pnpm --filter &lt;app&gt; exec sveltier init</code
 		>): it finds the repository root above, where <code>CLAUDE.md</code> and <code>.claude</code>
 		usually live. The skill goes in the root's <code>.claude</code>, or the app's when the root has
-		none, so agents find one copy.
+		none, so agents find one copy. It also says when the app's root layout has no
+		<code>UIProvider</code> yet.
 	</p>
 	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
 	<p>

@@ -1,5 +1,19 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.13
+
+### Minor Changes
+
+- 5d0c479: Overlays grow out of what opened them and shrink back into it as they close, so the eye can follow where they came from. Dialog grows out of the control that opened it (its trigger, `returnFocus`, or what had focus), Popover, Menu and the Select and Combobox list out of their trigger, and ContextMenu out of the pointer. Sheet keeps sliding from its edge. The new `grow` transition does it for your own elements: `transition:grow={{ from: () => button }}`. It scales about the source's centre, from the source's size (never below 38.2%) up to 94.4%, and pops in place when there is no source.
+- 421a011: Table rows slide to their new places when the order changes, whether a header sorts them or the data comes in a new order; a table of more than 89 rows jumps, so it sorts fast. Rows now paint the table's surface, so rows sliding past each other do not show through. The new `move` function does the same for an app's own keyed lists: `{#each rows as row (row.id)}<li animate:move>…</li>{/each}`.
+- d342c5e: Tabs slide their underline from the tab that was selected to the new one, instead of scaling one underline out and another in. It moves between the two tabs' centres and widths with the theme's timing, and jumps under reduced motion.
+
+### Patch Changes
+
+- f2e170b: The docs for coding agents lead with the app's one-time setup. The `AGENTS.md` block that `npx sveltier init` writes opened with "This app's interface is built with Sveltier", which agents took to mean the app was already set up: in tests with a coding agent, a quarter of the pages written with the block in place had no `UIProvider`, so they rendered without the theme, and nothing failed. The block, the skill and `llms.txt` now say first that the root layout wraps everything in `UIProvider` with a theme pack, with the code, and to check it is there before building a page. Each Markdown page in the package names it too, for an agent that reads one page and nothing else.
+- 7247676: The docs of `Card` say that its `title` is styled text unless `level` makes it a heading, so a card whose title names the page or a form needs `level` to be in the page's outline.
+- 92e5f47: `npx sveltier init` says when the app's root layout (`src/routes/+layout.svelte`, or `src/App.svelte` with Vite alone) has no `UIProvider` yet, since a page without it renders with no theme and raises no error.
+
 ## 0.1.0-alpha.12
 
 ### Patch Changes

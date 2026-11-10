@@ -192,12 +192,13 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Its own code, with the outlet that shows toasts inside it while it is open (0.15 KB). The
-		// primitives it stands on (focus trap, layer stack, scroll lock, motion) are shared by every
-		// overlay and measured in their own entries.
+		// Its own code, with the outlet that shows toasts inside it while it is open (0.15 KB) and
+		// what it grows out of: the control that opened it, else what had focus. The primitives it
+		// stands on (focus trap, layer stack, scroll lock, motion) are shared by every overlay and
+		// measured in their own entries.
 		name: 'Dialog',
 		code: "export { Dialog } from '@sveltier/ui';",
-		limit: '2.85 KB',
+		limit: '2.9 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -275,7 +276,7 @@ export default [
 		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
 		name: 'Sheet',
 		code: "export { Sheet } from '@sveltier/ui';",
-		limit: '3.15 KB',
+		limit: '3.2 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -300,11 +301,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, and the
-		// rules that let the Tabs fill the height they are given.
+		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, the rules that
+		// let the Tabs fill the height they are given, and the underline that slides over from the
+		// old tab with the theme's timing (0.3 KB).
 		name: 'Tabs',
 		code: "export { Tabs } from '@sveltier/ui';",
-		limit: '2.45 KB',
+		limit: '2.8 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -327,11 +329,12 @@ export default [
 	{
 		// Its own code: the columns, their alignment, the sort with its comparator and the scroll
 		// region (2.5 KB of JS), and 1.4 KB of CSS (sticky header and caption, pinned column with
-		// its edge, sort arrow, current row, loading bar). The locale and the shared props are
-		// core, measured apart.
+		// its edge, sort arrow, current row, loading bar). Rows slide to their new places with
+		// Svelte's animate: (0.7 KB, mostly Svelte's transition runtime, which an app with any
+		// overlay or toast already loads). The locale and the shared props are core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '3.9 KB',
+		limit: '4.6 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -632,9 +635,10 @@ export default [
 		// What a typical app loads first: the root provider with a theme pack, a button, two
 		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
+		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '22 KB'
+		limit: '22.2 KB'
 	}
 ];

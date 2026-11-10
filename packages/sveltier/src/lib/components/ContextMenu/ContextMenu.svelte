@@ -143,6 +143,7 @@
 	from="first"
 	class={['sv-menu', 'sv-context-menu', sharedClasses(p, 'ContextMenu'), className]}
 	{place}
+	source={() => ({ x: point.x, y: point.below })}
 	inside={() => []}
 	{close}
 	{choose}

@@ -2,10 +2,13 @@
 	import ApiTable from '#lib/docs/ApiTable.svelte';
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
+	import MoveDemo from '#lib/docs/MoveDemo.svelte';
 	import SpringDemo from '#lib/docs/SpringDemo.svelte';
 	import TransitionDemo from '#lib/docs/TransitionDemo.svelte';
 	import { MOTION_API, SPRING_API, TRANSITION_OPTIONS } from '#lib/docs/api.js';
 	import {
+		growExample,
+		moveExample,
 		motionCss,
 		motionExample,
 		springExample,
@@ -40,6 +43,22 @@
 	<TransitionDemo />
 	<Code title="Receipt.svelte" code={transitionExample} />
 	<ApiTable label="transition options" rows={TRANSITION_OPTIONS} />
+
+	<h2 id="from-where-it-was">From where it was</h2>
+	<p>
+		Things move from where they were, so the eye can follow. <code>grow</code> brings an element out of
+		what opened it and takes it back there as it closes. Dialog grows out of the control that opened it,
+		Popover, Menu and the Select list out of their trigger, and ContextMenu out of the pointer. Sheet
+		keeps sliding from its edge, and Tabs slide their underline from the old tab to the new one.
+	</p>
+	<Code title="Filters.svelte" code={growExample} />
+	<p>
+		<code>move</code> is for <code>animate:</code> on a keyed <code>#each</code>: an item that
+		changes place slides there. Table rows do it when a header sorts them or the data comes in a new
+		order, up to 89 rows; a longer table jumps, so it sorts fast.
+	</p>
+	<MoveDemo />
+	<Code title="Watchlist.svelte" code={moveExample} />
 
 	<h2 id="springs">Springs</h2>
 	<p>

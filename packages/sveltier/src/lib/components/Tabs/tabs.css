@@ -72,7 +72,7 @@
 		cursor: not-allowed;
 	}
 
-	/* The selected tab's underline scales in: transform only. */
+	/* The selected tab's underline. Changing tabs, it slides over from the old one (script). */
 	.sv-tabs__tab::after {
 		content: '';
 		position: absolute;
@@ -82,7 +82,6 @@
 		border-radius: 2px 2px 0 0;
 		background-color: var(--sv-color);
 		transform: scaleX(0);
-		transition: transform var(--sv-duration-normal) var(--sv-ease);
 	}
 
 	.sv-tabs__tab[aria-selected='true']::after {

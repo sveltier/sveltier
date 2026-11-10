@@ -131,6 +131,17 @@ describe('sveltier init', () => {
 		expect(read('apps/site/AGENTS.md')).toContain('`../../node_modules/@sveltier/ui/llms.txt`');
 	});
 
+	it('says when the root layout has no UIProvider yet', () => {
+		mkdirSync(join(app, 'src', 'routes'), { recursive: true });
+		const layout = join(app, 'src', 'routes', '+layout.svelte');
+		writeFileSync(layout, '<script>let { children } = $props();</script>{@render children()}');
+		expect(init(app)).toContain(
+			'src/routes/+layout.svelte has no UIProvider yet: wrap the app in <UIProvider themes={monolith}> there, once (llms.txt, Setup).'
+		);
+		writeFileSync(layout, '<UIProvider themes={monolith}>{@render children()}</UIProvider>');
+		expect(init(app).join(' ')).not.toContain('no UIProvider');
+	});
+
 	it('appends to an empty file without leading blank lines', () => {
 		expect(withBlock('', 'B')).toBe('B\n');
 		expect(withBlock('\n\n', 'B')).toBe('B\n');

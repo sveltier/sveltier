@@ -3,6 +3,7 @@ import type { ClassValue, HTMLDialogAttributes } from 'svelte/elements';
 import type { TransitionConfig } from 'svelte/transition';
 import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
+import type { GrowOptions } from '../../primitives/motion/motion.js';
 import type { SheetSide } from '../Sheet/types.js';
 
 /** The props Dialog and Sheet share. */
@@ -50,8 +51,8 @@ export type ModalProps = ElementProps<
 		placement: 'center' | SheetSide;
 		/** The shared-prop classes of the panel. */
 		panelClass: ClassValue;
-		/** How the panel comes in and goes: a dialog pops, a sheet slides. */
-		enter: (node: Element) => TransitionConfig;
+		/** How the panel comes in and goes: a dialog grows out of `from`, a sheet slides. */
+		enter: (node: Element, options: GrowOptions) => TransitionConfig | (() => TransitionConfig);
 		/** The panel fills the screen. */
 		fullscreen?: boolean;
 		/**

@@ -387,13 +387,17 @@ const PRIMITIVES: Entry[] = [
 const SUMMARY =
 	'A Svelte 5 UI framework with five built-in design languages, a zero-dependency theme engine and flash-free server-side theming.';
 
+// Said first in llms.txt and llms-full.txt: an agent told the app uses Sveltier may take it as
+// set up, and a page without the provider renders with no theme and raises no error.
+const SETUP_NOTE = `Once per app, before any page: the root layout (\`src/routes/+layout.svelte\` in SvelteKit, the root component with Vite alone) wraps everything in \`UIProvider\` with at least one theme pack. Without it, components render without the theme's styles and \`useToast()\` has nowhere to show. Check it is there before you build a page, and add it if it is missing.`;
+
 const CONVENTIONS = `Install \`@sveltier/ui\`, wrap the app in \`UIProvider\` with at least one theme pack (for example \`monolith\` from \`@sveltier/ui/themes/monolith\`), and import components from \`@sveltier/ui\`. The installed package holds these docs for its own version (\`node_modules/@sveltier/ui/llms.txt\`, \`docs/<group>/<page>.md\`, \`components.json\`), and \`npx sveltier init\` points the app's \`AGENTS.md\` at them.
 
 - Svelte 5 only: runes (\`$state\`, \`$derived\`, \`$effect\`, \`$props\`, \`$bindable\`), snippets and callback props. Never write Svelte 4 syntax: no \`export let\`, no \`on:click\` (use \`onclick\`), no \`<slot>\` (use snippets and \`{@render}\`), no \`createEventDispatcher\`, no \`$:\`. Svelte's own tools for agents, including an MCP server and an autofixer, are listed at https://svelte.dev/docs/ai.
 - Every component takes the same names for the same things: \`variant\` (elevated, flat, tonal, outlined, text, plain), \`size\` (xs to xl), \`density\` (dense, compact, default, comfortable), \`color\` (an intent such as primary or error, neutral, or a custom colour), \`rounded\`, \`disabled\`, \`loading\`.
 - Content goes in snippets (\`children\`, \`prepend\`, \`append\`, \`actions\`), events are callback props (\`onclick\`), and two-way values use \`bind:\` (\`bind:value\`, \`bind:selected\`, \`bind:open\`).
 - Every field and choice calls \`onchange\` with its new value, typed as \`value\` is, when the user changes it, never when the value is set from code: a text field when the user leaves it, a number field when the number is committed (on leaving, on each step), a Slider on release, Checkbox, Switch and Chip with their state, the rest with the choice. \`oninput\` stays the DOM event, for work on each key.
-- The same thing has the same name everywhere: choices are \`options\` (Select, Combobox, NativeSelect, RadioGroup, SegmentedControl), other lists are \`items\` (Tabs, Menu, Tree, Table, Accordion, Stepper, Timeline, Breadcrumbs, CommandPalette); the text of a control or a choice is \`label\`, a heading is \`title\` (Card, Dialog, Sheet, Alert, ListItem, Timeline items).
+- The same thing has the same name everywhere: choices are \`options\` (Select, Combobox, NativeSelect, RadioGroup, SegmentedControl), other lists are \`items\` (Tabs, Menu, Tree, Table, Accordion, Stepper, Timeline, Breadcrumbs, CommandPalette); the text of a control or a choice is \`label\`, a heading is \`title\` (Card, Dialog, Sheet, Alert, ListItem, Timeline items). A Card's \`title\` is in the page's outline only with \`level\` (\`<Card title="New order" level={2}>\`).
 - Every component passes other attributes to its root element, merges \`class\`, and exposes the element as a bindable \`ref\`. Form fields are the exception: their attributes and \`ref\` go to the native control (\`name\`, \`placeholder\`, \`autocomplete\` reach the \`<input>\`), while \`class\` and \`style\` stay on the field.
 - Form fields validate with the HTML constraints first (\`required\`, \`minlength\`, \`maxlength\`, \`pattern\`, \`type="email"\`), then \`rules\` (functions returning \`true\` or a message), and show \`error\` from outside (a server's answer) as given. Messages appear when the user leaves a field they changed, then follow every change.
 - A choice from a list is \`NativeSelect\` (the platform's own picker, best for plain options on phones), \`Select\` (groups, descriptions, options drawn with the \`option\` snippet) or \`Combobox\` (typing searches the list, ignoring case and diacritics; \`filter={false}\` with \`bind:query\` searches a server). Select and Combobox take \`options\` of \`{ value, label, description?, group?, disabled? }\` (\`SelectOption\`) and \`bind:value\`; build neither from a Menu or a Popover.
@@ -457,6 +461,16 @@ export function llmsIndex(link: (path: string) => string): string {
 		'',
 		`> ${SUMMARY}`,
 		'',
+		'## Setup',
+		'',
+		SETUP_NOTE,
+		'',
+		'```svelte',
+		setup.trimEnd(),
+		'```',
+		'',
+		'## Conventions',
+		'',
 		CONVENTIONS,
 		'',
 		...groups.flatMap((group) => [group, '']),
@@ -477,12 +491,14 @@ export function llmsFull(link: (path: string) => string): string {
 		'',
 		'## Setup',
 		'',
+		SETUP_NOTE,
+		'',
 		'```sh',
 		install.pnpm,
 		'```',
 		'',
 		'```svelte',
-		setup,
+		setup.trimEnd(),
 		'```',
 		'',
 		'## Conventions',
@@ -562,7 +578,8 @@ export function pageMarkdown(path: string): string {
 	return [
 		`# ${title ?? entries[0]?.name ?? path}`,
 		'',
-		`> Part of Sveltier (\`@sveltier/ui\`). Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
+		// Agents often open one page and nothing else, so it names the setup they must not skip.
+		`> Part of Sveltier (\`@sveltier/ui\`). Once per app, the root layout wraps everything in \`UIProvider\` with a theme pack (\`<UIProvider themes={monolith}>\`); without it, components render without the theme. Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
 		'',
 		...entries.flatMap((entry) => [section(entry, siteLink).replace(/^### /, '## '), ''])
 	].join('\n');

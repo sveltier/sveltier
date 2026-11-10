@@ -2,7 +2,7 @@
 	// A modal dialog in the middle of the screen, on the shared modal shell. See DialogProps.
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { sharedClasses } from '../../core/props/classes.js';
-	import { pop } from '../../primitives/motion/motion.js';
+	import { grow } from '../../primitives/motion/motion.js';
 	import Modal from '../Modal/Modal.svelte';
 	import type { DialogDefaults, DialogProps } from './types.js';
 
@@ -29,7 +29,7 @@
 	component="Dialog"
 	placement="center"
 	panelClass={sharedClasses(p, 'Dialog')}
-	enter={pop}
+	enter={grow}
 	class={['sv-dialog', className]}
 	bind:open
 	bind:ref

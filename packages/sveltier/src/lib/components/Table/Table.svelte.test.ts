@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import { firstFrame, scripted, twoFrames } from '../../../tests/animations.js';
 import TableHarness, {
 	POSITIONS,
 	type Position
@@ -233,5 +234,29 @@ describe('Table pinned column', () => {
 			.poll(() => pinned("SV4010] <Table> pins 2 columns: 'Symbol', 'Quantity'"))
 			.toBe(true);
 		warn.mockRestore();
+	});
+});
+
+describe('Table rows', () => {
+	it('slide to their new places when a header sorts them', async () => {
+		await render(TableHarness, {});
+		await sortButton('Symbol').click();
+		// VNM was first; sorted by symbol it is last, so it starts above its new place.
+		const vnm = page.getByRole('row', { name: /VNM/ }).element();
+		const frame = await firstFrame(vnm);
+		const [, , y] = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/.exec(String(frame.transform))!;
+		expect(Number(y)).toBeLessThan(0);
+	});
+
+	it('jump when there are more than 89', async () => {
+		const items: Position[] = Array.from({ length: 90 }, (_, i) => ({
+			...POSITIONS[i % POSITIONS.length]!,
+			symbol: `S${String(i).padStart(2, '0')}`
+		}));
+		await render(TableHarness, { items, itemKey: 'symbol' });
+		await sortButton('Quantity').click();
+		await expect.element(page.getByTestId('sort')).toHaveTextContent('quantity ascending');
+		await twoFrames();
+		expect(scripted()).toHaveLength(0);
 	});
 });

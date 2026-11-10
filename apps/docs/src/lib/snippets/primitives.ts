@@ -36,6 +36,10 @@ export const motionCss = `.panel {
 
 export { default as transitionExample } from '../examples/primitives/TransitionExample.svelte?raw';
 
+export { default as growExample } from '../examples/primitives/GrowExample.svelte?raw';
+
+export { default as moveExample } from '../examples/primitives/MoveExample.svelte?raw';
+
 export { default as springExample } from '../examples/primitives/SpringExample.svelte?raw';
 
 export { default as motionExample } from '../examples/primitives/motionExample.ts?raw';

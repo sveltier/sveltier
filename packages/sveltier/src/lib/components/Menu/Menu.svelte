@@ -103,6 +103,7 @@
 	{from}
 	class={['sv-menu', sharedClasses(p, 'Menu'), className]}
 	place={anchored({ anchor, side, align })}
+	source={() => anchor}
 	inside={() => [anchor]}
 	{close}
 	{choose}

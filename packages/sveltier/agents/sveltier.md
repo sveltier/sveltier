@@ -1,6 +1,22 @@
 ## Sveltier (`@sveltier/ui`)
 
-This app's interface is built with Sveltier, a UI framework for Svelte 5. The docs of the installed version ship inside the package. Read them before writing UI code:
+This app uses Sveltier, a UI framework for Svelte 5.
+
+**Setup, once per app, before any page:** the root layout (`src/routes/+layout.svelte`) wraps everything in `UIProvider` with a theme pack. Without it, components render without the theme's styles and toasts have nowhere to show. Check it is there before you build a page, and add it if it is missing:
+
+```svelte
+<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { monolith } from '@sveltier/ui/themes/monolith';
+	let { children } = $props();
+</script>
+
+<UIProvider themes={monolith}>
+	{@render children()}
+</UIProvider>
+```
+
+The docs of the installed version ship inside the package. Read them before writing UI code:
 
 - `node_modules/@sveltier/ui/llms.txt`: setup, conventions and an index of every component.
 - `node_modules/@sveltier/ui/docs/<group>/<page>.md`: one page per component, with an example and every prop.

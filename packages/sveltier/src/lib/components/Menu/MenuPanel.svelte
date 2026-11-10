@@ -7,7 +7,7 @@
 	import { rovingFocus } from '../../primitives/focus/roving-focus.js';
 	import { typeahead } from '../../primitives/keyboard/typeahead.js';
 	import { dismissable } from '../../primitives/layer/dismissable.js';
-	import { pop } from '../../primitives/motion/motion.js';
+	import { grow, type GrowSource } from '../../primitives/motion/motion.js';
 	import type { MenuAction, MenuItem } from './types.js';
 
 	let {
@@ -16,6 +16,7 @@
 		id,
 		from,
 		place,
+		source,
 		inside,
 		close,
 		choose,
@@ -29,6 +30,8 @@
 		from: 'first' | 'last';
 		/** Puts the open menu where it belongs. */
 		place: Attachment<HTMLElement>;
+		/** What it grows out of: the button that opened it, or the point. */
+		source: () => GrowSource;
 		/** Elements that count as inside it, so a press there does not close it. */
 		inside: () => Array<Element | null>;
 		close: (reason: CloseReason) => void;
@@ -127,7 +130,7 @@
 		{@attach typeahead()}
 		{@attach focusIn}
 		onkeydown={tab}
-		transition:pop
+		transition:grow={{ from: source }}
 	>
 		{#each blocks as block, index (index)}
 			{#if block === 'separator'}

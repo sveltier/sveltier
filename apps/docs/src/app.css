@@ -1290,6 +1290,24 @@ a {
 	font-variant-numeric: tabular-nums;
 }
 
+.docs-watchlist {
+	display: grid;
+	gap: var(--sv-space-3);
+	max-inline-size: 18rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.docs-watchlist li {
+	display: flex;
+	justify-content: space-between;
+	padding: var(--sv-space-5) var(--sv-space-13);
+	border: var(--sv-hairline) solid var(--sv-color-border);
+	border-radius: var(--sv-radius-md);
+	background-color: var(--sv-color-surface);
+}
+
 .docs-springs {
 	display: grid;
 	gap: var(--sv-space-8);

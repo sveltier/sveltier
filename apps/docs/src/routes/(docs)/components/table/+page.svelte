@@ -70,7 +70,8 @@
 		the locale's order with numbers inside it read as numbers, and missing values go last either
 		way. A function compares two items itself. Bind <code>sortBy</code> to start sorted or to keep
 		the sort;
-		<code>onsort</code> reports each change.
+		<code>onsort</code> reports each change. When the order changes, by a header or by new data, the rows
+		slide to their new places; a table of more than 89 rows jumps, so it sorts fast.
 	</p>
 	<Code title="Orders.svelte" code={tableSort} />
 

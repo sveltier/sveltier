@@ -4,6 +4,7 @@
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
+	import { move } from '../../primitives/motion/motion.js';
 	import '../../styles/visually-hidden.css';
 	import { compareValues } from './sort.js';
 	import './table.css';
@@ -88,6 +89,10 @@
 			return sign * compareValues(x, y, collator);
 		});
 	});
+
+	// Rows slide to their new places when the order changes, up to this many; a longer table
+	// jumps, so it sorts fast.
+	const MOVING = 89;
 
 	// A header sorts ascending, then descending, then gives back the order of the items.
 	function toggle(column: TableColumn<T>) {
@@ -230,7 +235,10 @@
 		</thead>
 		<tbody>
 			{#each rows as item (itemKey === undefined ? item : item[itemKey])}
-				<tr {...rowAttributes?.(item)}>
+				<tr
+					{...rowAttributes?.(item)}
+					animate:move={{ duration: rows.length > MOVING ? 0 : undefined }}
+				>
 					{#each columns as column, i (i)}
 						<svelte:element
 							this={column.rowHeader ? 'th' : 'td'}

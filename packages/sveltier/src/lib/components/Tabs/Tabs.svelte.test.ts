@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
+import { firstFrame, scripted, twoFrames } from '../../../tests/animations.js';
 import TabsFillHarness from '../../../tests/fixtures/TabsFillHarness.svelte';
 import TabsHarness from '../../../tests/fixtures/TabsHarness.svelte';
 
@@ -88,5 +89,34 @@ describe('Tabs', () => {
 		expect(page.getByRole('tab', { name: 'Tickers' }).element().getBoundingClientRect().top).toBe(
 			frame.top
 		);
+	});
+});
+
+describe('Tabs underline', () => {
+	it('slides from the old tab to the new one', async () => {
+		await render(TabsHarness, {});
+		const from = tabElement('Overview').getBoundingClientRect();
+		const to = tabElement('Settings').getBoundingClientRect();
+		await tab('Settings').click();
+		const frame = await firstFrame(tabElement('Settings'), '::after');
+		// It starts over the old tab: moved between the centres, scaled between the widths.
+		const [, dx, scale] = /translateX\((-?[\d.]+)px\) scaleX\(([\d.]+)\)/.exec(
+			String(frame.transform)
+		)!;
+		expect(Number(dx)).toBeCloseTo(from.x + from.width / 2 - to.x - to.width / 2, 0);
+		expect(Number(scale)).toBeCloseTo(from.width / to.width, 2);
+	});
+
+	it('does not move on first render', async () => {
+		await render(TabsHarness, { value: 'activity' });
+		expect(scripted()).toHaveLength(0);
+	});
+
+	it('jumps under reduced motion', async () => {
+		await render(TabsHarness, {});
+		(tablist().element() as HTMLElement).style.setProperty('--sv-duration-normal', '0.01ms');
+		await userEvent.click(tab('Settings'));
+		await twoFrames();
+		expect(scripted()).toHaveLength(0);
 	});
 });

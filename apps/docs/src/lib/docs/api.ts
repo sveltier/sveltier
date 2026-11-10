@@ -587,6 +587,12 @@ export const TRANSITION_OPTIONS: ApiRow[] = [
 		type: 'number',
 		default: '0.944',
 		description: 'pop only: the scale it grows from, 1 − φ⁻⁶.'
+	},
+	{
+		name: 'from',
+		type: '() => Element | { x: number; y: number } | null | undefined',
+		description:
+			'grow only: what it grows out of, read as it starts each way. It scales about its centre, from its size (never below 38.2%) up to 94.4%. Without one, or once it has no box, it pops in place.'
 	}
 ];
 
@@ -627,6 +633,12 @@ export const MOTION_API: ApiRow[] = [
 		type: '(ease: string) => (t: number) => number',
 		description:
 			'A CSS easing as a function. Reads cubic-bezier() and the keywords; anything else falls back to ease.'
+	},
+	{
+		name: 'move(node, { from, to }, options)',
+		type: '(node: Element, rects: { from: DOMRect; to: DOMRect }, options?: TransitionOptions) => AnimationConfig',
+		description:
+			'For animate: on a keyed #each. Slides the item from its old place to its new one with the theme timing. A duration of 0 turns it off, for lists too long to animate.'
 	},
 	{
 		name: 'cubicBezier(x1, y1, x2, y2)',
