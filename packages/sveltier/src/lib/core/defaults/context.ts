@@ -1,5 +1,7 @@
+import { DEV, warnUnthemed } from '#dev';
 import { getContext, hasContext, setContext } from 'svelte';
 import type { SharedProps } from '../props/types.js';
+import { hasThemeContext } from '../theme/context.js';
 
 /** Defaults that reach every component which declares the prop. */
 export type GlobalDefaults = Pick<
@@ -63,6 +65,9 @@ export function mergeDefaults(parent: Merged | undefined, own: DefaultsConfig): 
  */
 export function useDefaults<T extends object>(name: string, builtins: T): (local: Partial<T>) => T {
 	const context = getDefaultsContext();
+	// Nearly every component resolves its defaults here, so this is where a page with no theme
+	// is noticed.
+	if (DEV && !hasThemeContext()) warnUnthemed(name);
 	const keys = Object.keys(builtins) as Array<keyof T & string>;
 
 	return (local) => {

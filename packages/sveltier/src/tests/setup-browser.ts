@@ -8,3 +8,8 @@ import { beforeEach } from 'vitest';
 beforeEach(() => {
 	window.focus();
 });
+
+// Most tests render a component bare, with no provider, on purpose. The development check for a
+// page with no theme reads this property, which every theme stylesheet sets; setting it here
+// keeps that warning out of every test file. The test of the check removes it.
+document.documentElement.style.setProperty('--sv-color-scrim', 'transparent');
