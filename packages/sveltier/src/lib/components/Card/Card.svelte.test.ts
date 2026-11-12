@@ -37,11 +37,14 @@ describe('Card', () => {
 		await expect.element(page.getByRole('button', { name: 'Send money' })).toBeVisible();
 	});
 
-	it('makes the title a heading of the level asked for', async () => {
+	it('makes the title an h2, a heading of the level asked for, or text with level false', async () => {
 		const screen = await render(CardHarness, {});
-		expect(card().querySelector('.sv-card__title')?.tagName).toBe('DIV');
+		await expect.element(page.getByRole('heading', { level: 2, name: 'Savings' })).toBeVisible();
 		await screen.rerender({ level: 3 });
 		await expect.element(page.getByRole('heading', { level: 3, name: 'Savings' })).toBeVisible();
+		await screen.rerender({ level: false });
+		expect(card().querySelector('.sv-card__title')?.tagName).toBe('DIV');
+		expect(page.getByRole('heading').elements()).toHaveLength(0);
 	});
 
 	it('leaves the header out when it has nothing to show', async () => {

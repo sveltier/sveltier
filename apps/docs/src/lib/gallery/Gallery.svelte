@@ -255,7 +255,7 @@
 			<h2 id="g-data">Data</h2>
 			<Table aria-label="Positions" items={positions} {columns} />
 			<div class="gallery__grid">
-				<Card title="Savings" subtitle="Instant access">
+				<Card title="Savings" subtitle="Instant access" level={3}>
 					<p>Interest is paid monthly.</p>
 					{#snippet actions()}
 						<Button variant="tonal">Add money</Button>

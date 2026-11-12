@@ -26,9 +26,10 @@
 		variant: 'elevated',
 		color: 'neutral',
 		density: 'default',
-		rounded: true
+		rounded: true,
+		level: 2
 	});
-	const p = $derived(resolve({ variant, color, density, rounded }));
+	const p = $derived(resolve({ variant, color, density, rounded, level }));
 </script>
 
 <div bind:this={ref} {...rest} class={['sv-card', sharedClasses(p, 'Card'), className]}>
@@ -38,7 +39,7 @@
 			{#if title || subtitle}
 				<div class="sv-card__heading">
 					{#if title}
-						<svelte:element this={level ? `h${level}` : 'div'} class="sv-card__title">
+						<svelte:element this={p.level ? `h${p.level}` : 'div'} class="sv-card__title">
 							{title}
 						</svelte:element>
 					{/if}

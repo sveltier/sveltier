@@ -34,6 +34,7 @@
 					color={card.color}
 					title={card.title}
 					subtitle="Pending · $310.25"
+					level={3}
 				/>
 			{/each}
 		</div>
