@@ -169,6 +169,24 @@ export function warnMisplaced(component: string, element: HTMLElement | null | u
 	);
 }
 
+let themeChecked = false;
+
+/**
+ * Warns, once a page, when a component renders with no theme: no provider above it, and no
+ * theme stylesheet on the page. Such a page raises no error; it only looks wrong, and a coding
+ * agent that cannot see it would not know. Every theme stylesheet sets `--sv-color-scrim`, so the
+ * root element has it whenever a theme is on the page, from a provider or from `themeCss`.
+ */
+export function warnUnthemed(component: string): void {
+	if (themeChecked || typeof document === 'undefined') return;
+	themeChecked = true;
+	if (getComputedStyle(document.documentElement).getPropertyValue('--sv-color-scrim')) return;
+	warn(
+		'SV1008',
+		`<${component}> renders with no theme: there is no <UIProvider> above it, so it has none of the theme's colours, type and spacing, and toasts have nowhere to show. Wrap the app in <UIProvider themes={monolith}> once, in the root layout (src/routes/+layout.svelte, or App.svelte with Vite alone), with UIProvider from '@sveltier/ui' and monolith from '@sveltier/ui/themes/monolith'.`
+	);
+}
+
 /** Warns when a prop is passed under the name it had before it was renamed. */
 export function warnRenamed(component: string, old: string, now: string, value: unknown): void {
 	if (value === undefined) return;

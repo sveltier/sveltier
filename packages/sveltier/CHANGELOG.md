@@ -1,5 +1,15 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.14
+
+### Minor Changes
+
+- aac2ea4: Card's title is an `<h2>` by default, so a card is in the page's outline without `level`. Set `level={3}` for cards under a section's `<h2>`, or `level={false}` for styled text. `level` can also be set for a part of the page with `DefaultsProvider`.
+
+### Patch Changes
+
+- 645b375: In development, the first component that renders with no theme warns once (`SV1008`), with the root-layout setup that fixes it. Before, such a page raised nothing and only looked unstyled. A page themed by a provider, or by `themeCss` without one, stays quiet.
+
 ## 0.1.0-alpha.13
 
 ### Minor Changes

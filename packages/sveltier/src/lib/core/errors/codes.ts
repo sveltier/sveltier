@@ -72,6 +72,13 @@ export const ERROR_CODES = {
 			'`useTheme()` reads the theme from the component tree, and there is no `<UIProvider>` or `<ThemeProvider>` above the component that called it.',
 		fix: 'Wrap the app in `<UIProvider>` in the root layout, and call `useTheme()` while a component inside it initialises.'
 	},
+	SV1008: {
+		kind: 'warning',
+		title: 'Component rendered with no theme',
+		cause:
+			'The colours, type and spacing of every component come from the theme, which `<UIProvider>` puts on the page. A component with no provider above it, on a page with no theme stylesheet, renders unstyled, and toasts have nowhere to show. Nothing fails, so nothing else says so.',
+		fix: "Wrap the app in `<UIProvider themes={monolith}>` once, in the root layout: `src/routes/+layout.svelte`, or `App.svelte` with Vite alone. Import `UIProvider` from `'@sveltier/ui'` and `monolith` from `'@sveltier/ui/themes/monolith'`."
+	},
 	SV2001: {
 		kind: 'error',
 		title: 'Display thresholds out of order',

@@ -24,8 +24,9 @@
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
 		<li>
-			Set <code>level</code> to make the title a heading of that level, so the card is in the page's outline.
-			Pick the level that follows the heading above it.
+			The title is an <code>&lt;h2&gt;</code> by default, so the card is in the page's outline. Set
+			<code>level</code> to the level that follows the heading above it, <code>3</code> under a
+			section's <code>&lt;h2&gt;</code>, or to <code>false</code> for styled text.
 		</li>
 		<li>
 			A card is not a control. Make what it leads to a link or a button inside it, so each action

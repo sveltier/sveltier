@@ -26,6 +26,13 @@ export interface CardDefaults {
 	 * @default true
 	 */
 	rounded: Rounded;
+	/**
+	 * The heading level of the title (`<h2>`, `<h3>`…), so the card is in the page's outline
+	 * under its title. Under a section's `<h2>`, give its cards `3`. `false` makes the title
+	 * styled text.
+	 * @default 2
+	 */
+	level: 1 | 2 | 3 | 4 | 5 | 6 | false;
 }
 
 declare module '../../core/defaults/context.js' {
@@ -39,7 +46,7 @@ declare module '../../core/defaults/context.js' {
  * and buttons inside it are what is clickable, not the card.
  *
  * @example
- * <Card title="Savings" subtitle="Instant access" level={3}>
+ * <Card title="Savings" subtitle="Instant access">
  *   <p>$12,480.00</p>
  *   {#snippet actions()}<Button variant="tonal">Add money</Button>{/snippet}
  * </Card>
@@ -48,18 +55,10 @@ export type CardProps = ElementProps<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement>,
 	Partial<CardDefaults> & {
-		/**
-		 * The title, in the header: styled text unless `level` makes it a heading. A card whose
-		 * title names the page or a section, such as a form's, needs `level`.
-		 */
+		/** The title, in the header: a heading of `level`, `<h2>` by default. */
 		title?: string;
 		/** A line under the title. */
 		subtitle?: string;
-		/**
-		 * Makes the title a heading of this level (`<h2>`, `<h3>`…), so it is in the page's
-		 * outline. Without it the title is styled text.
-		 */
-		level?: 1 | 2 | 3 | 4 | 5 | 6;
 		/** Content before the title, such as an avatar or an icon. */
 		prepend?: Snippet;
 		/** Content after the title, such as a menu button. */
