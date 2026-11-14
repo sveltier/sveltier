@@ -34,6 +34,7 @@ export { default as avatarUsage } from '../examples/components/AvatarUsage.svelt
 export { default as chipFilter } from '../examples/components/ChipFilter.svelte?raw';
 
 export { default as chipClosable } from '../examples/components/ChipClosable.svelte?raw';
+export { default as chipHint } from '../examples/components/ChipHint.svelte?raw';
 
 export { default as paginationUsage } from '../examples/components/PaginationUsage.svelte?raw';
 
