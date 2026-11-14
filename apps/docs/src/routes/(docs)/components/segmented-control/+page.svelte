@@ -21,6 +21,13 @@
 	<SegmentedDemo />
 	<Code title="ChartRange.svelte" code={segmentedUsage} />
 
+	<h2 id="wrap">Many options</h2>
+	<p>
+		A segmented control holds a few short options on one line. For more, or for labels with counts
+		in a narrow panel, <code>wrap</code> lets the options flow onto more lines, each as wide as its label.
+		The selected one is painted in place, every arrow key moves, and it is still one stop in the tab order.
+	</p>
+
 	<h2 id="labels">Short labels</h2>
 	<p>
 		An option's <code>attributes</code> go on its radio: a name that says more than a short label,

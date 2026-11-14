@@ -20,6 +20,7 @@
 		value = $bindable(),
 		onchange,
 		disabled = false,
+		wrap = false,
 		class: className,
 		ref = $bindable(null),
 		...rest
@@ -47,12 +48,17 @@
 	bind:this={ref}
 	{...rest}
 	role="radiogroup"
-	class={['sv-segmented', sharedClasses(p, 'SegmentedControl'), className]}
+	class={[
+		'sv-segmented',
+		sharedClasses(p, 'SegmentedControl'),
+		wrap && 'sv-segmented--wrap',
+		className
+	]}
 	style:--sv-segments={options.length}
 	style:--sv-segment={index}
-	{@attach rovingFocus({ orientation: 'horizontal' })}
+	{@attach rovingFocus({ orientation: wrap ? 'both' : 'horizontal' })}
 >
-	{#if index >= 0}<span class="sv-segmented__thumb" aria-hidden="true"></span>{/if}
+	{#if index >= 0 && !wrap}<span class="sv-segmented__thumb" aria-hidden="true"></span>{/if}
 	{#each options as option (option.value)}
 		<button
 			{...option.attributes}

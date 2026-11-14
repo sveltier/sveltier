@@ -63,4 +63,25 @@ describe('SegmentedControl', () => {
 		await screen.rerender({ dir: 'rtl' });
 		await expect.poll(aligned).toBe(true);
 	});
+
+	it('wraps onto more lines in a narrow box, painting the checked option in place', async () => {
+		await render(SegmentedHarness, { wrap: true });
+		const control = page.getByTestId('control').element();
+		expect(control.getBoundingClientRect().width).toBeLessThanOrEqual(160);
+		const tops = new Set(
+			[...control.querySelectorAll('[role="radio"]')].map((radio) =>
+				Math.round(radio.getBoundingClientRect().top)
+			)
+		);
+		expect(tops.size).toBeGreaterThan(1);
+		expect(control.querySelector('.sv-segmented__thumb')).toBeNull();
+		const checked = getComputedStyle(option('1M').element()).backgroundColor;
+		expect(checked).not.toBe(getComputedStyle(option('1D').element()).backgroundColor);
+		// Every arrow moves, as the options sit in rows.
+		(option('1M').element() as HTMLElement).focus();
+		await userEvent.keyboard('{ArrowDown}');
+		expect(text('value')).toBe('1Y');
+		await userEvent.keyboard('{ArrowUp}');
+		expect(text('value')).toBe('1M');
+	});
 });

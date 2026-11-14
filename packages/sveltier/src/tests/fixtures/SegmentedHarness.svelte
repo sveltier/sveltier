@@ -7,8 +7,9 @@
 	let {
 		value = $bindable('1M'),
 		dir = 'ltr',
-		disabledYear = false
-	}: { value?: string; dir?: 'ltr' | 'rtl'; disabledYear?: boolean } = $props();
+		disabledYear = false,
+		wrap = false
+	}: { value?: string; dir?: 'ltr' | 'rtl'; disabledYear?: boolean; wrap?: boolean } = $props();
 
 	let changed = $state('');
 	const options = $derived([
@@ -21,8 +22,9 @@
 </script>
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<div {dir}>
+	<div {dir} style:inline-size={wrap ? '160px' : undefined}>
 		<SegmentedControl
+			{wrap}
 			data-testid="control"
 			aria-label="Chart range"
 			{options}

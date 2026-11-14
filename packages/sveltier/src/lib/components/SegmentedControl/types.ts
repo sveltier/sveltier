@@ -80,5 +80,12 @@ export type SegmentedControlProps<T extends string | number = string> = ElementP
 		 * @default false
 		 */
 		disabled?: boolean;
+		/**
+		 * Lets the options flow onto more lines when they do not fit, each as wide as its label,
+		 * for many options, or labels with counts, in a narrow space. The selected one is painted
+		 * in place instead of sliding, and every arrow key moves. Still one tab stop.
+		 * @default false
+		 */
+		wrap?: boolean;
 	}
 >;
