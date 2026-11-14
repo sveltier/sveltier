@@ -120,10 +120,11 @@ export default [
 	},
 	{
 		// The platform's <details> does the opening, the one-at-a-time group and find in page; its
-		// own code keeps the value in step and styles the sections.
+		// own code keeps the value in step, styles the sections, and renders a header snippet in
+		// place of a label.
 		name: 'Accordion',
 		code: "export { Accordion } from '@sveltier/ui';",
-		limit: '1.8 KB',
+		limit: '1.85 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -240,9 +241,11 @@ export default [
 		external: [/\/core\//]
 	},
 	{
+		// Rows that are text, links or buttons, with the current one marked, and content before,
+		// inside at the end (detail) and after the row's action.
 		name: 'List and ListItem',
 		code: "export { List, ListItem } from '@sveltier/ui';",
-		limit: '2 KB',
+		limit: '2.05 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -303,10 +306,11 @@ export default [
 	{
 		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, the rules that
 		// let the Tabs fill the height they are given, and the underline that slides over from the
-		// old tab with the theme's timing (0.3 KB).
+		// old tab with the theme's timing (0.3 KB). Tabs with href render a navigation of links
+		// instead, in the same row and underline (0.15 KB).
 		name: 'Tabs',
 		code: "export { Tabs } from '@sveltier/ui';",
-		limit: '2.8 KB',
+		limit: '3 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -632,7 +636,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '84 KB'
+		limit: '84.5 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
