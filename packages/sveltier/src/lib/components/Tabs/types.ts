@@ -39,6 +39,12 @@ export interface TabsItem<T extends string | number = string> {
 	/** What the tab says. */
 	label: string;
 	disabled?: boolean;
+	/**
+	 * Makes the tab a link to another page. Tabs with links are a navigation between pages
+	 * (`<nav>`), each tab a stop in the tab order, the one of `value` marked
+	 * `aria-current="page"`, and no panel: the page is the content. Set `value` from the route.
+	 */
+	href?: string;
 }
 
 /**
@@ -53,6 +59,13 @@ export interface TabsItem<T extends string | number = string> {
  * >
  *   {#snippet panel(item)}<AccountSection name={item.value} />{/snippet}
  * </Tabs>
+ *
+ * <!-- Links between pages, the current one from the route. -->
+ * <Tabs
+ *   aria-label="Learn"
+ *   items={[{ value: 'lessons', label: 'Lessons', href: '/learn/lessons' }, { value: 'lab', label: 'Lab', href: '/learn/lab' }]}
+ *   value={page.url.pathname.split('/')[2]}
+ * />
  */
 export type TabsProps<T extends string | number = string> = ElementProps<
 	HTMLDivElement,

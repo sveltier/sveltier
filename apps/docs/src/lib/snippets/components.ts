@@ -84,6 +84,7 @@ export { default as stepperUsage } from '../examples/components/StepperUsage.sve
 export { default as stepperVertical } from '../examples/components/StepperVertical.svelte?raw';
 
 export { default as tabsFill } from '../examples/components/TabsFill.svelte?raw';
+export { default as tabsLinks } from '../examples/components/TabsLinks.svelte?raw';
 
 export { default as tableSharedCell } from '../examples/components/TableSharedCell.svelte?raw';
 
