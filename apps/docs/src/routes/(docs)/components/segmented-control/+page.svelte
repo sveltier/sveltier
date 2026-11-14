@@ -21,6 +21,15 @@
 	<SegmentedDemo />
 	<Code title="ChartRange.svelte" code={segmentedUsage} />
 
+	<h2 id="labels">Short labels</h2>
+	<p>
+		An option's <code>attributes</code> go on its radio: a name that says more than a short label,
+		its language and a title, as a language switch needs:
+		<code
+			>{"{ value: 'en', label: 'EN', attributes: { 'aria-label': 'EN · English', lang: 'en' } }"}</code
+		>. A name should start with the label's words, so speech input finds it by what it shows.
+	</p>
+
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
 		<li>

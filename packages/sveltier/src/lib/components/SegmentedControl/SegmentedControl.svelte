@@ -55,9 +55,10 @@
 	{#if index >= 0}<span class="sv-segmented__thumb" aria-hidden="true"></span>{/if}
 	{#each options as option (option.value)}
 		<button
+			{...option.attributes}
 			type="button"
 			role="radio"
-			class="sv-segmented__option"
+			class={['sv-segmented__option', option.attributes?.class]}
 			data-sv-item
 			aria-checked={option.value === value}
 			disabled={disabled || option.disabled}

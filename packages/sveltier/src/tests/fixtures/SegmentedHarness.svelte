@@ -16,7 +16,7 @@
 		{ value: '1W', label: '1W' },
 		{ value: '1M', label: '1M' },
 		{ value: '1Y', label: '1Y', disabled: disabledYear },
-		{ value: 'All', label: 'All' }
+		{ value: 'All', label: 'All', attributes: { 'aria-label': 'All time', title: 'Since listing' } }
 	]);
 </script>
 

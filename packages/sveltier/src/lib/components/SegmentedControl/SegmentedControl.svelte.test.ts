@@ -16,6 +16,14 @@ describe('SegmentedControl', () => {
 		expect((option('1M').element() as HTMLElement).tabIndex).toBe(0);
 	});
 
+	it('passes an option its attributes, keeping its role and state', async () => {
+		await render(SegmentedHarness, {});
+		const all = page.getByRole('radio', { name: 'All time' });
+		await expect.element(all).toHaveAttribute('title', 'Since listing');
+		await expect.element(all).toHaveAttribute('aria-checked', 'false');
+		await expect.element(all).toHaveClass('sv-segmented__option');
+	});
+
 	it('picks an option on click, and reports it', async () => {
 		await render(SegmentedHarness, {});
 		await option('1W').click();
