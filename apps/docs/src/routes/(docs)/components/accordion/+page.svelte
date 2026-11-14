@@ -29,6 +29,15 @@
 	</p>
 	<Code title="Notifications.svelte" code={accordionMultiple} />
 
+	<h2 id="headers">Headers with more than text</h2>
+	<p>
+		A <code>header</code> snippet renders each header in place of its item's <code>label</code>, for
+		parts in colour or a tag:
+		<code
+			>{'{#snippet header(item)}{item.label} <Delta value={moves[item.value]} />{/snippet}'}</code
+		>. Its text names the header, so keep the label's words in it, first.
+	</p>
+
 	<h2 id="details">On the platform's details</h2>
 	<ul>
 		<li>

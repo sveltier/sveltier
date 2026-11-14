@@ -10,6 +10,7 @@
 		density,
 		items,
 		panel,
+		header,
 		multiple = false,
 		value = $bindable(),
 		onchange,
@@ -71,7 +72,9 @@
 				aria-disabled={item.disabled || undefined}
 				onclick={(event) => item.disabled && event.preventDefault()}
 			>
-				<span class="sv-accordion__title">{item.label}</span>
+				<span class="sv-accordion__title"
+					>{#if header}{@render header(item)}{:else}{item.label}{/if}</span
+				>
 				<svg class="sv-accordion__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 					<path d={CHEVRON} />
 				</svg>

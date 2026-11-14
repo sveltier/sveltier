@@ -71,5 +71,12 @@ export type AccordionProps<T extends string | number = string> = ElementProps<
 		items: readonly AccordionItem<T>[];
 		/** The content of a section, under its header. */
 		panel: Snippet<[AccordionItem<T>]>;
+		/**
+		 * The content of each header, in place of its item's `label`: for a header with parts in
+		 * colour, or a tag. Its text names the header, so keep the label's words in it, first.
+		 * @example
+		 * {#snippet header(item)}{item.label} <Delta value={moves[item.value]} />{/snippet}
+		 */
+		header?: Snippet<[AccordionItem<T>]>;
 	} & (Single<T> | Multiple<T>)
 >;

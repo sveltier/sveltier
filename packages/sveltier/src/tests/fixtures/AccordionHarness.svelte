@@ -16,8 +16,9 @@
 	let {
 		multiple = false,
 		initial,
-		items = SECTIONS
-	}: { multiple?: boolean; initial?: string; items?: AccordionItem[] } = $props();
+		items = SECTIONS,
+		tagged = false
+	}: { multiple?: boolean; initial?: string; items?: AccordionItem[]; tagged?: boolean } = $props();
 
 	let one = $state<string | null>(untrack(() => initial ?? null));
 	let many = $state<string[]>([]);
@@ -25,6 +26,10 @@
 
 	const report = (next: unknown) => (changes = [...changes, JSON.stringify(next)]);
 </script>
+
+{#snippet tag(item: AccordionItem)}
+	{item.label} <strong data-testid="tag-{item.value}">New</strong>
+{/snippet}
 
 {#snippet panel(item: AccordionItem)}
 	<p>About {item.label?.toLowerCase()}.</p>
@@ -34,7 +39,13 @@
 	{#if multiple}
 		<Accordion {items} {panel} multiple bind:value={many} onchange={report} />
 	{:else}
-		<Accordion {items} {panel} bind:value={one} onchange={report} />
+		<Accordion
+			{items}
+			{panel}
+			header={tagged ? tag : undefined}
+			bind:value={one}
+			onchange={report}
+		/>
 	{/if}
 	<button type="button" onclick={() => (multiple ? (many = ['limits']) : (one = 'limits'))}>
 		Open limits
