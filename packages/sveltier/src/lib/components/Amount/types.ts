@@ -1,6 +1,9 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
 
+/** The faces a figure can take: the theme's data face, or the font of the text around it. */
+export const FIGURE_FONTS = ['data', 'inherit'] as const;
+
 /** The Amount props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface AmountDefaults {
 	/**
@@ -15,6 +18,14 @@ export interface AmountDefaults {
 	 * @default false
 	 */
 	masked: boolean;
+	/**
+	 * The face of the figure. `'data'` is the theme's data face (`font-data`), so figures read
+	 * as data and match the numbers in tables and number fields. `'inherit'` takes the font of
+	 * the text around it, for a figure inside a sentence; set it through `DefaultsProvider` for
+	 * a part of the page that is running text. Delta and Odometer follow it too.
+	 * @default 'data'
+	 */
+	font: (typeof FIGURE_FONTS)[number];
 }
 
 declare module '../../core/defaults/context.js' {

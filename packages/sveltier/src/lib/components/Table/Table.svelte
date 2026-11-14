@@ -72,6 +72,12 @@
 		})
 	);
 
+	// A number the table shows itself is a figure; a cell snippet sets its own content's face.
+	const isFigure = (column: TableColumn<T>, item: T): boolean => {
+		const value = column.cell ? undefined : valueOf(column, item);
+		return typeof value === 'number' || typeof value === 'bigint';
+	};
+
 	const collator = $derived(new Intl.Collator(locale.locale, { numeric: true }));
 
 	// The items in the order of the sorted column, empty values last either way.
@@ -246,6 +252,7 @@
 							class={[
 								'sv-table__cell',
 								`sv-table__cell--${aligns[i]}`,
+								isFigure(column, item) && 'sv-table__cell--figure',
 								column.wrap && 'sv-table__cell--wrap',
 								column.pinned && 'sv-table__cell--pinned'
 							]}

@@ -1,11 +1,17 @@
 @layer sv.tokens, sv.base, sv.components, sv.utilities;
 
 @layer sv.components {
+	/* A headline figure in the theme's data face, unless it takes the font around it. */
 	.sv-odometer {
 		display: inline-block;
+		font-family: var(--sv-font-data);
 		font-variant-numeric: tabular-nums;
 		vertical-align: top;
 		white-space: nowrap;
+	}
+
+	.sv-odometer--inherit {
+		font-family: inherit;
 	}
 
 	.sv-odometer__figure {

@@ -1,12 +1,21 @@
 @layer sv.tokens, sv.base, sv.components, sv.utilities;
 
 @layer sv.components {
-	/* A figure on one line in tabular figures; its own stacking context holds the flash behind it. */
+	/*
+	 * A figure on one line in the theme's data face and tabular figures; its own stacking context
+	 * holds the flash behind it.
+	 */
 	.sv-amount {
 		position: relative;
 		isolation: isolate;
+		font-family: var(--sv-font-data);
 		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
+	}
+
+	/* A figure inside a sentence, in the sentence's font. */
+	.sv-amount--inherit {
+		font-family: inherit;
 	}
 
 	.sv-amount__fraction {

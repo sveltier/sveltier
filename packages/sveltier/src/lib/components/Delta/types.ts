@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
+import type { AmountDefaults } from '../Amount/types.js';
 
 /** The Delta props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
 export interface DeltaDefaults {
@@ -19,7 +20,7 @@ declare module '../../core/defaults/context.js' {
 /**
  * A change: a rise in the theme's up colour with a plus, a fall in its down colour with a
  * minus, no change muted. The sign always shows, so colour is never the only cue. The figure
- * is an Amount: the same `format` and `decimals`, and it follows Amount's `masked`.
+ * is an Amount: the same `format` and `decimals`, and it follows Amount's `masked` and `font`.
  *
  * @example
  * <script>
@@ -53,5 +54,10 @@ export type DeltaProps = ElementProps<
 		 * Amount's `masked` default.
 		 */
 		masked?: boolean;
+		/**
+		 * The face of the figure: `'data'`, the theme's data face, or `'inherit'`, the font of
+		 * the text around it. Without it, the figure follows Amount's `font` default.
+		 */
+		font?: AmountDefaults['font'];
 	}
 >;

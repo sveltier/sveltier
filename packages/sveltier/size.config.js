@@ -311,11 +311,12 @@ export default [
 	},
 	{
 		// Its own code: the Intl options with defaults that keep the data, the runs with a true
-		// minus and a dimmed fraction, masking, and the flash on the Web Animations API. The
-		// locale's cached formatters and the motion timing are core and primitives.
+		// minus and a dimmed fraction, masking, the face (the theme's data face or the text's), and
+		// the flash on the Web Animations API. The locale's cached formatters and the motion timing
+		// are core and primitives.
 		name: 'Amount',
 		code: "export { Amount } from '@sveltier/ui';",
-		limit: '1.75 KB',
+		limit: '1.8 KB',
 		external: [/\/core\//, /\/primitives\//]
 	},
 	{
@@ -331,10 +332,11 @@ export default [
 		// region (2.5 KB of JS), and 1.4 KB of CSS (sticky header and caption, pinned column with
 		// its edge, sort arrow, current row, loading bar). Rows slide to their new places with
 		// Svelte's animate: (0.7 KB, mostly Svelte's transition runtime, which an app with any
-		// overlay or toast already loads). The locale and the shared props are core, measured apart.
+		// overlay or toast already loads). The numbers it shows itself take the data face. The locale
+		// and the shared props are core, measured apart.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '4.6 KB',
+		limit: '4.65 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -445,10 +447,11 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Its own code and CSS: the digit columns. The formatting is Amount's, measured in its entry.
+		// Its own code and CSS: the digit columns, and the face it takes from Amount's defaults. The
+		// formatting is Amount's, measured in its entry.
 		name: 'Odometer',
 		code: "export { Odometer } from '@sveltier/ui';",
-		limit: '1.4 KB',
+		limit: '1.5 KB',
 		external: [/\/core\//, /\/components\/Amount\//]
 	},
 	{
@@ -635,10 +638,11 @@ export default [
 		// What a typical app loads first: the root provider with a theme pack, a button, two
 		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
-		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB.
+		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
+		// table's figures in the data face, 0.02 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '22.2 KB'
+		limit: '22.25 KB'
 	}
 ];

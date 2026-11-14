@@ -15,6 +15,7 @@
 		decimals,
 		flash = false,
 		masked,
+		font,
 		class: className,
 		ref = $bindable(null),
 		...rest
@@ -23,7 +24,11 @@
 	const resolve = useDefaults<DeltaDefaults>('Delta', { arrow: false });
 	const p = $derived(resolve({ arrow }));
 	// Masking is Amount's setting, so one switch hides every figure, changes among them.
-	const amount = useDefaults<AmountDefaults>('Amount', { dimFraction: false, masked: false });
+	const amount = useDefaults<AmountDefaults>('Amount', {
+		dimFraction: false,
+		masked: false,
+		font: 'data'
+	});
 	const hidden = $derived(amount({ masked }).masked);
 
 	const locale = useLocale();
@@ -54,6 +59,7 @@
 		{decimals}
 		{flash}
 		masked={hidden}
+		{font}
 		dimFraction={false}
 	/></span
 >
