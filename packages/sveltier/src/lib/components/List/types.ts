@@ -74,8 +74,9 @@ export type ListItemProps = ElementProps<
 		/** Makes the row a button that calls this. */
 		onclick?: (event: MouseEvent) => void;
 		/**
-		 * The current page or the selected row: tinted in the list's colour, and
-		 * `aria-current="page"` on a link.
+		 * The current page or the selected row: tinted in the list's colour, with
+		 * `aria-current="page"` on a link and `aria-current="true"` on a button, such as the
+		 * lesson that is open.
 		 * @default false
 		 */
 		active?: boolean;
@@ -86,8 +87,17 @@ export type ListItemProps = ElementProps<
 		disabled?: boolean;
 		/** Content before the text, such as an avatar or an icon. */
 		prepend?: Snippet;
-		/** Content after the row's link or button, such as a value or a menu button. */
+		/**
+		 * Content after the row's link or button, such as a menu button. Text that belongs to the
+		 * row's name goes in `detail`.
+		 */
 		append?: Snippet;
+		/**
+		 * Content at the end of the row, inside its link or button, so it is read as part of the
+		 * row's name: a count, a progress or a date. A control, such as a menu button, goes in
+		 * `append`.
+		 */
+		detail?: Snippet;
 		/** More content under the title and subtitle. */
 		children?: Snippet;
 	}

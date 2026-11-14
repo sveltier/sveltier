@@ -14,6 +14,7 @@
 		disabled = false,
 		prepend,
 		append,
+		detail,
 		children,
 		class: className,
 		ref = $bindable(null),
@@ -43,7 +44,7 @@
 		role={tag === 'a' && disabled ? 'link' : undefined}
 		disabled={(tag === 'button' && disabled) || undefined}
 		aria-disabled={(tag === 'a' && disabled) || undefined}
-		aria-current={tag === 'a' && active ? 'page' : undefined}
+		aria-current={active && tag !== 'div' ? (tag === 'a' ? 'page' : 'true') : undefined}
 		onclick={tag === 'button' ? onclick : undefined}
 	>
 		{#if prepend}<span class="sv-list-item__prepend">{@render prepend()}</span>{/if}
@@ -52,6 +53,7 @@
 			{#if subtitle}<span class="sv-list-item__subtitle">{subtitle}</span>{/if}
 			{@render children?.()}
 		</span>
+		{#if detail}<span class="sv-list-item__detail">{@render detail()}</span>{/if}
 	</svelte:element>
 	{#if append}<span class="sv-list-item__append">{@render append()}</span>{/if}
 </li>

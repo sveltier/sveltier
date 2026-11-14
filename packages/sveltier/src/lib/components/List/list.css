@@ -90,10 +90,17 @@
 	}
 
 	.sv-list-item__prepend,
+	.sv-list-item__detail,
 	.sv-list-item__append {
 		display: flex;
 		flex: none;
 		align-items: center;
+	}
+
+	/* At the end of the row's text, inside its link or button, so it is part of the name. */
+	.sv-list-item__detail {
+		color: var(--sv-color-text-muted);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.sv-list-item__append {

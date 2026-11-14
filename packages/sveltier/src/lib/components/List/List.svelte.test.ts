@@ -39,6 +39,15 @@ describe('List', () => {
 		expect(item('link').classList).toContain('sv-list-item--active');
 	});
 
+	it('marks the active button as the current one, and reads its detail in its name', async () => {
+		const screen = await render(ListHarness, { active: true, progress: true, onopen: () => {} });
+		const button = page.getByRole('button', { name: 'Open account 3 of 5' });
+		await expect.element(button).toHaveAttribute('aria-current', 'true');
+		expect(main('static').hasAttribute('aria-current')).toBe(false);
+		await screen.rerender({ active: false });
+		expect(main('button').hasAttribute('aria-current')).toBe(false);
+	});
+
 	it('disables rows: a button natively, a link by losing its href', async () => {
 		const onopen = vi.fn();
 		await render(ListHarness, { onopen, disabled: true });
