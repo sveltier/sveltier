@@ -42,6 +42,8 @@
 		return chosen >= 0 ? chosen : items.findIndex((item) => !item.disabled);
 	});
 	const selected = $derived(items[index]);
+	// Tabs with href are links between pages: a navigation, with the current page marked.
+	const links = $derived(items.some((item) => item.href != null));
 
 	// The underline slides from the tab that was selected to the new one: it starts over the old
 	// tab, moved between the centres and scaled between the widths.
@@ -85,32 +87,54 @@
 		className
 	]}
 >
-	<div
-		bind:this={list}
-		role="tablist"
-		aria-label={ariaLabel}
-		aria-labelledby={ariaLabelledby}
-		class="sv-tabs__list"
-		{@attach rovingFocus({ orientation: 'horizontal' })}
-	>
-		{#each items as item, i (item.value)}
-			<button
-				type="button"
-				role="tab"
-				id="{prefix}-tab-{i}"
-				class="sv-tabs__tab"
-				data-sv-item
-				aria-selected={i === index}
-				aria-controls={i === index && panel ? `${prefix}-panel` : undefined}
-				disabled={item.disabled}
-				onclick={() => select(item)}
-				onfocus={() => activation === 'automatic' && select(item)}
-			>
-				{item.label}
-			</button>
-		{/each}
-	</div>
-	{#if panel && selected}
+	{#if links}
+		<nav
+			bind:this={list}
+			aria-label={ariaLabel}
+			aria-labelledby={ariaLabelledby}
+			class="sv-tabs__list"
+		>
+			{#each items as item, i (item.value)}
+				<a
+					class="sv-tabs__tab"
+					href={item.disabled ? undefined : item.href}
+					role={item.disabled ? 'link' : undefined}
+					aria-disabled={item.disabled || undefined}
+					aria-current={i === index ? 'page' : undefined}
+					onclick={() => select(item)}
+				>
+					{item.label}
+				</a>
+			{/each}
+		</nav>
+	{:else}
+		<div
+			bind:this={list}
+			role="tablist"
+			aria-label={ariaLabel}
+			aria-labelledby={ariaLabelledby}
+			class="sv-tabs__list"
+			{@attach rovingFocus({ orientation: 'horizontal' })}
+		>
+			{#each items as item, i (item.value)}
+				<button
+					type="button"
+					role="tab"
+					id="{prefix}-tab-{i}"
+					class="sv-tabs__tab"
+					data-sv-item
+					aria-selected={i === index}
+					aria-controls={i === index && panel ? `${prefix}-panel` : undefined}
+					disabled={item.disabled}
+					onclick={() => select(item)}
+					onfocus={() => activation === 'automatic' && select(item)}
+				>
+					{item.label}
+				</button>
+			{/each}
+		</div>
+	{/if}
+	{#if panel && selected && !links}
 		<!-- Focusable, so keyboard users reach a panel with nothing focusable in it (APG). -->
 		<div
 			role="tabpanel"

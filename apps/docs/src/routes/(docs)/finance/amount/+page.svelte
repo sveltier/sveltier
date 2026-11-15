@@ -42,6 +42,15 @@
 		is not left to colour alone.
 	</p>
 
+	<h2 id="font">Font</h2>
+	<p>
+		A figure is set in the theme's data face (<code>font-data</code>), as the value of a number
+		field and the numbers a Table shows are, so figures read as data wherever they are. Inside a
+		sentence, <code>font="inherit"</code> takes the font of the text around it; set it through
+		<code>DefaultsProvider</code> for a part of the page that is running text. Delta and Odometer follow
+		it too.
+	</p>
+
 	<h2 id="privacy">Hiding amounts</h2>
 	<p>
 		<code>masked</code> shows <q>••••</q> in place of the figure, for a screen others can see. Set

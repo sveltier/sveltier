@@ -4,7 +4,8 @@ import type { ThemeVariable } from '@sveltier/ui';
 export const CONTRACT_DOCS: Record<ThemeVariable, string> = {
 	'font-display': 'Family for headings and large figures.',
 	'font-ui': 'Family for interface text: labels, buttons, body copy.',
-	'font-data': 'Family for tabular data and code.',
+	'font-data':
+		'Family for figures (Amount, Delta, Odometer, number fields, the numbers a Table shows) and code.',
 	'weight-display': 'Weight of display text.',
 	'tracking-display': 'Letter spacing of display text.',
 	'label-size': 'Size of small labels and table headers.',

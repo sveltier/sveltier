@@ -3,6 +3,7 @@ import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import { firstFrame, scripted, twoFrames } from '../../../tests/animations.js';
 import TabsFillHarness from '../../../tests/fixtures/TabsFillHarness.svelte';
+import TabLinksHarness from '../../../tests/fixtures/TabLinksHarness.svelte';
 import TabsHarness from '../../../tests/fixtures/TabsHarness.svelte';
 
 const tablist = () => page.getByRole('tablist', { name: 'Account' });
@@ -89,6 +90,40 @@ describe('Tabs', () => {
 		expect(page.getByRole('tab', { name: 'Tickers' }).element().getBoundingClientRect().top).toBe(
 			frame.top
 		);
+	});
+});
+
+describe('Tabs of links', () => {
+	it('are a named navigation of links, the current page marked and underlined', async () => {
+		const screen = await render(TabLinksHarness, {});
+		const nav = page.getByRole('navigation', { name: 'Learn' });
+		await expect.element(nav).toBeVisible();
+		expect(page.getByRole('tab').elements()).toHaveLength(0);
+		const lessons = nav.getByRole('link', { name: 'Lessons' });
+		await expect.element(lessons).toHaveAttribute('aria-current', 'page');
+		await expect.element(lessons).toHaveAttribute('href', '#lessons');
+		expect(nav.getByRole('link', { name: 'Lab' }).element().hasAttribute('aria-current')).toBe(
+			false
+		);
+		const line = (name: string) =>
+			getComputedStyle(nav.getByRole('link', { name }).element(), '::after').transform;
+		expect(line('Lessons')).not.toMatch(/matrix\(0,/);
+		expect(line('Lab')).toMatch(/matrix\(0,/);
+		await screen.rerender({ value: 'lab' });
+		await expect
+			.element(nav.getByRole('link', { name: 'Lab' }))
+			.toHaveAttribute('aria-current', 'page');
+	});
+
+	it('take a tab stop each, render no panel, and disable a link by its href', async () => {
+		await render(TabLinksHarness, {});
+		const nav = page.getByRole('navigation', { name: 'Learn' });
+		const links = nav.getByRole('link').elements();
+		expect(links.map((link) => link.getAttribute('tabindex'))).toEqual([null, null, null]);
+		expect(document.querySelector('[data-testid="panel"]')).toBeNull();
+		const exercise = nav.getByRole('link', { name: 'Exercise' });
+		await expect.element(exercise).toHaveAttribute('aria-disabled', 'true');
+		expect(exercise.element().hasAttribute('href')).toBe(false);
 	});
 });
 

@@ -17,6 +17,12 @@
 		<code>--sv-font-data</code>, each ending in system fallbacks, so the interface works before or
 		without them.
 	</p>
+	<p>
+		Figures take the data family: Amount, Delta, Odometer, the value of a number field and the
+		numbers a Table shows. For a figure inside a sentence, <code>font="inherit"</code> takes the
+		font of the text around it; set it for a part of the page with
+		<code>DefaultsProvider</code>.
+	</p>
 
 	<h2 id="per-pack">Fonts per theme pack</h2>
 	<p>All families are open source and available as self-hosted Fontsource packages.</p>

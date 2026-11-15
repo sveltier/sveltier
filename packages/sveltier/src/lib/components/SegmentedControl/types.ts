@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'svelte/elements';
+import type { HTMLAttributes, HTMLButtonAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
 import type { Color, Density, Rounded, Size, Variant } from '../../core/props/types.js';
 
@@ -43,6 +43,15 @@ export interface SegmentedControlOption<T extends string | number = string> {
 	/** What the segment says. */
 	label: string;
 	disabled?: boolean;
+	/**
+	 * More attributes for the segment's radio, such as `lang`, `title`, or an `aria-label` that
+	 * says more than a short label: `{ 'aria-label': 'EN · English', lang: 'en' }`. A name
+	 * should start with the label's words.
+	 */
+	attributes?: Omit<
+		HTMLButtonAttributes,
+		'type' | 'role' | 'disabled' | 'aria-checked' | 'onclick' | 'onfocus' | 'children'
+	>;
 }
 
 /**
@@ -71,5 +80,12 @@ export type SegmentedControlProps<T extends string | number = string> = ElementP
 		 * @default false
 		 */
 		disabled?: boolean;
+		/**
+		 * Lets the options flow onto more lines when they do not fit, each as wide as its label,
+		 * for many options, or labels with counts, in a narrow space. The selected one is painted
+		 * in place instead of sliding, and every arrow key moves. Still one tab stop.
+		 * @default false
+		 */
+		wrap?: boolean;
 	}
 >;

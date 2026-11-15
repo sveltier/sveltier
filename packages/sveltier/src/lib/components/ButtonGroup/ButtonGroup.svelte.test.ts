@@ -39,4 +39,17 @@ describe('ButtonGroup', () => {
 		const middle = button('middle').getBoundingClientRect();
 		expect(middle.left).toBeCloseTo(first.right - 1, 1);
 	});
+
+	it('joins Buttons that are the triggers of Tooltips, whose bubbles sit beside them', async () => {
+		await render(ButtonGroupHarness, { rounded: 'full', tooltips: true });
+		expect(page.getByTestId('group').element().querySelectorAll('[role="tooltip"]')).toHaveLength(
+			3
+		);
+		expect(radius('first')).toEqual(['9999px', '0px']);
+		expect(radius('middle')).toEqual(['0px', '0px']);
+		expect(radius('last')).toEqual(['0px', '9999px']);
+		const first = button('first').getBoundingClientRect();
+		const middle = button('middle').getBoundingClientRect();
+		expect(middle.left).toBeCloseTo(first.right - 1, 1);
+	});
 });

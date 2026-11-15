@@ -111,6 +111,14 @@
 		text-align: end;
 	}
 
+	/*
+	 * A number the table shows itself, in the theme's data face as an Amount is. The whole cell
+	 * takes it, so one font sets the height of its line.
+	 */
+	.sv-table__cell--figure {
+		font-family: var(--sv-font-data);
+	}
+
 	.sv-table__cell--wrap {
 		white-space: normal;
 	}

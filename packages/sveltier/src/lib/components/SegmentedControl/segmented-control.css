@@ -61,6 +61,29 @@
 		color: var(--sv-variant-fg);
 	}
 
+	/*
+	 * Wrapping: options as wide as their labels flow onto more lines, and the selected one is
+	 * painted in place, as there is no single row for a thumb to slide along.
+	 */
+	.sv-segmented--wrap {
+		display: inline-flex;
+		flex-wrap: wrap;
+		gap: var(--sv-segmented-pad);
+		block-size: auto;
+	}
+
+	.sv-segmented--wrap .sv-segmented__option {
+		flex: auto;
+		block-size: calc(var(--sv-size-height) * var(--sv-density) - 2 * var(--sv-segmented-pad));
+	}
+
+	.sv-segmented--wrap .sv-segmented__option[aria-checked='true'] {
+		background-color: var(--sv-variant-bg);
+		box-shadow:
+			inset 0 0 0 var(--sv-hairline) var(--sv-variant-border),
+			var(--sv-variant-shadow);
+	}
+
 	.sv-segmented__option:disabled {
 		opacity: 0.382;
 		cursor: not-allowed;

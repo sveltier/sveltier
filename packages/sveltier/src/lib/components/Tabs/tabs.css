@@ -31,6 +31,14 @@
 		-webkit-tap-highlight-color: transparent;
 	}
 
+	/* A tab that is a link: centred as a button's text is, without a link's underline. */
+	a.sv-tabs__tab {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+	}
+
 	.sv-tabs--grow .sv-tabs__tab {
 		flex: 1;
 	}
@@ -58,16 +66,16 @@
 	}
 
 	@media (hover: hover) {
-		.sv-tabs__tab:not(:disabled):hover {
+		.sv-tabs__tab:not(:disabled, [aria-disabled='true']):hover {
 			color: var(--sv-color-text);
 		}
 	}
 
-	.sv-tabs__tab[aria-selected='true'] {
+	.sv-tabs__tab:is([aria-selected='true'], [aria-current='page']) {
 		color: var(--sv-color);
 	}
 
-	.sv-tabs__tab:disabled {
+	.sv-tabs__tab:is(:disabled, [aria-disabled='true']) {
 		opacity: 0.382;
 		cursor: not-allowed;
 	}
@@ -84,7 +92,7 @@
 		transform: scaleX(0);
 	}
 
-	.sv-tabs__tab[aria-selected='true']::after {
+	.sv-tabs__tab:is([aria-selected='true'], [aria-current='page'])::after {
 		transform: scaleX(1);
 	}
 

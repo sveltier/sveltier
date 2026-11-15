@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import TabsDemo from '#lib/docs/tabs/TabsDemo.svelte';
-	import { tabsFill, tabsUsage } from '#lib/snippets/components.js';
+	import { tabsFill, tabsLinks, tabsUsage } from '#lib/snippets/components.js';
 	import TABS_PROPS from 'virtual:sveltier-api/TabsProps';
 </script>
 
@@ -29,6 +29,16 @@
 		height: <code>block-size</code> on a container, or <code>flex: 1</code> in a column.
 	</p>
 	<Code title="Markets.svelte" code={tabsFill} />
+
+	<h2 id="links">Links between pages</h2>
+	<p>
+		Tabs that lead to other pages are links, not tabs. Give each item an <code>href</code> and the
+		Tabs become a navigation: a <code>&lt;nav&gt;</code> named by <code>aria-label</code>, each link
+		a stop in the tab order, and the one of <code>value</code> marked
+		<code>aria-current="page"</code> under the same underline. Set <code>value</code> from the route;
+		there is no panel, as the page is the content.
+	</p>
+	<Code title="+layout.svelte" code={tabsLinks} />
 
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>

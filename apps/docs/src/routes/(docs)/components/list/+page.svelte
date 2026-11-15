@@ -17,7 +17,9 @@
 		A <code>List</code> holds <code>ListItem</code>s and sets their density and the colour of the
 		active one. A row has a <code>title</code>, a <code>subtitle</code>, and content in
 		<code>prepend</code> and <code>append</code>. With <code>href</code> the row is a link, with
-		<code>onclick</code> a button, and either fills the row. <code>nav</code> rounds the rows for a sidebar.
+		<code>onclick</code> a button, and either fills the row. <code>detail</code> puts text at the
+		end of the row inside its link or button, such as a count or a progress, so it is part of the
+		row's name. <code>nav</code> rounds the rows for a sidebar.
 	</p>
 	<ListDemo />
 	<Code title="Sidebar.svelte" code={listUsage} />
@@ -33,7 +35,8 @@
 			and never sits inside another.
 		</li>
 		<li>
-			An active link is marked <code>aria-current="page"</code>. Put a navigation list inside a
+			An active link is marked <code>aria-current="page"</code>, and an active button, such as the
+			lesson that is open, <code>aria-current="true"</code>. Put a navigation list inside a
 			<code>&lt;nav&gt;</code> with a label.
 		</li>
 	</ul>

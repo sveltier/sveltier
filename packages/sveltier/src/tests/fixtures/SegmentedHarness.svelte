@@ -7,8 +7,9 @@
 	let {
 		value = $bindable('1M'),
 		dir = 'ltr',
-		disabledYear = false
-	}: { value?: string; dir?: 'ltr' | 'rtl'; disabledYear?: boolean } = $props();
+		disabledYear = false,
+		wrap = false
+	}: { value?: string; dir?: 'ltr' | 'rtl'; disabledYear?: boolean; wrap?: boolean } = $props();
 
 	let changed = $state('');
 	const options = $derived([
@@ -16,13 +17,14 @@
 		{ value: '1W', label: '1W' },
 		{ value: '1M', label: '1M' },
 		{ value: '1Y', label: '1Y', disabled: disabledYear },
-		{ value: 'All', label: 'All' }
+		{ value: 'All', label: 'All', attributes: { 'aria-label': 'All time', title: 'Since listing' } }
 	]);
 </script>
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<div {dir}>
+	<div {dir} style:inline-size={wrap ? '160px' : undefined}>
 		<SegmentedControl
+			{wrap}
 			data-testid="control"
 			aria-label="Chart range"
 			{options}

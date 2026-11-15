@@ -1,10 +1,11 @@
 import type { HTMLAttributes } from 'svelte/elements';
 import type { ElementProps } from '../../core/props/element.js';
+import type { AmountDefaults } from '../Amount/types.js';
 
 /**
  * A headline figure whose digits roll to the new value when it changes, as an odometer's do. It
  * is formatted as an Amount is, with the same `format` and `decimals`, and it follows Amount's
- * `masked`. Under reduced motion the digits change at once. For a figure inside a sentence, use
+ * `masked` and `font`. Under reduced motion the digits change at once. For a figure inside a sentence, use
  * an Amount.
  *
  * @example
@@ -27,5 +28,10 @@ export type OdometerProps = ElementProps<
 		decimals?: number;
 		/** Hides the figure. Without it, the figure follows Amount's `masked` default. */
 		masked?: boolean;
+		/**
+		 * The face of the figure: `'data'`, the theme's data face, or `'inherit'`, the font of
+		 * the text around it. Without it, the figure follows Amount's `font` default.
+		 */
+		font?: AmountDefaults['font'];
 	}
 >;

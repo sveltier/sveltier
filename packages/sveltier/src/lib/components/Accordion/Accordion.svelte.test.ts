@@ -27,6 +27,15 @@ describe('Accordion', () => {
 		await expect.element(changes()).toHaveTextContent('"fees" "limits" null');
 	});
 
+	it('shows a header snippet in place of the label, its text naming the header', async () => {
+		await render(AccordionHarness, { tagged: true });
+		await expect.element(page.getByTestId('tag-fees')).toHaveTextContent('New');
+		const summary = page.getByTestId('tag-fees').element().closest('summary')!;
+		expect(summary.textContent?.replace(/\s+/g, ' ').trim()).toBe('Fees New');
+		await page.getByTestId('tag-fees').click();
+		await expect.element(page.getByText('About fees.')).toBeVisible();
+	});
+
 	it('keeps several sections open with multiple', async () => {
 		await render(AccordionHarness, { multiple: true });
 		await header('Fees').click();

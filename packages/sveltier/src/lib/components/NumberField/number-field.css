@@ -1,8 +1,10 @@
 @layer sv.tokens, sv.base, sv.components, sv.utilities;
 
 @layer sv.components {
-	/* Digits keep one width, so numbers that change or stack line up. */
+	/* The value in the theme's data face, as figures are; digits keep one width, so numbers that
+	 * change or stack line up. */
 	.sv-number-field .sv-field__control {
+		font-family: var(--sv-font-data);
 		font-variant-numeric: tabular-nums;
 	}
 

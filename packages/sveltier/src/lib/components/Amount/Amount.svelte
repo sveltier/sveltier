@@ -1,16 +1,18 @@
 <script lang="ts">
 	// A figure in the locale, with an optional flash on change. See AmountProps for the props.
+	import { checkValue, DEV } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { numberFormat, useLocale } from '../../core/locale/locale.js';
 	import { motion } from '../../primitives/motion/motion.js';
 	import '../../styles/visually-hidden.css';
 	import './amount.css';
 	import { figureOptions, figureSegments } from './format.js';
-	import type { AmountDefaults, AmountProps } from './types.js';
+	import { FIGURE_FONTS, type AmountDefaults, type AmountProps } from './types.js';
 
 	let {
 		dimFraction,
 		masked,
+		font,
 		value,
 		format,
 		decimals,
@@ -20,8 +22,13 @@
 		...rest
 	}: AmountProps = $props();
 
-	const resolve = useDefaults<AmountDefaults>('Amount', { dimFraction: false, masked: false });
-	const p = $derived(resolve({ dimFraction, masked }));
+	const resolve = useDefaults<AmountDefaults>('Amount', {
+		dimFraction: false,
+		masked: false,
+		font: 'data'
+	});
+	const p = $derived(resolve({ dimFraction, masked, font }));
+	if (DEV) $effect(() => checkValue('Amount', 'font', p.font, FIGURE_FONTS));
 	const locale = useLocale();
 
 	const segments = $derived(
@@ -58,7 +65,10 @@
 </script>
 
 <!-- Inline, so no whitespace between its parts: a space would show before the figure. -->
-<span bind:this={ref} {...rest} class={['sv-amount', className]}
+<span
+	bind:this={ref}
+	{...rest}
+	class={['sv-amount', p.font === 'inherit' && 'sv-amount--inherit', className]}
 	>{#if flash}<span class="sv-amount__flash" aria-hidden="true" {@attach flashOnChange}
 		></span>{/if}{#if p.masked}<span aria-hidden="true">••••</span><span class="sv-visually-hidden"
 			>{locale.t('amountHidden')}</span

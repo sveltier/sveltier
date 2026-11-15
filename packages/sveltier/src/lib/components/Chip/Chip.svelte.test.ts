@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
 import ChipHarness from '../../../tests/fixtures/ChipHarness.svelte';
+import ChipHintHarness from '../../../tests/fixtures/ChipHintHarness.svelte';
 
 const chip = () => page.getByTestId('chip').element() as HTMLElement;
 const state = () => page.getByTestId('state').element().textContent;
@@ -95,5 +96,17 @@ describe('Chip', () => {
 		await expect(async () => {
 			await render(ChipHarness, { closable: true, onclick: () => {} });
 		}).rejects.toThrow('[sveltier SV4001] Chip: a closable chip cannot also be a button or a link');
+	});
+});
+
+describe('A static Chip with a hint', () => {
+	it('shows its Tooltip on keyboard focus, which describes it', async () => {
+		await render(ChipHintHarness);
+		page.getByRole('button', { name: 'Before' }).element().focus();
+		await userEvent.keyboard('{Tab}');
+		const chip = page.getByText('SIM', { exact: true }).element().closest('.sv-chip')!;
+		expect(document.activeElement).toBe(chip);
+		await expect.element(page.getByRole('tooltip')).toBeVisible();
+		expect(chip.getAttribute('aria-describedby')).toBe(page.getByRole('tooltip').element().id);
 	});
 });

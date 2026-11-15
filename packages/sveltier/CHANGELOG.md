@@ -1,5 +1,20 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.15
+
+### Minor Changes
+
+- bd14b24: Accordion takes a `header` snippet, which renders each header in place of its item's `label`: for a header with parts in colour, such as a Delta, or a tag. Its text names the header.
+- 5f7c61b: Figures are set in the theme's data face (`font-data`): Amount, Delta, Odometer, the value of a number field (and so of PriceInput and AmountInput), and the numbers a Table shows itself. Before, they took the font around them, and no component used the data face. For a figure inside a sentence, `font="inherit"` takes the font of the text around it; it is an Amount default, so `DefaultsProvider` sets it for a part of the page, and Delta and Odometer follow it.
+- 78c7dd7: An active ListItem that is a button is marked `aria-current="true"`, as an active link is marked `aria-current="page"`, for the row that is open, such as the current lesson. A new `detail` snippet puts content at the end of the row inside its link or button, such as a count or a progress, so it is part of the row's name; `append` stays outside, for controls.
+- c4b81b8: A SegmentedControl option takes `attributes` for its radio, such as `lang`, `title` or an `aria-label` that says more than a short label (`{ 'aria-label': 'EN · English', lang: 'en' }`). Its role, state and handlers stay the control's.
+- 7384342: SegmentedControl takes `wrap`: the options flow onto more lines when they do not fit, each as wide as its label, for many options or labels with counts in a narrow space. The selected one is painted in place instead of sliding, every arrow key moves, and it stays one tab stop.
+- f526c72: Tabs can be links between pages: give each item an `href` and the Tabs become a navigation (`<nav>`), each link a stop in the tab order, the one of `value` marked `aria-current="page"` under the same underline, and no panel. Set `value` from the route.
+
+### Patch Changes
+
+- 4f9d9e5: A ButtonGroup joins its Buttons when they are the triggers of Tooltips. Each Tooltip puts its bubble beside its Button, so the group's first, last and neighbour rules met the bubbles instead: doubled borders and rounded inner corners. They now count Buttons only.
+
 ## 0.1.0-alpha.14
 
 ### Minor Changes

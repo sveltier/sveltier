@@ -10,8 +10,14 @@
 		onopen,
 		active = false,
 		disabled = false,
+		progress = false,
 		...props
-	}: ListProps & { onopen?: () => void; active?: boolean; disabled?: boolean } = $props();
+	}: ListProps & {
+		onopen?: () => void;
+		active?: boolean;
+		disabled?: boolean;
+		progress?: boolean;
+	} = $props();
 </script>
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
@@ -19,7 +25,9 @@
 		<List data-testid="list" {...props}>
 			<ListItem data-testid="static" title="Available" subtitle="Updated today" />
 			<ListItem data-testid="link" title="Statements" href="/statements" {active} {disabled} />
-			<ListItem data-testid="button" title="Open account" onclick={onopen} {disabled} />
+			<ListItem data-testid="button" title="Open account" onclick={onopen} {active} {disabled}>
+				{#snippet detail()}{#if progress}3 of 5{/if}{/snippet}
+			</ListItem>
 			<ListItem data-testid="row" title="Card ending 4471">
 				{#snippet append()}<button type="button">Freeze</button>{/snippet}
 			</ListItem>

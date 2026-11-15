@@ -3,7 +3,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import ChipDemo from '#lib/docs/chip/ChipDemo.svelte';
-	import { chipClosable, chipFilter } from '#lib/snippets/components.js';
+	import { chipClosable, chipFilter, chipHint } from '#lib/snippets/components.js';
 	import CHIP_PROPS from 'virtual:sveltier-api/ChipProps';
 </script>
 
@@ -34,6 +34,15 @@
 		closable, since one control would sit inside another; put the action in a Button next to it.
 	</p>
 	<Code title="Currencies.svelte" code={chipClosable} />
+
+	<h2 id="hint">A hint on a tag</h2>
+	<p>
+		A tag that needs explaining, such as <q>SIM</q> on simulated data, takes a Tooltip: the chip is
+		its trigger, with <code>tabindex={'{0}'}</code> so the keyboard reaches it, and the Tooltip
+		describes it on hover and on focus. A <code>title</code> shows to neither touch nor keyboard users.
+		Keep the hint short and the tag's own text meaningful.
+	</p>
+	<Code title="SimTag.svelte" code={chipHint} />
 
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
