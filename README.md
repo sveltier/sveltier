@@ -56,11 +56,9 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the conventions a change follows.
 ## Releasing
 
 Bump `version` in `packages/sveltier/package.json` in a pull request. Once it is merged and CI has
-passed on `main`, the **Release** workflow builds the package and stages it on npm with trusted
-publishing, so no npm token is stored and npm signs provenance. The version goes public once a
-maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with `npm stage approve
-<stage-id>`; the workflow's summary gives the command. To stage a version that is on `main`
-already, run the workflow by hand (Actions > Release > Run workflow).
+passed on `main`, the **Release** workflow builds the package and publishes it on npm with
+trusted publishing, so no npm token is stored and npm signs provenance. To publish a version that
+is on `main` already, run the workflow by hand (Actions > Release > Run workflow).
 
 ## License
 

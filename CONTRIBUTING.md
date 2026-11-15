@@ -97,8 +97,8 @@ pnpm size    # gzip size budgets
 
 ## Releases
 
-A release is a pull request that runs `pnpm changeset version`. Once it is merged, CI stages
-the new version on npm, and a maintainer approves it with 2FA. See
+A release is a pull request that runs `pnpm changeset version`. Once it is merged and CI has
+passed on `main`, the Release workflow publishes the new version on npm. See
 [Releasing](./README.md#releasing).
 
 ## License
