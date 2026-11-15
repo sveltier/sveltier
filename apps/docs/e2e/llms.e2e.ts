@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { extractApi, type ApiRow } from '../vite/api.js';
 
 // The docs for AI agents: plain text, built from the navigation and the package's types.
 
@@ -80,4 +83,70 @@ test('the agent docs for the package link its own Markdown pages', async ({ requ
 	const button = manifest.entries.find((entry: { name: string }) => entry.name === 'Button');
 	expect(button.markdown).toBe('docs/components/button.md');
 	expect(button.types.ButtonProps.map((row: { name: string }) => row.name)).toContain('variant');
+});
+
+test('a Markdown page has every sample and type table of its page on the site', async ({
+	request
+}) => {
+	// What a component takes in its lists, and how to use it beyond the first sample.
+	const tabs = await (await request.get('/agents/docs/components/tabs.md')).text();
+	expect(tabs).toContain('`TabsItem`:');
+	expect(tabs).toMatch(/\| `href` \| `string` \|/);
+	expect(tabs).toContain('### Links between pages');
+	expect(tabs).toContain("href: '/learn/lessons'");
+	const segmented = await (
+		await request.get('/agents/docs/components/segmented-control.md')
+	).text();
+	expect(segmented).toContain('`SegmentedControlOption`:');
+	expect(segmented).toMatch(/\| `attributes` \|/);
+	const chip = await (await request.get('/agents/docs/components/chip.md')).text();
+	expect(chip).toContain('### A hint on a tag');
+	expect(chip).toContain('tabindex={0}');
+
+	const manifest = await (await request.get('/agents/components.json')).json();
+	const entry = manifest.entries.find((item: { name: string }) => item.name === 'Tabs');
+	expect(Object.keys(entry.types)).toEqual(['TabsProps', 'TabsItem']);
+	expect(entry.examples.map((example: { section: string }) => example.section)).toContain(
+		'Links between pages'
+	);
+
+	// Every page: the type tables and the samples the site shows are in its Markdown too.
+	const routes = join(import.meta.dirname, '../src/routes/(docs)');
+	const pages = manifest.entries.map((item: { markdown: string }) =>
+		item.markdown.replace(/^docs\/|\.md$/g, '')
+	);
+	for (const path of new Set<string>(pages)) {
+		const source = readFileSync(join(routes, path, '+page.svelte'), 'utf8');
+		const markdown = await (await request.get(`/agents/docs/${path}.md`)).text();
+		for (const [, type] of source.matchAll(/virtual:sveltier-api\/(\w+)/g)) {
+			expect(markdown, `${path}.md lacks the ${type} table`).toContain(`\`${type}\`:`);
+		}
+		const samples = [...source.matchAll(/<Code\b[^>]*\bcode=\{\w+\}/g)].length;
+		const blocks = markdown.match(/^```\w+$/gm)?.length ?? 0;
+		expect(blocks, `${path}.md has fewer samples than the page`).toBeGreaterThanOrEqual(samples);
+	}
+});
+
+test('every type a documented prop refers to has a table of its own', async ({ request }) => {
+	const manifest: { entries: { types: Record<string, ApiRow[]> }[] } = await (
+		await request.get('/agents/components.json')
+	).json();
+	const tables = extractApi();
+	const documented = new Set(manifest.entries.flatMap((entry) => Object.keys(entry.types)));
+	// Unions documented through their members.
+	const UNIONS: Record<string, string[]> = { TableColumn: ['TableKeyColumn', 'TableValueColumn'] };
+	const missing = new Set<string>();
+	for (const entry of manifest.entries) {
+		for (const [type, rows] of Object.entries(entry.types)) {
+			for (const row of rows) {
+				for (const [name] of row.type.matchAll(/\b[A-Z]\w*\b/g)) {
+					const members = UNIONS[name];
+					if (!tables[name] || documented.has(name)) continue;
+					if (members?.every((member) => documented.has(member))) continue;
+					missing.add(`${name} (${type}.${row.name})`);
+				}
+			}
+		}
+	}
+	expect([...missing], 'Add these types to their entry in llms.ts and to the page').toEqual([]);
 });

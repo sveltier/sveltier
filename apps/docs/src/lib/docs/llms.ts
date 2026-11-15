@@ -73,6 +73,7 @@ import { appLayoutUsage, gridUsage } from '#lib/snippets/layout.js';
 import { install, setup } from '#lib/snippets/theme.js';
 import type { ApiRow } from './api.js';
 import { NAV } from './nav.js';
+import { pageExamples, type PageExample } from './page-examples.js';
 
 interface Entry {
 	name: string;
@@ -152,7 +153,7 @@ const COMPONENTS: Entry[] = [
 	{
 		name: 'SegmentedControl',
 		path: 'components/segmented-control',
-		types: ['SegmentedControlProps'],
+		types: ['SegmentedControlProps', 'SegmentedControlOption'],
 		example: segmentedUsage
 	},
 	{
@@ -170,10 +171,10 @@ const COMPONENTS: Entry[] = [
 	{
 		name: 'Table',
 		path: 'components/table',
-		types: ['TableProps', 'TableColumnBase'],
+		types: ['TableProps', 'TableKeyColumn', 'TableValueColumn', 'TableSort'],
 		example: tableColumns
 	},
-	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps'], example: tabsUsage },
+	{ name: 'Tabs', path: 'components/tabs', types: ['TabsProps', 'TabsItem'], example: tabsUsage },
 	{
 		name: 'Timeline',
 		path: 'components/timeline',
@@ -207,7 +208,7 @@ const FORMS: Entry[] = [
 	{
 		name: 'NativeSelect',
 		path: 'forms/native-select',
-		types: ['NativeSelectProps'],
+		types: ['NativeSelectProps', 'NativeSelectOption'],
 		example: nativeSelectUsage
 	},
 	{
@@ -231,7 +232,7 @@ const FORMS: Entry[] = [
 	{
 		name: 'DateRangePicker',
 		path: 'forms/date-range-picker',
-		types: ['DateRangePickerProps'],
+		types: ['DateRangePickerProps', 'DateRange'],
 		example: dateRangeUsage
 	},
 	{ name: 'Calendar', path: 'forms/calendar', types: ['CalendarProps'], example: calendarUsage },
@@ -287,13 +288,13 @@ const OVERLAYS: Entry[] = [
 	{
 		name: 'Menu',
 		path: 'overlays/menu',
-		types: ['MenuProps', 'MenuAction'],
+		types: ['MenuProps', 'MenuAction', 'MenuHeading', 'MenuSeparator'],
 		example: menuUsage
 	},
 	{
 		name: 'ContextMenu',
 		path: 'overlays/context-menu',
-		types: ['ContextMenuProps'],
+		types: ['ContextMenuProps', 'ContextMenuTargetAttributes'],
 		example: contextMenuUsage
 	},
 	{
@@ -380,7 +381,7 @@ const PRIMITIVES: Entry[] = [
 	{
 		name: 'virtualList',
 		path: 'primitives/virtual-lists',
-		types: ['VirtualListOptions', 'VirtualList']
+		types: ['VirtualListOptions', 'VirtualList', 'VirtualItem', 'ScrollToIndexOptions']
 	}
 ];
 
@@ -569,9 +570,28 @@ export const packageLink = (path: string): string =>
 /** Links to the site, absolute. */
 export const siteLink = (path: string): string => `${SITE}/${path}`;
 
+/** The samples of a page beyond the ones its entries show first. */
+function moreExamples(path: string, entries: Entry[]): PageExample[] {
+	const shown = new Set(entries.map((entry) => entry.example?.trimEnd()));
+	return pageExamples(path).filter((example) => !shown.has(example.code));
+}
+
+/** Samples under the heading of their section on the page. */
+function examplesMarkdown(examples: PageExample[]): string[] {
+	return examples.flatMap((example, index) => [
+		...(example.section !== examples[index - 1]?.section ? [`### ${example.section}`, ''] : []),
+		...(example.title ? [`\`${example.title}\`:`, ''] : []),
+		'```' + example.lang,
+		example.code,
+		'```',
+		''
+	]);
+}
+
 /** One docs page as Markdown: its entries with their descriptions, examples and API tables. */
 export function pageMarkdown(path: string): string {
 	const entries = SECTIONS.flatMap(([, list]) => list.filter((entry) => entry.path === path));
+	const more = moreExamples(path, entries);
 	const title = NAV.flatMap((group) => group.items).find((item) => item.path === path)?.title;
 	const depth = path.split('/').length;
 	const up = '../'.repeat(depth);
@@ -581,7 +601,8 @@ export function pageMarkdown(path: string): string {
 		// Agents often open one page and nothing else, so it names the setup they must not skip.
 		`> Part of Sveltier (\`@sveltier/ui\`). Once per app, the root layout wraps everything in \`UIProvider\` with a theme pack (\`<UIProvider themes={monolith}>\`); without it, components render without the theme. Setup and conventions: [llms.txt](${up}llms.txt); every component: [llms-full.txt](${up}llms-full.txt).`,
 		'',
-		...entries.flatMap((entry) => [section(entry, siteLink).replace(/^### /, '## '), ''])
+		...entries.flatMap((entry) => [section(entry, siteLink).replace(/^### /, '## '), '']),
+		...(more.length ? ['## More examples', '', ...examplesMarkdown(more)] : [])
 	].join('\n');
 }
 
@@ -592,8 +613,18 @@ interface ManifestEntry {
 	markdown: string;
 	description: string;
 	example?: string;
+	/** The page's other samples, on the entry that comes first on its page. */
+	examples?: PageExample[];
 	/** The API tables of the entry, by exported type name. */
 	types: Record<string, ApiRow[]>;
+}
+
+/** The page's other samples, for the entry that comes first on its page. */
+function firstOnPage(entry: Entry, list: Entry[]): { examples?: PageExample[] } {
+	const page = list.filter((other) => other.path === entry.path);
+	if (page[0] !== entry) return {};
+	const examples = moreExamples(entry.path, page);
+	return examples.length ? { examples } : {};
 }
 
 /** The components and primitives with their props, for tools that read JSON. */
@@ -615,6 +646,7 @@ export function componentsManifest(): {
 				markdown: `docs/${entry.path}.md`,
 				description: descriptions[entry.types[0]!] ?? '',
 				...(entry.example ? { example: entry.example } : {}),
+				...firstOnPage(entry, list),
 				types: Object.fromEntries(
 					entry.types.flatMap((type) => (tables[type] ? [[type, tables[type]]] : []))
 				)

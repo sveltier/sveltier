@@ -10,6 +10,8 @@
 		measuredExample,
 		virtualExample
 	} from '#lib/snippets/primitives.js';
+	import SCROLL_TO_INDEX from 'virtual:sveltier-api/ScrollToIndexOptions';
+	import VIRTUAL_ITEM from 'virtual:sveltier-api/VirtualItem';
 </script>
 
 <DocPage
@@ -63,4 +65,6 @@
 	<h2 id="api">API</h2>
 	<ApiTable label="virtualList options" rows={VIRTUAL_LIST_OPTIONS} />
 	<ApiTable label="virtual list" rows={VIRTUAL_LIST_API} />
+	<ApiTable label="VirtualItem" rows={VIRTUAL_ITEM} />
+	<ApiTable label="ScrollToIndexOptions" rows={SCROLL_TO_INDEX} />
 </DocPage>

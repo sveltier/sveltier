@@ -6,6 +6,7 @@
 	import SegmentedDemo from '#lib/docs/segmented/SegmentedDemo.svelte';
 	import { segmentedUsage } from '#lib/snippets/components.js';
 	import SEGMENTED_PROPS from 'virtual:sveltier-api/SegmentedControlProps';
+	import SEGMENTED_OPTION from 'virtual:sveltier-api/SegmentedControlOption';
 </script>
 
 <DocPage
@@ -53,4 +54,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="SegmentedControl props" rows={SEGMENTED_PROPS} />
+	<ApiTable label="SegmentedControlOption" rows={SEGMENTED_OPTION} />
 </DocPage>

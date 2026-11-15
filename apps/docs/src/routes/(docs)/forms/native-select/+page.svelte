@@ -6,6 +6,7 @@
 	import NativeSelectDemo from '#lib/docs/native-select/NativeSelectDemo.svelte';
 	import { nativeSelectUsage } from '#lib/snippets/forms.js';
 	import NATIVE_SELECT_PROPS from 'virtual:sveltier-api/NativeSelectProps';
+	import NATIVE_SELECT_OPTION from 'virtual:sveltier-api/NativeSelectOption';
 </script>
 
 <DocPage
@@ -56,4 +57,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="NativeSelect props" rows={NATIVE_SELECT_PROPS} />
+	<ApiTable label="NativeSelectOption" rows={NATIVE_SELECT_OPTION} />
 </DocPage>

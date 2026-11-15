@@ -14,7 +14,9 @@
 		tableSort,
 		tableUsage
 	} from '#lib/snippets/components.js';
-	import TABLE_COLUMN_ROWS from 'virtual:sveltier-api/TableColumnBase';
+	import TABLE_KEY_COLUMN from 'virtual:sveltier-api/TableKeyColumn';
+	import TABLE_VALUE_COLUMN from 'virtual:sveltier-api/TableValueColumn';
+	import TABLE_SORT from 'virtual:sveltier-api/TableSort';
 	import TABLE_PROPS from 'virtual:sveltier-api/TableProps';
 </script>
 
@@ -140,9 +142,11 @@
 	<h2 id="api">API</h2>
 	<ApiTable label="Table props" rows={TABLE_PROPS} />
 	<p>
-		Every column takes a <code>label</code> and the options below. A key column adds
-		<code>key</code> and <code>format</code>; an id column adds <code>id</code>, and
-		<code>value</code> with <code>format</code>, or a <code>cell</code> on its own.
+		A column is a <code>TableColumn</code>: a key column, which shows a property of the items, or an
+		id column, which computes its <code>value</code> or draws its <code>cell</code>. Both take a
+		<code>label</code> and the same options.
 	</p>
-	<ApiTable label="Column options" rows={TABLE_COLUMN_ROWS} />
+	<ApiTable label="TableKeyColumn" rows={TABLE_KEY_COLUMN} />
+	<ApiTable label="TableValueColumn" rows={TABLE_VALUE_COLUMN} />
+	<ApiTable label="TableSort" rows={TABLE_SORT} />
 </DocPage>

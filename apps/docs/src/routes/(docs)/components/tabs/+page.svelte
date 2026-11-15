@@ -5,6 +5,7 @@
 	import TabsDemo from '#lib/docs/tabs/TabsDemo.svelte';
 	import { tabsFill, tabsLinks, tabsUsage } from '#lib/snippets/components.js';
 	import TABS_PROPS from 'virtual:sveltier-api/TabsProps';
+	import TABS_ITEM from 'virtual:sveltier-api/TabsItem';
 </script>
 
 <DocPage
@@ -59,4 +60,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="Tabs props" rows={TABS_PROPS} />
+	<ApiTable label="TabsItem" rows={TABS_ITEM} />
 </DocPage>

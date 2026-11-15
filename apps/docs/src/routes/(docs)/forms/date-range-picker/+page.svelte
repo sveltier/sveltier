@@ -6,6 +6,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { dateRangeUsage } from '#lib/snippets/forms.js';
 	import DATE_RANGE_PICKER_PROPS from 'virtual:sveltier-api/DateRangePickerProps';
+	import DATE_RANGE from 'virtual:sveltier-api/DateRange';
 </script>
 
 <DocPage
@@ -52,4 +53,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="DateRangePicker props" rows={DATE_RANGE_PICKER_PROPS} />
+	<ApiTable label="DateRange" rows={DATE_RANGE} />
 </DocPage>

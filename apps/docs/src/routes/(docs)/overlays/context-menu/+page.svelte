@@ -6,6 +6,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import { contextMenuUsage } from '#lib/snippets/overlays.js';
 	import CONTEXT_MENU_PROPS from 'virtual:sveltier-api/ContextMenuProps';
+	import CONTEXT_MENU_TARGET from 'virtual:sveltier-api/ContextMenuTargetAttributes';
 </script>
 
 <DocPage
@@ -59,4 +60,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="ContextMenu props" rows={CONTEXT_MENU_PROPS} />
+	<ApiTable label="ContextMenuTargetAttributes" rows={CONTEXT_MENU_TARGET} />
 </DocPage>
