@@ -4,7 +4,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import SegmentedDemo from '#lib/docs/segmented/SegmentedDemo.svelte';
-	import { segmentedUsage } from '#lib/snippets/components.js';
+	import { segmentedLanguage, segmentedUsage } from '#lib/snippets/components.js';
 	import SEGMENTED_PROPS from 'virtual:sveltier-api/SegmentedControlProps';
 	import SEGMENTED_OPTION from 'virtual:sveltier-api/SegmentedControlOption';
 </script>
@@ -38,12 +38,24 @@
 		>. A name should start with the label's words, so speech input finds it by what it shows.
 	</p>
 
+	<h2 id="side-effects">A choice that changes the page</h2>
+	<p>
+		The arrow keys pick as they move, which is right for a chart range. When picking goes to another
+		address or reloads part of the page, as a language switch does, give it
+		<code>activation="manual"</code>: the arrows only move, and Enter or Space picks. When the app
+		owns the value, as a route does, bind it through a getter and a setter: picking calls the
+		setter, and the control checks only what the getter returns, so a change the app makes later, or
+		never, is what it shows.
+	</p>
+	<Code title="LanguageSwitch.svelte" code={segmentedLanguage} />
+
 	<h2 id="accessibility">Accessibility</h2>
 	<ul>
 		<li>
 			It is a radio group: one stop in the tab order, on the selected option. The arrow keys move
-			and select, following the writing direction, and skip disabled options. Name it with
-			<code>aria-label</code>.
+			and select, following the writing direction, and skip disabled options; with
+			<code>activation="manual"</code> they move and Enter or Space selects, so moving never changes
+			the page. Name it with <code>aria-label</code>.
 		</li>
 		<li>
 			For actions rather than a choice, use a <a href={resolve('components/button-group')}

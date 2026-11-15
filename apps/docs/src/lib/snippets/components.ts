@@ -53,6 +53,7 @@ export { default as listUsage } from '../examples/components/ListUsage.svelte?ra
 export { default as buttonGroupUsage } from '../examples/components/ButtonGroupUsage.svelte?raw';
 
 export { default as segmentedUsage } from '../examples/components/SegmentedUsage.svelte?raw';
+export { default as segmentedLanguage } from '../examples/components/SegmentedLanguage.svelte?raw';
 
 export { default as accordionUsage } from '../examples/components/AccordionUsage.svelte?raw';
 

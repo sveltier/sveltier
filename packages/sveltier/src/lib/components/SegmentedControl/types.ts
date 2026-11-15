@@ -76,6 +76,13 @@ export type SegmentedControlProps<T extends string | number = string> = ElementP
 		/** Called with the value the user picks. */
 		onchange?: (value: T) => void;
 		/**
+		 * `automatic` picks an option as soon as the arrow keys reach it, as a radio group does;
+		 * `manual` moves focus with the arrows and waits for Enter or Space, for a choice that changes
+		 * the page, such as a language switch that goes to another address.
+		 * @default 'automatic'
+		 */
+		activation?: 'automatic' | 'manual';
+		/**
 		 * Disables every option.
 		 * @default false
 		 */

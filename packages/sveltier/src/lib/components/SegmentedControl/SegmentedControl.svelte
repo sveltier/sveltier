@@ -19,6 +19,7 @@
 		options,
 		value = $bindable(),
 		onchange,
+		activation = 'automatic',
 		disabled = false,
 		wrap = false,
 		class: className,
@@ -36,7 +37,8 @@
 	const p = $derived(resolve({ variant, color, size, density, rounded }));
 	const index = $derived(options.findIndex((option) => option.value === value));
 
-	// Selection follows focus, as in a radio group: arrows move and pick.
+	// Selection follows focus, as in a radio group: arrows move and pick, unless activation is
+	// manual, when Enter or Space (a click) picks.
 	function pick(option: SegmentedControlOption<T>) {
 		if (disabled || option.disabled || option.value === value) return;
 		value = option.value;
@@ -69,7 +71,7 @@
 			aria-checked={option.value === value}
 			disabled={disabled || option.disabled}
 			onclick={() => pick(option)}
-			onfocus={() => pick(option)}
+			onfocus={() => activation === 'automatic' && pick(option)}
 		>
 			{option.label}
 		</button>
