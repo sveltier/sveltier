@@ -113,6 +113,11 @@ describe('Tabs of links', () => {
 		await expect
 			.element(nav.getByRole('link', { name: 'Lab' }))
 			.toHaveAttribute('aria-current', 'page');
+		// On a page that is none of theirs, no tab claims to be the current page.
+		await screen.rerender({ value: 'settings' });
+		await expect.poll(() => nav.element().querySelectorAll('[aria-current]').length).toBe(0);
+		expect(line('Lessons')).toMatch(/matrix\(0,/);
+		expect(line('Lab')).toMatch(/matrix\(0,/);
 	});
 
 	it('take a tab stop each, render no panel, and disable a link by its href', async () => {

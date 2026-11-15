@@ -42,7 +42,8 @@ export interface TabsItem<T extends string | number = string> {
 	/**
 	 * Makes the tab a link to another page. Tabs with links are a navigation between pages
 	 * (`<nav>`), each tab a stop in the tab order, the one of `value` marked
-	 * `aria-current="page"`, and no panel: the page is the content. Set `value` from the route.
+	 * `aria-current="page"`, and no panel: the page is the content. Set `value` from the route; on a
+	 * page that is none of theirs, a `value` that matches no tab marks none.
 	 */
 	href?: string;
 }
@@ -73,7 +74,10 @@ export type TabsProps<T extends string | number = string> = ElementProps<
 	Partial<TabsDefaults> & {
 		/** The tabs, in order. */
 		items: readonly TabsItem<T>[];
-		/** The selected tab. Bindable; the first enabled tab when not set. */
+		/**
+		 * The selected tab. Bindable; the first enabled tab when not set, except for links, which
+		 * mark none.
+		 */
 		value?: T;
 		/** Called with the value of the tab the user selects. */
 		onchange?: (value: T) => void;
