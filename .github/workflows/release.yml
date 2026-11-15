@@ -1,13 +1,12 @@
 name: Release
 
-# Stages @sveltier/ui on npm through trusted publishing when the version in its package.json is
-# not on npm yet. It runs after CI has passed on a push to main, so merging the pull request that
-# bumps the version stages it: CI has already built and tested that commit, so this only builds
-# the package again (publint and attw included) and stages it. GitHub's OIDC token stands in for
-# an npm token, and npm signs provenance on its own. The staged version stays private until a
-# maintainer approves it with 2FA, on npmjs.com (Staged Packages) or with
-# `npm stage approve <stage-id>`. Run it by hand on main (Actions > Release > Run workflow) to
-# stage a version that is on main already, for example after a failed run.
+# Publishes @sveltier/ui on npm through trusted publishing when the version in its package.json
+# is not on npm yet. It runs after CI has passed on a push to main, so merging the pull request
+# that bumps the version publishes it: CI has already built and tested that commit, so this only
+# builds the package again (publint and attw included) and publishes it. GitHub's OIDC token
+# stands in for an npm token, and npm signs provenance on its own. Run it by hand on main
+# (Actions > Release > Run workflow) to publish a version that is on main already, for example
+# after a failed run.
 on:
   workflow_run:
     workflows: [CI]
@@ -16,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       dist-tag:
-        description: The npm dist-tag the version gets once it is approved
+        description: The npm dist-tag the version is published under
         type: choice
         options: [latest, alpha, next]
         default: latest
@@ -60,14 +59,14 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           if npm view "@sveltier/ui@$version" version > /dev/null 2>&1; then
-            echo "@sveltier/ui@$version is already on npm: nothing to stage." >> "$GITHUB_STEP_SUMMARY"
+            echo "@sveltier/ui@$version is already on npm: nothing to publish." >> "$GITHUB_STEP_SUMMARY"
             echo "release=false" >> "$GITHUB_OUTPUT"
           else
             echo "release=true" >> "$GITHUB_OUTPUT"
           fi
 
-  stage:
-    name: Build and stage
+  publish:
+    name: Build and publish
     needs: check
     if: needs.check.outputs.release == 'true'
     runs-on: ubuntu-latest
@@ -107,16 +106,10 @@ jobs:
           pnpm --filter @sveltier/docs build
           node packages/sveltier/scripts/check-agent-docs.js
 
-      # Staged publishing needs npm 11.15.0 or later; Node 22 ships an older npm.
-      - name: Stage on npm
+      # Trusted publishing needs npm 11.5.1 or later; Node 22 ships an older npm.
+      - name: Publish on npm
         working-directory: packages/sveltier
         run: |
-          npx --yes npm@11.21.0 stage publish --tag "$DIST_TAG" | tee "$RUNNER_TEMP/stage.log"
-          id=$(sed -n 's/.*(staged with id \(.*\))$/\1/p' "$RUNNER_TEMP/stage.log")
-          approve="npm stage approve ${id:-<stage-id>}"
-          echo "::notice title=Approve @sveltier/ui@$VERSION on npm::Staged under $DIST_TAG. Approve it with 2FA on npmjs.com (Staged Packages), or run: $approve"
-          {
-            echo "Staged \`@sveltier/ui@$VERSION\` under the dist-tag \`$DIST_TAG\`."
-            echo
-            echo "Approve it with 2FA on npmjs.com (Staged Packages), or run \`$approve\`."
-          } >> "$GITHUB_STEP_SUMMARY"
+          npx --yes npm@11.21.0 publish --access public --tag "$DIST_TAG"
+          echo "::notice title=Published @sveltier/ui@$VERSION::Under the dist-tag $DIST_TAG, with provenance."
+          echo "Published \`@sveltier/ui@$VERSION\` under the dist-tag \`$DIST_TAG\`, with provenance." >> "$GITHUB_STEP_SUMMARY"
