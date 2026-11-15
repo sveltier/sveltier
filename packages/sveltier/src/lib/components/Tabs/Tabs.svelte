@@ -36,14 +36,15 @@
 	const base = $props.id();
 	const prefix = $derived(id ?? base);
 
-	// Without a value, the first tab that can be chosen.
-	const index = $derived.by(() => {
-		const chosen = items.findIndex((item) => item.value === value);
-		return chosen >= 0 ? chosen : items.findIndex((item) => !item.disabled);
-	});
-	const selected = $derived(items[index]);
 	// Tabs with href are links between pages: a navigation, with the current page marked.
 	const links = $derived(items.some((item) => item.href != null));
+	// Without a value, the first tab that can be chosen. Links mark only the page that is open:
+	// on a page that is none of theirs, none is current.
+	const index = $derived.by(() => {
+		const chosen = items.findIndex((item) => item.value === value);
+		return chosen >= 0 || links ? chosen : items.findIndex((item) => !item.disabled);
+	});
+	const selected = $derived(items[index]);
 
 	// The underline slides from the tab that was selected to the new one: it starts over the old
 	// tab, moved between the centres and scaled between the widths.
@@ -65,6 +66,9 @@
 				{ duration: normal, easing: ease, pseudoElement: '::after' }
 			);
 		}
+		// Links on a page that is none of theirs: the underline goes, even mid-slide.
+		if (!tab)
+			for (const animation of last?.getAnimations({ subtree: true }) ?? []) animation.cancel();
 		last = tab;
 	});
 

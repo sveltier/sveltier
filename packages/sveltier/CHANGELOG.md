@@ -1,5 +1,16 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.16
+
+### Minor Changes
+
+- 907dbae: `SegmentedControl` takes `activation`, as `Tabs` does: `manual` moves focus with the arrow keys and picks on Enter or Space, for a choice that changes the page such as a language switch. The docs show a value the app owns bound through a getter and a setter, so the control checks only what the app gives.
+
+### Patch Changes
+
+- 1251445: The docs inside the package now hold every code sample of each docs page, under the heading of its section ("More examples" in `docs/<group>/<page>.md`, `examples` in `components.json`), and tables for the types of list items and options: `TabsItem`, `SegmentedControlOption`, `NativeSelectOption`, `MenuHeading`, `MenuSeparator`, `TableKeyColumn`, `TableValueColumn`, `TableSort`, `DateRange`, `ContextMenuTargetAttributes`, `VirtualItem` and `ScrollToIndexOptions`.
+- 7be2dd5: Tabs of links mark no tab as the current page when `value` matches none of them, as on a page that is none of the links'. Tabs with panels still fall back to the first enabled tab.
+
 ## 0.1.0-alpha.15
 
 ### Minor Changes

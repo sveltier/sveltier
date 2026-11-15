@@ -5,6 +5,7 @@
 	import TabsDemo from '#lib/docs/tabs/TabsDemo.svelte';
 	import { tabsFill, tabsLinks, tabsUsage } from '#lib/snippets/components.js';
 	import TABS_PROPS from 'virtual:sveltier-api/TabsProps';
+	import TABS_ITEM from 'virtual:sveltier-api/TabsItem';
 </script>
 
 <DocPage
@@ -35,8 +36,9 @@
 		Tabs that lead to other pages are links, not tabs. Give each item an <code>href</code> and the
 		Tabs become a navigation: a <code>&lt;nav&gt;</code> named by <code>aria-label</code>, each link
 		a stop in the tab order, and the one of <code>value</code> marked
-		<code>aria-current="page"</code> under the same underline. Set <code>value</code> from the route;
-		there is no panel, as the page is the content.
+		<code>aria-current="page"</code> under the same underline. Set <code>value</code> from the
+		route; on a page that is none of the links', a <code>value</code> that matches no item marks none.
+		There is no panel, as the page is the content.
 	</p>
 	<Code title="+layout.svelte" code={tabsLinks} />
 
@@ -59,4 +61,5 @@
 
 	<h2 id="api">API</h2>
 	<ApiTable label="Tabs props" rows={TABS_PROPS} />
+	<ApiTable label="TabsItem" rows={TABS_ITEM} />
 </DocPage>

@@ -7,6 +7,8 @@
 	import MenuDemo from '#lib/docs/menu/MenuDemo.svelte';
 	import { menuChecked, menuIconButton, menuUsage } from '#lib/snippets/overlays.js';
 	import MENU_ACTION from 'virtual:sveltier-api/MenuAction';
+	import MENU_HEADING from 'virtual:sveltier-api/MenuHeading';
+	import MENU_SEPARATOR from 'virtual:sveltier-api/MenuSeparator';
 	import MENU_PROPS from 'virtual:sveltier-api/MenuProps';
 </script>
 
@@ -101,4 +103,6 @@
 	<h2 id="api">API</h2>
 	<ApiTable label="Menu props" rows={MENU_PROPS} />
 	<ApiTable label="MenuAction" rows={MENU_ACTION} />
+	<ApiTable label="MenuHeading" rows={MENU_HEADING} />
+	<ApiTable label="MenuSeparator" rows={MENU_SEPARATOR} />
 </DocPage>
