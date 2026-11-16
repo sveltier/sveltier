@@ -1,13 +1,13 @@
 <script lang="ts">
 	// A list of actions that opens from a control. See MenuProps.
 	import { createAttachmentKey, type Attachment } from 'svelte/attachments';
-	import { checkValue, DEV, warnRadioGroups } from '#dev';
+	import { checkValue, DEV, warnMenuItems } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import type { CloseReason, TriggerAttributes } from '../../core/overlay/types.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import { ALIGNS, anchored, SIDES } from '../../primitives/anchored/anchored.js';
 	import './menu.css';
-	import MenuPanel from './MenuPanel.svelte';
+	import MenuPanel, { ENABLED } from './MenuPanel.svelte';
 	import type { MenuAction, MenuDefaults, MenuProps } from './types.js';
 
 	let {
@@ -32,7 +32,7 @@
 	if (DEV) {
 		$effect(() => checkValue('Menu', 'side', side, SIDES));
 		$effect(() => checkValue('Menu', 'align', align, ALIGNS));
-		$effect(() => warnRadioGroups('Menu', items));
+		$effect(() => warnMenuItems('Menu', items));
 	}
 
 	const uid = $props.id();
@@ -54,7 +54,7 @@
 		from = start;
 		// Already open: the arrow keys on the control still move into it.
 		if (open && ref) {
-			const enabled = ref.querySelectorAll<HTMLElement>('[data-sv-item]:not(:disabled)');
+			const enabled = ref.querySelectorAll<HTMLElement>(ENABLED);
 			(start === 'last' ? enabled[enabled.length - 1] : enabled[0])?.focus({ preventScroll: true });
 		}
 		open = true;

@@ -1,3 +1,8 @@
+<script lang="ts" module>
+	/** The items focus can reach: a disabled link is no `:disabled` button, so it says so. */
+	export const ENABLED = '[data-sv-item]:not(:disabled, [aria-disabled="true"])';
+</script>
+
 <script lang="ts">
 	// The open menu that Menu and ContextMenu share: its items, roving focus, typeahead, and the
 	// keys that close it. Its owner decides where it goes and what closing does.
@@ -70,7 +75,7 @@
 	// the block then keeps the same menu and reverses its transition instead of making a new one.
 	const focusIn: Attachment<HTMLElement> = (menu) => {
 		if (!open) return;
-		const enabled = menu.querySelectorAll<HTMLElement>('[data-sv-item]:not(:disabled)');
+		const enabled = menu.querySelectorAll<HTMLElement>(ENABLED);
 		(from === 'last' ? enabled[enabled.length - 1] : enabled[0])?.focus({ preventScroll: true });
 	};
 
@@ -81,38 +86,71 @@
 	}
 
 	// The pointer and the keyboard share one highlight: the item under the pointer takes focus.
-	function follow(event: PointerEvent & { currentTarget: HTMLButtonElement }) {
+	function follow(event: PointerEvent & { currentTarget: HTMLElement }) {
 		if (document.activeElement !== event.currentTarget) {
 			event.currentTarget.focus({ preventScroll: true });
 		}
 	}
+
+	// A button chooses its item. A link goes where it leads by itself, and the menu only closes and
+	// reports it; a click with a modifier key opens the page elsewhere, which is the browser's to
+	// do, and leaves the menu open.
+	function press(event: MouseEvent, item: MenuAction) {
+		const elsewhere =
+			event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
+		if (item.href == null || !(item.disabled || elsewhere)) choose(item);
+	}
+
+	// Space follows a link as it chooses a button, unless typeahead took it as a letter.
+	function space(event: KeyboardEvent & { currentTarget: HTMLElement }) {
+		if (event.key !== ' ' || event.defaultPrevented || !('href' in event.currentTarget)) return;
+		event.preventDefault();
+		event.currentTarget.click();
+	}
 </script>
 
+{#snippet content(item: MenuAction)}
+	<!-- Shown on a checked item or the current link; the menu makes room for it once one can be. -->
+	<svg class="sv-menu__mark" viewBox="0 0 24 24" aria-hidden="true">
+		<path d="M5 12.5l4.5 4.5L19 7.5" />
+	</svg>
+	{#if typeof item.icon === 'string'}
+		<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={item.icon} /></svg>
+	{:else if item.icon}
+		<span class="sv-menu__icon" aria-hidden="true"><item.icon /></span>
+	{/if}
+	<span class="sv-menu__label">{item.label}</span>
+	{#if item.shortcut}<kbd class="sv-menu__shortcut">{item.shortcut}</kbd>{/if}
+{/snippet}
+
 {#snippet action(item: MenuAction)}
-	<button
-		type="button"
-		role={item.radio ? 'menuitemradio' : item.checked == null ? 'menuitem' : 'menuitemcheckbox'}
-		aria-checked={item.checked ?? (item.radio ? false : undefined)}
+	{@const link = item.href != null}
+	<!-- A link to another page, or a button. A disabled link has no href, so it leads nowhere. -->
+	<svelte:element
+		this={link ? 'a' : 'button'}
+		type={link ? undefined : 'button'}
+		href={item.disabled ? undefined : item.href}
+		target={item.target}
+		rel={item.rel}
+		role={link || (!item.radio && item.checked == null)
+			? 'menuitem'
+			: item.radio
+				? 'menuitemradio'
+				: 'menuitemcheckbox'}
+		aria-checked={link ? undefined : (item.checked ?? (item.radio ? false : undefined))}
+		aria-current={link && item.current ? 'page' : undefined}
+		aria-disabled={link && item.disabled ? 'true' : undefined}
+		disabled={!link && item.disabled}
 		tabindex="-1"
-		disabled={item.disabled}
 		data-sv-item
 		data-sv-label={item.label}
 		class={['sv-menu__item', item.danger && 'sv-menu__item--danger']}
-		onclick={() => choose(item)}
+		onclick={(event: MouseEvent) => press(event, item)}
+		onkeydown={space}
 		onpointermove={follow}
 	>
-		<!-- Shown on a checked item; the menu makes room for it once one item can be checked. -->
-		<svg class="sv-menu__mark" viewBox="0 0 24 24" aria-hidden="true">
-			<path d="M5 12.5l4.5 4.5L19 7.5" />
-		</svg>
-		{#if typeof item.icon === 'string'}
-			<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={item.icon} /></svg>
-		{:else if item.icon}
-			<span class="sv-menu__icon" aria-hidden="true"><item.icon /></span>
-		{/if}
-		<span class="sv-menu__label">{item.label}</span>
-		{#if item.shortcut}<kbd class="sv-menu__shortcut">{item.shortcut}</kbd>{/if}
-	</button>
+		{@render content(item)}
+	</svelte:element>
 {/snippet}
 
 {#if open}

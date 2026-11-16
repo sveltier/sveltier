@@ -41,6 +41,7 @@
 		color: inherit;
 		font: inherit;
 		text-align: start;
+		text-decoration: none;
 		cursor: pointer;
 		-webkit-tap-highlight-color: transparent;
 	}
@@ -50,7 +51,8 @@
 		background-color: color-mix(in oklch, currentColor var(--sv-state-press), transparent);
 	}
 
-	.sv-menu__item:disabled {
+	.sv-menu__item:disabled,
+	.sv-menu__item[aria-disabled='true'] {
 		opacity: 0.382;
 		cursor: not-allowed;
 	}
@@ -72,8 +74,9 @@
 	}
 
 	/*
-	 * The tick of a checked item, checkbox or radio, as Select ticks its chosen option. Every item
-	 * keeps its slot once one can be checked, so the labels line up; other menus leave it out.
+	 * The tick of a checked item, checkbox or radio, as Select ticks its chosen option, and of the
+	 * link to the page shown. Every item keeps its slot once one can be ticked, so the labels line
+	 * up; other menus leave it out.
 	 */
 	.sv-menu__mark {
 		fill: none;
@@ -84,11 +87,12 @@
 		visibility: hidden;
 	}
 
-	[aria-checked='true'] > .sv-menu__mark {
+	[aria-checked='true'] > .sv-menu__mark,
+	[aria-current='page'] > .sv-menu__mark {
 		visibility: visible;
 	}
 
-	.sv-menu:not(:has([aria-checked])) .sv-menu__mark {
+	.sv-menu:not(:has([aria-checked], [aria-current])) .sv-menu__mark {
 		display: none;
 	}
 
