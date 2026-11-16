@@ -183,6 +183,13 @@ export const ERROR_CODES = {
 			"A column with `pinned` stays at the start of the table's box while the others scroll across under it. Two pinned columns would stay at the same edge, one over the other, so a table pins one.",
 		fix: 'Pin the column that names the rows, usually the one with `rowHeader`, and leave `pinned` out of the others.'
 	},
+	SV4011: {
+		kind: 'warning',
+		title: 'A menu link that is checked, or a current item that is no link',
+		cause:
+			'A menu item with `href` is a link to another page. A link is not a setting that is on or off, nor one choice of a group, so `checked` and `radio` are left out on it. `current` marks the link to the page shown, so it is left out on an item without `href`.',
+		fix: 'On links, replace `checked` and `radio` with `current: true` on the link to the page shown, such as `current: page.url.pathname === href`. For an item that is no link, use `checked` for a setting, or give it `href`.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

@@ -12,6 +12,6 @@ export const warnRenamed: typeof On.warnRenamed = () => {};
 export const warnMisplaced: typeof On.warnMisplaced = () => {};
 export const warnDuplicates: typeof On.warnDuplicates = () => {};
 export const warnOutsideList: typeof On.warnOutsideList = () => {};
-export const warnRadioGroups: typeof On.warnRadioGroups = () => {};
+export const warnMenuItems: typeof On.warnMenuItems = () => {};
 export const warnPinned: typeof On.warnPinned = () => {};
 export const warnUnthemed: typeof On.warnUnthemed = () => {};

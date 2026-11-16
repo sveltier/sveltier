@@ -15,6 +15,7 @@ export { default as menuUsage } from '../examples/overlays/MenuUsage.svelte?raw'
 
 export { default as menuIconButton } from '../examples/overlays/MenuIconButton.svelte?raw';
 export { default as menuChecked } from '../examples/overlays/MenuChecked.svelte?raw';
+export { default as menuLinks } from '../examples/overlays/MenuLinks.svelte?raw';
 
 export { default as contextMenuUsage } from '../examples/overlays/ContextMenuUsage.svelte?raw';
 

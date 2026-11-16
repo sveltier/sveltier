@@ -5,7 +5,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import MenuCheckedDemo from '#lib/docs/menu/MenuCheckedDemo.svelte';
 	import MenuDemo from '#lib/docs/menu/MenuDemo.svelte';
-	import { menuChecked, menuIconButton, menuUsage } from '#lib/snippets/overlays.js';
+	import { menuChecked, menuIconButton, menuLinks, menuUsage } from '#lib/snippets/overlays.js';
 	import MENU_ACTION from 'virtual:sveltier-api/MenuAction';
 	import MENU_HEADING from 'virtual:sveltier-api/MenuHeading';
 	import MENU_SEPARATOR from 'virtual:sveltier-api/MenuSeparator';
@@ -50,6 +50,17 @@
 	<MenuCheckedDemo />
 	<Code title="ChartView.svelte" code={menuChecked} />
 
+	<h2 id="links">Links to pages</h2>
+	<p>
+		An item with <code>href</code> is a link to another page, so it opens in a new tab with a middle
+		click or <kbd>Ctrl</kbd> and a click, and SvelteKit preloads its page as for any link. Choosing
+		it follows the link, closes the menu and calls <code>onselect</code>; a click with a modifier
+		key leaves the menu open. <code>target</code> and <code>rel</code> go on the link. A link is not
+		checked: mark the one of the page shown with <code>current</code>, which ticks it and tells
+		screen readers it is the current page.
+	</p>
+	<Code title="MarketsMenu.svelte" code={menuLinks} />
+
 	<h2 id="keyboard">Keyboard</h2>
 	<ul>
 		<li>
@@ -61,8 +72,8 @@
 			ends, and typing moves to the item that starts with it. Disabled items are skipped.
 		</li>
 		<li>
-			<kbd>Enter</kbd> and <kbd>Space</kbd> choose. <kbd>Escape</kbd> closes and gives focus back to
-			the button; <kbd>Tab</kbd> closes and moves on.
+			<kbd>Enter</kbd> and <kbd>Space</kbd> choose, or follow a link. <kbd>Escape</kbd> closes and
+			gives focus back to the button; <kbd>Tab</kbd> closes and moves on.
 		</li>
 		<li>
 			The pointer and the keyboard share one highlight: the item under the pointer takes focus.
@@ -90,6 +101,11 @@
 			<code>aria-checked</code>; the tick is hidden from screen readers, which say the state
 			instead. In development, a group that mixes radios with other items, or checks more than one,
 			warns (SV4009).
+		</li>
+		<li>
+			Links are <code>menuitem</code> links, the one of the page shown with
+			<code>aria-current="page"</code>. In development, a link with <code>checked</code> or
+			<code>radio</code>, or <code>current</code> on an item that is no link, warns (SV4011).
 		</li>
 		<li>
 			A menu holds actions and the settings of a view. For a choice in a form, use a <a

@@ -267,3 +267,113 @@ describe('Menu icons', () => {
 		expect(glyph.element().closest('[aria-hidden="true"]')).not.toBeNull();
 	});
 });
+
+describe('Menu links', () => {
+	const LINKS: MenuItem[] = [
+		{ label: 'Markets', value: 'markets', href: '#markets', current: true },
+		{ label: 'Tools', value: 'tools', href: '#tools' },
+		{ label: 'Agent', value: 'agent', href: '#agent', disabled: true }
+	];
+	const ticked = (element: Element) =>
+		getComputedStyle(element.querySelector('.sv-menu__mark')!).visibility === 'visible';
+	const hash = () => location.hash;
+	const reset = () => history.replaceState(null, '', location.pathname + location.search);
+
+	it('makes an item with href a link to its page, the current one marked and ticked', async () => {
+		await render(MenuHarness, {
+			items: [
+				...LINKS,
+				{ separator: true },
+				{ label: 'Docs', href: '#docs', target: '_blank', rel: 'external' }
+			]
+		});
+		await trigger().click();
+		const markets = item('Markets').element();
+		expect(markets.tagName).toBe('A');
+		await expect.element(item('Markets')).toHaveAttribute('href', '#markets');
+		await expect.element(item('Markets')).toHaveAttribute('aria-current', 'page');
+		await expect.element(item('Tools')).not.toHaveAttribute('aria-current');
+		await expect.element(item('Docs')).toHaveAttribute('target', '_blank');
+		await expect.element(item('Docs')).toHaveAttribute('rel', 'external');
+		expect(ticked(markets)).toBe(true);
+		expect(ticked(item('Tools').element())).toBe(false);
+		// A disabled link leads nowhere and is said to be disabled.
+		await expect.element(item('Agent')).toHaveAttribute('aria-disabled', 'true');
+		await expect.element(item('Agent')).not.toHaveAttribute('href');
+		expect(getComputedStyle(markets).textDecorationLine).toBe('none');
+	});
+
+	it('follows a link on Enter, Space or a click: closes, gives focus back, reports it', async () => {
+		reset();
+		await render(MenuHarness, { items: LINKS });
+		await trigger().click();
+		await expect.element(item('Markets')).toHaveFocus();
+		await userEvent.keyboard('{Enter}');
+		await expect.element(menu()).not.toBeInTheDocument();
+		await expect.poll(hash).toBe('#markets');
+		await expect.element(trigger()).toHaveFocus();
+		await expect.element(shown('chosen')).toHaveTextContent('markets');
+
+		await trigger().click();
+		await userEvent.keyboard('{ArrowDown}');
+		await expect.element(item('Tools')).toHaveFocus();
+		// The disabled link is skipped, as a disabled button is.
+		await userEvent.keyboard('{ArrowDown}');
+		await expect.element(item('Markets')).toHaveFocus();
+		await userEvent.keyboard('{ArrowUp}');
+		await userEvent.keyboard(' ');
+		await expect.element(menu()).not.toBeInTheDocument();
+		await expect.poll(hash).toBe('#tools');
+		await expect.element(shown('chosen')).toHaveTextContent('tools');
+
+		await trigger().click();
+		await item('Markets').click();
+		await expect.element(menu()).not.toBeInTheDocument();
+		await expect.poll(hash).toBe('#markets');
+		reset();
+	});
+
+	it('moves to a link whose label starts with what is typed', async () => {
+		await render(MenuHarness, { items: LINKS });
+		await trigger().click();
+		await userEvent.keyboard('t');
+		await expect.element(item('Tools')).toHaveFocus();
+	});
+
+	it('leaves a click with a modifier key to the browser, and stays open', async () => {
+		await render(MenuHarness, { items: LINKS });
+		await trigger().click();
+		// The test stops the browser from opening a tab; the menu must not act on it either way.
+		const stop = (event: Event) => event.preventDefault();
+		window.addEventListener('click', stop, { capture: true });
+		for (const modifier of ['ctrlKey', 'metaKey', 'shiftKey'] as const) {
+			item('Tools')
+				.element()
+				.dispatchEvent(
+					new MouseEvent('click', { bubbles: true, cancelable: true, [modifier]: true })
+				);
+		}
+		window.removeEventListener('click', stop, { capture: true });
+		await expect.element(menu()).toBeVisible();
+		await expect.element(shown('chosen')).toHaveTextContent('');
+	});
+
+	it('warns in development about a checked link, and a current item that is no link', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		const warned = (pattern: RegExp) =>
+			warn.mock.calls.some(([text]) => pattern.test(String(text)));
+		await render(MenuHarness, {
+			items: [
+				{ label: 'Markets', href: '#markets', radio: true, checked: true },
+				{ label: 'Tools', href: '#tools', checked: false },
+				{ label: 'Grid', current: true }
+			]
+		});
+		await expect.poll(() => warned(/SV4011.*'Markets' with radio.*current: true/)).toBe(true);
+		expect(warned(/SV4011.*'Tools' with checked/)).toBe(true);
+		expect(warned(/SV4011.*'Grid' with current but no href/)).toBe(true);
+		// Links are not radios, so their group is not checked as one choice.
+		expect(warned(/SV4009/)).toBe(false);
+		warn.mockRestore();
+	});
+});

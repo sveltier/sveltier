@@ -1,12 +1,12 @@
 <script lang="ts">
 	// A menu of actions on an element, opened where it is right-clicked. See ContextMenuProps.
 	import type { Attachment } from 'svelte/attachments';
-	import { DEV, warnRadioGroups } from '#dev';
+	import { DEV, warnMenuItems } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import type { CloseReason } from '../../core/overlay/types.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import '../Menu/menu.css';
-	import MenuPanel from '../Menu/MenuPanel.svelte';
+	import MenuPanel, { ENABLED } from '../Menu/MenuPanel.svelte';
 	import type { MenuAction } from '../Menu/types.js';
 	import { placeAt, type ContextPoint } from './place.js';
 	import type {
@@ -37,7 +37,7 @@
 	});
 	const p = $derived(resolve({ size, density }));
 
-	if (DEV) $effect(() => warnRadioGroups('ContextMenu', items));
+	if (DEV) $effect(() => warnMenuItems('ContextMenu', items));
 
 	const uid = $props.id();
 	const id = $derived(idProp ?? uid);
@@ -61,9 +61,7 @@
 		// Already open, where a press did not take focus out of it (Safari does not focus a
 		// pressed button): it moves, and its first item takes focus again.
 		if (open && ref) {
-			ref
-				.querySelector<HTMLElement>('[data-sv-item]:not(:disabled)')
-				?.focus({ preventScroll: true });
+			ref.querySelector<HTMLElement>(ENABLED)?.focus({ preventScroll: true });
 		}
 		open = true;
 	}

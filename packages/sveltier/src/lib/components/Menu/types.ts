@@ -59,6 +59,24 @@ export interface MenuAction {
 	 * @example { label: 'Two side by side', value: 'columns', radio: true, checked: layout === 'columns' }
 	 */
 	radio?: boolean;
+	/**
+	 * Makes the item a link to another page, `<a role="menuitem">`, so it can be opened in a new tab
+	 * and preloaded as any link. Enter, Space or a click follows it, closes the menu and calls
+	 * `onselect`; a click with Ctrl, Cmd or Shift, or with the middle button, is left to the
+	 * browser, and the menu stays open. A link is not `checked` or `radio`: mark the page shown with
+	 * `current`.
+	 * @example { label: 'Markets', href: '/markets', current: page.url.pathname === '/markets' }
+	 */
+	href?: string;
+	/** Where the link opens, as on `<a>`, such as `'_blank'` for a new tab. */
+	target?: string;
+	/** How the linked page relates to this one, as on `<a>`, such as `'external'`. */
+	rel?: string;
+	/**
+	 * Marks the link to the page shown: `aria-current="page"`, with the tick of a checked item.
+	 * @default false
+	 */
+	current?: boolean;
 }
 
 /** A line between groups of items. */
@@ -79,7 +97,8 @@ export type MenuItem = MenuAction | MenuSeparator | MenuHeading;
  * keys move through the items and wrap, Home and End jump to the ends, typing moves to the item
  * that starts with it, Enter and Space choose, Escape closes and gives focus back, and Tab closes
  * and moves on. `class`, `style`, `ref` and other attributes go to the menu. Items with `checked`
- * show whether they are on, and `radio` items are one choice of their group.
+ * show whether they are on, and `radio` items are one choice of their group. Items with `href`
+ * are links to other pages, the one shown marked `current`.
  *
  * @example
  * <Menu

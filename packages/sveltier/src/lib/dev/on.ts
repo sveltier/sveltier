@@ -122,17 +122,34 @@ export function warnPinned(component: string, labels: readonly string[]): void {
 }
 
 /**
- * Warns when the radio items of a menu are not one choice of their group (the items between two
- * headings or separators): the group also has other items, or checks more than one radio.
+ * Warns about the items of a menu that do not say what they show: radios that are not one choice
+ * of their group (the items between two headings or separators, when the group also has other
+ * items or checks more than one radio), links that are checked or radios, and a `current` item
+ * that is no link.
  */
-export function warnRadioGroups(component: string, items: readonly MenuItem[]): void {
+export function warnMenuItems(component: string, items: readonly MenuItem[]): void {
+	for (const item of items) {
+		if (!('label' in item)) continue;
+		const link = item.href != null;
+		if (link && (item.checked != null || item.radio)) {
+			warn(
+				'SV4011',
+				`<${component}> has the link ${show(item.label)} with ${item.radio ? 'radio' : 'checked'}, which a link leaves out. Mark the link to the page shown with current: true, such as current: page.url.pathname === href.`
+			);
+		} else if (!link && item.current) {
+			warn(
+				'SV4011',
+				`<${component}> has the item ${show(item.label)} with current but no href, which only a link takes. Give it href to make it a link, or mark a setting with checked.`
+			);
+		}
+	}
 	let group: MenuAction[] = [];
 	for (const item of [...items, { separator: true } as const]) {
 		if ('label' in item) {
 			group.push(item);
 			continue;
 		}
-		const radios = group.filter((action) => action.radio);
+		const radios = group.filter((action) => action.radio && action.href == null);
 		const problem =
 			radios.length < group.length
 				? 'also has items that are not radios'
