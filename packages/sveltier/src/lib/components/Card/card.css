@@ -23,15 +23,21 @@
 		--sv-variant-border: var(--sv-color-border);
 	}
 
+	/*
+	 * The heading takes the free space, at least 144px (Fibonacci) of it while it can: on a card
+	 * too narrow for that and the append, the append wraps under the heading instead of squeezing
+	 * it into a few words a line.
+	 */
 	.sv-card__header {
 		display: flex;
+		flex-wrap: wrap;
 		gap: var(--sv-space-13);
 		align-items: center;
 	}
 
 	.sv-card__heading {
 		display: grid;
-		flex: 1;
+		flex: 1 1 var(--sv-space-144);
 		gap: var(--sv-space-3);
 		min-inline-size: 0;
 	}

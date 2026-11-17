@@ -59,6 +59,24 @@ describe('Card', () => {
 		expect(getComputedStyle(card()).boxShadow).toBe('none');
 	});
 
+	it('keeps a small append beside the title, and wraps a wide one under it', async () => {
+		const top = (selector: string) => card().querySelector(selector)!.getBoundingClientRect().top;
+		const screen = await render(CardHarness, {});
+		const heading = card().querySelector('.sv-card__heading')!.getBoundingClientRect();
+		expect(top('.sv-card__append')).toBeLessThan(heading.bottom);
+		await screen.rerender({
+			wideAppend: true,
+			subtitle: 'Perpetuals have their own site, with the same tools.'
+		});
+		const wrapped = card().querySelector('.sv-card__heading')!.getBoundingClientRect();
+		expect(top('.sv-card__append')).toBeGreaterThanOrEqual(wrapped.bottom);
+		// The title keeps the width of the card, so it stays on one line.
+		const title = card().querySelector('.sv-card__title')!;
+		expect(title.getBoundingClientRect().height).toBeLessThan(
+			Number.parseFloat(getComputedStyle(title).lineHeight) * 1.5
+		);
+	});
+
 	it('pads by density', async () => {
 		const screen = await render(CardHarness, {});
 		const padding = () => Number.parseFloat(getComputedStyle(card()).paddingTop);
