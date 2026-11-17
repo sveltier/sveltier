@@ -85,13 +85,15 @@
 	}
 
 	/*
-	 * Flush: the inline padding reaches out past the box, so the label lines up with the text
-	 * around it and the press area, the wash and the focus ring keep their size. As wide as its
-	 * content, it is not stretched across a grid cell or a column.
+	 * Flush: the inline padding and the border reach out past the box, so the label lines up with
+	 * the text around it and the press area, the wash and the focus ring keep their size. As wide
+	 * as its content, it is not stretched across a grid cell or a column.
 	 */
 	.sv-button--flush {
 		inline-size: fit-content;
-		margin-inline: calc(var(--sv-size-height) * var(--sv-density) * -0.382);
+		margin-inline: calc(
+			-1 * (var(--sv-size-height) * var(--sv-density) * 0.382 + var(--sv-hairline))
+		);
 	}
 
 	/*

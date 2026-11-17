@@ -223,10 +223,13 @@ describe('Button layout', () => {
 		text.textContent = '3 accounts';
 		cell.append(text);
 		const box = element().getBoundingClientRect();
-		const padding = px(style().paddingInlineStart);
-		expect(padding).toBeGreaterThan(0);
-		// The label starts where the text under it does; the box reaches out by its padding.
-		expect(box.left + padding).toBeCloseTo(text.getBoundingClientRect().left, 0);
+		expect(px(style().paddingInlineStart)).toBeGreaterThan(0);
+		// The label starts where the text under it does, to the pixel; the box reaches out by its
+		// padding and its border.
+		const label = document.createRange();
+		label.selectNodeContents(element());
+		expect(label.getBoundingClientRect().left).toBeCloseTo(text.getBoundingClientRect().left, 1);
+		expect(box.left).toBeLessThan(text.getBoundingClientRect().left);
 		expect(px(style().height)).toBeCloseTo(2.618 * PX_PER_REM, 1);
 		// As wide as its content, not stretched across the grid cell.
 		expect(box.width).toBeLessThan(cell.getBoundingClientRect().width / 2);
