@@ -1,0 +1,208 @@
+@layer sv.tokens, sv.base, sv.components, sv.utilities;
+
+@layer sv.components {
+	/*
+	 * A row of destinations a large control tall, on the page's background with a hairline over
+	 * it, and the inset of a phone's home indicator under them. It stays at the bottom of the
+	 * window while the page scrolls; in an AppLayout it takes the row under the footer.
+	 */
+	.sv-bottom-navigation {
+		position: sticky;
+		inset-block-end: 0;
+		z-index: 1;
+		box-sizing: border-box;
+		display: flex;
+		block-size: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		padding-block-end: env(safe-area-inset-bottom, 0px);
+		padding-inline: var(--sv-space-5);
+		border-block-start: var(--sv-hairline) solid var(--sv-color-border-soft);
+		background-color: var(--sv-color-background);
+		font-family: var(--sv-font-ui);
+	}
+
+	.sv-app-layout > .sv-bottom-navigation {
+		grid-area: bottom;
+	}
+
+	/* Each destination takes an equal share of the width, its icon over its label. */
+	.sv-bottom-navigation__item {
+		display: flex;
+		flex: 1 1 0;
+		flex-direction: column;
+		gap: var(--sv-space-3);
+		align-items: center;
+		justify-content: center;
+		min-inline-size: 0;
+		border-radius: var(--sv-radius-md);
+		outline-offset: calc(-1 * var(--sv-focus-width));
+		color: var(--sv-color-text-subtle);
+		font-size: var(--sv-text-xs);
+		line-height: var(--sv-leading-snug);
+		text-decoration: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* The icon sits in a pill, φ wide, which carries the state layer and marks the current one. */
+	.sv-bottom-navigation__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: var(--sv-space-55);
+		block-size: var(--sv-space-34);
+		border-radius: var(--sv-radius-full);
+	}
+
+	/* An icon component, whatever size it draws itself at, takes the same box as a path. */
+	.sv-bottom-navigation__icon svg {
+		flex: none;
+		inline-size: 1.5rem;
+		block-size: 1.5rem;
+	}
+
+	.sv-bottom-navigation__label {
+		max-inline-size: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	@media (hover: hover) {
+		.sv-bottom-navigation__item:hover > .sv-bottom-navigation__icon {
+			background-color: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
+		}
+	}
+
+	.sv-bottom-navigation__item:active > .sv-bottom-navigation__icon {
+		background-color: color-mix(in oklch, currentColor var(--sv-state-press), transparent);
+	}
+
+	/* The page shown: its label in the bar's colour, its icon on a wash of it. */
+	.sv-bottom-navigation__item[aria-current='page'] {
+		color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-text-mix), var(--sv-color-text));
+		font-weight: var(--sv-weight-medium);
+	}
+
+	.sv-bottom-navigation__item[aria-current='page'] > .sv-bottom-navigation__icon {
+		background-color: color-mix(in oklch, var(--sv-color) var(--sv-tonal-wash), transparent);
+	}
+
+	/*
+	 * Below its breakpoint the bar shows and carries the navigation, so the links of the app bar
+	 * give way to it: a sticky footer sits on top of it, toasts keep clear of it, and the page
+	 * scrolls a focused control into view above it. From the breakpoint up it is left out.
+	 */
+	@media (width < 600px) {
+		.sv-app-layout:has(> .sv-bottom-navigation--sm) {
+			--sv-app-layout-bottom: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		}
+
+		.sv-app-layout:has(> .sv-bottom-navigation--sm) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
+
+		:root:has(.sv-bottom-navigation--sm) {
+			--sv-toasts-nav: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+			scroll-padding-block-end: calc(
+				var(--sv-control-xl) + env(safe-area-inset-bottom, 0px) + var(--sv-space-13)
+			);
+		}
+	}
+
+	@media (width >= 600px) {
+		.sv-bottom-navigation--sm {
+			display: none;
+		}
+	}
+
+	@media (width < 960px) {
+		.sv-app-layout:has(> .sv-bottom-navigation--md) {
+			--sv-app-layout-bottom: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		}
+
+		.sv-app-layout:has(> .sv-bottom-navigation--md) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
+
+		:root:has(.sv-bottom-navigation--md) {
+			--sv-toasts-nav: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+			scroll-padding-block-end: calc(
+				var(--sv-control-xl) + env(safe-area-inset-bottom, 0px) + var(--sv-space-13)
+			);
+		}
+	}
+
+	@media (width >= 960px) {
+		.sv-bottom-navigation--md {
+			display: none;
+		}
+	}
+
+	@media (width < 1280px) {
+		.sv-app-layout:has(> .sv-bottom-navigation--lg) {
+			--sv-app-layout-bottom: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		}
+
+		.sv-app-layout:has(> .sv-bottom-navigation--lg) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
+
+		:root:has(.sv-bottom-navigation--lg) {
+			--sv-toasts-nav: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+			scroll-padding-block-end: calc(
+				var(--sv-control-xl) + env(safe-area-inset-bottom, 0px) + var(--sv-space-13)
+			);
+		}
+	}
+
+	@media (width >= 1280px) {
+		.sv-bottom-navigation--lg {
+			display: none;
+		}
+	}
+
+	@media (width < 1920px) {
+		.sv-app-layout:has(> .sv-bottom-navigation--xl) {
+			--sv-app-layout-bottom: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		}
+
+		.sv-app-layout:has(> .sv-bottom-navigation--xl) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
+
+		:root:has(.sv-bottom-navigation--xl) {
+			--sv-toasts-nav: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+			scroll-padding-block-end: calc(
+				var(--sv-control-xl) + env(safe-area-inset-bottom, 0px) + var(--sv-space-13)
+			);
+		}
+	}
+
+	@media (width >= 1920px) {
+		.sv-bottom-navigation--xl {
+			display: none;
+		}
+	}
+
+	@media (width < 2560px) {
+		.sv-app-layout:has(> .sv-bottom-navigation--xxl) {
+			--sv-app-layout-bottom: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+		}
+
+		.sv-app-layout:has(> .sv-bottom-navigation--xxl) > .sv-app-bar > .sv-app-bar__nav {
+			display: none;
+		}
+
+		:root:has(.sv-bottom-navigation--xxl) {
+			--sv-toasts-nav: calc(var(--sv-control-xl) + env(safe-area-inset-bottom, 0px));
+			scroll-padding-block-end: calc(
+				var(--sv-control-xl) + env(safe-area-inset-bottom, 0px) + var(--sv-space-13)
+			);
+		}
+	}
+
+	@media (width >= 2560px) {
+		.sv-bottom-navigation--xxl {
+			display: none;
+		}
+	}
+}

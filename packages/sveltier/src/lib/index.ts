@@ -181,6 +181,7 @@ export {
 	AppBar,
 	AppFooter,
 	AppLayout,
+	BottomNavigation,
 	Main,
 	NavigationDrawer,
 	type AppBarDefaults,
@@ -188,6 +189,8 @@ export {
 	type AppFooterDefaults,
 	type AppFooterProps,
 	type AppLayoutProps,
+	type BottomNavigationItem,
+	type BottomNavigationProps,
 	type MainProps,
 	type NavigationDrawerProps
 } from './components/AppLayout/index.js';

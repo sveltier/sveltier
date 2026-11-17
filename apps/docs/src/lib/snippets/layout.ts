@@ -15,6 +15,8 @@ export { default as appLayoutFill } from '../examples/layout/AppLayoutFill.svelt
 
 export { default as appLayoutPanes } from '../examples/layout/AppLayoutPanes.svelte?raw';
 
+export { default as appLayoutPhone } from '../examples/layout/AppLayoutPhone.svelte?raw';
+
 export { default as gridUsage } from '../examples/layout/GridUsage.svelte?raw';
 
 export { default as gridSplit } from '../examples/layout/GridSplit.svelte?raw';

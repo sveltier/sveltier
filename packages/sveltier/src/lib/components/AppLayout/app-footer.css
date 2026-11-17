@@ -4,7 +4,7 @@
 	/*
 	 * The status bar along the bottom: one line a control tall times its density, in the small
 	 * subtle text of a status, on the page's background with a hairline over it. Sticky, it stays
-	 * at the bottom of the window while the page scrolls.
+	 * at the bottom of the window while the page scrolls, on top of a phone's bottom navigation.
 	 */
 	.sv-app-footer {
 		box-sizing: border-box;
@@ -23,7 +23,7 @@
 
 	.sv-app-footer--sticky {
 		position: sticky;
-		inset-block-end: 0;
+		inset-block-end: var(--sv-app-layout-bottom, 0px);
 		z-index: 1;
 	}
 }

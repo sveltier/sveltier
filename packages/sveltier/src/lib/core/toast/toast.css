@@ -25,7 +25,7 @@
 			calc(
 				max(
 						var(--sv-toasts-inset, 0px),
-						var(--sv-toasts-footer, 0px),
+						var(--sv-toasts-footer, 0px) + var(--sv-toasts-nav, 0px),
 						env(safe-area-inset-bottom, 0px)
 					) +
 					var(--sv-space-21)
