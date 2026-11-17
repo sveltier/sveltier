@@ -48,7 +48,8 @@
 	}
 </script>
 
-{#snippet radio(option: SegmentedControlOption<T>, hint?: TriggerAttributes)}
+<!-- No optional parameter: Svelte 5.40 leaves its `?` in the compiled snippet. -->
+{#snippet radio(option: SegmentedControlOption<T>, hint: TriggerAttributes | undefined)}
 	<button
 		{...option.attributes}
 		{...hint}
@@ -89,7 +90,7 @@
 				{#snippet trigger(hint)}{@render radio(option, hint)}{/snippet}
 			</Tooltip>
 		{:else}
-			{@render radio(option)}
+			{@render radio(option, undefined)}
 		{/if}
 	{/each}
 </div>
