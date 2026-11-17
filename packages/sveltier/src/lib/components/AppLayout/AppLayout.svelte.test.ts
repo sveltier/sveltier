@@ -394,3 +394,135 @@ describe('AppLayout', () => {
 		expect(skip.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
 	});
 });
+
+describe('BottomNavigation', () => {
+	const original = { width: 0, height: 0 };
+	beforeAll(() => {
+		original.width = window.innerWidth;
+		original.height = window.innerHeight;
+	});
+	afterAll(async () => {
+		await page.viewport(original.width, original.height);
+	});
+	afterEach(() => window.scrollTo(0, 0));
+
+	const bottom = () => page.getByRole('navigation', { name: 'Sections' });
+	const shown = () => getComputedStyle(part('.sv-bottom-navigation')).display !== 'none';
+
+	it('is a named navigation of links along the bottom of a phone, the current page marked', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {} });
+		await expect.element(bottom()).toBeVisible();
+		const overview = bottom().getByRole('link', { name: 'Overview' });
+		await expect.element(overview).toHaveAttribute('aria-current', 'page');
+		await expect.element(overview).toHaveAttribute('href', '#overview');
+		await expect
+			.element(bottom().getByRole('link', { name: 'Cards' }))
+			.not.toHaveAttribute('aria-current');
+		// The icons are drawn, and hidden from assistive technology.
+		const icon = overview.element().querySelector('svg')!;
+		expect(icon.getBoundingClientRect().width).toBeCloseTo(24, 0);
+		expect(icon.closest('[aria-hidden="true"]')).not.toBeNull();
+
+		// The full width of the window, a bar tall, stuck to its bottom while the page scrolls.
+		const bar = box('.sv-bottom-navigation');
+		expect(bar.left).toBe(0);
+		expect(bar.width).toBe(windowWidth());
+		expect(bar.height).toBeCloseTo(BAR, 0);
+		expect(bar.bottom).toBeCloseTo(800, 0);
+		window.scrollTo(0, 1000);
+		await expect.poll(() => box('.sv-main').top).toBeLessThan(0);
+		expect(box('.sv-bottom-navigation').bottom).toBeCloseTo(800, 0);
+		// The destinations share the width.
+		const widths = [...part('.sv-bottom-navigation').children].map(
+			(item) => item.getBoundingClientRect().width
+		);
+		expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(1);
+	});
+
+	it('ends the content above it when the page is scrolled to the end', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {} });
+		window.scrollTo(0, document.documentElement.scrollHeight);
+		await expect.poll(() => box('.sv-bottom-navigation').bottom).toBeCloseTo(800, 0);
+		expect(box('.sv-main').bottom).toBeLessThanOrEqual(box('.sv-bottom-navigation').top + 0.5);
+	});
+
+	it('is left out from its breakpoint up', async () => {
+		await page.viewport(1280, 800);
+		await render(AppLayoutHarness, { bottom: {} });
+		await expect.element(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
+		expect(shown()).toBe(false);
+		await page.viewport(959, 800);
+		await expect.poll(shown).toBe(true);
+	});
+
+	it('follows a narrower breakpoint', async () => {
+		await page.viewport(700, 800);
+		await render(AppLayoutHarness, { bottom: { breakpoint: 'sm' } });
+		await expect.element(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
+		expect(shown()).toBe(false);
+		await page.viewport(599, 800);
+		await expect.poll(shown).toBe(true);
+	});
+
+	it('keeps a sticky footer on top of it', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {}, footer: { sticky: true } });
+		window.scrollTo(0, 1000);
+		await expect.poll(() => box('.sv-main').top).toBeLessThan(0);
+		expect(box('.sv-bottom-navigation').bottom).toBeCloseTo(800, 0);
+		expect(box('.sv-app-footer').bottom).toBeCloseTo(800 - BAR, 0);
+	});
+
+	it('leaves Main the height between the bar and itself when the layout fills the window', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {}, footer: {}, fill: true, pane: true });
+		await expect.element(bottom()).toBeVisible();
+		expect(box('.sv-bottom-navigation').bottom).toBeCloseTo(800, 0);
+		expect(box('.sv-app-footer').bottom).toBeCloseTo(800 - BAR, 0);
+		expect(box('.sv-main').top).toBeCloseTo(BAR, 0);
+		expect(box('.sv-main').bottom).toBeCloseTo(800 - BAR - FOOTER, 0);
+		expect(document.documentElement.scrollHeight).toBe(800);
+	});
+
+	it('keeps toasts and scrolled-to content clear of it while it shows', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {} });
+		await expect.element(bottom()).toBeVisible();
+		const root = getComputedStyle(document.documentElement);
+		// The toast region adds the bar's height to the footer's.
+		expect(root.getPropertyValue('--sv-toasts-nav').trim()).not.toBe('');
+		expect(parseFloat(root.scrollPaddingBlockEnd)).toBeGreaterThan(BAR);
+	});
+
+	it('warns in development about a breakpoint at which it would never show', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await page.viewport(390, 800);
+		// @ts-expect-error: xs leaves no width below it.
+		await render(AppLayoutHarness, { bottom: { breakpoint: 'xs' } });
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) => /SV2002.*BottomNavigation.*breakpoint/.test(String(text)))
+			)
+			.toBe(true);
+		warn.mockRestore();
+	});
+});
+
+describe('BottomNavigation with links in the bar', () => {
+	afterAll(async () => {
+		await page.viewport(1280, 800);
+	});
+
+	it('takes over from the links of the bar below its breakpoint', async () => {
+		await page.viewport(390, 800);
+		await render(AppLayoutHarness, { bottom: {}, withNav: true, withDrawer: false });
+		await expect.element(page.getByRole('navigation', { name: 'Sections' })).toBeVisible();
+		const barLinks = () => getComputedStyle(part('.sv-app-bar__nav')).display;
+		expect(barLinks()).toBe('none');
+		await page.viewport(1280, 800);
+		await expect.poll(barLinks).not.toBe('none');
+		expect(getComputedStyle(part('.sv-bottom-navigation')).display).toBe('none');
+	});
+});

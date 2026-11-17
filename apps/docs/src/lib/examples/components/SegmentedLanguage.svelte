@@ -4,8 +4,18 @@
 	import { SegmentedControl } from '@sveltier/ui';
 
 	const LANGUAGES = [
-		{ value: 'en', label: 'EN', attributes: { 'aria-label': 'EN · English', lang: 'en' } },
-		{ value: 'vi', label: 'VI', attributes: { 'aria-label': 'VI · Tiếng Việt', lang: 'vi' } }
+		{
+			value: 'en',
+			label: 'EN',
+			tooltip: 'English',
+			attributes: { 'aria-label': 'EN · English', lang: 'en' }
+		},
+		{
+			value: 'vi',
+			label: 'VI',
+			tooltip: 'Tiếng Việt',
+			attributes: { 'aria-label': 'VI · Tiếng Việt', lang: 'vi' }
+		}
 	];
 	// The route owns the language: picking one goes to its address, and the check follows the page.
 	const language = $derived(page.url.pathname.startsWith('/vi') ? 'vi' : 'en');

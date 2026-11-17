@@ -86,14 +86,16 @@ interface Entry {
 
 const LAYOUT: Entry[] = [
 	{
-		name: 'AppLayout, AppBar, NavigationDrawer, Main and AppFooter',
+		name: 'AppLayout, AppBar, NavigationDrawer, Main, AppFooter and BottomNavigation',
 		path: 'layout/app-layout',
 		types: [
 			'AppLayoutProps',
 			'AppBarProps',
 			'NavigationDrawerProps',
 			'MainProps',
-			'AppFooterProps'
+			'AppFooterProps',
+			'BottomNavigationProps',
+			'BottomNavigationItem'
 		],
 		example: appLayoutUsage
 	},

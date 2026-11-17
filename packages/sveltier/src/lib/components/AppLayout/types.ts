@@ -1,13 +1,13 @@
-import type { Snippet } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 import type { Breakpoint } from '../../core/display/display.js';
 import type { CloseReason } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Density } from '../../core/props/types.js';
+import type { Color, Density } from '../../core/props/types.js';
 
 /**
- * The frame of an app: an `AppBar`, a `NavigationDrawer`, the `Main` content and an `AppFooter` on
- * a CSS grid.
+ * The frame of an app: an `AppBar`, a `NavigationDrawer`, the `Main` content, an `AppFooter` and,
+ * on a phone, a `BottomNavigation` on a CSS grid.
  * Each part takes its own area, so the content never sits under the bar or the drawer, with
  * nothing measured and the right layout from the server; a part left out leaves no gap. The part
  * written first takes the corner: the bar first runs across the top, with the drawer below it;
@@ -41,7 +41,7 @@ export type AppLayoutProps = ElementProps<
 		 * @default false
 		 */
 		fill?: boolean | Breakpoint;
-		/** The parts: `AppBar`, `NavigationDrawer`, `Main` and `AppFooter`. */
+		/** The parts: `AppBar`, `NavigationDrawer`, `Main`, `AppFooter` and `BottomNavigation`. */
 		children?: Snippet;
 	}
 >;
@@ -103,7 +103,8 @@ export type AppBarProps = ElementProps<
 		 * "Main" (the locale's `mainNavigation`). A `List` with `nav` in it lays out in a row, its
 		 * `ListItem active` marked as the current page, as it is in the drawer. In an `AppLayout` with a `NavigationDrawer`, it
 		 * shows only from the drawer's breakpoint up; below it, the menu button opens the drawer
-		 * instead. With a `modal` drawer, the links move between the bar and the drawer.
+		 * instead. With a `modal` drawer, the links move between the bar and the drawer. With a
+		 * `BottomNavigation`, they give way to it below its breakpoint.
 		 */
 		nav?: Snippet;
 		/** Content after the title and the links, such as a search field. It takes the free space. */
@@ -231,5 +232,66 @@ export type MainProps = ElementProps<
 	{
 		/** The content of the page. */
 		children?: Snippet;
+	}
+>;
+
+/** A destination of a `BottomNavigation`. */
+export interface BottomNavigationItem {
+	/** What the destination is called, a word or two under its icon. */
+	label: string;
+	/** The page it leads to. */
+	href: string;
+	/**
+	 * The icon over the label: an SVG path on a 24×24 grid, as Material Design Icons export them
+	 * (`mdiChartLine`), or an icon component of any other set. The component renders with no props.
+	 */
+	// Any props: a component's props are checked the other way round, so a narrower type would
+	// turn away icon sets whose props take every SVG attribute.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	icon: string | Component<any>;
+	/**
+	 * Marks the destination of the page shown, `aria-current="page"`, in the bar's colour.
+	 * @default false
+	 */
+	current?: boolean;
+}
+
+/**
+ * The app's main destinations as a bar along the bottom of a phone's screen, within reach of the
+ * thumb: three to five links, each an icon over a short label, the one of the page shown
+ * `current`. It shows below its `breakpoint` and is left out from it up, where the bar's links or
+ * the drawer carry the navigation. In an `AppLayout` it sits under the content and the footer:
+ * `Main` takes the height it leaves with `fill`, and it stays at the bottom of the window while
+ * the page scrolls, with room under it for the inset of a phone's home indicator. It is a
+ * navigation landmark named "Main" (the locale's `mainNavigation`); `aria-label` names it
+ * otherwise. `class`, `style`, `ref` and other attributes go to the `<nav>`.
+ *
+ * @example
+ * <BottomNavigation
+ *   items={[
+ *     { label: 'Markets', href: '/markets', icon: mdiChartLine, current: true },
+ *     { label: 'Orders', href: '/orders', icon: mdiFormatListBulleted },
+ *     { label: 'Account', href: '/account', icon: mdiAccount }
+ *   ]}
+ * />
+ */
+export type BottomNavigationProps = ElementProps<
+	HTMLElement,
+	Omit<HTMLAttributes<HTMLElement>, 'children'>,
+	{
+		/** The destinations, in order: three to five. */
+		items: readonly BottomNavigationItem[];
+		/**
+		 * The narrowest screen on which the bar is left out, at the breakpoint's default width (`md`
+		 * is 960px); below it, the bar shows. Give it the breakpoint of the `NavigationDrawer`, so
+		 * one of the two carries the navigation at every width.
+		 * @default 'md'
+		 */
+		breakpoint?: Exclude<Breakpoint, 'xs'>;
+		/**
+		 * The colour of the current destination.
+		 * @default 'primary'
+		 */
+		color?: Color;
 	}
 >;

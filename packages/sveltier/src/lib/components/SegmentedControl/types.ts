@@ -44,6 +44,19 @@ export interface SegmentedControlOption<T extends string | number = string> {
 	label: string;
 	disabled?: boolean;
 	/**
+	 * A short text the theme's Tooltip shows above the segment on hover and on keyboard focus, and
+	 * screen readers read as its description, such as the full name of a short label:
+	 * . Touch has no hover, so it says nothing a
+	 * user must know; give the full name to  in  as well.
+	 */
+	/**
+	 * A short text that the theme's Tooltip shows over the segment on hover and on keyboard focus,
+	 * and screen readers read as its description, such as the full name of a short label:
+	 * `{ value: 'en', label: 'EN', tooltip: 'English' }`. Touch has no hover, so give the full name
+	 * to `aria-label` in `attributes` as well.
+	 */
+	tooltip?: string;
+	/**
 	 * More attributes for the segment's radio, such as `lang`, `title`, or an `aria-label` that
 	 * says more than a short label: `{ 'aria-label': 'EN · English', lang: 'en' }`. A name
 	 * should start with the label's words.

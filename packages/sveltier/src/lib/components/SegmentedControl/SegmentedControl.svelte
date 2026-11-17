@@ -2,6 +2,8 @@
 	// One choice among a few, as a radio group. See SegmentedControlProps for the props.
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { sharedClasses } from '../../core/props/classes.js';
+	import Tooltip from '../Tooltip/Tooltip.svelte';
+	import type { TriggerAttributes } from '../../core/overlay/types.js';
 	import { rovingFocus } from '../../primitives/focus/roving-focus.js';
 	import './segmented-control.css';
 	import type {
@@ -46,6 +48,27 @@
 	}
 </script>
 
+<!-- No optional parameter: Svelte 5.40 leaves its `?` in the compiled snippet. -->
+{#snippet radio(option: SegmentedControlOption<T>, hint: TriggerAttributes | undefined)}
+	<button
+		{...option.attributes}
+		{...hint}
+		aria-describedby={[hint?.['aria-describedby'], option.attributes?.['aria-describedby']]
+			.filter(Boolean)
+			.join(' ') || undefined}
+		type="button"
+		role="radio"
+		class={['sv-segmented__option', option.attributes?.class]}
+		data-sv-item
+		aria-checked={option.value === value}
+		disabled={disabled || option.disabled}
+		onclick={() => pick(option)}
+		onfocus={() => activation === 'automatic' && pick(option)}
+	>
+		{option.label}
+	</button>
+{/snippet}
+
 <div
 	bind:this={ref}
 	{...rest}
@@ -62,18 +85,12 @@
 >
 	{#if index >= 0 && !wrap}<span class="sv-segmented__thumb" aria-hidden="true"></span>{/if}
 	{#each options as option (option.value)}
-		<button
-			{...option.attributes}
-			type="button"
-			role="radio"
-			class={['sv-segmented__option', option.attributes?.class]}
-			data-sv-item
-			aria-checked={option.value === value}
-			disabled={disabled || option.disabled}
-			onclick={() => pick(option)}
-			onfocus={() => activation === 'automatic' && pick(option)}
-		>
-			{option.label}
-		</button>
+		{#if option.tooltip}
+			<Tooltip text={option.tooltip}>
+				{#snippet trigger(hint)}{@render radio(option, hint)}{/snippet}
+			</Tooltip>
+		{:else}
+			{@render radio(option, undefined)}
+		{/if}
 	{/each}
 </div>

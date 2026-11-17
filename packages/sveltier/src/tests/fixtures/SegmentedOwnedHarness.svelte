@@ -10,8 +10,18 @@
 	let language = $state('en');
 	let asked = $state('');
 	const OPTIONS = [
-		{ value: 'en', label: 'EN', attributes: { 'aria-label': 'EN · English', lang: 'en' } },
-		{ value: 'vi', label: 'VI', attributes: { 'aria-label': 'VI · Tiếng Việt', lang: 'vi' } }
+		{
+			value: 'en',
+			label: 'EN',
+			tooltip: 'English',
+			attributes: { 'aria-label': 'EN · English', lang: 'en', 'aria-describedby': 'language-note' }
+		},
+		{
+			value: 'vi',
+			label: 'VI',
+			tooltip: 'Tiếng Việt',
+			attributes: { 'aria-label': 'VI · Tiếng Việt', lang: 'vi' }
+		}
 	];
 </script>
 
@@ -22,6 +32,7 @@
 		options={OPTIONS}
 		bind:value={() => language, (next) => (asked = next)}
 	/>
+	<span id="language-note">Reloads the page</span>
 	<span data-testid="asked">{asked}</span>
 	<button type="button" onclick={() => (language = asked)}>Apply</button>
 </ThemeProvider>

@@ -3,16 +3,18 @@
 	// content taller than the window. The test picks which part comes first, whether there is a
 	// drawer, whether the bar has a mark and links of its own, the props of the bar and the
 	// drawer, whether the layout fills the window around a pane, whether there is a footer, and
-	// whether Main is wrapped by mistake.
+	// whether Main is wrapped by mistake, and the props of a bottom navigation, if there is one.
 	import AppBar from '../../lib/components/AppLayout/AppBar.svelte';
 	import AppFooter from '../../lib/components/AppLayout/AppFooter.svelte';
 	import AppLayout from '../../lib/components/AppLayout/AppLayout.svelte';
+	import BottomNavigation from '../../lib/components/AppLayout/BottomNavigation.svelte';
 	import Main from '../../lib/components/AppLayout/Main.svelte';
 	import NavigationDrawer from '../../lib/components/AppLayout/NavigationDrawer.svelte';
 	import type {
 		AppBarProps,
 		AppFooterProps,
 		AppLayoutProps,
+		BottomNavigationProps,
 		NavigationDrawerProps
 	} from '../../lib/components/AppLayout/types.js';
 	import List from '../../lib/components/List/List.svelte';
@@ -32,7 +34,8 @@
 		bar = {},
 		drawer = {},
 		open = $bindable(false),
-		wrapMain = false
+		wrapMain = false,
+		bottom
 	}: {
 		drawerFirst?: boolean;
 		withDrawer?: boolean;
@@ -46,6 +49,7 @@
 		drawer?: Partial<NavigationDrawerProps>;
 		open?: boolean;
 		wrapMain?: boolean;
+		bottom?: Partial<BottomNavigationProps>;
 	} = $props();
 
 	const ICON = 'M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z';
@@ -121,5 +125,17 @@
 			{@render main()}
 		{/if}
 		{#if footer}<AppFooter {...footer}>Market open</AppFooter>{/if}
+		{#if bottom}
+			<BottomNavigation
+				aria-label="Sections"
+				items={PAGES.map((page, index) => ({
+					label: page,
+					href: `#${page.toLowerCase()}`,
+					icon: ICON,
+					current: index === 0
+				}))}
+				{...bottom}
+			/>
+		{/if}
 	</AppLayout>
 </ThemeProvider>

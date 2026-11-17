@@ -8,12 +8,15 @@
 		appLayoutCorner,
 		appLayoutFill,
 		appLayoutPanes,
+		appLayoutPhone,
 		appLayoutRail,
 		appLayoutUsage
 	} from '#lib/snippets/layout.js';
 	import APP_BAR_PROPS from 'virtual:sveltier-api/AppBarProps';
 	import APP_FOOTER_PROPS from 'virtual:sveltier-api/AppFooterProps';
 	import APP_LAYOUT_PROPS from 'virtual:sveltier-api/AppLayoutProps';
+	import BOTTOM_NAVIGATION_PROPS from 'virtual:sveltier-api/BottomNavigationProps';
+	import BOTTOM_NAVIGATION_ITEM from 'virtual:sveltier-api/BottomNavigationItem';
 	import MAIN_PROPS from 'virtual:sveltier-api/MainProps';
 	import NAVIGATION_DRAWER_PROPS from 'virtual:sveltier-api/NavigationDrawerProps';
 </script>
@@ -101,6 +104,25 @@
 		above it on their own. A site footer of several lines belongs at the end of <code>Main</code> instead.
 	</p>
 
+	<h2 id="bottom-navigation">Bottom navigation</h2>
+	<p>
+		On a phone, the menu button at the top is out of the thumb's reach. <code>BottomNavigation</code
+		>
+		puts the app's three to five main destinations along the bottom of the screen, each an icon over a
+		short label, the one of the page shown <code>current</code>. It shows below its
+		<code>breakpoint</code> (<code>md</code>, 960px, by default) and is left out from it up, where
+		the bar's links take over: below it, the bar's <code>nav</code> gives way to it. Give a drawer the
+		same breakpoint, so one of the two carries the navigation at every width.
+	</p>
+	<p>
+		The layout places it under the content and the footer. With <code>fill</code>,
+		<code>Main</code> takes the height it leaves; otherwise it stays at the bottom of the window
+		while the page scrolls, a sticky footer sits on top of it, and toasts stay above both. It leaves
+		room under its links for the inset of a phone's home indicator, which a page gets with
+		<code>viewport-fit=cover</code> in its viewport meta tag.
+	</p>
+	<Code title="+layout.svelte" code={appLayoutPhone} />
+
 	<h2 id="rail">Rail</h2>
 	<p>
 		From the breakpoint up, <code>rail</code> narrows the drawer to the icons of the
@@ -150,6 +172,12 @@
 			too; with a <code>modal</code> drawer, only one of them is there at a time.
 		</li>
 		<li>
+			The bottom navigation is a navigation named <q>Main</q> too, shown only while the bar's links
+			and the drawer beside the content are not. Its current link has
+			<code>aria-current="page"</code>, and its icons are hidden from assistive technology, which
+			reads the labels.
+		</li>
+		<li>
 			The menu button is named <q>Navigation</q> and tells whether the drawer is open (<code
 				>aria-expanded</code
 			>). The modal drawer is a modal dialog named <q>Navigation</q>: focus moves into it, stays
@@ -167,4 +195,6 @@
 	<ApiTable label="NavigationDrawer props" rows={NAVIGATION_DRAWER_PROPS} />
 	<ApiTable label="Main props" rows={MAIN_PROPS} />
 	<ApiTable label="AppFooter props" rows={APP_FOOTER_PROPS} />
+	<ApiTable label="BottomNavigation props" rows={BOTTOM_NAVIGATION_PROPS} />
+	<ApiTable label="BottomNavigationItem" rows={BOTTOM_NAVIGATION_ITEM} />
 </DocPage>

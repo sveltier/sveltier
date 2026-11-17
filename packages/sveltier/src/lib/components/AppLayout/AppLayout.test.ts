@@ -32,6 +32,15 @@ describe('AppLayout on the server', () => {
 		expect(body).not.toMatch(/<a[^>]*href="#payments"/);
 	});
 
+	it('renders a bottom navigation of links for the CSS to show below its breakpoint', () => {
+		const { body } = render(AppLayoutHarness, { props: { bottom: { breakpoint: 'lg' } } });
+		const bar = body.match(/<nav[^>]*class="sv-bottom-navigation[^"]*"[^>]*>[\s\S]*?<\/nav>/)?.[0];
+		expect(bar).toContain('aria-label="Sections"');
+		expect(bar).toContain('sv-bottom-navigation--lg');
+		expect(bar).toMatch(/<a href="#overview" aria-current="page"/);
+		expect(bar).toMatch(/<a href="#cards"(?! aria-current)/);
+	});
+
 	it('renders the menu button for the CSS to show below the breakpoint, closed', () => {
 		const { body } = render(AppLayoutHarness);
 		const button = body.match(/<span class="sv-app-bar__menu">(?:<!---->)?(<button[^>]*>)/)?.[1];

@@ -35,7 +35,12 @@
 		its language and a title, as a language switch needs:
 		<code
 			>{"{ value: 'en', label: 'EN', attributes: { 'aria-label': 'EN · English', lang: 'en' } }"}</code
-		>. A name should start with the label's words, so speech input finds it by what it shows.
+		>. A name should start with the label's words, so speech input finds it by what it shows. For
+		sighted users, an option's <code>tooltip</code> shows the full name in the theme's
+		<a href={resolve('overlays/tooltip')}>Tooltip</a> on hover and on keyboard focus, and screen
+		readers read it as the option's description:
+		<code>{"{ value: 'en', label: 'EN', tooltip: 'English', attributes: { lang: 'en' } }"}</code>.
+		Touch has no hover, so the name still goes in <code>aria-label</code>.
 	</p>
 
 	<h2 id="side-effects">A choice that changes the page</h2>

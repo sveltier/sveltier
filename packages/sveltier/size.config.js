@@ -144,6 +144,15 @@ export default [
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{
+		// The phone's bar of destinations: its links with their icons, the current one, the
+		// safe-area inset, and at each breakpoint the rules that show it, hand it the bar's links and
+		// keep a sticky footer, toasts and scrolled-to content clear of it.
+		name: 'BottomNavigation',
+		code: "export { BottomNavigation } from '@sveltier/ui';",
+		limit: '1.85 KB',
+		external: [/\/core\//]
+	},
+	{
 		// The drawer beside the content, the rail, and the modal drawer on the modal shell that
 		// Dialog and Sheet share (about 2.6 KB of it, the CSS included), which closes when a link
 		// in it leaves the page; the primitives the shell stands on are measured apart.
@@ -269,11 +278,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Includes rovingFocus, which gives it one tab stop and arrow keys.
+		// Includes rovingFocus, which gives it one tab stop and arrow keys. The Tooltip of an
+		// option with `tooltip` is measured in its own entry.
 		name: 'SegmentedControl',
 		code: "export { SegmentedControl } from '@sveltier/ui';",
-		limit: '2.4 KB',
-		external: [/\/core\//]
+		limit: '2.6 KB',
+		external: [/\/core\//, /\/components\/Tooltip\//]
 	},
 	{
 		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
@@ -637,7 +647,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '85 KB'
+		limit: '86 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
