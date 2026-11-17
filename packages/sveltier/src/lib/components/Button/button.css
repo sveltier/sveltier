@@ -85,6 +85,16 @@
 	}
 
 	/*
+	 * Flush: the inline padding reaches out past the box, so the label lines up with the text
+	 * around it and the press area, the wash and the focus ring keep their size. As wide as its
+	 * content, it is not stretched across a grid cell or a column.
+	 */
+	.sv-button--flush {
+		inline-size: fit-content;
+		margin-inline: calc(var(--sv-size-height) * var(--sv-density) * -0.382);
+	}
+
+	/*
 	 * Wrap: the height is a minimum, and the block padding is what is left of it around one
 	 * line, so one line is as tall as other controls and each further line adds a line.
 	 */

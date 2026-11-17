@@ -215,6 +215,33 @@ describe('Button layout', () => {
 		expect(px(style().height)).toBeCloseTo(height, 1);
 	});
 
+	it('lines its label up with the text around it when flush, keeping its height', async () => {
+		await render(ButtonHarness, { variant: 'text', flush: true });
+		const cell = element().parentElement!;
+		cell.style.display = 'grid';
+		const text = document.createElement('span');
+		text.textContent = '3 accounts';
+		cell.append(text);
+		const box = element().getBoundingClientRect();
+		const padding = px(style().paddingInlineStart);
+		expect(padding).toBeGreaterThan(0);
+		// The label starts where the text under it does; the box reaches out by its padding.
+		expect(box.left + padding).toBeCloseTo(text.getBoundingClientRect().left, 0);
+		expect(px(style().height)).toBeCloseTo(2.618 * PX_PER_REM, 1);
+		// As wide as its content, not stretched across the grid cell.
+		expect(box.width).toBeLessThan(cell.getBoundingClientRect().width / 2);
+		text.remove();
+	});
+
+	it('warns when flush is given a filled button', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(ButtonHarness, { variant: 'tonal', flush: true });
+		expect(warn).toHaveBeenCalledWith(
+			expect.stringMatching(/SV2002.*variant="tonal".*'text' \| 'plain'.*flush/)
+		);
+		warn.mockRestore();
+	});
+
 	it('fills its container when block', async () => {
 		await render(ButtonHarness, { block: true });
 		const container = element().parentElement!.getBoundingClientRect();

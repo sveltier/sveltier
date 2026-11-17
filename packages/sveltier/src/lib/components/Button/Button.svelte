@@ -1,5 +1,6 @@
 <script lang="ts">
 	// A button, or a link styled as one. See ButtonProps for the props.
+	import { checkValue, DEV } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
@@ -18,6 +19,7 @@
 		as,
 		icon = false,
 		wrap = false,
+		flush = false,
 		loading = false,
 		href,
 		type,
@@ -42,6 +44,19 @@
 	});
 	const p = $derived(resolve({ variant, size, density, color, rounded, block, disabled }));
 	const locale = useLocale();
+
+	if (DEV) {
+		$effect(() => {
+			if (flush)
+				checkValue(
+					'Button',
+					'variant',
+					p.variant,
+					['text', 'plain'],
+					'`flush` lines up the label of a button with no fill or border; a filled or outlined one would spill over the text beside it.'
+				);
+		});
+	}
 
 	const link = $derived((as ?? (href == null ? 'button' : 'a')) === 'a');
 	// Only a <button> can be disabled natively. A disabled link loses its href; a loading button
@@ -72,6 +87,7 @@
 		p.block && 'sv-button--block',
 		icon && 'sv-button--icon',
 		wrap && 'sv-button--wrap',
+		flush && !icon && 'sv-button--flush',
 		loading && 'sv-button--loading',
 		className
 	]}
