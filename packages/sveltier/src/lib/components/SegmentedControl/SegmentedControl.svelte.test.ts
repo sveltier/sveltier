@@ -112,3 +112,36 @@ describe('SegmentedControl', () => {
 		});
 	});
 });
+
+describe('SegmentedControl option tooltips', () => {
+	const radio = (name: string) => page.getByRole('radio', { name });
+	const tip = (name: string) => page.getByRole('tooltip').filter({ hasText: name });
+
+	it('shows an option tooltip on keyboard focus, as its description', async () => {
+		await render(SegmentedOwnedHarness, {});
+		await userEvent.keyboard('{Tab}');
+		await expect.element(radio('EN · English')).toHaveFocus();
+		await expect.element(tip('English')).toBeVisible();
+		const ids = radio('EN · English').element().getAttribute('aria-describedby')!.split(' ');
+		// The tooltip adds to the option's own description instead of replacing it.
+		const english = tip('English').element();
+		expect(ids).toContain(english.id);
+		expect(ids).toContain('language-note');
+		await expect.element(radio('EN · English')).toHaveAccessibleName('EN · English');
+
+		await userEvent.keyboard('{ArrowRight}');
+		await expect.element(radio('VI · Tiếng Việt')).toHaveFocus();
+		await expect.element(tip('Tiếng Việt')).toBeVisible();
+		expect(english.matches(':popover-open')).toBe(false);
+		await expect.element(radio('VI · Tiếng Việt')).toHaveAccessibleDescription('Tiếng Việt');
+	});
+
+	it('shows it on hover, and keeps the radios one group with one tab stop', async () => {
+		await render(SegmentedOwnedHarness, {});
+		await radio('VI · Tiếng Việt').hover();
+		await expect.element(tip('Tiếng Việt')).toBeVisible();
+		const group = page.getByRole('radiogroup', { name: 'Language' }).element();
+		expect(group.querySelectorAll('[role="radio"]')).toHaveLength(2);
+		expect(group.querySelectorAll('[role="radio"][tabindex="0"]')).toHaveLength(1);
+	});
+});

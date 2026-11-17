@@ -269,11 +269,12 @@ export default [
 		external: [/\/core\//]
 	},
 	{
-		// Includes rovingFocus, which gives it one tab stop and arrow keys.
+		// Includes rovingFocus, which gives it one tab stop and arrow keys. The Tooltip of an
+		// option with `tooltip` is measured in its own entry.
 		name: 'SegmentedControl',
 		code: "export { SegmentedControl } from '@sveltier/ui';",
-		limit: '2.4 KB',
-		external: [/\/core\//]
+		limit: '2.6 KB',
+		external: [/\/core\//, /\/components\/Tooltip\//]
 	},
 	{
 		// The same modal shell as Dialog, against an edge; the primitives are measured apart.
