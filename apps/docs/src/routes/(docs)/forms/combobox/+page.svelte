@@ -4,7 +4,7 @@
 	import Code from '#lib/docs/Code.svelte';
 	import ComboboxDemo from '#lib/docs/combobox/ComboboxDemo.svelte';
 	import DocPage from '#lib/docs/DocPage.svelte';
-	import { comboboxRemote, comboboxUsage } from '#lib/snippets/forms.js';
+	import { comboboxLong, comboboxRemote, comboboxUsage } from '#lib/snippets/forms.js';
 	import COMBOBOX_PROPS from 'virtual:sveltier-api/ComboboxProps';
 </script>
 
@@ -36,6 +36,15 @@
 		give the options found; <code>loading</code> says so while there are none yet.
 	</p>
 	<Code title="Symbol.svelte" code={comboboxRemote} />
+
+	<h2 id="long-lists">Long lists</h2>
+	<p>
+		The list opens up to 21rem tall and scrolls past that. For hundreds of options, such as every
+		market of a venue, give <code>listHeight</code> any CSS length, such as <code>'60dvh'</code>, to
+		show more at once. The list is never taller than the window, and it opens above the field when
+		it does not fit under it.
+	</p>
+	<Code title="MarketSwitcher.svelte" code={comboboxLong} />
 
 	<h2 id="leaving">Leaving the field</h2>
 	<p>

@@ -30,6 +30,20 @@ describe('Select', () => {
 		await expect.element(option('BTC/USDT')).toHaveAttribute('aria-selected', 'true');
 	});
 
+	it('opens the list at most as tall as listHeight asks, and never past the window', async () => {
+		const screen = await render(SelectHarness, { listHeight: '5rem' });
+		await combobox().click();
+		const list = () => listbox().element() as HTMLElement;
+		expect(getComputedStyle(list()).maxBlockSize).toBe('80px');
+		expect(list().scrollHeight).toBeGreaterThan(list().clientHeight);
+		await userEvent.keyboard('{Escape}');
+		await screen.rerender({ listHeight: '200vh' });
+		await combobox().click();
+		expect(Number.parseFloat(getComputedStyle(list()).maxBlockSize)).toBeLessThan(
+			window.innerHeight
+		);
+	});
+
 	it('moves with the arrows past a disabled option and chooses with Enter, keeping focus', async () => {
 		await render(SelectHarness, { value: 'btc-usd' });
 		await press('{ArrowDown}');

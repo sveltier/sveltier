@@ -73,6 +73,13 @@ export type ComboboxProps<
 			loading?: boolean;
 			/** What the field shows while it is empty. */
 			placeholder?: string;
+			/**
+			 * The most height of the open list, a CSS length, so a long list shows more options at
+			 * once, such as `'60dvh'`. The list is never taller than the window, and it opens above
+			 * the field when it does not fit under it.
+			 * @default '21rem'
+			 */
+			listHeight?: string;
 			/** An option's content, in place of its label and description. */
 			option?: Snippet<[item: I]>;
 			/** Checks run in order with the chosen value. The first message is shown. */

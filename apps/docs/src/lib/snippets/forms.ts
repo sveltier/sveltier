@@ -33,6 +33,8 @@ export { default as comboboxUsage } from '../examples/forms/ComboboxUsage.svelte
 
 export { default as comboboxRemote } from '../examples/forms/ComboboxRemote.svelte?raw';
 
+export { default as comboboxLong } from '../examples/forms/ComboboxLong.svelte?raw';
+
 export { default as datePickerUsage } from '../examples/forms/DatePickerUsage.svelte?raw';
 
 export { default as datePickerTradingDays } from '../examples/forms/DatePickerTradingDays.svelte?raw';

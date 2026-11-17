@@ -80,6 +80,15 @@ describe('Combobox', () => {
 		expect(input().value).toBe('Cần Thơ');
 	});
 
+	it('opens the list as tall as listHeight asks', async () => {
+		await render(ComboboxHarness, { listHeight: '5rem' });
+		await combobox().click();
+		await expect.element(listbox()).toBeVisible();
+		const list = listbox().element() as HTMLElement;
+		expect(getComputedStyle(list).maxBlockSize).toBe('80px');
+		expect(list.getBoundingClientRect().height).toBeLessThanOrEqual(80);
+	});
+
 	it('chooses with a click', async () => {
 		await render(ComboboxHarness, {});
 		await combobox().fill('h');

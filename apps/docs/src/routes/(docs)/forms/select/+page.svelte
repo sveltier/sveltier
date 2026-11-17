@@ -29,6 +29,12 @@
 		field; both receive the item, with any extra properties you gave it.
 	</p>
 	<Code title="Markets.svelte" code={selectCustom} />
+	<p>
+		The list opens up to 21rem tall and scrolls past that. For a long one, give
+		<code>listHeight</code> any CSS length, such as <code>'60dvh'</code>; the list is never taller
+		than the window. To search a list that long, a
+		<a href={resolve('forms/combobox')}>Combobox</a> is quicker.
+	</p>
 
 	<h2 id="choosing">Which select</h2>
 	<ul>

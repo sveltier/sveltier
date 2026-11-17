@@ -33,6 +33,7 @@
 		filter,
 		loading = false,
 		placeholder,
+		listHeight,
 		option,
 		label,
 		hint,
@@ -250,6 +251,7 @@
 		label={rest['aria-label'] as string | undefined}
 		{option}
 		empty={loading ? locale.t('loading') : locale.t('noMatches')}
+		height={listHeight}
 		onpick={choose}
 		onhover={(index) => (active = index)}
 		onclose={() => (open = false)}
