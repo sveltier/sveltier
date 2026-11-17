@@ -1,5 +1,12 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.18
+
+### Minor Changes
+
+- f641e1a: New `BottomNavigation`: a phone's three to five main destinations along the bottom of the screen, each an icon over a short label, the page shown marked `current` (`aria-current="page"`). It shows below its `breakpoint` (`md` by default) and is left out from it up, in a navigation landmark named "Main". In an `AppLayout` it takes a row under the content and the footer: `Main` takes the height it leaves with `fill`, and otherwise it stays at the bottom of the window while the page scrolls. Below its breakpoint the app bar's `nav` gives way to it, a sticky `AppFooter` sits on top of it, toasts and scrolled-to content keep clear of it, and the bottom safe-area inset is added under it.
+- 2446f53: A SegmentedControl option takes `tooltip`: a short text the theme's Tooltip shows on hover and on keyboard focus of that radio, read by screen readers as its description, such as the full name of a short label. An `aria-describedby` in the option's `attributes` is kept beside it.
+
 ## 0.1.0-alpha.17
 
 ### Minor Changes
