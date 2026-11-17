@@ -46,11 +46,12 @@
 	</p>
 	<Code title="MarketSwitcher.svelte" code={comboboxLong} />
 
-	<h2 id="leaving">Leaving the field</h2>
+	<h2 id="leaving">Coming to and leaving the field</h2>
 	<p>
-		The value changes only when an option is chosen. Leaving the field puts the chosen label back
-		over what was typed, and leaving it empty clears the value. The form submits the chosen value
-		under
+		Coming to the field, by a click or the keyboard, selects the chosen label, so what is typed
+		replaces it. The value changes only when an option is chosen. Leaving the field puts the chosen
+		label back over what was typed, and leaving it empty clears the value. The form submits the
+		chosen value under
 		<code>name</code>, never the typed text.
 	</p>
 

@@ -189,6 +189,31 @@
 		if (open) open = false;
 		else show();
 	}
+
+	// Coming to the field selects the chosen label, so what is typed replaces it, as in an address
+	// bar. A press would put the caret where it lands, so the press that brought focus keeps the
+	// selection instead.
+	let pressing = false;
+	let selecting = false;
+	type Handler<E extends Event> = ((event: E) => void) | null | undefined;
+
+	function mousedown(event: MouseEvent) {
+		(rest.onmousedown as Handler<MouseEvent>)?.(event);
+		pressing = true;
+	}
+
+	function focus(event: FocusEvent & { currentTarget: HTMLInputElement }) {
+		(rest.onfocus as Handler<FocusEvent>)?.(event);
+		if (typed || !chosen) return;
+		event.currentTarget.select();
+		selecting = pressing;
+	}
+
+	function mouseup(event: MouseEvent) {
+		(rest.onmouseup as Handler<MouseEvent>)?.(event);
+		if (selecting) event.preventDefault();
+		pressing = selecting = false;
+	}
 </script>
 
 {#snippet end()}
@@ -233,6 +258,9 @@
 			value={text}
 			oninput={input}
 			onkeydown={keydown}
+			onmousedown={mousedown}
+			onfocus={focus}
+			onmouseup={mouseup}
 			onclick={() => !inert && toggle()}
 			{@attach findBox}
 		/>
