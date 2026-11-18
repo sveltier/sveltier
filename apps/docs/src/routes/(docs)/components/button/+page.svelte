@@ -10,6 +10,7 @@
 	import ButtonWrap from '#lib/docs/button/ButtonWrap.svelte';
 	import {
 		buttonDefaults,
+		buttonFlush,
 		buttonIcons,
 		buttonLink,
 		buttonLoading,
@@ -65,6 +66,16 @@
 	</p>
 	<ButtonWrap />
 	<Code title="IndicatorPanel.svelte" code={buttonWrap} />
+
+	<h2 id="flush">In line with text</h2>
+	<p>
+		A <code>text</code> or <code>plain</code> button keeps its padding inside its box, so its label
+		starts a little to the right of the text around it. With <code>flush</code>, the padding reaches
+		out past the box instead: the label lines up with the line under it, as in a table cell on a
+		phone, while the height, the press area, the hover wash and the focus ring stay. A flush button
+		is as wide as its label, not stretched across a grid cell.
+	</p>
+	<Code title="WalletCell.svelte" code={buttonFlush} />
 
 	<h2 id="states">Loading and disabled</h2>
 	<p>

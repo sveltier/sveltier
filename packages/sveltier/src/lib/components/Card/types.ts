@@ -61,7 +61,10 @@ export type CardProps = ElementProps<
 		subtitle?: string;
 		/** Content before the title, such as an avatar or an icon. */
 		prepend?: Snippet;
-		/** Content after the title, such as a menu button. */
+		/**
+		 * Content after the title, such as a menu button. On a card too narrow to keep the title
+		 * readable beside it, it wraps under the title and the subtitle.
+		 */
 		append?: Snippet;
 		/** Buttons or links at the bottom. */
 		actions?: Snippet;

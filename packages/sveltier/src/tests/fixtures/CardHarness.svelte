@@ -5,11 +5,18 @@
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
-	let { full = true, ...props }: CardProps & { full?: boolean } = $props();
+	let {
+		full = true,
+		wideAppend = false,
+		...props
+	}: CardProps & { full?: boolean; wideAppend?: boolean } = $props();
 </script>
 
 {#snippet avatar()}<span data-testid="prepend">AM</span>{/snippet}
 {#snippet menu()}<button type="button">More</button>{/snippet}
+{#snippet open()}<button type="button" data-testid="append" style="inline-size: 165px"
+		>Open the full site</button
+	>{/snippet}
 {#snippet buttons()}<button type="button">Send money</button>{/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
@@ -20,7 +27,7 @@
 				title="Savings"
 				subtitle="Instant access"
 				prepend={avatar}
-				append={menu}
+				append={wideAppend ? open : menu}
 				actions={buttons}
 				{...props}
 			>

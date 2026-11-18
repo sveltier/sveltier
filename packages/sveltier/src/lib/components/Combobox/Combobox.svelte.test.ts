@@ -80,6 +80,42 @@ describe('Combobox', () => {
 		expect(input().value).toBe('Cần Thơ');
 	});
 
+	it('selects the chosen label on a click, so what is typed replaces it', async () => {
+		await render(ComboboxHarness, { value: 'dn' });
+		await combobox().click();
+		expect(input().selectionStart).toBe(0);
+		expect(input().selectionEnd).toBe('Đà Nẵng'.length);
+		await userEvent.keyboard('can');
+		expect(input().value).toBe('can');
+		expect(options()).toEqual(['Cần Thơ']);
+	});
+
+	it('selects the chosen label when the keyboard comes to the field', async () => {
+		await render(ComboboxHarness, { value: 'hp' });
+		page.getByRole('textbox', { name: 'Next' }).element().focus();
+		await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+		expect(document.activeElement).toBe(input());
+		expect(input().selectionEnd! - input().selectionStart!).toBe('Hải Phòng'.length);
+		await userEvent.keyboard('ha');
+		expect(input().value).toBe('ha');
+	});
+
+	it('leaves the caret where a second click puts it', async () => {
+		await render(ComboboxHarness, { value: 'dn' });
+		await combobox().click();
+		await combobox().click();
+		expect(input().selectionStart).toBe(input().selectionEnd);
+	});
+
+	it('opens the list as tall as listHeight asks', async () => {
+		await render(ComboboxHarness, { listHeight: '5rem' });
+		await combobox().click();
+		await expect.element(listbox()).toBeVisible();
+		const list = listbox().element() as HTMLElement;
+		expect(getComputedStyle(list).maxBlockSize).toBe('80px');
+		expect(list.getBoundingClientRect().height).toBeLessThanOrEqual(80);
+	});
+
 	it('chooses with a click', async () => {
 		await render(ComboboxHarness, {});
 		await combobox().fill('h');

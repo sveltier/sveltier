@@ -18,6 +18,7 @@
 		label,
 		option,
 		empty,
+		height,
 		onpick,
 		onhover,
 		onclose
@@ -34,6 +35,8 @@
 		option?: Snippet<[item: I]>;
 		/** What shows in place of options when there are none. */
 		empty: string;
+		/** The most height of the list, a CSS length; the stylesheet's when not given. */
+		height?: string;
 		onpick: (index: number) => void;
 		onhover: (index: number) => void;
 		onclose: (reason: DismissReason) => void;
@@ -91,6 +94,7 @@
 	aria-label={items.length > 0 ? label : undefined}
 	popover="manual"
 	class="sv-listbox"
+	style:--sv-listbox-height={height}
 	{@attach anchored({ anchor })}
 	{@attach dismissable({ onDismiss: onclose, inside: () => [anchor] })}
 	{@attach enter}

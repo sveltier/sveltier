@@ -18,8 +18,9 @@ declare module '../../core/defaults/context.js' {
  * One value found by typing: the list under the field shows the options that match what is
  * typed, as the APG combobox with list autocomplete. The first match is pointed at, so a few
  * letters and Enter choose; the arrows move, and a click chooses too. Matching ignores case and
- * diacritics, so "ha noi" finds "Hà Nội". `class` and `style` apply to the field; `id`, `ref`
- * and other attributes go to the `<input>`.
+ * diacritics, so "ha noi" finds "Hà Nội". Coming to the field selects the chosen label, so what
+ * is typed replaces it, and leaving puts it back. `class` and `style` apply to the field; `id`,
+ * `ref` and other attributes go to the `<input>`.
  *
  * @example
  * <script lang="ts">
@@ -73,6 +74,13 @@ export type ComboboxProps<
 			loading?: boolean;
 			/** What the field shows while it is empty. */
 			placeholder?: string;
+			/**
+			 * The most height of the open list, a CSS length, so a long list shows more options at
+			 * once, such as `'60dvh'`. The list is never taller than the window, and it opens above
+			 * the field when it does not fit under it.
+			 * @default '21rem'
+			 */
+			listHeight?: string;
 			/** An option's content, in place of its label and description. */
 			option?: Snippet<[item: I]>;
 			/** Checks run in order with the chosen value. The first message is shown. */

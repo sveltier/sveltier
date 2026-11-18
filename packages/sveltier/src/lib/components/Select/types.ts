@@ -62,6 +62,13 @@ export type SelectProps<
 			onchange?: (value: T) => void;
 			/** What the field shows while nothing is chosen. */
 			placeholder?: string;
+			/**
+			 * The most height of the open list, a CSS length, so a long list shows more options at
+			 * once, such as `'60dvh'`. The list is never taller than the window, and it opens above
+			 * the field when it does not fit under it.
+			 * @default '21rem'
+			 */
+			listHeight?: string;
 			/** An option's content, in place of its label and description. */
 			option?: Snippet<[item: I]>;
 			/** The chosen item as the field shows it, in place of its label. */

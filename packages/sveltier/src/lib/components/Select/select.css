@@ -53,12 +53,15 @@
 		cursor: inherit;
 	}
 
-	/* The list: a raised surface of options, as the menu is, scrolling past a short height. */
+	/*
+	 * The list: a raised surface of options, as the menu is, scrolling past a short height, or
+	 * the field's `listHeight`, never past the window.
+	 */
 	.sv-listbox {
 		--sv-listbox-pad: var(--sv-space-5);
 		box-sizing: border-box;
 		max-inline-size: min(34rem, 100vw - 2 * var(--sv-space-8));
-		max-block-size: min(21rem, 100dvh - 2 * var(--sv-space-8));
+		max-block-size: min(var(--sv-listbox-height, 21rem), 100dvh - 2 * var(--sv-space-8));
 		margin: 0;
 		padding: var(--sv-listbox-pad);
 		overflow: auto;

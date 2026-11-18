@@ -9,6 +9,8 @@ export { default as buttonIcons } from '../examples/components/ButtonIcons.svelt
 
 export { default as buttonWrap } from '../examples/components/ButtonWrap.svelte?raw';
 
+export { default as buttonFlush } from '../examples/components/ButtonFlush.svelte?raw';
+
 export { default as buttonLoading } from '../examples/components/ButtonLoading.svelte?raw';
 
 export { default as buttonLink } from '../examples/components/ButtonLink.svelte?raw';

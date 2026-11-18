@@ -65,6 +65,14 @@ type ButtonOwnProps = Partial<ButtonDefaults> & {
 	 */
 	wrap?: boolean;
 	/**
+	 * Lines the label up with the text around it, for a `text` or `plain` button in running text
+	 * or at the head of a table cell: the inline padding reaches out past the box's edges, so the
+	 * height, the press area, the hover wash and the focus ring stay, and the button is as wide
+	 * as its label in a grid or a column.
+	 * @default false
+	 */
+	flush?: boolean;
+	/**
 	 * Shows a spinner and ignores presses, while the button keeps focus and its label for
 	 * screen readers, which also hear that it is loading.
 	 * @default false

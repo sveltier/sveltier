@@ -24,6 +24,7 @@
 		value = $bindable(null),
 		onchange,
 		placeholder,
+		listHeight,
 		option,
 		selection,
 		label,
@@ -245,6 +246,7 @@
 		label={rest['aria-label'] as string | undefined}
 		{option}
 		empty={locale.t('noMatches')}
+		height={listHeight}
 		onpick={choose}
 		onhover={(index) => (active = index)}
 		onclose={() => (open = false)}

@@ -1,5 +1,17 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.19
+
+### Minor Changes
+
+- b2eb714: Button takes `flush`: the inline padding of a `text` or `plain` button reaches out past its box, so its label lines up with the text around it, as at the head of a table cell, and the button is as wide as its label in a grid. A dev warning names the variants it is for.
+- 9654de0: Select and Combobox take `listHeight`, the most height of the open list as a CSS length (`'60dvh'`), so a long list shows more options at once. It is never taller than the window.
+
+### Patch Changes
+
+- 415b70f: A Card's `append` wraps under the title and the subtitle when the card is too narrow for both, instead of squeezing the title into a few words a line.
+- 026ccf9: Coming to a Combobox with a value, by a click or the keyboard, selects the chosen label, so what is typed replaces it instead of joining it.
+
 ## 0.1.0-alpha.18
 
 ### Minor Changes
