@@ -427,3 +427,105 @@ describe('Table stack', () => {
 		warn.mockRestore();
 	});
 });
+
+describe('Table row press', () => {
+	const row = (symbol: string) => page.getByRole('row', { name: new RegExp(symbol) }).element();
+	const cell = (symbol: string, index: number) => row(symbol).children[index] as HTMLElement;
+	const href = (item: Position) =>
+		item.status === 'open' ? `#/positions/${item.symbol}` : undefined;
+
+	/** Records the links a click lands on, with its keys, and keeps the page where it is. */
+	const followed = () => {
+		const links: string[] = [];
+		const record = (event: MouseEvent) => {
+			const link = (event.target as Element).closest('a[href]');
+			if (!link) return;
+			event.preventDefault();
+			links.push(`${link.getAttribute('href')}${event.ctrlKey ? ' ctrl' : ''}`);
+		};
+		document.addEventListener('click', record);
+		return { links, stop: () => document.removeEventListener('click', record) };
+	};
+
+	it("makes the row's name its link, followed by a press anywhere on the row", async () => {
+		const clicks = followed();
+		try {
+			await render(TableHarness, { rowHref: href });
+			const link = page.getByRole('link', { name: 'FPT' });
+			await expect.element(link).toHaveAttribute('href', '#/positions/FPT');
+			expect(link.element().closest('th')).toBe(cell('FPT', 0));
+			cell('FPT', 1).click();
+			await userEvent.click(cell('VNM', 3), { modifiers: ['Control'] });
+			expect(clicks.links).toEqual(['#/positions/FPT', '#/positions/VNM ctrl']);
+			expect(getComputedStyle(row('FPT')).cursor).toBe('pointer');
+		} finally {
+			clicks.stop();
+		}
+	});
+
+	it("leaves a row without a link alone, and the controls of a row's cells to themselves", async () => {
+		const clicks = followed();
+		try {
+			await render(TableHarness, { rowHref: href });
+			expect(page.getByRole('link', { name: 'HPG' }).elements()).toHaveLength(0);
+			expect(getComputedStyle(row('HPG')).cursor).not.toBe('pointer');
+			cell('HPG', 1).click();
+			await page.getByRole('button', { name: 'Close FPT' }).click();
+			expect(clicks.links).toEqual([]);
+		} finally {
+			clicks.stop();
+		}
+	});
+
+	it('does not follow the link at the end of a text selection', async () => {
+		const clicks = followed();
+		try {
+			await render(TableHarness, { rowHref: href });
+			getSelection()!.selectAllChildren(cell('FPT', 1));
+			cell('FPT', 1).click();
+			expect(clicks.links).toEqual([]);
+			getSelection()!.removeAllRanges();
+		} finally {
+			clicks.stop();
+		}
+	});
+
+	it("makes the row's name a button with onrowclick, pressed from the row or the keyboard", async () => {
+		const pressed = vi.fn();
+		await render(TableHarness, { onrowclick: (item: Position) => pressed(item.symbol) });
+		cell('ACB', 2).click();
+		expect(pressed).toHaveBeenLastCalledWith('ACB');
+		(page.getByRole('button', { name: 'VNM', exact: true }).element() as HTMLElement).focus();
+		await userEvent.keyboard('{Enter}');
+		expect(pressed).toHaveBeenLastCalledWith('VNM');
+		await page.getByRole('button', { name: 'Close FPT' }).click();
+		expect(pressed).toHaveBeenCalledTimes(2);
+	});
+
+	it('names a row by its first column when no column heads it', async () => {
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol' },
+			{ key: 'quantity', label: 'Quantity' }
+		];
+		await render(TableHarness, { columns, rowHref: href });
+		expect(page.getByRole('link', { name: 'ACB' }).element().closest('td')).toBe(cell('ACB', 0));
+	});
+
+	it('makes a whole block of a stacked table the link, washed under the pointer', async () => {
+		const clicks = followed();
+		try {
+			await render(TableHarness, {
+				rowHref: href,
+				stack: 'sm',
+				style: 'inline-size: 360px'
+			});
+			const label = cell('FPT', 2).querySelector('.sv-table__label') as HTMLElement;
+			label.click();
+			expect(clicks.links).toEqual(['#/positions/FPT']);
+			await userEvent.hover(cell('ACB', 1));
+			await expect.poll(() => getComputedStyle(row('ACB')).backgroundImage).toContain('gradient');
+		} finally {
+			clicks.stop();
+		}
+	});
+});

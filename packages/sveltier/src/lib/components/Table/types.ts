@@ -158,8 +158,9 @@ export type TableColumn<T> = TableKeyColumn<T> | TableValueColumn<T>;
 /**
  * A table of items, one row each, in the columns you describe. Headers stay in view while it
  * scrolls, a `pinned` column stays in view while it scrolls across, numbers line up at the end,
- * and a column with `sort` sorts by its header. With `stack`, rows show as blocks on a narrow box. Name it with `caption`, `aria-label` or
- * `aria-labelledby`, which go to the `<table>`.
+ * and a column with `sort` sorts by its header. With `stack`, rows show as blocks on a narrow
+ * box; with `rowHref` or `onrowclick`, a whole row is pressed. Name it with `caption`,
+ * `aria-label` or `aria-labelledby`, which go to the `<table>`.
  *
  * @example
  * <script lang="ts">
@@ -220,5 +221,19 @@ export type TableProps<T> = ElementProps<
 		 * whose details show elsewhere, which the table marks in its colour.
 		 */
 		rowAttributes?: (item: T) => HTMLAttributes<HTMLTableRowElement>;
+		/**
+		 * The link of an item's row, or `undefined` for a row without one. The row's name (its
+		 * `rowHeader` cell, or its first) becomes the link, and a press anywhere else on the row
+		 * follows it, but on a link or button of a cell or at the end of a text selection: so a
+		 * whole block of a stacked table is a link, as a list's row is. Keep links and buttons out
+		 * of the name column's `cell`, which goes inside the link.
+		 */
+		rowHref?: (item: T) => string | undefined;
+		/**
+		 * Called with the item when its row is pressed. The row's name becomes a button, and a
+		 * press anywhere else on the row presses it, as with `rowHref`, which wins for a row that
+		 * has a link.
+		 */
+		onrowclick?: (item: T) => void;
 	}
 >;

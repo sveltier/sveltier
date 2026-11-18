@@ -11,6 +11,7 @@
 		tableEmpty,
 		tableLive,
 		tablePinned,
+		tableRowLink,
 		tableSharedCell,
 		tableSort,
 		tableStacked,
@@ -123,6 +124,21 @@
 		marked as a whole. <code>pinned</code> has no effect on blocks.
 	</p>
 
+	<h2 id="row-press">Pressing a row</h2>
+	<p>
+		With <code>rowHref</code>, each row with a link shows its name, the <code>rowHeader</code> cell
+		or the first, as that link, and a press anywhere else on the row follows it, keys and all, so a
+		<kbd>Ctrl</kbd> press opens a new tab: a whole block of a stacked table is a link, as a list's
+		row is. <code>onrowclick</code> makes the name a button and calls back with the item. A press on
+		a link or button of a cell, or one that ends a text selection, stays with it. Return
+		<code>undefined</code> from <code>rowHref</code> for a row without a link.
+	</p>
+	<Code title="Companies.svelte" code={tableRowLink} />
+	<p>
+		The name column's content goes inside the link, so keep links and buttons out of its
+		<code>cell</code> snippet.
+	</p>
+
 	<h2 id="row-height">Row height</h2>
 	<p>
 		A row is a control of the table's <code>size</code> tall, times its <code>density</code>; the
@@ -162,6 +178,11 @@
 		<li>
 			Shown as blocks, the table keeps its roles, set on every part, so it is still read as a table;
 			the label beside each value is for the eye only, as the header already names the cell.
+		</li>
+		<li>
+			A row that is pressed has one link or button, its name, in the tab order and named by it; the
+			press on the rest of the row is a larger target for the pointer, not another stop for the
+			keyboard.
 		</li>
 		<li>The loading bar is hidden from assistive technology; the table's busy state is not.</li>
 	</ul>
