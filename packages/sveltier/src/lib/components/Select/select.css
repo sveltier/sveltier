@@ -77,23 +77,18 @@
 	}
 
 	/*
-	 * On a phone the list is a sheet: the width of the window, on the bottom of what shows (the
-	 * script sets how far up the keyboard reaches), its top corners rounded, past the bottom safe
-	 * area. It takes the room under the field, or `listHeight` when that is less.
+	 * On a phone the list spans the window under the field (the script sets how far down it
+	 * starts) and reaches down to the bottom of what shows, or the keyboard, or `listHeight` when
+	 * that is less, with rows a thumb can hit.
 	 */
-	.sv-listbox--sheet {
-		inset: auto 0 0;
+	.sv-listbox--phone {
+		inset: auto var(--sv-space-8);
 		inline-size: auto;
 		max-inline-size: none;
 		max-block-size: min(var(--sv-listbox-height, 100dvh), var(--sv-listbox-room, 61.8dvh));
-		padding-block-end: calc(var(--sv-listbox-pad) + env(safe-area-inset-bottom, 0px));
-		border-inline: 0;
-		border-block-end: 0;
-		border-radius: var(--sv-radius-xl) var(--sv-radius-xl) 0 0;
 	}
 
-	/* Rows a thumb can hit. */
-	.sv-listbox--sheet .sv-listbox__option {
+	.sv-listbox--phone .sv-listbox__option {
 		min-block-size: var(--sv-control-md);
 	}
 

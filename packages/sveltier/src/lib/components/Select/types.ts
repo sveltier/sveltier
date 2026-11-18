@@ -66,8 +66,8 @@ export type SelectProps<
 			 * The most height of the open list, a CSS length, so a long list shows more options at
 			 * once, such as `'60dvh'`. The list is never taller than the window, and it opens above
 			 * the field when it does not fit under it. On a phone, a window narrower than 600px, the
-			 * list is a sheet along the bottom of the window, reaching up to the field; a
-			 * `listHeight` given caps it there too.
+			 * list spans the window under the field and reaches down to the bottom of what shows, or
+			 * to the on-screen keyboard; a `listHeight` given caps it there too.
 			 * @default '21rem'
 			 */
 			listHeight?: string;

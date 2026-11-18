@@ -70,23 +70,13 @@ describe('overlays grow out of what opened them', () => {
 		expectOriginAt(frame, menu, { x: box.x + clientLeft + 40, y: box.y + clientTop + 10 });
 	});
 
-	it("Select's list grows out of the field, and slides up as a sheet on a phone", async () => {
-		const [width, height] = [window.innerWidth, window.innerHeight];
-		await page.viewport(1024, 768);
-		try {
-			const screen = await render(SelectHarness);
-			await page.getByRole('combobox', { name: 'Market' }).click();
-			const frame = await firstFrame(page.getByRole('listbox').element());
-			// As wide as the field, it barely scales: it unfolds from the field's centre.
-			expect(scaleOf(frame)).toBe(0.944);
-			expect(String(frame.transformOrigin)).not.toBe('center');
-			screen.unmount();
-		} finally {
-			await page.viewport(width, height);
-		}
+	it("Select's list grows out of the field", async () => {
 		await render(SelectHarness);
 		await page.getByRole('combobox', { name: 'Market' }).click();
-		const frame = await firstFrame(page.getByRole('listbox').element());
-		expect(String(frame.transform)).toMatch(/translateY\(100%\)|matrix\(1, 0, 0, 1, 0, [1-9]/);
+		const list = page.getByRole('listbox').element();
+		const frame = await firstFrame(list);
+		// As wide as the field, it barely scales: it unfolds from the field's centre.
+		expect(scaleOf(frame)).toBe(0.944);
+		expect(String(frame.transformOrigin)).not.toBe('center');
 	});
 });

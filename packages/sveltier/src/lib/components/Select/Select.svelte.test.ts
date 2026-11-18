@@ -8,6 +8,7 @@ const control = () => combobox().element() as HTMLElement;
 const listbox = () => page.getByRole('listbox', { name: 'Market' });
 const option = (name: string) => page.getByRole('option', { name, exact: true });
 const value = () => page.getByTestId('value');
+const px = (length: string) => Number.parseFloat(length);
 const active = () => {
 	const id = control().getAttribute('aria-activedescendant');
 	return id ? document.getElementById(id)?.querySelector('.sv-listbox__label')?.textContent : null;
@@ -144,17 +145,21 @@ describe('Select on a phone', () => {
 	const rect = (element: Element) => element.getBoundingClientRect();
 	const field = () => control().closest('.sv-field__box') ?? control();
 
-	it('opens the list as a sheet along the bottom of the window, under the field', async () => {
+	it('opens the list across the window under the field, down to the bottom at most', async () => {
 		expect(window.innerWidth).toBeLessThan(600);
 		await render(SelectHarness, {});
 		await combobox().click();
 		await settled();
 		const list = listbox().element();
-		expect(list.classList).toContain('sv-listbox--sheet');
-		expect(rect(list).left).toBeCloseTo(0, 0);
-		expect(rect(list).right).toBeCloseTo(window.innerWidth, 0);
-		expect(rect(list).bottom).toBeCloseTo(window.innerHeight, 0);
-		expect(rect(list).top).toBeGreaterThan(rect(field()).bottom);
+		expect(list.classList).toContain('sv-listbox--phone');
+		expect(rect(list).left).toBeCloseTo(8, 0);
+		expect(rect(list).right).toBeCloseTo(window.innerWidth - 8, 0);
+		expect(rect(list).top).toBeCloseTo(rect(field()).bottom + 8, 0);
+		// It may reach down to 8px above the bottom of the window, and no further.
+		expect(px(getComputedStyle(list).maxBlockSize)).toBeCloseTo(
+			window.innerHeight - rect(field()).bottom - 16,
+			0
+		);
 		// Rows a thumb can hit.
 		expect(rect(option('ETH/BTC').element()).height).toBeGreaterThanOrEqual(2.618 * 16 - 0.5);
 	});
@@ -181,7 +186,7 @@ describe('Select on a phone', () => {
 			await combobox().click();
 			await settled();
 			const list = listbox().element();
-			expect(list.classList).not.toContain('sv-listbox--sheet');
+			expect(list.classList).not.toContain('sv-listbox--phone');
 			expect(rect(list).left).toBeCloseTo(rect(field()).left, 0);
 			expect(rect(list).top).toBeGreaterThan(rect(field()).bottom);
 			expect(rect(list).bottom).toBeLessThan(window.innerHeight - 1);

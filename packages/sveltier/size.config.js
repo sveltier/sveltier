@@ -378,11 +378,11 @@ export default [
 	{
 		// Its own code and the list it shares with Combobox: the keys of the APG select-only
 		// combobox, typeahead on the labels and groups (3.7 KB of JS), and their CSS (0.95 KB).
-		// On a phone the list is a sheet resting on the keyboard (0.53 KB). The Field, the
+		// On a phone the list spans the window down to the keyboard (0.3 KB). The Field, the
 		// placement, the layer stack and the motion are measured apart.
 		name: 'Select',
 		code: "export { Select } from '@sveltier/ui';",
-		limit: '5.35 KB',
+		limit: '5.15 KB',
 		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
 	},
 	{
@@ -434,11 +434,11 @@ export default [
 	{
 		// Its own code and the list it shares with Select: filtering without case or diacritics,
 		// the keys of the APG combobox with list autocomplete, the IME guard, and the chosen label
-		// selected on focus so typing replaces it, and on a phone the list as a sheet resting on the
-		// keyboard. The Field, the placement, the layer stack and the motion are measured apart.
+		// selected on focus so typing replaces it, and on a phone the list across the window down to
+		// the keyboard. The Field, the placement, the layer stack and the motion are measured apart.
 		name: 'Combobox',
 		code: "export { Combobox } from '@sveltier/ui';",
-		limit: '5.35 KB',
+		limit: '5.15 KB',
 		external: [/\/core\//, /\/components\/Field\//, /\/primitives\//]
 	},
 	{
@@ -651,7 +651,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '87.6 KB'
+		limit: '87.55 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
@@ -659,10 +659,10 @@ export default [
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
 		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
 		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB;
-		// a table's rows as blocks and a Select's list as a sheet on a phone, 1.5 KB.
+		// a table's rows as blocks and a Select's list across a phone, 1.35 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '23.8 KB'
+		limit: '23.65 KB'
 	}
 ];

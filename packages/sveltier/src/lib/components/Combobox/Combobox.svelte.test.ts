@@ -116,18 +116,18 @@ describe('Combobox', () => {
 		expect(list.getBoundingClientRect().height).toBeLessThanOrEqual(80);
 	});
 
-	it('opens the list as a sheet on a phone, the field still in view and typed into', async () => {
+	it('opens the list under the field on a phone, where the eye is however few match', async () => {
 		expect(window.innerWidth).toBeLessThan(600);
 		await render(ComboboxHarness, {});
 		await combobox().fill('h');
 		await expect.element(listbox()).toBeVisible();
 		const list = listbox().element();
-		expect(list.classList).toContain('sv-listbox--sheet');
-		// Once it has slid up.
-		await expect.poll(() => list.getBoundingClientRect().bottom).toBeCloseTo(window.innerHeight, 0);
-		expect(list.getBoundingClientRect().top).toBeGreaterThan(
-			input().getBoundingClientRect().bottom
-		);
+		expect(list.classList).toContain('sv-listbox--phone');
+		const box = input().closest('.sv-field__box')!;
+		// Once it has grown in.
+		await expect.poll(() => list.getAnimations().length).toBe(0);
+		expect(list.getBoundingClientRect().top).toBeCloseTo(box.getBoundingClientRect().bottom + 8, 0);
+		expect(list.getBoundingClientRect().width).toBeCloseTo(window.innerWidth - 16, 0);
 		await expect.element(combobox()).toHaveFocus();
 	});
 
