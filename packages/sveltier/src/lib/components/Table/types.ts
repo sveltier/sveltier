@@ -14,6 +14,14 @@ export type TableAlign = (typeof TABLE_ALIGNS)[number];
 export const TABLE_STACKS = ['sm', 'md', 'lg'] as const;
 export type TableStack = (typeof TABLE_STACKS)[number];
 
+/**
+ * Where a column goes in a table shown as blocks: `primary` on the first line, at the end, beside
+ * the row's name; `secondary` under the name, without its label; `hidden` left out of sight,
+ * still read by screen readers.
+ */
+export const TABLE_COLUMN_STACKS = ['primary', 'secondary', 'hidden'] as const;
+export type TableColumnStack = (typeof TABLE_COLUMN_STACKS)[number];
+
 /** The ways a table can be sorted, named as `aria-sort` names them. */
 export const SORT_DIRECTIONS = ['ascending', 'descending'] as const;
 export type SortDirection = (typeof SORT_DIRECTIONS)[number];
@@ -83,11 +91,15 @@ export interface TableColumnBase<T> {
 	 */
 	pinned?: boolean;
 	/**
-	 * In a table shown as blocks (`stack`), puts the column's value on the first line of each
-	 * block, at the end, beside the row's name and without its label: for the one or two figures
-	 * that matter most, such as a price.
+	 * Where the column goes when the table shows its rows as blocks (the table's `stack`):
+	 * `'primary'` on the first line, at the end, beside the row's name, for the one or two figures
+	 * that matter most, such as a price; `'secondary'` on a line under the name, without its
+	 * label, such as a company's full name; `'hidden'` out of sight, for what a phone can do
+	 * without. Every other column shows as its label and its value, one a line.
 	 */
-	primary?: boolean;
+	stack?: TableColumnStack;
+	/** @deprecated Renamed `stack: 'primary'`. */
+	primary?: never;
 	/**
 	 * Lets the header sort the table. `true` compares the column's values: numbers, dates and
 	 * text in the locale's order, empty values last. A function compares two items itself.
@@ -186,8 +198,9 @@ export type TableProps<T> = ElementProps<
 		onsort?: (sortBy: TableSort | undefined) => void;
 		/**
 		 * Below this width of the table's box (`sm` 600px, `md` 960px, `lg` 1280px), each row
-		 * shows as a block, for a phone or a narrow column: its `rowHeader` and `primary` columns
-		 * on the first line, every other column under them as its label and value, and the
+		 * shows as a block, for a phone or a narrow column: its `rowHeader` and the columns with
+		 * `stack: 'primary'` on the first line, those with `'secondary'` under the name, every
+		 * other column under them as its label and value but those with `'hidden'`, and the
 		 * sortable headers as a row of buttons above. The box goes by its own width, so it must
 		 * take the width of its container. Off when not given.
 		 */

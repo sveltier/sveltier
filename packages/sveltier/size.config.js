@@ -349,10 +349,11 @@ export default [
 		// overlay or toast already loads). The numbers it shows itself take the data face. The locale
 		// and the shared props are core, measured apart. Rows as blocks on a narrow box (stack)
 		// add 1 KB: the block layout once for each of the three widths, as a container query cannot
-		// take its width from a variable, and the roles that keep it a table.
+		// take its width from a variable, and the roles that keep it a table. Where each column goes
+		// in a block (primary, secondary, hidden) and leaving out empty cells, 0.1 KB.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '5.7 KB',
+		limit: '5.85 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -651,7 +652,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '87.55 KB'
+		limit: '87.65 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
@@ -659,10 +660,11 @@ export default [
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
 		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
 		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB;
-		// a table's rows as blocks and a Select's list across a phone, 1.35 KB.
+		// a table's rows as blocks and a Select's list across a phone, 1.35 KB; where each column
+		// goes in a block, 0.1 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '23.65 KB'
+		limit: '23.8 KB'
 	}
 ];
