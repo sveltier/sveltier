@@ -230,7 +230,8 @@
 	 * Stacked: below the width that `stack` names, measured on the box itself, each row is a
 	 * block. Its name and its primary figures share the first line, a column for each figure (the
 	 * table counts them in --sv-table-primaries); secondary columns follow under the name, without
-	 * labels; every other column follows as its label and value, one a line. Hidden columns stay for screen readers only. The sortable headers stay as a
+	 * labels; every other column follows as its label and value, one a line, left out when the
+	 * cell is empty. Hidden columns stay for screen readers only. The sortable headers stay as a
 	 * row of buttons, the others for screen readers only. Washes and the current row's bar move to
 	 * the row.
 	 */
@@ -238,7 +239,10 @@
 		container: sv-table / inline-size;
 	}
 
-	/* The label of a cell shows only in a block; the value goes to the end of its line. */
+	/*
+	 * The label of a cell shows only in a block. A value that fits goes to the end of the label's
+	 * line; a longer one takes a line of its own and starts at the start of it.
+	 */
 	.sv-table__label {
 		display: none;
 		color: var(--sv-color-text-muted);
@@ -248,7 +252,6 @@
 	.sv-table__value {
 		min-inline-size: 0;
 		margin-inline-start: auto;
-		text-align: end;
 		overflow-wrap: anywhere;
 	}
 
@@ -366,6 +369,10 @@
 			> :is(th, .sv-table__cell--secondary)
 			> .sv-table__value {
 			margin-inline-start: 0;
+		}
+
+		.sv-table--stack-sm > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__empty {
@@ -524,6 +531,10 @@
 			margin-inline-start: 0;
 		}
 
+		.sv-table--stack-md > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
+		}
+
 		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__empty {
 			justify-content: center;
 			padding-block: var(--sv-space-21);
@@ -678,6 +689,10 @@
 			> :is(th, .sv-table__cell--secondary)
 			> .sv-table__value {
 			margin-inline-start: 0;
+		}
+
+		.sv-table--stack-lg > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__empty {

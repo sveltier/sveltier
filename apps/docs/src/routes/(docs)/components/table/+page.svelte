@@ -110,9 +110,10 @@
 		<code>rowHeader</code> shares its first line with the columns whose <code>stack</code> is
 		<code>'primary'</code>, a figure each; the columns with <code>'secondary'</code> follow under
 		the name, without their labels; those with <code>'hidden'</code> are left out of sight, still read
-		by screen readers; every other column follows as its label and its value. The sortable headers become
-		a row of buttons above the blocks. The table goes by the width of its own box, not the window's, so
-		it stacks in a narrow column of a wide screen too, and the server renders it right with no script.
+		by screen readers; every other column follows as its label and its value, and is left out for a row
+		whose cell shows nothing. The sortable headers become a row of buttons above the blocks. The table
+		goes by the width of its own box, not the window's, so it stacks in a narrow column of a wide screen
+		too, and the server renders it right with no script.
 	</p>
 	<TableStackedDemo />
 	<Code title="Positions.svelte" code={tableStacked} />

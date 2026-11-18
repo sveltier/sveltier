@@ -35,19 +35,23 @@
 		maxBlockSize,
 		withEmpty = false,
 		stacks = {},
+		blankClosed = false,
 		...props
 	}: Partial<TableProps<Position>> & {
 		maxBlockSize?: string;
 		withEmpty?: boolean;
 		/** Where default columns go in a block, by label. */
 		stacks?: Record<string, TableColumnStack>;
+		/** The status cell renders nothing for a closed position. */
+		blankClosed?: boolean;
 	} = $props();
 
 	let reported = $state<(TableSort | undefined)[]>([]);
 </script>
 
 {#snippet status(position: Position)}
-	<b data-testid="status">{position.status}</b>
+	{#if !(blankClosed && position.status === 'closed')}<b data-testid="status">{position.status}</b
+		>{/if}
 {/snippet}
 
 {#snippet close(position: Position)}

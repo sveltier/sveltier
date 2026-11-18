@@ -341,6 +341,32 @@ describe('Table stack', () => {
 		expect(page.getByRole('cell', { name: '118.50' }).all()).toHaveLength(1);
 	});
 
+	it('leaves out the line of a cell that shows nothing, and starts a long value at the line start', async () => {
+		const long = 'Joint Stock Commercial Bank for Investment and Development of Vietnam';
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol', rowHeader: true },
+			{ id: 'company', label: 'Company', value: () => long },
+			{ key: 'quantity', label: 'Quantity' }
+		];
+		const screen = await render(TableHarness, {
+			stack: 'sm',
+			columns,
+			style: 'inline-size: 360px'
+		});
+		const company = cell('VNM', 1);
+		const value = company.querySelector('.sv-table__value')!;
+		expect(rect(value).left).toBeCloseTo(rect(company).left, 0);
+		expect(rect(value).height).toBeGreaterThan(rect(label(company)).height * 1.5);
+		// A short value still sits at the end of its label's line.
+		const quantity = cell('VNM', 2).querySelector('.sv-table__value')!;
+		expect(rect(quantity).right).toBeCloseTo(rect(cell('VNM', 2)).right, 0);
+		screen.unmount();
+
+		await render(TableHarness, { stack: 'sm', blankClosed: true, style: 'inline-size: 360px' });
+		expect(getComputedStyle(cell('HPG', 4)).display).toBe('none');
+		expect(getComputedStyle(cell('VNM', 4)).display).toBe('flex');
+	});
+
 	it("warns that a column's primary is now stack: 'primary'", async () => {
 		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 		await render(TableHarness, {
