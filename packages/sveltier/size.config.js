@@ -347,10 +347,12 @@ export default [
 		// its edge, sort arrow, current row, loading bar). Rows slide to their new places with
 		// Svelte's animate: (0.7 KB, mostly Svelte's transition runtime, which an app with any
 		// overlay or toast already loads). The numbers it shows itself take the data face. The locale
-		// and the shared props are core, measured apart.
+		// and the shared props are core, measured apart. Rows as blocks on a narrow box (stack)
+		// add 1 KB: the block layout once for each of the three widths, as a container query cannot
+		// take its width from a variable, and the roles that keep it a table.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '4.65 KB',
+		limit: '5.7 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -648,17 +650,18 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '86.1 KB'
+		limit: '87.05 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
 		// fields, a table, a dialog and toasts. The toast region loads after the page is idle and
 		// the overlay fallback only where CSS anchor positioning is missing, so neither counts.
 		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
-		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB.
+		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB;
+		// a table's rows as blocks on a narrow box, 1 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '22.3 KB'
+		limit: '23.3 KB'
 	}
 ];

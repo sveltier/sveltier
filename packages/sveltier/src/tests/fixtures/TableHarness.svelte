@@ -29,8 +29,14 @@
 		sortBy = $bindable(),
 		maxBlockSize,
 		withEmpty = false,
+		primary,
 		...props
-	}: Partial<TableProps<Position>> & { maxBlockSize?: string; withEmpty?: boolean } = $props();
+	}: Partial<TableProps<Position>> & {
+		maxBlockSize?: string;
+		withEmpty?: boolean;
+		/** The label of the default column to mark `primary`. */
+		primary?: string;
+	} = $props();
 
 	let reported = $state<(TableSort | undefined)[]>([]);
 </script>
@@ -53,14 +59,16 @@
 		caption="Positions"
 		{items}
 		columns={columns ??
-			([
-				{ key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
-				{ key: 'quantity', label: 'Quantity', sort: true },
-				{ key: 'price', label: 'Price', sort: true, format: (price) => price.toFixed(2) },
-				{ id: 'value', label: 'Value', value: (p) => (p.price ?? 0) * p.quantity, sort: true },
-				{ key: 'status', label: 'Status', cell: status },
-				{ id: 'actions', label: 'Actions', hideLabel: true, cell: close }
-			] satisfies TableColumn<Position>[])}
+			(
+				[
+					{ key: 'symbol', label: 'Symbol', rowHeader: true, sort: true },
+					{ key: 'quantity', label: 'Quantity', sort: true },
+					{ key: 'price', label: 'Price', sort: true, format: (price) => price.toFixed(2) },
+					{ id: 'value', label: 'Value', value: (p) => (p.price ?? 0) * p.quantity, sort: true },
+					{ key: 'status', label: 'Status', cell: status },
+					{ id: 'actions', label: 'Actions', hideLabel: true, cell: close }
+				] satisfies TableColumn<Position>[]
+			).map((column) => (column.label === primary ? { ...column, primary: true } : column))}
 		bind:sortBy
 		onsort={(next) => reported.push(next)}
 		empty={withEmpty ? nothing : undefined}

@@ -13,7 +13,10 @@ const box = () => page.getByTestId('table').element() as HTMLElement;
 const header = (name: string) => page.getByRole('columnheader', { name });
 const sortButton = (name: string) => page.getByRole('button', { name, exact: true });
 const symbols = () =>
-	[...table().element().querySelectorAll('tbody th[scope="row"]')].map((th) => th.textContent);
+	[...table().element().querySelectorAll('tbody th[scope="row"]')].map((th) =>
+		th.textContent?.trim()
+	);
+const px = (value: string) => Number.parseFloat(value);
 const text = (testId: string) => page.getByTestId(testId).element().textContent?.trim();
 
 describe('Table', () => {
@@ -258,5 +261,88 @@ describe('Table rows', () => {
 		await expect.element(page.getByTestId('sort')).toHaveTextContent('quantity ascending');
 		await twoFrames();
 		expect(scripted()).toHaveLength(0);
+	});
+});
+
+describe('Table stack', () => {
+	const rect = (element: Element) => element.getBoundingClientRect();
+	const row = (symbol: string) => page.getByRole('row', { name: new RegExp(symbol) }).element();
+	const cell = (symbol: string, index: number) => row(symbol).children[index] as HTMLElement;
+	const label = (element: Element) => element.querySelector('.sv-table__label') as HTMLElement;
+
+	it('shows each row as a block on a box narrower than its width, and a table on a wider one', async () => {
+		const screen = await render(TableHarness, {
+			stack: 'sm',
+			primary: 'Value',
+			style: 'inline-size: 360px'
+		});
+		const fpt = row('FPT');
+		expect(getComputedStyle(fpt).display).toBe('grid');
+		const [symbol, quantity, , value] = [0, 1, 2, 3].map((i) => cell('FPT', i));
+		// The name and the primary figure share the first line, the figure at the end.
+		expect(rect(value!).top).toBeCloseTo(rect(symbol!).top, 0);
+		expect(rect(value!).right).toBeCloseTo(
+			rect(fpt).right - px(getComputedStyle(fpt).paddingRight),
+			0
+		);
+		expect(label(value!)).toBeNull();
+		// Every other column follows on its own line, its label at the start, its value at the end.
+		expect(rect(quantity!).top).toBeGreaterThanOrEqual(rect(symbol!).bottom - 1);
+		expect(label(quantity!).textContent).toBe('Quantity');
+		expect(getComputedStyle(label(quantity!)).display).toBe('block');
+		const figure = quantity!.querySelector('.sv-table__value')!;
+		expect(rect(figure).right).toBeCloseTo(rect(quantity!).right, 0);
+		expect(rect(label(quantity!)).left).toBeCloseTo(rect(quantity!).left, 0);
+
+		const [width, height] = [window.innerWidth, window.innerHeight];
+		await page.viewport(800, height);
+		await screen.rerender({ stack: 'sm', primary: 'Value', style: 'inline-size: 640px' });
+		await expect.poll(() => getComputedStyle(row('FPT')).display).toBe('table-row');
+		expect(getComputedStyle(label(cell('FPT', 1))).display).toBe('none');
+		await page.viewport(width, height);
+	});
+
+	it('keeps the roles of a table, and the header names the cells', async () => {
+		await render(TableHarness, { stack: 'md', style: 'inline-size: 360px' });
+		await expect.element(table()).toBeVisible();
+		expect(page.getByRole('row').all()).toHaveLength(POSITIONS.length + 1);
+		await expect.element(page.getByRole('rowheader', { name: 'VNM' })).toBeVisible();
+		expect(page.getByRole('columnheader').all()).toHaveLength(6);
+		expect(page.getByRole('cell', { name: '1200' }).all()).toHaveLength(1);
+		// The label shown beside a value is for the eye only.
+		expect(label(cell('VNM', 1)).getAttribute('aria-hidden')).toBe('true');
+	});
+
+	it('sorts by a row of buttons, the other headers left to screen readers', async () => {
+		await render(TableHarness, { stack: 'lg', style: 'inline-size: 360px' });
+		const quantity = sortButton('Quantity').element();
+		expect(rect(quantity).width).toBeGreaterThan(40);
+		expect(rect(header('Status').element()).width).toBeLessThanOrEqual(1);
+		await sortButton('Quantity').click();
+		await expect.element(header('Quantity')).toHaveAttribute('aria-sort', 'ascending');
+		expect(symbols()).toEqual(['HPG', 'VNM', 'ACB', 'FPT']);
+	});
+
+	it('marks the current row as a whole block', async () => {
+		await render(TableHarness, {
+			stack: 'sm',
+			style: 'inline-size: 360px',
+			rowAttributes: (item) => ({ 'aria-current': item.symbol === 'FPT' ? 'true' : undefined })
+		});
+		const fpt = getComputedStyle(row('FPT'));
+		expect(fpt.backgroundImage).toContain('gradient');
+		expect(fpt.boxShadow).toMatch(/inset/);
+		expect(getComputedStyle(cell('FPT', 0)).backgroundImage).toBe('none');
+	});
+
+	it('warns about a stack width it does not know', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(TableHarness, { stack: 'xl' as never });
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) => /SV2002.*stack.*'sm' \| 'md' \| 'lg'/.test(String(text)))
+			)
+			.toBe(true);
+		warn.mockRestore();
 	});
 });

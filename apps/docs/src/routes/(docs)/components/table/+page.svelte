@@ -4,6 +4,7 @@
 	import DocPage from '#lib/docs/DocPage.svelte';
 	import TableDemo from '#lib/docs/table/TableDemo.svelte';
 	import TablePinnedDemo from '#lib/docs/table/TablePinnedDemo.svelte';
+	import TableStackedDemo from '#lib/docs/table/TableStackedDemo.svelte';
 	import {
 		tableColumns,
 		tableDense,
@@ -12,6 +13,7 @@
 		tablePinned,
 		tableSharedCell,
 		tableSort,
+		tableStacked,
 		tableUsage
 	} from '#lib/snippets/components.js';
 	import TABLE_KEY_COLUMN from 'virtual:sveltier-api/TableKeyColumn';
@@ -100,6 +102,24 @@
 	</p>
 	<Code title="Watchlist.svelte" code={tableLive} />
 
+	<h2 id="stacked">Rows as blocks on a narrow screen</h2>
+	<p>
+		Pinning keeps a wide table readable on a phone, but only a few columns show at once. With
+		<code>stack</code>, a table whose box is narrower than a width, <code>'sm'</code> (600px),
+		<code>'md'</code> (960px) or <code>'lg'</code> (1280px), shows each row as a block: the
+		<code>rowHeader</code> and the columns marked <code>primary</code> share its first line, and every
+		other column follows as its label and its value. The sortable headers become a row of buttons above
+		the blocks. The table goes by the width of its own box, not the window's, so it stacks in a narrow
+		column of a wide screen too, and the server renders it right with no script.
+	</p>
+	<TableStackedDemo />
+	<Code title="Positions.svelte" code={tableStacked} />
+	<p>
+		The box must take the width of its container, as a block does; in a flex row, give it a width or
+		<code>flex: 1</code>. <code>rowAttributes</code> applies to the block, and the current row is
+		marked as a whole. <code>pinned</code> has no effect on blocks.
+	</p>
+
 	<h2 id="row-height">Row height</h2>
 	<p>
 		A row is a control of the table's <code>size</code> tall, times its <code>density</code>; the
@@ -135,6 +155,10 @@
 		<li>
 			When the table overflows its box, the box becomes a region named like the table, with a place
 			in the tab order, so the keyboard can scroll it. A table that fits adds no tab stop.
+		</li>
+		<li>
+			Shown as blocks, the table keeps its roles, set on every part, so it is still read as a table;
+			the label beside each value is for the eye only, as the header already names the cell.
 		</li>
 		<li>The loading bar is hidden from assistive technology; the table's busy state is not.</li>
 	</ul>
