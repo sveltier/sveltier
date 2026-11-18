@@ -196,9 +196,35 @@
 		transform: rotate(180deg);
 	}
 
+	/*
+	 * A row that is pressed: its name is a link or a button that keeps the cell's look, and the
+	 * whole row takes the pointer and the hover wash.
+	 */
+	.sv-table__row--press {
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.sv-table__link {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: var(--sv-radius-sm);
+		background: none;
+		color: inherit;
+		font: inherit;
+		text-align: inherit;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
 	/* Row washes are images over the cell's colour, so a pinned cell keeps its surface under them. */
 	@media (hover: hover) {
-		.sv-table--hover > .sv-table__table > tbody > tr:hover > * {
+		:is(
+				.sv-table--hover > .sv-table__table > tbody > tr,
+				.sv-table__table > tbody > .sv-table__row--press
+			):hover
+			> * {
 			--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
 			background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 		}
@@ -404,12 +430,19 @@
 		}
 
 		@media (hover: hover) {
-			.sv-table--hover.sv-table--stack-sm > .sv-table__table > tbody > tr:hover {
+			:is(
+				.sv-table--hover.sv-table--stack-sm > .sv-table__table > tbody > tr,
+				.sv-table--stack-sm > .sv-table__table > tbody > .sv-table__row--press
+			):hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
 				background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 			}
 
-			.sv-table--hover.sv-table--stack-sm > .sv-table__table > tbody > tr:hover > * {
+			:is(
+					.sv-table--hover.sv-table--stack-sm > .sv-table__table > tbody > tr,
+					.sv-table--stack-sm > .sv-table__table > tbody > .sv-table__row--press
+				):hover
+				> * {
 				background-image: none;
 			}
 		}
@@ -564,12 +597,19 @@
 		}
 
 		@media (hover: hover) {
-			.sv-table--hover.sv-table--stack-md > .sv-table__table > tbody > tr:hover {
+			:is(
+				.sv-table--hover.sv-table--stack-md > .sv-table__table > tbody > tr,
+				.sv-table--stack-md > .sv-table__table > tbody > .sv-table__row--press
+			):hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
 				background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 			}
 
-			.sv-table--hover.sv-table--stack-md > .sv-table__table > tbody > tr:hover > * {
+			:is(
+					.sv-table--hover.sv-table--stack-md > .sv-table__table > tbody > tr,
+					.sv-table--stack-md > .sv-table__table > tbody > .sv-table__row--press
+				):hover
+				> * {
 				background-image: none;
 			}
 		}
@@ -724,12 +764,19 @@
 		}
 
 		@media (hover: hover) {
-			.sv-table--hover.sv-table--stack-lg > .sv-table__table > tbody > tr:hover {
+			:is(
+				.sv-table--hover.sv-table--stack-lg > .sv-table__table > tbody > tr,
+				.sv-table--stack-lg > .sv-table__table > tbody > .sv-table__row--press
+			):hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
 				background-image: linear-gradient(var(--sv-table-wash), var(--sv-table-wash));
 			}
 
-			.sv-table--hover.sv-table--stack-lg > .sv-table__table > tbody > tr:hover > * {
+			:is(
+					.sv-table--hover.sv-table--stack-lg > .sv-table__table > tbody > tr,
+					.sv-table--stack-lg > .sv-table__table > tbody > .sv-table__row--press
+				):hover
+				> * {
 				background-image: none;
 			}
 		}

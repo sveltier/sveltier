@@ -94,3 +94,4 @@ export { default as tableSharedCell } from '../examples/components/TableSharedCe
 
 export { default as tablePinned } from '../examples/components/TablePinned.svelte?raw';
 export { default as tableStacked } from '../examples/components/TableStacked.svelte?raw';
+export { default as tableRowLink } from '../examples/components/TableRowLink.svelte?raw';

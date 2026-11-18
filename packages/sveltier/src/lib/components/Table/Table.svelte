@@ -1,5 +1,6 @@
 <script lang="ts" generics="T">
 	// Items in rows and columns, sortable by the headers. See TableProps for the props.
+	import type { Attachment } from 'svelte/attachments';
 	import { checkValue, DEV, warnDuplicates, warnPinned, warnRenamed, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
@@ -34,6 +35,8 @@
 		loading = false,
 		empty,
 		rowAttributes,
+		rowHref,
+		onrowclick,
 		'aria-label': ariaLabel,
 		'aria-labelledby': ariaLabelledby,
 		'aria-describedby': ariaDescribedby,
@@ -74,6 +77,46 @@
 			return align;
 		})
 	);
+
+	// The column that names a row: its row header, or its first column. A row that is pressed
+	// shows its name as the link or button, so keyboards and screen readers reach it there.
+	const naming = $derived(
+		Math.max(
+			0,
+			columns.findIndex((column) => column.rowHeader)
+		)
+	);
+
+	/** What a press on a cell may land on that is not the row's to take. */
+	const CONTROLS =
+		'a[href], button, input, select, textarea, label, summary, [role="button"], [role="link"], [contenteditable]';
+
+	// A press anywhere on a row presses its name, but on the controls of its cells, the name
+	// among them, and at the end of a text selection. A browser drops the keys of a click it did
+	// not make itself, so a link pressed for a new tab, with Ctrl, Cmd or the middle button, is
+	// opened in one here.
+	const press: Attachment<HTMLTableRowElement> = (row) => {
+		const forward = (event: MouseEvent) => {
+			const control = (event.target as Element).closest(CONTROLS);
+			if (control && row.contains(control)) return;
+			const name = row.querySelector<HTMLElement>('.sv-table__link');
+			const aside = event.ctrlKey || event.metaKey || event.button === 1;
+			// Firefox selects a cell on a Ctrl press, which is no text being chosen.
+			if (!name || (!aside && getSelection()?.isCollapsed === false)) return;
+			if (name instanceof HTMLAnchorElement && aside) {
+				event.preventDefault();
+				open(name.href, '_blank', 'noopener');
+			} else if (event.button === 0) {
+				name.click();
+			}
+		};
+		row.addEventListener('click', forward);
+		row.addEventListener('auxclick', forward);
+		return () => {
+			row.removeEventListener('click', forward);
+			row.removeEventListener('auxclick', forward);
+		};
+	};
 
 	// The primary figures share the first line of a block, a column each.
 	const primaries = $derived(columns.filter((column) => column.stack === 'primary').length);
@@ -176,7 +219,7 @@
 	}
 </script>
 
-{#snippet content(column: TableColumn<T>, item: T)}
+{#snippet content(column: TableColumn<T>, item: T, href: string | undefined, name: boolean)}
 	{@const value = valueOf(column, item)}
 	{#if stack}
 		<!-- Blocks show the label beside the value, but for the row's name and the columns placed
@@ -184,7 +227,26 @@
 		{#if !column.hideLabel && !column.rowHeader && column.stack === undefined}
 			<span class="sv-table__label" aria-hidden="true">{column.label}</span>
 		{/if}
-		<span class="sv-table__value">{@render text(column, item, value)}</span>
+		<span class="sv-table__value">{@render named(column, item, value, href, name)}</span>
+	{:else}
+		{@render named(column, item, value, href, name)}
+	{/if}
+{/snippet}
+
+<!-- The name of a row that is pressed is its link or its button. -->
+{#snippet named(
+	column: TableColumn<T>,
+	item: T,
+	value: unknown,
+	href: string | undefined,
+	name: boolean
+)}
+	{#if name && href !== undefined}
+		<a class="sv-table__link" {href}>{@render text(column, item, value)}</a>
+	{:else if name && onrowclick}
+		<button type="button" class="sv-table__link" onclick={() => onrowclick(item)}
+			>{@render text(column, item, value)}</button
+		>
 	{:else}
 		{@render text(column, item, value)}
 	{/if}
@@ -282,9 +344,14 @@
 		</thead>
 		<tbody role={stack ? 'rowgroup' : undefined}>
 			{#each rows as item (itemKey === undefined ? item : item[itemKey])}
+				{@const attributes = rowAttributes?.(item)}
+				{@const href = rowHref?.(item)}
+				{@const pressed = href !== undefined || onrowclick !== undefined}
 				<tr
-					{...rowAttributes?.(item)}
+					{...attributes}
+					class={[attributes?.class, pressed && 'sv-table__row--press']}
 					role={stack ? 'row' : undefined}
+					{@attach pressed && press}
 					animate:move={{ duration: rows.length > MOVING ? 0 : undefined }}
 				>
 					{#each columns as column, i (i)}
@@ -301,7 +368,7 @@
 								column.pinned && 'sv-table__cell--pinned'
 							]}
 						>
-							{@render content(column, item)}
+							{@render content(column, item, href, i === naming && pressed)}
 						</svelte:element>
 					{/each}
 				</tr>
