@@ -92,19 +92,30 @@
 		'a[href], button, input, select, textarea, label, summary, [role="button"], [role="link"], [contenteditable]';
 
 	// A press anywhere on a row presses its name, but on the controls of its cells, the name
-	// among them, and at the end of a text selection. The click goes on as it came, keys and all,
-	// so a modifier opens a link where the browser opens it.
+	// among them, and at the end of a text selection. A browser drops the keys of a click it did
+	// not make itself, so a link pressed for a new tab, with Ctrl, Cmd or the middle button, is
+	// opened in one here.
 	const press: Attachment<HTMLTableRowElement> = (row) => {
 		const forward = (event: MouseEvent) => {
 			const control = (event.target as Element).closest(CONTROLS);
 			if (control && row.contains(control)) return;
+			const name = row.querySelector<HTMLElement>('.sv-table__link');
+			const aside = event.ctrlKey || event.metaKey || event.button === 1;
 			// Firefox selects a cell on a Ctrl press, which is no text being chosen.
-			const keyed = event.ctrlKey || event.metaKey;
-			if (!keyed && getSelection()?.isCollapsed === false) return;
-			row.querySelector('.sv-table__link')?.dispatchEvent(new MouseEvent('click', event));
+			if (!name || (!aside && getSelection()?.isCollapsed === false)) return;
+			if (name instanceof HTMLAnchorElement && aside) {
+				event.preventDefault();
+				open(name.href, '_blank', 'noopener');
+			} else if (event.button === 0) {
+				name.click();
+			}
 		};
 		row.addEventListener('click', forward);
-		return () => row.removeEventListener('click', forward);
+		row.addEventListener('auxclick', forward);
+		return () => {
+			row.removeEventListener('click', forward);
+			row.removeEventListener('auxclick', forward);
+		};
 	};
 
 	// The primary figures share the first line of a block, a column each.

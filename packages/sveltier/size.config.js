@@ -352,10 +352,11 @@ export default [
 		// take its width from a variable, and the roles that keep it a table. Where each column goes
 		// in a block (primary, secondary, hidden) and leaving out empty cells, 0.1 KB. A whole row
 		// pressed (rowHref, onrowclick): the name's link or button, the press passed on from the
-		// row, and the pointer and hover wash on the row, once more for each width, 0.45 KB.
+		// row, a new tab for a press with Ctrl, Cmd or the middle button, and the pointer and hover
+		// wash on the row, once more for each width, 0.5 KB.
 		name: 'Table',
 		code: "export { Table } from '@sveltier/ui';",
-		limit: '6.3 KB',
+		limit: '6.4 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -654,7 +655,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '88.15 KB'
+		limit: '88.25 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
@@ -663,10 +664,10 @@ export default [
 		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
 		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB;
 		// a table's rows as blocks and a Select's list across a phone, 1.35 KB; where each column
-		// goes in a block, 0.1 KB; a whole row pressed, 0.45 KB.
+		// goes in a block, 0.1 KB; a whole row pressed, 0.5 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '24.25 KB'
+		limit: '24.3 KB'
 	}
 ];

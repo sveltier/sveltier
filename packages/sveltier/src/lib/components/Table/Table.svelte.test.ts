@@ -434,14 +434,14 @@ describe('Table row press', () => {
 	const href = (item: Position) =>
 		item.status === 'open' ? `#/positions/${item.symbol}` : undefined;
 
-	/** Records the links a click lands on, with its keys, and keeps the page where it is. */
+	/** Records the links a click lands on, and keeps the page where it is. */
 	const followed = () => {
 		const links: string[] = [];
 		const record = (event: MouseEvent) => {
 			const link = (event.target as Element).closest('a[href]');
 			if (!link) return;
 			event.preventDefault();
-			links.push(`${link.getAttribute('href')}${event.ctrlKey ? ' ctrl' : ''}`);
+			links.push(link.getAttribute('href')!);
 		};
 		document.addEventListener('click', record);
 		return { links, stop: () => document.removeEventListener('click', record) };
@@ -455,10 +455,31 @@ describe('Table row press', () => {
 			await expect.element(link).toHaveAttribute('href', '#/positions/FPT');
 			expect(link.element().closest('th')).toBe(cell('FPT', 0));
 			cell('FPT', 1).click();
-			await userEvent.click(cell('VNM', 3), { modifiers: ['Control'] });
-			expect(clicks.links).toEqual(['#/positions/FPT', '#/positions/VNM ctrl']);
+			expect(clicks.links).toEqual(['#/positions/FPT']);
 			expect(getComputedStyle(row('FPT')).cursor).toBe('pointer');
 		} finally {
+			clicks.stop();
+		}
+	});
+
+	it('opens the link in a new tab for a press with Ctrl, Cmd or the middle button', async () => {
+		const clicks = followed();
+		const open = vi.spyOn(window, 'open').mockReturnValue(null);
+		try {
+			await render(TableHarness, { rowHref: href });
+			await userEvent.click(cell('VNM', 3), { modifiers: ['Control'] });
+			await userEvent.click(cell('FPT', 1), { modifiers: ['Meta'] });
+			cell('ACB', 2).dispatchEvent(new MouseEvent('auxclick', { bubbles: true, button: 1 }));
+			const tab = (symbol: string) => [
+				new URL(`#/positions/${symbol}`, location.href).href,
+				'_blank',
+				'noopener'
+			];
+			expect(open.mock.calls).toEqual([tab('VNM'), tab('FPT'), tab('ACB')]);
+			// The page stays where it is.
+			expect(clicks.links).toEqual([]);
+		} finally {
+			open.mockRestore();
 			clicks.stop();
 		}
 	});

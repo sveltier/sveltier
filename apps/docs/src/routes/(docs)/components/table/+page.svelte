@@ -128,9 +128,10 @@
 	<p>
 		With <code>rowHref</code>, each row with a link shows its name, the <code>rowHeader</code> cell
 		or the first, as that link, and a press anywhere else on the row follows it, keys and all, so a
-		<kbd>Ctrl</kbd> press opens a new tab: a whole block of a stacked table is a link, as a list's
-		row is. <code>onrowclick</code> makes the name a button and calls back with the item. A press on
-		a link or button of a cell, or one that ends a text selection, stays with it. Return
+		<kbd>Ctrl</kbd>, <kbd>Cmd</kbd> or middle press opens a new tab: a whole block of a stacked
+		table is a link, as a list's row is. <code>onrowclick</code> makes the name a button and calls
+		back with the item. A press on a link or button of a cell, or one that ends a text selection,
+		stays with it. Return
 		<code>undefined</code> from <code>rowHref</code> for a row without a link.
 	</p>
 	<Code title="Companies.svelte" code={tableRowLink} />
