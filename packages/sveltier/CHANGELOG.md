@@ -1,5 +1,16 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.21
+
+### Minor Changes
+
+- 1381359: Table columns take `stack: 'primary' | 'secondary' | 'hidden'`, where the column goes when the table shows its rows as blocks: `'primary'` on the first line beside the row's name, `'secondary'` on a line under the name without its label, `'hidden'` out of sight but still read by screen readers. It replaces the column's `primary: true`, which now warns and does nothing.
+
+### Patch Changes
+
+- 0abaedc: Table: in a stacked block, a column whose cell shows nothing for a row leaves out its line instead of a label with no value, and a value too long for its label's line starts at the start of its own line instead of ending ragged at the end.
+- 7300ab5: Table: in a stacked block, two or more `primary` columns now share the first line beside the row's name, each in its own column, instead of one under the other.
+
 ## 0.1.0-alpha.20
 
 ### Minor Changes

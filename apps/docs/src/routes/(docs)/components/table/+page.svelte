@@ -107,10 +107,13 @@
 		Pinning keeps a wide table readable on a phone, but only a few columns show at once. With
 		<code>stack</code>, a table whose box is narrower than a width, <code>'sm'</code> (600px),
 		<code>'md'</code> (960px) or <code>'lg'</code> (1280px), shows each row as a block: the
-		<code>rowHeader</code> and the columns marked <code>primary</code> share its first line, and every
-		other column follows as its label and its value. The sortable headers become a row of buttons above
-		the blocks. The table goes by the width of its own box, not the window's, so it stacks in a narrow
-		column of a wide screen too, and the server renders it right with no script.
+		<code>rowHeader</code> shares its first line with the columns whose <code>stack</code> is
+		<code>'primary'</code>, a figure each; the columns with <code>'secondary'</code> follow under
+		the name, without their labels; those with <code>'hidden'</code> are left out of sight, still read
+		by screen readers; every other column follows as its label and its value, and is left out for a row
+		whose cell shows nothing. The sortable headers become a row of buttons above the blocks. The table
+		goes by the width of its own box, not the window's, so it stacks in a narrow column of a wide screen
+		too, and the server renders it right with no script.
 	</p>
 	<TableStackedDemo />
 	<Code title="Positions.svelte" code={tableStacked} />

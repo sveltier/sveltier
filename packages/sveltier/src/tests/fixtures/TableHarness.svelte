@@ -19,7 +19,12 @@
 	// value, a status shown by a snippet and a column of buttons. The test picks the props, and
 	// sees the bound sort and the sorts reported by onsort.
 	import Table from '../../lib/components/Table/Table.svelte';
-	import type { TableColumn, TableProps, TableSort } from '../../lib/components/Table/types.js';
+	import type {
+		TableColumn,
+		TableColumnStack,
+		TableProps,
+		TableSort
+	} from '../../lib/components/Table/types.js';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
@@ -29,20 +34,24 @@
 		sortBy = $bindable(),
 		maxBlockSize,
 		withEmpty = false,
-		primary,
+		stacks = {},
+		blankClosed = false,
 		...props
 	}: Partial<TableProps<Position>> & {
 		maxBlockSize?: string;
 		withEmpty?: boolean;
-		/** The label of the default column to mark `primary`. */
-		primary?: string;
+		/** Where default columns go in a block, by label. */
+		stacks?: Record<string, TableColumnStack>;
+		/** The status cell renders nothing for a closed position. */
+		blankClosed?: boolean;
 	} = $props();
 
 	let reported = $state<(TableSort | undefined)[]>([]);
 </script>
 
 {#snippet status(position: Position)}
-	<b data-testid="status">{position.status}</b>
+	{#if !(blankClosed && position.status === 'closed')}<b data-testid="status">{position.status}</b
+		>{/if}
 {/snippet}
 
 {#snippet close(position: Position)}
@@ -68,7 +77,9 @@
 					{ key: 'status', label: 'Status', cell: status },
 					{ id: 'actions', label: 'Actions', hideLabel: true, cell: close }
 				] satisfies TableColumn<Position>[]
-			).map((column) => (column.label === primary ? { ...column, primary: true } : column))}
+			).map((column) =>
+				stacks[column.label] ? { ...column, stack: stacks[column.label] } : column
+			)}
 		bind:sortBy
 		onsort={(next) => reported.push(next)}
 		empty={withEmpty ? nothing : undefined}

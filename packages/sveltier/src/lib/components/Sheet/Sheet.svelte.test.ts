@@ -8,7 +8,8 @@ const sheet = () => page.getByRole('dialog', { name: 'Filters' });
 const panel = () => sheet().element().querySelector('.sv-modal__panel') as HTMLElement;
 // The panel's box once its slide-in has finished. Svelte runs the slide on the Web Animations
 // API, and a transform read before it applies looks settled, so every animation in the dialog
-// is let end first.
+// is let end first. Under load WebKit can still report a box mid-slide after that, so the tests
+// poll the edge the panel ends against.
 async function settled() {
 	await expect.element(sheet()).toBeVisible();
 	const animations = sheet().element().getAnimations({ subtree: true });
@@ -23,9 +24,12 @@ describe('Sheet', () => {
 	it('opens from its trigger as a modal dialog against the end edge, full height', async () => {
 		await render(SheetHarness, { size: 'xs' });
 		await trigger().click();
-		const box = await settled();
+		await settled();
 		expect((sheet().element() as HTMLDialogElement).matches(':modal')).toBe(true);
-		expect(Math.round(box.right)).toBe(window.innerWidth);
+		await expect
+			.poll(() => Math.round(panel().getBoundingClientRect().right))
+			.toBe(window.innerWidth);
+		const box = panel().getBoundingClientRect();
 		expect(Math.round(box.height)).toBe(window.innerHeight);
 		expect(Math.round(box.width)).toBe(21 * 16);
 	});
@@ -33,15 +37,20 @@ describe('Sheet', () => {
 	it('takes the start and end edges from the writing direction', async () => {
 		await render(SheetHarness, { side: 'start', dir: 'rtl' });
 		await trigger().click();
-		const box = await settled();
-		expect(Math.round(box.right)).toBe(window.innerWidth);
+		await settled();
+		await expect
+			.poll(() => Math.round(panel().getBoundingClientRect().right))
+			.toBe(window.innerWidth);
 	});
 
 	it('sits on the bottom edge from below, as wide as its size at most', async () => {
 		await render(SheetHarness, { side: 'bottom', size: 'xs' });
 		await trigger().click();
-		const box = await settled();
-		expect(Math.round(box.bottom)).toBe(window.innerHeight);
+		await settled();
+		await expect
+			.poll(() => Math.round(panel().getBoundingClientRect().bottom))
+			.toBe(window.innerHeight);
+		const box = panel().getBoundingClientRect();
 		expect(Math.round(box.width)).toBeLessThanOrEqual(21 * 16);
 		expect(box.height).toBeLessThan(window.innerHeight);
 	});

@@ -228,15 +228,21 @@
 
 	/*
 	 * Stacked: below the width that `stack` names, measured on the box itself, each row is a
-	 * block. Its name and its primary figures share the first line; every other column follows
-	 * as its label and value, one a line. The sortable headers stay as a row of buttons, the
-	 * others stay for screen readers only. Washes and the current row's bar move to the row.
+	 * block. Its name and its primary figures share the first line, a column for each figure (the
+	 * table counts them in --sv-table-primaries); secondary columns follow under the name, across the
+	 * block, without labels; every other column follows as its label and value, one a line, left out when the
+	 * cell is empty. Hidden columns stay for screen readers only. The sortable headers stay as a
+	 * row of buttons, the others for screen readers only. Washes and the current row's bar move to
+	 * the row.
 	 */
 	.sv-table:is(.sv-table--stack-sm, .sv-table--stack-md, .sv-table--stack-lg) {
 		container: sv-table / inline-size;
 	}
 
-	/* The label of a cell shows only in a block; the value goes to the end of its line. */
+	/*
+	 * The label of a cell shows only in a block. A value that fits goes to the end of the label's
+	 * line; a longer one takes a line of its own and starts at the start of it.
+	 */
 	.sv-table__label {
 		display: none;
 		color: var(--sv-color-text-muted);
@@ -246,7 +252,6 @@
 	.sv-table__value {
 		min-inline-size: 0;
 		margin-inline-start: auto;
-		text-align: end;
 		overflow-wrap: anywhere;
 	}
 
@@ -281,7 +286,8 @@
 			> .sv-table__table
 			> thead
 			> tr
-			> .sv-table__head:not(.sv-table__head--sort) {
+			> .sv-table__head:not(.sv-table__head--sort),
+		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__cell--hidden {
 			position: absolute;
 			inline-size: 1px;
 			block-size: 1px;
@@ -306,7 +312,7 @@
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -333,8 +339,8 @@
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -342,22 +348,31 @@
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
+			grid-row: 1;
+			grid-column: auto;
+		}
+
+		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
+			grid-column: 1 / -1;
 			order: -1;
+			color: var(--sv-color-text-muted);
+		}
+
+		.sv-table--stack-sm > .sv-table__table > tbody > tr > td > .sv-table__label {
+			display: block;
 		}
 
 		.sv-table--stack-sm
 			> .sv-table__table
 			> tbody
 			> tr
-			> td:not(.sv-table__cell--primary)
-			> .sv-table__label {
-			display: block;
+			> :is(th, .sv-table__cell--secondary)
+			> .sv-table__value {
+			margin-inline-start: 0;
 		}
 
-		.sv-table--stack-sm > .sv-table__table > tbody > tr > th > .sv-table__value {
-			margin-inline-start: 0;
-			text-align: start;
+		.sv-table--stack-sm > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__empty {
@@ -387,9 +402,7 @@
 			background-image: none;
 			box-shadow: none;
 		}
-	}
 
-	@container sv-table (width < 600px) {
 		@media (hover: hover) {
 			.sv-table--hover.sv-table--stack-sm > .sv-table__table > tbody > tr:hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
@@ -433,7 +446,8 @@
 			> .sv-table__table
 			> thead
 			> tr
-			> .sv-table__head:not(.sv-table__head--sort) {
+			> .sv-table__head:not(.sv-table__head--sort),
+		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__cell--hidden {
 			position: absolute;
 			inline-size: 1px;
 			block-size: 1px;
@@ -458,7 +472,7 @@
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -485,8 +499,8 @@
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -494,22 +508,31 @@
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
+			grid-row: 1;
+			grid-column: auto;
+		}
+
+		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
+			grid-column: 1 / -1;
 			order: -1;
+			color: var(--sv-color-text-muted);
+		}
+
+		.sv-table--stack-md > .sv-table__table > tbody > tr > td > .sv-table__label {
+			display: block;
 		}
 
 		.sv-table--stack-md
 			> .sv-table__table
 			> tbody
 			> tr
-			> td:not(.sv-table__cell--primary)
-			> .sv-table__label {
-			display: block;
+			> :is(th, .sv-table__cell--secondary)
+			> .sv-table__value {
+			margin-inline-start: 0;
 		}
 
-		.sv-table--stack-md > .sv-table__table > tbody > tr > th > .sv-table__value {
-			margin-inline-start: 0;
-			text-align: start;
+		.sv-table--stack-md > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__empty {
@@ -539,9 +562,7 @@
 			background-image: none;
 			box-shadow: none;
 		}
-	}
 
-	@container sv-table (width < 960px) {
 		@media (hover: hover) {
 			.sv-table--hover.sv-table--stack-md > .sv-table__table > tbody > tr:hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);
@@ -585,7 +606,8 @@
 			> .sv-table__table
 			> thead
 			> tr
-			> .sv-table__head:not(.sv-table__head--sort) {
+			> .sv-table__head:not(.sv-table__head--sort),
+		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__cell--hidden {
 			position: absolute;
 			inline-size: 1px;
 			block-size: 1px;
@@ -610,7 +632,7 @@
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -637,8 +659,8 @@
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -646,22 +668,31 @@
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
+			grid-row: 1;
+			grid-column: auto;
+		}
+
+		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
+			grid-column: 1 / -1;
 			order: -1;
+			color: var(--sv-color-text-muted);
+		}
+
+		.sv-table--stack-lg > .sv-table__table > tbody > tr > td > .sv-table__label {
+			display: block;
 		}
 
 		.sv-table--stack-lg
 			> .sv-table__table
 			> tbody
 			> tr
-			> td:not(.sv-table__cell--primary)
-			> .sv-table__label {
-			display: block;
+			> :is(th, .sv-table__cell--secondary)
+			> .sv-table__value {
+			margin-inline-start: 0;
 		}
 
-		.sv-table--stack-lg > .sv-table__table > tbody > tr > th > .sv-table__value {
-			margin-inline-start: 0;
-			text-align: start;
+		.sv-table--stack-lg > .sv-table__table > tbody > tr > td:has(> .sv-table__value:empty) {
+			display: none;
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__empty {
@@ -691,9 +722,7 @@
 			background-image: none;
 			box-shadow: none;
 		}
-	}
 
-	@container sv-table (width < 1280px) {
 		@media (hover: hover) {
 			.sv-table--hover.sv-table--stack-lg > .sv-table__table > tbody > tr:hover {
 				--sv-table-wash: color-mix(in oklch, currentColor var(--sv-state-hover), transparent);

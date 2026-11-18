@@ -273,7 +273,7 @@ describe('Table stack', () => {
 	it('shows each row as a block on a box narrower than its width, and a table on a wider one', async () => {
 		const screen = await render(TableHarness, {
 			stack: 'sm',
-			primary: 'Value',
+			stacks: { Value: 'primary' },
 			style: 'inline-size: 360px'
 		});
 		const fpt = row('FPT');
@@ -296,10 +296,91 @@ describe('Table stack', () => {
 
 		const [width, height] = [window.innerWidth, window.innerHeight];
 		await page.viewport(800, height);
-		await screen.rerender({ stack: 'sm', primary: 'Value', style: 'inline-size: 640px' });
+		await screen.rerender({
+			stack: 'sm',
+			stacks: { Value: 'primary' },
+			style: 'inline-size: 640px'
+		});
 		await expect.poll(() => getComputedStyle(row('FPT')).display).toBe('table-row');
 		expect(getComputedStyle(label(cell('FPT', 1))).display).toBe('none');
 		await page.viewport(width, height);
+	});
+
+	it('puts two primary figures side by side on the first line', async () => {
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol', rowHeader: true },
+			{ key: 'quantity', label: 'Quantity', stack: 'primary' },
+			{ key: 'price', label: 'Price', stack: 'primary', format: (price) => price.toFixed(2) },
+			{ key: 'status', label: 'Status' }
+		];
+		await render(TableHarness, { stack: 'sm', columns, style: 'inline-size: 360px' });
+		const [symbol, quantity, price, status] = [0, 1, 2, 3].map((i) => cell('FPT', i)!);
+		expect(rect(quantity!).top).toBeCloseTo(rect(symbol!).top, 0);
+		expect(rect(price!).top).toBeCloseTo(rect(symbol!).top, 0);
+		expect(rect(price!).left).toBeGreaterThan(rect(quantity!).right);
+		expect(rect(status!).top).toBeGreaterThanOrEqual(rect(symbol!).bottom - 1);
+		expect(rect(status!).width).toBeCloseTo(
+			rect(row('FPT')).width - 2 * px(getComputedStyle(row('FPT')).paddingLeft),
+			0
+		);
+	});
+
+	it('puts a secondary column under the name without its label, and leaves out a hidden one', async () => {
+		await render(TableHarness, {
+			stack: 'sm',
+			stacks: { Value: 'primary', Status: 'secondary', Price: 'hidden' },
+			style: 'inline-size: 360px'
+		});
+		const [symbol, quantity, price, , status] = [0, 1, 2, 3, 4].map((i) => cell('FPT', i)!);
+		expect(rect(status!).top).toBeGreaterThanOrEqual(rect(symbol!).bottom - 1);
+		expect(rect(status!).left).toBeCloseTo(rect(symbol!).left, 0);
+		// Across the block, under the primary figures too.
+		expect(rect(status!).right).toBeCloseTo(rect(cell('FPT', 3)!).right, 0);
+		expect(rect(quantity!).top).toBeGreaterThanOrEqual(rect(status!).bottom - 1);
+		expect(label(status!)).toBeNull();
+		// Out of sight, still a cell of the table.
+		expect(rect(price!).width).toBeLessThanOrEqual(1);
+		expect(page.getByRole('cell', { name: '118.50' }).all()).toHaveLength(1);
+	});
+
+	it('leaves out the line of a cell that shows nothing, and starts a long value at the line start', async () => {
+		const long = 'Joint Stock Commercial Bank for Investment and Development of Vietnam';
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol', rowHeader: true },
+			{ id: 'company', label: 'Company', value: () => long },
+			{ key: 'quantity', label: 'Quantity' }
+		];
+		const screen = await render(TableHarness, {
+			stack: 'sm',
+			columns,
+			style: 'inline-size: 360px'
+		});
+		const company = cell('VNM', 1);
+		const value = company.querySelector('.sv-table__value')!;
+		expect(rect(value).left).toBeCloseTo(rect(company).left, 0);
+		expect(rect(value).height).toBeGreaterThan(rect(label(company)).height * 1.5);
+		// A short value still sits at the end of its label's line.
+		const quantity = cell('VNM', 2).querySelector('.sv-table__value')!;
+		expect(rect(quantity).right).toBeCloseTo(rect(cell('VNM', 2)).right, 0);
+		screen.unmount();
+
+		await render(TableHarness, { stack: 'sm', blankClosed: true, style: 'inline-size: 360px' });
+		expect(getComputedStyle(cell('HPG', 4)).display).toBe('none');
+		expect(getComputedStyle(cell('VNM', 4)).display).toBe('flex');
+	});
+
+	it("warns that a column's primary is now stack: 'primary'", async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(TableHarness, {
+			stack: 'sm',
+			columns: [{ key: 'symbol', label: 'Symbol', rowHeader: true, primary: true as never }]
+		});
+		await expect
+			.poll(() =>
+				warn.mock.calls.some(([text]) => /SV4008.*stack: 'primary'.*primary/.test(String(text)))
+			)
+			.toBe(true);
+		warn.mockRestore();
 	});
 
 	it('keeps the roles of a table, and the header names the cells', async () => {

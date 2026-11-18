@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	// Items in rows and columns, sortable by the headers. See TableProps for the props.
-	import { checkValue, DEV, warnDuplicates, warnPinned, warnUnnamed } from '#dev';
+	import { checkValue, DEV, warnDuplicates, warnPinned, warnRenamed, warnUnnamed } from '#dev';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
@@ -10,6 +10,7 @@
 	import './table.css';
 	import {
 		SORT_DIRECTIONS,
+		TABLE_COLUMN_STACKS,
 		TABLE_STACKS,
 		type TableAlign,
 		type TableColumn,
@@ -73,6 +74,9 @@
 			return align;
 		})
 	);
+
+	// The primary figures share the first line of a block, a column each.
+	const primaries = $derived(columns.filter((column) => column.stack === 'primary').length);
 
 	// A number the table shows itself is a figure; a cell snippet sets its own content's face.
 	const isFigure = (column: TableColumn<T>, item: T): boolean => {
@@ -153,6 +157,17 @@
 			if (stack) checkValue('Table', 'stack', stack, TABLE_STACKS);
 		});
 		$effect(() => {
+			for (const column of columns) {
+				checkValue(
+					'Table',
+					`the stack of column '${column.label}'`,
+					column.stack,
+					TABLE_COLUMN_STACKS
+				);
+				warnRenamed('Table', "a column's primary", "stack: 'primary'", column.primary);
+			}
+		});
+		$effect(() => {
 			if (!sortBy) return;
 			const sortable = columns.filter((column) => column.sort).map(nameOf);
 			checkValue('Table', 'sortBy.column', sortBy.column, sortable, 'Sort by a column with sort.');
@@ -164,9 +179,9 @@
 {#snippet content(column: TableColumn<T>, item: T)}
 	{@const value = valueOf(column, item)}
 	{#if stack}
-		<!-- Blocks show the label beside the value, but for the row's name and its primary
-		     figures; the header already names the cell, so screen readers skip it. -->
-		{#if !column.hideLabel && !column.rowHeader && !column.primary}
+		<!-- Blocks show the label beside the value, but for the row's name and the columns placed
+		     beside or under it; the header already names the cell, so screen readers skip it. -->
+		{#if !column.hideLabel && !column.rowHeader && column.stack === undefined}
 			<span class="sv-table__label" aria-hidden="true">{column.label}</span>
 		{/if}
 		<span class="sv-table__value">{@render text(column, item, value)}</span>
@@ -214,6 +229,7 @@
 		bind:this={table}
 		class="sv-table__table"
 		role={stack ? 'table' : undefined}
+		style:--sv-table-primaries={stack ? primaries || undefined : undefined}
 		aria-label={ariaLabel}
 		aria-labelledby={ariaLabelledby ??
 			(stack && caption && !ariaLabel ? `${id}-caption` : undefined)}
@@ -281,7 +297,7 @@
 								`sv-table__cell--${aligns[i]}`,
 								isFigure(column, item) && 'sv-table__cell--figure',
 								column.wrap && 'sv-table__cell--wrap',
-								column.primary && 'sv-table__cell--primary',
+								column.stack && `sv-table__cell--${column.stack}`,
 								column.pinned && 'sv-table__cell--pinned'
 							]}
 						>
