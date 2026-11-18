@@ -334,6 +334,8 @@ describe('Table stack', () => {
 		const [symbol, quantity, price, , status] = [0, 1, 2, 3, 4].map((i) => cell('FPT', i)!);
 		expect(rect(status!).top).toBeGreaterThanOrEqual(rect(symbol!).bottom - 1);
 		expect(rect(status!).left).toBeCloseTo(rect(symbol!).left, 0);
+		// Across the block, under the primary figures too.
+		expect(rect(status!).right).toBeCloseTo(rect(cell('FPT', 3)!).right, 0);
 		expect(rect(quantity!).top).toBeGreaterThanOrEqual(rect(status!).bottom - 1);
 		expect(label(status!)).toBeNull();
 		// Out of sight, still a cell of the table.

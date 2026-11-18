@@ -229,8 +229,8 @@
 	/*
 	 * Stacked: below the width that `stack` names, measured on the box itself, each row is a
 	 * block. Its name and its primary figures share the first line, a column for each figure (the
-	 * table counts them in --sv-table-primaries); secondary columns follow under the name, without
-	 * labels; every other column follows as its label and value, one a line, left out when the
+	 * table counts them in --sv-table-primaries); secondary columns follow under the name, across the
+	 * block, without labels; every other column follows as its label and value, one a line, left out when the
 	 * cell is empty. Hidden columns stay for screen readers only. The sortable headers stay as a
 	 * row of buttons, the others for screen readers only. Washes and the current row's bar move to
 	 * the row.
@@ -353,7 +353,7 @@
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
-			grid-column: 1;
+			grid-column: 1 / -1;
 			order: -1;
 			color: var(--sv-color-text-muted);
 		}
@@ -513,7 +513,7 @@
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
-			grid-column: 1;
+			grid-column: 1 / -1;
 			order: -1;
 			color: var(--sv-color-text-muted);
 		}
@@ -673,7 +673,7 @@
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__cell--secondary {
-			grid-column: 1;
+			grid-column: 1 / -1;
 			order: -1;
 			color: var(--sv-color-text-muted);
 		}
