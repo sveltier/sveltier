@@ -76,6 +76,22 @@
 		line-height: var(--sv-leading-snug);
 	}
 
+	/*
+	 * On a phone the list spans the window under the field (the script sets how far down it
+	 * starts) and reaches down to the bottom of what shows, or the keyboard, or `listHeight` when
+	 * that is less, with rows a thumb can hit.
+	 */
+	.sv-listbox--phone {
+		inset: auto var(--sv-space-8);
+		inline-size: auto;
+		max-inline-size: none;
+		max-block-size: min(var(--sv-listbox-height, 100dvh), var(--sv-listbox-room, 61.8dvh));
+	}
+
+	.sv-listbox--phone .sv-listbox__option {
+		min-block-size: var(--sv-control-md);
+	}
+
 	/* An option: a check where the chosen one is, then its label and description. */
 	.sv-listbox__option {
 		display: flex;

@@ -10,6 +10,7 @@
 	import './table.css';
 	import {
 		SORT_DIRECTIONS,
+		TABLE_STACKS,
 		type TableAlign,
 		type TableColumn,
 		type TableDefaults,
@@ -27,6 +28,7 @@
 		itemKey,
 		sortBy = $bindable(),
 		onsort,
+		stack,
 		caption,
 		loading = false,
 		empty,
@@ -148,6 +150,9 @@
 			)
 		);
 		$effect(() => {
+			if (stack) checkValue('Table', 'stack', stack, TABLE_STACKS);
+		});
+		$effect(() => {
 			if (!sortBy) return;
 			const sortable = columns.filter((column) => column.sort).map(nameOf);
 			checkValue('Table', 'sortBy.column', sortBy.column, sortable, 'Sort by a column with sort.');
@@ -158,6 +163,19 @@
 
 {#snippet content(column: TableColumn<T>, item: T)}
 	{@const value = valueOf(column, item)}
+	{#if stack}
+		<!-- Blocks show the label beside the value, but for the row's name and its primary
+		     figures; the header already names the cell, so screen readers skip it. -->
+		{#if !column.hideLabel && !column.rowHeader && !column.primary}
+			<span class="sv-table__label" aria-hidden="true">{column.label}</span>
+		{/if}
+		<span class="sv-table__value">{@render text(column, item, value)}</span>
+	{:else}
+		{@render text(column, item, value)}
+	{/if}
+{/snippet}
+
+{#snippet text(column: TableColumn<T>, item: T, value: unknown)}
 	{#if column.cell}
 		{@render column.cell(item, column)}
 	{:else if value == null}
@@ -177,6 +195,7 @@
 		sharedClasses(p, 'Table'),
 		p.hover && 'sv-table--hover',
 		loading && 'sv-table--loading',
+		stack && `sv-table--stack-${stack}`,
 		across && 'sv-table--across',
 		className
 	]}
@@ -194,23 +213,29 @@
 	<table
 		bind:this={table}
 		class="sv-table__table"
+		role={stack ? 'table' : undefined}
 		aria-label={ariaLabel}
-		aria-labelledby={ariaLabelledby}
+		aria-labelledby={ariaLabelledby ??
+			(stack && caption && !ariaLabel ? `${id}-caption` : undefined)}
 		aria-describedby={ariaDescribedby}
 		aria-busy={loading || undefined}
 	>
 		{#if caption}
 			<caption id="{id}-caption" class="sv-table__caption"><span>{caption}</span></caption>
 		{/if}
-		<thead>
-			<tr>
+		<!-- A table shown as blocks changes the display of its parts, which drops their roles in
+		     some browsers, so it names them. -->
+		<thead role={stack ? 'rowgroup' : undefined}>
+			<tr role={stack ? 'row' : undefined}>
 				<!-- Columns go by position: two with the same key get a warning, not a broken table. -->
 				{#each columns as column, i (i)}
 					{@const sorted = sortBy?.column === nameOf(column) ? sortBy.direction : undefined}
 					<th
 						scope="col"
+						role={stack ? 'columnheader' : undefined}
 						class={[
 							'sv-table__head',
+							column.sort && 'sv-table__head--sort',
 							`sv-table__cell--${aligns[i]}`,
 							column.pinned && 'sv-table__cell--pinned'
 						]}
@@ -239,21 +264,24 @@
 				{/each}
 			</tr>
 		</thead>
-		<tbody>
+		<tbody role={stack ? 'rowgroup' : undefined}>
 			{#each rows as item (itemKey === undefined ? item : item[itemKey])}
 				<tr
 					{...rowAttributes?.(item)}
+					role={stack ? 'row' : undefined}
 					animate:move={{ duration: rows.length > MOVING ? 0 : undefined }}
 				>
 					{#each columns as column, i (i)}
 						<svelte:element
 							this={column.rowHeader ? 'th' : 'td'}
 							scope={column.rowHeader ? 'row' : undefined}
+							role={stack ? (column.rowHeader ? 'rowheader' : 'cell') : undefined}
 							class={[
 								'sv-table__cell',
 								`sv-table__cell--${aligns[i]}`,
 								isFigure(column, item) && 'sv-table__cell--figure',
 								column.wrap && 'sv-table__cell--wrap',
+								column.primary && 'sv-table__cell--primary',
 								column.pinned && 'sv-table__cell--pinned'
 							]}
 						>
@@ -262,8 +290,8 @@
 					{/each}
 				</tr>
 			{:else}
-				<tr>
-					<td class="sv-table__empty" colspan={columns.length}>
+				<tr role={stack ? 'row' : undefined}>
+					<td class="sv-table__empty" colspan={columns.length} role={stack ? 'cell' : undefined}>
 						{#if loading}
 							{locale.t('loading')}
 						{:else if empty}

@@ -44,6 +44,13 @@
 		show more at once. The list is never taller than the window, and it opens above the field when
 		it does not fit under it.
 	</p>
+	<p>
+		On a phone, a window narrower than 600px, the list opens across the window, right under the
+		field, with rows a thumb can hit, so the options that match stay where the eye is however few
+		they are. It reaches down to the bottom of what the window shows, and with the on-screen
+		keyboard open, to the top of the keyboard, so every option can be reached. A field low on the
+		page first moves to the top of the window. <code>listHeight</code> caps it there too.
+	</p>
 	<Code title="MarketSwitcher.svelte" code={comboboxLong} />
 
 	<h2 id="leaving">Coming to and leaving the field</h2>

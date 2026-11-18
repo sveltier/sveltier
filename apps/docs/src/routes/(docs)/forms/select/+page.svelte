@@ -35,6 +35,11 @@
 		than the window. To search a list that long, a
 		<a href={resolve('forms/combobox')}>Combobox</a> is quicker.
 	</p>
+	<p>
+		On a phone, a window narrower than 600px, the list opens across the window, right under the
+		field, with rows a thumb can hit, and reaches down to the bottom of what the window shows.
+		<code>listHeight</code> caps it there too.
+	</p>
 
 	<h2 id="choosing">Which select</h2>
 	<ul>

@@ -2,6 +2,7 @@ export { default as Table } from './Table.svelte';
 export {
 	SORT_DIRECTIONS,
 	TABLE_ALIGNS,
+	TABLE_STACKS,
 	type SortDirection,
 	type TableAlign,
 	type TableColumn,
@@ -10,5 +11,6 @@ export {
 	type TableKeyColumn,
 	type TableProps,
 	type TableSort,
+	type TableStack,
 	type TableValueColumn
 } from './types.js';

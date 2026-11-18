@@ -7,6 +7,13 @@ import type { Color, Density, Size } from '../../core/props/types.js';
 export const TABLE_ALIGNS = ['start', 'center', 'end'] as const;
 export type TableAlign = (typeof TABLE_ALIGNS)[number];
 
+/**
+ * The widths of its box below which a table shows each row as a block: the display breakpoints,
+ * `sm` 600px, `md` 960px and `lg` 1280px.
+ */
+export const TABLE_STACKS = ['sm', 'md', 'lg'] as const;
+export type TableStack = (typeof TABLE_STACKS)[number];
+
 /** The ways a table can be sorted, named as `aria-sort` names them. */
 export const SORT_DIRECTIONS = ['ascending', 'descending'] as const;
 export type SortDirection = (typeof SORT_DIRECTIONS)[number];
@@ -76,6 +83,12 @@ export interface TableColumnBase<T> {
 	 */
 	pinned?: boolean;
 	/**
+	 * In a table shown as blocks (`stack`), puts the column's value on the first line of each
+	 * block, at the end, beside the row's name and without its label: for the one or two figures
+	 * that matter most, such as a price.
+	 */
+	primary?: boolean;
+	/**
 	 * Lets the header sort the table. `true` compares the column's values: numbers, dates and
 	 * text in the locale's order, empty values last. A function compares two items itself.
 	 */
@@ -133,7 +146,7 @@ export type TableColumn<T> = TableKeyColumn<T> | TableValueColumn<T>;
 /**
  * A table of items, one row each, in the columns you describe. Headers stay in view while it
  * scrolls, a `pinned` column stays in view while it scrolls across, numbers line up at the end,
- * and a column with `sort` sorts by its header. Name it with `caption`, `aria-label` or
+ * and a column with `sort` sorts by its header. With `stack`, rows show as blocks on a narrow box. Name it with `caption`, `aria-label` or
  * `aria-labelledby`, which go to the `<table>`.
  *
  * @example
@@ -171,6 +184,14 @@ export type TableProps<T> = ElementProps<
 		sortBy?: TableSort;
 		/** Called when a header changes the sort, with the new sort or `undefined`. */
 		onsort?: (sortBy: TableSort | undefined) => void;
+		/**
+		 * Below this width of the table's box (`sm` 600px, `md` 960px, `lg` 1280px), each row
+		 * shows as a block, for a phone or a narrow column: its `rowHeader` and `primary` columns
+		 * on the first line, every other column under them as its label and value, and the
+		 * sortable headers as a row of buttons above. The box goes by its own width, so it must
+		 * take the width of its container. Off when not given.
+		 */
+		stack?: TableStack;
 		/** A visible title for the table, which also names it. */
 		caption?: string;
 		/**

@@ -1,5 +1,12 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.20
+
+### Minor Changes
+
+- 8c08b96: Select and Combobox: on a phone (a window narrower than 600px) the list opens across the window, right under the field, with taller rows, so the options that match stay where the eye is however few they are. It reaches down to the bottom of what the window shows, or to the on-screen keyboard rather than behind it, and moves a field low on the page to the top first. `listHeight` caps it too.
+- 2c6a7e2: Table: `stack` shows each row as a block when the table's box is narrower than `'sm'` (600px), `'md'` (960px) or `'lg'` (1280px). A block puts the row header and the columns marked with the new `primary` prop on its first line, and every other column under them as its label and value; the sortable headers become a row of buttons. It goes by the width of the box, in CSS only, and keeps the table's roles.
+
 ## 0.1.0-alpha.19
 
 ### Minor Changes

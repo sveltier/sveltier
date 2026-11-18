@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends string | number, I extends SelectOption<T> = SelectOption<T>">
 	// The popup list of a Select or a Combobox: options in groups, in the top layer, placed under
-	// the field. Focus stays on the field; `active` is the option it points at.
+	// the field; on a phone, across the window and down to the bottom of what it shows. Focus
+	// stays on the field; `active` is the option it points at.
 	import type { Snippet } from 'svelte';
 	import type { Attachment } from 'svelte/attachments';
 	import { anchored } from '../../primitives/anchored/anchored.js';
@@ -46,8 +47,54 @@
 
 	let list = $state<HTMLElement | null>(null);
 
+	// Narrower than `sm`, a phone: the list spans the window under the field, with rows a thumb
+	// can hit. It only exists in the browser while open, so it reads the window once.
+	const phone = matchMedia('(width < 600px)').matches;
+
+	/** The space kept between the field and the list under it, and below the list, in px. */
+	const GAP = 8;
+	/** The least height the list keeps when the room under the field is shorter, in px. */
+	const LEAST = 144;
+
+	// On a phone the list hangs from the field, so a list that typing has narrowed to a few
+	// options stays where the eye is, and reaches down to the bottom of the visual viewport, which
+	// the on-screen keyboard shrinks while the layout viewport, and `dvh`, stay whole: so it ends
+	// on the keyboard, not behind it. When the room under the field is less than half of what
+	// shows, the field first goes to the top of the window.
+	const hang: Attachment<HTMLElement> = (node) => {
+		const view = window.visualViewport;
+		const place = () => {
+			const top = view?.offsetTop ?? 0;
+			const bottom = view ? top + view.height : innerHeight;
+			const field = anchor?.getBoundingClientRect().bottom ?? top;
+			node.style.setProperty('inset-block-start', `${field + GAP}px`);
+			node.style.setProperty('--sv-listbox-room', `${Math.max(bottom - field - 2 * GAP, LEAST)}px`);
+		};
+		const top = view?.offsetTop ?? 0;
+		const shown = view?.height ?? innerHeight;
+		const field = anchor?.getBoundingClientRect().bottom ?? top;
+		// The whole field goes up, its label too.
+		if (anchor && top + shown - field < shown / 2) {
+			(anchor.closest('.sv-field') ?? anchor).scrollIntoView({ block: 'start' });
+		}
+		place();
+		view?.addEventListener('resize', place);
+		view?.addEventListener('scroll', place);
+		addEventListener('scroll', place, { capture: true, passive: true });
+		addEventListener('resize', place);
+		return () => {
+			view?.removeEventListener('resize', place);
+			view?.removeEventListener('scroll', place);
+			removeEventListener('scroll', place, { capture: true });
+			removeEventListener('resize', place);
+			node.style.removeProperty('inset-block-start');
+			node.style.removeProperty('--sv-listbox-room');
+		};
+	};
+
 	const enter: Attachment<HTMLElement> = (node) => {
-		if (anchor) node.style.minInlineSize = `${anchor.getBoundingClientRect().width}px`;
+		// Under the field at least as wide as it; on a phone the stylesheet spans the window.
+		if (anchor && !phone) node.style.minInlineSize = `${anchor.getBoundingClientRect().width}px`;
 		node.showPopover();
 	};
 
@@ -93,9 +140,9 @@
 	aria-labelledby={items.length > 0 ? labelledby : undefined}
 	aria-label={items.length > 0 ? label : undefined}
 	popover="manual"
-	class="sv-listbox"
+	class={['sv-listbox', phone && 'sv-listbox--phone']}
 	style:--sv-listbox-height={height}
-	{@attach anchored({ anchor })}
+	{@attach phone ? hang : anchored({ anchor })}
 	{@attach dismissable({ onDismiss: onclose, inside: () => [anchor] })}
 	{@attach enter}
 	transition:grow={{ from: () => anchor }}

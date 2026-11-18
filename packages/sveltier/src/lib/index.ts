@@ -402,6 +402,7 @@ export {
 	SORT_DIRECTIONS,
 	Table,
 	TABLE_ALIGNS,
+	TABLE_STACKS,
 	type SortDirection,
 	type TableAlign,
 	type TableColumn,
@@ -410,6 +411,7 @@ export {
 	type TableKeyColumn,
 	type TableProps,
 	type TableSort,
+	type TableStack,
 	type TableValueColumn
 } from './components/Table/index.js';
 export { Tabs, type TabsDefaults, type TabsItem, type TabsProps } from './components/Tabs/index.js';
