@@ -302,6 +302,25 @@ describe('Table stack', () => {
 		await page.viewport(width, height);
 	});
 
+	it('puts two primary figures side by side on the first line', async () => {
+		const columns: TableColumn<Position>[] = [
+			{ key: 'symbol', label: 'Symbol', rowHeader: true },
+			{ key: 'quantity', label: 'Quantity', primary: true },
+			{ key: 'price', label: 'Price', primary: true, format: (price) => price.toFixed(2) },
+			{ key: 'status', label: 'Status' }
+		];
+		await render(TableHarness, { stack: 'sm', columns, style: 'inline-size: 360px' });
+		const [symbol, quantity, price, status] = [0, 1, 2, 3].map((i) => cell('FPT', i)!);
+		expect(rect(quantity!).top).toBeCloseTo(rect(symbol!).top, 0);
+		expect(rect(price!).top).toBeCloseTo(rect(symbol!).top, 0);
+		expect(rect(price!).left).toBeGreaterThan(rect(quantity!).right);
+		expect(rect(status!).top).toBeGreaterThanOrEqual(rect(symbol!).bottom - 1);
+		expect(rect(status!).width).toBeCloseTo(
+			rect(row('FPT')).width - 2 * px(getComputedStyle(row('FPT')).paddingLeft),
+			0
+		);
+	});
+
 	it('keeps the roles of a table, and the header names the cells', async () => {
 		await render(TableHarness, { stack: 'md', style: 'inline-size: 360px' });
 		await expect.element(table()).toBeVisible();

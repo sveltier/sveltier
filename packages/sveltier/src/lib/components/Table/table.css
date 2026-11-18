@@ -228,7 +228,8 @@
 
 	/*
 	 * Stacked: below the width that `stack` names, measured on the box itself, each row is a
-	 * block. Its name and its primary figures share the first line; every other column follows
+	 * block. Its name and its primary figures share the first line, a column for each figure (the
+	 * table counts them in --sv-table-primaries); every other column follows
 	 * as its label and value, one a line. The sortable headers stay as a row of buttons, the
 	 * others stay for screen readers only. Washes and the current row's bar move to the row.
 	 */
@@ -306,7 +307,7 @@
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -333,8 +334,8 @@
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -342,8 +343,8 @@
 		}
 
 		.sv-table--stack-sm > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
-			order: -1;
+			grid-row: 1;
+			grid-column: auto;
 		}
 
 		.sv-table--stack-sm
@@ -458,7 +459,7 @@
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -485,8 +486,8 @@
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -494,8 +495,8 @@
 		}
 
 		.sv-table--stack-md > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
-			order: -1;
+			grid-row: 1;
+			grid-column: auto;
 		}
 
 		.sv-table--stack-md
@@ -610,7 +611,7 @@
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) repeat(var(--sv-table-primaries, 1), auto);
 			gap: var(--sv-space-3) var(--sv-space-13);
 			padding: calc(var(--sv-space-8) * var(--sv-density))
 				calc(var(--sv-size-height) * var(--sv-density) * 0.382);
@@ -637,8 +638,8 @@
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > th {
+			grid-row: 1;
 			grid-column: 1;
-			order: -2;
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr:not(:has(> .sv-table__cell--primary)) > th {
@@ -646,8 +647,8 @@
 		}
 
 		.sv-table--stack-lg > .sv-table__table > tbody > tr > .sv-table__cell--primary {
-			grid-column: 2;
-			order: -1;
+			grid-row: 1;
+			grid-column: auto;
 		}
 
 		.sv-table--stack-lg

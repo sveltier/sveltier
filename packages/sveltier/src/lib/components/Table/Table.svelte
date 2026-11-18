@@ -74,6 +74,9 @@
 		})
 	);
 
+	// The primary figures share the first line of a block, a column each.
+	const primaries = $derived(columns.filter((column) => column.primary).length);
+
 	// A number the table shows itself is a figure; a cell snippet sets its own content's face.
 	const isFigure = (column: TableColumn<T>, item: T): boolean => {
 		const value = column.cell ? undefined : valueOf(column, item);
@@ -214,6 +217,7 @@
 		bind:this={table}
 		class="sv-table__table"
 		role={stack ? 'table' : undefined}
+		style:--sv-table-primaries={stack ? primaries || undefined : undefined}
 		aria-label={ariaLabel}
 		aria-labelledby={ariaLabelledby ??
 			(stack && caption && !ariaLabel ? `${id}-caption` : undefined)}
