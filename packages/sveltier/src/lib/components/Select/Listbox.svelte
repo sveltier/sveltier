@@ -1,11 +1,13 @@
 <script lang="ts" generics="T extends string | number, I extends SelectOption<T> = SelectOption<T>">
 	// The popup list of a Select or a Combobox: options in groups, in the top layer, placed under
-	// the field. Focus stays on the field; `active` is the option it points at.
+	// the field, or on a phone docked to the bottom of what the window shows. Focus stays on the
+	// field; `active` is the option it points at.
 	import type { Snippet } from 'svelte';
 	import type { Attachment } from 'svelte/attachments';
 	import { anchored } from '../../primitives/anchored/anchored.js';
 	import { dismissable, type DismissReason } from '../../primitives/layer/dismissable.js';
 	import { grow } from '../../primitives/motion/motion.js';
+	import { slide } from '../Sheet/slide.js';
 	import { groupRuns, type SelectOption } from './options.js';
 
 	let {
@@ -45,6 +47,53 @@
 	const runs = $derived(groupRuns(items));
 
 	let list = $state<HTMLElement | null>(null);
+
+	// Narrower than `sm`, a phone: the list is a sheet along the bottom, full width, in reach of
+	// the thumb. The list only exists in the browser while open, so it reads the window once.
+	const sheet = matchMedia('(width < 600px)').matches;
+
+	/** The space kept between the field and a sheet under it, in px. */
+	const GAP = 8;
+
+	// The sheet sits on the bottom of the visual viewport, which the on-screen keyboard shrinks
+	// while the layout viewport, and `dvh`, stay whole: so it rests on the keyboard, not behind it.
+	// It is never taller than the room under the field, and when that room is less than half of
+	// what shows, the field first goes to the top of the window.
+	const dock: Attachment<HTMLElement> = (node) => {
+		const view = window.visualViewport;
+		const place = () => {
+			const top = view?.offsetTop ?? 0;
+			const bottom = view ? top + view.height : innerHeight;
+			const field = anchor?.getBoundingClientRect().bottom ?? top;
+			const room = Math.max(bottom - field - GAP, (bottom - top) * 0.382);
+			node.style.setProperty('--sv-listbox-room', `${room}px`);
+			node.style.setProperty('inset-block-end', `${Math.max(0, innerHeight - bottom)}px`);
+		};
+		const top = view?.offsetTop ?? 0;
+		const shown = view?.height ?? innerHeight;
+		const field = anchor?.getBoundingClientRect().bottom ?? top;
+		// The whole field goes up, its label too.
+		if (anchor && top + shown - field < shown / 2) {
+			(anchor.closest('.sv-field') ?? anchor).scrollIntoView({ block: 'start' });
+		}
+		place();
+		view?.addEventListener('resize', place);
+		view?.addEventListener('scroll', place);
+		addEventListener('scroll', place, { capture: true, passive: true });
+		addEventListener('resize', place);
+		return () => {
+			view?.removeEventListener('resize', place);
+			view?.removeEventListener('scroll', place);
+			removeEventListener('scroll', place, { capture: true });
+			removeEventListener('resize', place);
+			node.style.removeProperty('--sv-listbox-room');
+			node.style.removeProperty('inset-block-end');
+		};
+	};
+
+	// A sheet slides up from the bottom; a list under the field grows out of it.
+	const appear = (node: Element) =>
+		sheet ? () => slide('bottom')(node) : grow(node, { from: () => anchor });
 
 	const enter: Attachment<HTMLElement> = (node) => {
 		if (anchor) node.style.minInlineSize = `${anchor.getBoundingClientRect().width}px`;
@@ -93,12 +142,12 @@
 	aria-labelledby={items.length > 0 ? labelledby : undefined}
 	aria-label={items.length > 0 ? label : undefined}
 	popover="manual"
-	class="sv-listbox"
+	class={['sv-listbox', sheet && 'sv-listbox--sheet']}
 	style:--sv-listbox-height={height}
-	{@attach anchored({ anchor })}
+	{@attach sheet ? dock : anchored({ anchor })}
 	{@attach dismissable({ onDismiss: onclose, inside: () => [anchor] })}
 	{@attach enter}
-	transition:grow={{ from: () => anchor }}
+	transition:appear
 >
 	{#each runs as run, r (r)}
 		{#if run.group === undefined}

@@ -17,6 +17,12 @@ const press = async (keys: string) => {
 	await userEvent.keyboard(keys);
 };
 
+/** Once the list has come in: shown, and no longer sliding or growing. */
+const settled = async () => {
+	await expect.element(listbox()).toBeVisible();
+	await expect.poll(() => listbox().element().getAnimations().length).toBe(0);
+};
+
 describe('Select', () => {
 	it('opens a labelled list of options in groups, pointing at the first one', async () => {
 		await render(SelectHarness, {});
@@ -95,6 +101,8 @@ describe('Select', () => {
 	it('chooses an option with a click, and not a disabled one', async () => {
 		await render(SelectHarness, {});
 		await combobox().click();
+		// Pressed once the list has come in, as a person would.
+		await settled();
 		await option('ETH/USD').click({ force: true });
 		await expect.element(value()).toHaveTextContent('null');
 		await option('ETH/BTC').click();
@@ -129,6 +137,57 @@ describe('Select', () => {
 		await render(SelectHarness, { disabled: true });
 		expect(control().tabIndex).toBe(-1);
 		await expect.element(combobox()).toHaveAttribute('aria-disabled', 'true');
+	});
+});
+
+describe('Select on a phone', () => {
+	const rect = (element: Element) => element.getBoundingClientRect();
+	const field = () => control().closest('.sv-field__box') ?? control();
+
+	it('opens the list as a sheet along the bottom of the window, under the field', async () => {
+		expect(window.innerWidth).toBeLessThan(600);
+		await render(SelectHarness, {});
+		await combobox().click();
+		await settled();
+		const list = listbox().element();
+		expect(list.classList).toContain('sv-listbox--sheet');
+		expect(rect(list).left).toBeCloseTo(0, 0);
+		expect(rect(list).right).toBeCloseTo(window.innerWidth, 0);
+		expect(rect(list).bottom).toBeCloseTo(window.innerHeight, 0);
+		expect(rect(list).top).toBeGreaterThan(rect(field()).bottom);
+		// Rows a thumb can hit.
+		expect(rect(option('ETH/BTC').element()).height).toBeGreaterThanOrEqual(2.618 * 16 - 0.5);
+	});
+
+	it('takes the field to the top of the window when the room under it is short', async () => {
+		document.body.style.paddingBlock = `${window.innerHeight * 0.8}px ${window.innerHeight}px`;
+		try {
+			await render(SelectHarness, {});
+			await combobox().click();
+			await settled();
+			expect(rect(field()).top).toBeLessThan(window.innerHeight / 4);
+			expect(rect(listbox().element()).top).toBeGreaterThan(rect(field()).bottom);
+		} finally {
+			document.body.style.paddingBlock = '';
+			window.scrollTo(0, 0);
+		}
+	});
+
+	it('keeps the list under the field on a wider window', async () => {
+		const [width, height] = [window.innerWidth, window.innerHeight];
+		await page.viewport(1024, 768);
+		try {
+			await render(SelectHarness, {});
+			await combobox().click();
+			await settled();
+			const list = listbox().element();
+			expect(list.classList).not.toContain('sv-listbox--sheet');
+			expect(rect(list).left).toBeCloseTo(rect(field()).left, 0);
+			expect(rect(list).top).toBeGreaterThan(rect(field()).bottom);
+			expect(rect(list).bottom).toBeLessThan(window.innerHeight - 1);
+		} finally {
+			await page.viewport(width, height);
+		}
 	});
 });
 

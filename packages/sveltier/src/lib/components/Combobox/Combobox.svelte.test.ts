@@ -116,6 +116,21 @@ describe('Combobox', () => {
 		expect(list.getBoundingClientRect().height).toBeLessThanOrEqual(80);
 	});
 
+	it('opens the list as a sheet on a phone, the field still in view and typed into', async () => {
+		expect(window.innerWidth).toBeLessThan(600);
+		await render(ComboboxHarness, {});
+		await combobox().fill('h');
+		await expect.element(listbox()).toBeVisible();
+		const list = listbox().element();
+		expect(list.classList).toContain('sv-listbox--sheet');
+		// Once it has slid up.
+		await expect.poll(() => list.getBoundingClientRect().bottom).toBeCloseTo(window.innerHeight, 0);
+		expect(list.getBoundingClientRect().top).toBeGreaterThan(
+			input().getBoundingClientRect().bottom
+		);
+		await expect.element(combobox()).toHaveFocus();
+	});
+
 	it('chooses with a click', async () => {
 		await render(ComboboxHarness, {});
 		await combobox().fill('h');
