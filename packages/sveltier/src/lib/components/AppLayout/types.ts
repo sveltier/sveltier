@@ -58,6 +58,15 @@ export interface AppBarDefaults {
 	 * @default true
 	 */
 	sticky: boolean;
+	/**
+	 * Slides the sticky bar off the top while the page is read on, and back as soon as it moves
+	 * up, nears its top, or the bar holds the keyboard focus or an open menu, as on a reading app. `true`
+	 * at every width; a breakpoint only below its default width (`md` is 960px), for a phone.
+	 * It follows the page's scroll, so in a layout that `fill`s the window, where Main scrolls on
+	 * its own, the bar stays.
+	 * @default false
+	 */
+	hideOnScroll: boolean | Exclude<Breakpoint, 'xs'>;
 }
 
 declare module '../../core/defaults/context.js' {
@@ -185,6 +194,13 @@ export interface AppFooterDefaults {
 	 * @default false
 	 */
 	sticky: boolean;
+	/**
+	 * Slides the sticky footer off the bottom while the page is read on, and back as the page
+	 * moves up, as `hideOnScroll` on the `AppBar` does. `true` at every width; a breakpoint only
+	 * below its default width (`md` is 960px). Needs `sticky`.
+	 * @default false
+	 */
+	hideOnScroll: boolean | Exclude<Breakpoint, 'xs'>;
 }
 
 declare module '../../core/defaults/context.js' {
@@ -256,6 +272,23 @@ export interface BottomNavigationItem {
 	current?: boolean;
 }
 
+/** The BottomNavigation props that `DefaultsProvider` and `UIProvider` can set for a subtree. */
+export interface BottomNavigationDefaults {
+	/**
+	 * Slides the bar off the bottom while the page is read on, and back as the page moves up,
+	 * as `hideOnScroll` on the `AppBar` does; a sticky footer and toasts take its room meanwhile.
+	 * `true` wherever it shows; a breakpoint only below its default width (`sm` is 600px).
+	 * @default false
+	 */
+	hideOnScroll: boolean | Exclude<Breakpoint, 'xs'>;
+}
+
+declare module '../../core/defaults/context.js' {
+	interface ComponentDefaults {
+		BottomNavigation: BottomNavigationDefaults;
+	}
+}
+
 /**
  * The app's main destinations as a bar along the bottom of a phone's screen, within reach of the
  * thumb: three to five links, each an icon over a short label, the one of the page shown
@@ -278,7 +311,7 @@ export interface BottomNavigationItem {
 export type BottomNavigationProps = ElementProps<
 	HTMLElement,
 	Omit<HTMLAttributes<HTMLElement>, 'children'>,
-	{
+	Partial<BottomNavigationDefaults> & {
 		/** The destinations, in order: three to five. */
 		items: readonly BottomNavigationItem[];
 		/**

@@ -305,6 +305,20 @@
 	}
 
 	/*
+	 * A bar that slid off the bottom would lengthen the page by its height, and come back into
+	 * view at the page's end. Clipped at the layout's end, it leaves the page as long as it was.
+	 * Clip makes no scroll container, so the bars stay sticky. (overflow-block is not in Chromium.)
+	 */
+	.sv-app-layout:has(> [data-sv-away]) {
+		overflow-y: clip;
+	}
+
+	/* While a sticky footer is away, toasts take its room too. */
+	:root:has(.sv-app-layout > .sv-app-footer[data-sv-away]) {
+		--sv-toasts-footer: 0px;
+	}
+
+	/*
 	 * Under a sticky bar, the page scrolls a link's target or a focused control into view below
 	 * the bar, with room to spare.
 	 */

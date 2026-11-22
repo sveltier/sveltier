@@ -1,18 +1,21 @@
 <script lang="ts">
 	// The bar across the top of an app. See AppBarProps.
 	import type { Attachment } from 'svelte/attachments';
-	import { DEV, warnMisplaced } from '#dev';
+	import { checkValue, DEV, warnMisplaced, warnUnstuck } from '#dev';
+	import { BREAKPOINTS } from '../../core/display/display.js';
 	import { useDefaults } from '../../core/defaults/context.js';
 	import { useLocale } from '../../core/locale/locale.js';
 	import { sharedClasses } from '../../core/props/classes.js';
 	import Button from '../Button/Button.svelte';
 	import './app-bar.css';
 	import { getLayout } from './context.svelte.js';
+	import { scrollAway } from './scroll-away.js';
 	import type { AppBarDefaults, AppBarProps } from './types.js';
 
 	let {
 		density,
 		sticky,
+		hideOnScroll,
 		prepend,
 		title,
 		nav,
@@ -23,11 +26,22 @@
 		...rest
 	}: AppBarProps = $props();
 
-	const resolve = useDefaults<AppBarDefaults>('AppBar', { density: 'default', sticky: true });
-	const p = $derived(resolve({ density, sticky }));
+	const resolve = useDefaults<AppBarDefaults>('AppBar', {
+		density: 'default',
+		sticky: true,
+		hideOnScroll: false
+	});
+	const p = $derived(resolve({ density, sticky, hideOnScroll }));
+	const hiding = $derived(p.sticky && p.hideOnScroll);
 	const layout = getLayout();
 	const locale = useLocale();
-	if (DEV && layout) $effect(() => warnMisplaced('AppBar', ref));
+	if (DEV) {
+		if (layout) $effect(() => warnMisplaced('AppBar', ref));
+		$effect(() =>
+			checkValue('AppBar', 'hideOnScroll', p.hideOnScroll, [true, false, ...BREAKPOINTS.slice(1)])
+		);
+		$effect(() => warnUnstuck('AppBar', p.hideOnScroll, p.sticky));
+	}
 
 	const MENU = 'M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z';
 
@@ -50,6 +64,7 @@
 		p.sticky && 'sv-app-bar--sticky',
 		className
 	]}
+	{@attach hiding && scrollAway(hiding)}
 >
 	{#if layout}
 		<!--

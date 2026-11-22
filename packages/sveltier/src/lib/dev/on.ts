@@ -112,6 +112,15 @@ export function warnDuplicates(
 	warn('SV4005', `<${component}> has two ${entries} with the key ${show(duplicate)}. ${fix}`);
 }
 
+/** Warns when a bar asks to hide on scroll but is not sticky, so it has nothing to hide. */
+export function warnUnstuck(component: string, hideOnScroll: unknown, sticky: boolean): void {
+	if (!hideOnScroll || sticky) return;
+	warn(
+		'SV4012',
+		`<${component}> has hideOnScroll but is not sticky: it scrolls away with the page by itself, so nothing hides. Add sticky, as in <${component} sticky hideOnScroll="md">.`
+	);
+}
+
 /** Warns when a table pins more than one column: they would stack at the same edge. */
 export function warnPinned(component: string, labels: readonly string[]): void {
 	if (labels.length < 2) return;

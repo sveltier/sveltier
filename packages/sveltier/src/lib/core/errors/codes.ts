@@ -190,6 +190,13 @@ export const ERROR_CODES = {
 			'A menu item with `href` is a link to another page. A link is not a setting that is on or off, nor one choice of a group, so `checked` and `radio` are left out on it. `current` marks the link to the page shown, so it is left out on an item without `href`.',
 		fix: 'On links, replace `checked` and `radio` with `current: true` on the link to the page shown, such as `current: page.url.pathname === href`. For an item that is no link, use `checked` for a setting, or give it `href`.'
 	},
+	SV4012: {
+		kind: 'warning',
+		title: 'A bar that hides on scroll but is not sticky',
+		cause:
+			'`hideOnScroll` slides a bar that stays in the window out of the way while the page is read on. A bar without `sticky` scrolls away with the page by itself, so there is nothing to hide and nothing happens. An `AppFooter` is not sticky unless it says so.',
+		fix: 'Add `sticky` beside `hideOnScroll`, as in `<AppFooter sticky hideOnScroll="md">`, or set both in the defaults: `defaults={{ AppFooter: { sticky: true, hideOnScroll: \'md\' } }}`.'
+	},
 	SV5001: {
 		kind: 'warning',
 		title: 'Field, dialog or table without an accessible name',

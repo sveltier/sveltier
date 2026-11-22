@@ -15,3 +15,4 @@ export const warnOutsideList: typeof On.warnOutsideList = () => {};
 export const warnMenuItems: typeof On.warnMenuItems = () => {};
 export const warnPinned: typeof On.warnPinned = () => {};
 export const warnUnthemed: typeof On.warnUnthemed = () => {};
+export const warnUnstuck: typeof On.warnUnstuck = () => {};

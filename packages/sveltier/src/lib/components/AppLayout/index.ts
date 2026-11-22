@@ -10,6 +10,7 @@ export type {
 	AppFooterDefaults,
 	AppFooterProps,
 	AppLayoutProps,
+	BottomNavigationDefaults,
 	BottomNavigationItem,
 	BottomNavigationProps,
 	MainProps,

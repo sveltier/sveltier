@@ -25,6 +25,15 @@
 		position: sticky;
 		inset-block-start: 0;
 		z-index: 1;
+		transition: translate var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	/*
+	 * Hidden on scroll: off the top while the page is read on, but in view while it holds an open
+	 * menu, such as the drawer its menu button opened. The keyboard focus keeps it from script.
+	 */
+	.sv-app-bar--sticky[data-sv-away]:not(:has([aria-expanded='true'])) {
+		translate: 0 -100%;
 	}
 
 	/* Shown by the AppLayout while its drawer is modal. Its icon lines up with the bar's edge. */

@@ -189,6 +189,7 @@ export {
 	type AppFooterDefaults,
 	type AppFooterProps,
 	type AppLayoutProps,
+	type BottomNavigationDefaults,
 	type BottomNavigationItem,
 	type BottomNavigationProps,
 	type MainProps,
