@@ -35,13 +35,13 @@
 	</div>
 	<div class="docs-actions">
 		<SegmentedControl
-			aria-label="Chart range, outlined"
+			aria-label="Period, outlined"
 			options={RANGES}
 			bind:value={range}
 			variant="outlined"
 		/>
 		<SegmentedControl
-			aria-label="Chart range, text"
+			aria-label="Period, text"
 			options={RANGES}
 			bind:value={range}
 			variant="text"
