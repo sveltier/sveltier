@@ -19,6 +19,14 @@
 		wide as the widest, and the selected one slides into place. It is a raised surface by default;
 		any variant and colour paints it.
 	</p>
+	<p>
+		The track behind the options follows the variant. <code>elevated</code>, <code>flat</code> and
+		<code>tonal</code> sit on a filled track; <code>outlined</code> draws a hairline around the row
+		with no fill, for a page of lines rather than surfaces; <code>text</code> and <code>plain</code>
+		have no track. Set it once for the app with
+		<code>{"defaults={{ SegmentedControl: { variant: 'outlined' } }}"}</code>
+		on the <code>UIProvider</code>.
+	</p>
 	<SegmentedDemo />
 	<Code title="ChartRange.svelte" code={segmentedUsage} />
 

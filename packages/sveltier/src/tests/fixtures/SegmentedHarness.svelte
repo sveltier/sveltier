@@ -3,13 +3,21 @@
 	import SegmentedControl from '../../lib/components/SegmentedControl/SegmentedControl.svelte';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
+	import type { Variant } from '../../lib/core/props/types.js';
 
 	let {
 		value = $bindable('1M'),
 		dir = 'ltr',
 		disabledYear = false,
-		wrap = false
-	}: { value?: string; dir?: 'ltr' | 'rtl'; disabledYear?: boolean; wrap?: boolean } = $props();
+		wrap = false,
+		variant
+	}: {
+		value?: string;
+		dir?: 'ltr' | 'rtl';
+		disabledYear?: boolean;
+		wrap?: boolean;
+		variant?: Variant;
+	} = $props();
 
 	let changed = $state('');
 	const options = $derived([
@@ -25,6 +33,7 @@
 	<div {dir} style:inline-size={wrap ? '160px' : undefined}>
 		<SegmentedControl
 			{wrap}
+			{variant}
 			data-testid="control"
 			aria-label="Chart range"
 			{options}

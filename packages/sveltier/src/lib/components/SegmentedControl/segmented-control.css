@@ -21,6 +21,19 @@
 		vertical-align: middle;
 	}
 
+	/*
+	 * The track follows the variant: outlined is a hairline around the row with no fill, drawn
+	 * inset so the control keeps its size; text and plain have no track at all.
+	 */
+	.sv-segmented.sv-variant-outlined {
+		background-color: transparent;
+		box-shadow: inset 0 0 0 var(--sv-hairline) var(--sv-color-border);
+	}
+
+	.sv-segmented:is(.sv-variant-text, .sv-variant-plain) {
+		background-color: transparent;
+	}
+
 	.sv-segmented__thumb {
 		position: absolute;
 		inset-block: var(--sv-segmented-pad);
