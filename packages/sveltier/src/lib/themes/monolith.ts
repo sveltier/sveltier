@@ -27,7 +27,9 @@ const shared = {
 	ease: 'cubic-bezier(0.236, 0, 0, 1)',
 	'duration-fast': '144ms',
 	'duration-normal': '233ms',
-	'duration-slow': '377ms'
+	'duration-slow': '377ms',
+	'duration-slower': '610ms',
+	'duration-loop': '1618ms'
 } satisfies Partial<ThemeVariables>;
 
 export const monolithLight: ThemeDefinition = {

@@ -801,7 +801,7 @@
 		inline-size: 38.2%;
 		block-size: 100%;
 		background-color: var(--sv-color);
-		animation: sv-table-cross 1618ms var(--sv-ease) infinite;
+		animation: sv-table-cross var(--sv-duration-loop) var(--sv-ease) infinite;
 	}
 
 	:where([dir='rtl']) .sv-table__progress::before {
@@ -822,7 +822,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.sv-table__progress::before {
 			inline-size: 100%;
-			animation: sv-table-pulse 1618ms ease-in-out infinite alternate;
+			animation: sv-table-pulse var(--sv-duration-loop) ease-in-out infinite alternate;
 		}
 	}
 

@@ -30,7 +30,9 @@
 
 	/*
 	 * Themes set their own durations in sv.tokens. This later layer wins over every theme, so
-	 * reduced motion is honoured whatever theme is active.
+	 * reduced motion is honoured whatever theme is active. A loop does not collapse: at a near-zero
+	 * period it would spin flat out. It turns φ² slower instead, so a spinner still says that work
+	 * goes on, calmly.
 	 */
 	@media (prefers-reduced-motion: reduce) {
 		:root,
@@ -38,6 +40,8 @@
 			--sv-duration-fast: 0.01ms;
 			--sv-duration-normal: 0.01ms;
 			--sv-duration-slow: 0.01ms;
+			--sv-duration-slower: 0.01ms;
+			--sv-duration-loop: 4236ms;
 			--sv-press-offset: 0px;
 		}
 	}

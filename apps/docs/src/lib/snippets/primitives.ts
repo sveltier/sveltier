@@ -34,6 +34,26 @@ export const motionCss = `.panel {
   transform: translateY(8px);
 }`;
 
+export const loopCss = `.spinner {
+  animation: spin calc(var(--sv-duration-loop) / 1.618) linear infinite;
+}
+
+.live-dot {
+  animation: pulse var(--sv-duration-loop) ease-in-out infinite alternate;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.382;
+  }
+}`;
+
 export { default as transitionExample } from '../examples/primitives/TransitionExample.svelte?raw';
 
 export { default as growExample } from '../examples/primitives/GrowExample.svelte?raw';

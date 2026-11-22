@@ -9,6 +9,7 @@
 	import {
 		growExample,
 		moveExample,
+		loopCss,
 		motionCss,
 		motionExample,
 		springExample,
@@ -22,17 +23,30 @@
 >
 	<h2 id="tokens">Timing tokens</h2>
 	<p>
-		Every theme sets three durations and one easing curve: <code>--sv-duration-fast</code>,
-		<code>--sv-duration-normal</code>, <code>--sv-duration-slow</code> and <code>--sv-ease</code>.
-		The durations are Fibonacci milliseconds, 144, 233 and 377 in Monolith. When the user asks for
-		reduced motion, the base styles set every duration to 0.01ms whatever the theme, so anything
-		timed with the tokens becomes instant without checking the setting itself.
+		Every theme sets four durations and one easing curve: <code>--sv-duration-fast</code>,
+		<code>--sv-duration-normal</code>, <code>--sv-duration-slow</code>,
+		<code>--sv-duration-slower</code> and <code>--sv-ease</code>. The durations are Fibonacci
+		milliseconds, 144, 233, 377 and 610 in Monolith. Use slower for an entrance that crosses the
+		screen or reveals a page. When the user asks for reduced motion, the base styles set every
+		duration to 0.01ms whatever the theme, so anything timed with the tokens becomes instant without
+		checking the setting itself.
 	</p>
 	<Code title="panel.css" lang="css" code={motionCss} />
 	<p>
 		Animate only <code>transform</code> and <code>opacity</code>. The browser moves them without
 		recalculating layout or repainting, so motion stays smooth on slow devices.
 	</p>
+
+	<h2 id="loops">Loops</h2>
+	<p>
+		An indicator that loops, such as a spinner, a live dot or a skeleton's sweep, takes its period
+		from <code>--sv-duration-loop</code>: φ seconds, 1618ms. A spinner turns once in a loop over φ,
+		about a second. Under reduced motion the loop does not collapse, since a near-zero period would
+		spin flat out; it turns φ² slower, so the indicator still says that work goes on. A loop that
+		travels across the screen should become a pulse in place or stop, as ProgressLinear and Skeleton
+		do.
+	</p>
+	<Code title="live.css" lang="css" code={loopCss} />
 
 	<h2 id="transitions">Transitions</h2>
 	<p>

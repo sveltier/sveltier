@@ -90,13 +90,41 @@ describe('theme packs', () => {
 			// 0 is a square corner and 999px a pill.
 			if (px !== 0 && px !== 999) expect(FIBONACCI, name).toContain(px);
 		}
-		for (const name of ['duration-fast', 'duration-normal', 'duration-slow'] as const) {
+		for (const name of [
+			'duration-fast',
+			'duration-normal',
+			'duration-slow',
+			'duration-slower'
+		] as const) {
 			expect(FIBONACCI, name).toContain(parseFloat(String(variables[name])));
 		}
+		// One step apart, so slower reads as the next step after slow.
+		const slow = FIBONACCI.indexOf(parseFloat(String(variables['duration-slow'])));
+		expect(parseFloat(String(variables['duration-slower']))).toBe(FIBONACCI[slow + 1]);
+		// A loop's period is φ seconds.
+		expect(parseFloat(String(variables['duration-loop']))).toBe(1618);
 	});
 
 	it.each(themes)('%s sizes labels on a quarter step of φ', (_, theme) => {
 		const steps = [-3, -2, -1].map((quarter) => +(PHI ** (quarter / 4)).toFixed(4));
 		expect(steps).toContain(parseFloat(String(theme.variables['label-size'])));
+	});
+});
+
+describe('reduced motion', () => {
+	const base = readFileSync(new URL('./base.css', import.meta.url), 'utf8');
+	const reduced =
+		/@media \(prefers-reduced-motion: reduce\)\s*\{([\s\S]*?)\n\t\}/.exec(base)?.[1] ?? '';
+	const value = (name: string) =>
+		new RegExp(`--sv-${name}:\\s*([^;]+);`).exec(reduced)?.[1]?.trim();
+
+	it('collapses every duration of the contract to near zero', () => {
+		for (const name of ['fast', 'normal', 'slow', 'slower']) {
+			expect(value(`duration-${name}`), name).toBe('0.01ms');
+		}
+	});
+
+	it('slows a loop by φ² instead of stopping it, so an indicator still turns', () => {
+		expect(parseFloat(value('duration-loop') ?? '')).toBe(Math.round(1618 * PHI ** 2));
 	});
 });

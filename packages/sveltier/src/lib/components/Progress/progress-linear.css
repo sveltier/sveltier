@@ -29,7 +29,7 @@
 	.sv-progress-linear--indeterminate .sv-progress-linear__bar {
 		inset-inline-end: auto;
 		inline-size: 38.2%;
-		animation: sv-progress-cross 1618ms var(--sv-ease) infinite;
+		animation: sv-progress-cross var(--sv-duration-loop) var(--sv-ease) infinite;
 		transition: none;
 	}
 
@@ -51,7 +51,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.sv-progress-linear--indeterminate .sv-progress-linear__bar {
 			inline-size: 100%;
-			animation: sv-progress-pulse 1618ms ease-in-out infinite alternate;
+			animation: sv-progress-pulse var(--sv-duration-loop) ease-in-out infinite alternate;
 		}
 	}
 
