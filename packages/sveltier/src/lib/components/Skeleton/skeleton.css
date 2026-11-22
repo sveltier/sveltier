@@ -52,7 +52,7 @@
 			transparent
 		);
 		transform: translateX(-100%);
-		animation: sv-skeleton-sweep 1618ms var(--sv-ease) infinite;
+		animation: sv-skeleton-sweep var(--sv-duration-loop) var(--sv-ease) infinite;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

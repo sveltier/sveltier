@@ -34,15 +34,12 @@
 		stroke-linecap: round;
 	}
 
-	/* Indeterminate: a fixed arc that turns. A spinner that stops reads as frozen. */
+	/*
+	 * Indeterminate: a fixed arc that turns, once a loop over φ. A spinner that stops reads as
+	 * frozen, so under reduced motion the loop token slows it down instead.
+	 */
 	.sv-progress-circular--indeterminate .sv-progress-circular__svg {
-		animation: sv-progress-turn 987ms linear infinite;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.sv-progress-circular--indeterminate .sv-progress-circular__svg {
-			animation-duration: 2961ms;
-		}
+		animation: sv-progress-turn calc(var(--sv-duration-loop) / 1.618) linear infinite;
 	}
 
 	@keyframes sv-progress-turn {

@@ -140,14 +140,11 @@
 		border: 0.146em solid var(--sv-variant-fg);
 		border-inline-end-color: transparent;
 		border-radius: 50%;
-		animation: sv-spin 987ms linear infinite;
-	}
-
-	/* A spinner that stops reads as a frozen interface, so it slows down instead. */
-	@media (prefers-reduced-motion: reduce) {
-		.sv-button__loader {
-			animation-duration: 2961ms;
-		}
+		/*
+		 * A turn takes a loop over φ. A spinner that stops reads as a frozen interface, so under
+		 * reduced motion the loop token slows it down instead.
+		 */
+		animation: sv-spin calc(var(--sv-duration-loop) / 1.618) linear infinite;
 	}
 
 	@keyframes sv-spin {
