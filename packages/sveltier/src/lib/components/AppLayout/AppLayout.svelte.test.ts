@@ -567,6 +567,19 @@ describe('Bars that hide on scroll', () => {
 		expect(away('.sv-app-bar')).toBe(true);
 	});
 
+	it('shows the bars after a jump, such as a restored scroll offset, until the page is read on', async () => {
+		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: true } });
+		// More than the window's height in one go is no reading.
+		await scroll(2000);
+		expect(away('.sv-app-bar')).toBe(false);
+		await scroll(1990);
+		expect(away('.sv-app-bar')).toBe(false);
+		await scroll(2100);
+		expect(away('.sv-app-bar')).toBe(true);
+		await scroll(400);
+		expect(away('.sv-app-bar')).toBe(false);
+	});
+
 	it('keeps a bar that holds the keyboard focus, or an open menu, in view', async () => {
 		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: true } });
 		await scroll(600);
@@ -580,7 +593,8 @@ describe('Bars that hide on scroll', () => {
 		expect(away('.sv-app-bar')).toBe(false);
 		await expect.poll(() => box('.sv-app-bar').top).toBeCloseTo(0, 0);
 		(document.activeElement as HTMLElement).blur();
-		await scroll(1200);
+		// Focus may have scrolled the bar into view; read on from wherever the page is.
+		await scroll(scrollY + 600);
 		expect(away('.sv-app-bar')).toBe(true);
 		// A control of the bar with an open menu holds it too.
 		part('.sv-app-bar button').setAttribute('aria-expanded', 'true');

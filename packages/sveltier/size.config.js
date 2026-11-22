@@ -659,7 +659,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '88.9 KB'
+		limit: '88.95 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two

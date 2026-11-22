@@ -19,10 +19,11 @@ function measure(): void {
 	const y = scrollY;
 	const delta = y - last;
 	last = y;
-	// Travel counts one way only: a turn starts it again.
-	if (Math.sign(delta) !== Math.sign(travel)) travel = 0;
-	travel += delta;
-	const next = y < TOP ? false : travel > TRAVEL ? true : travel < -TRAVEL ? false : away;
+	// Travel counts one way only: a turn starts it again. A jump of more than the window's height
+	// in one frame is no reading but a restored offset, an anchor or the End key: the bars show.
+	const jump = Math.abs(delta) > innerHeight;
+	travel = jump ? 0 : (Math.sign(delta) === Math.sign(travel) ? travel : 0) + delta;
+	const next = jump || y < TOP ? false : travel > TRAVEL ? true : travel < -TRAVEL ? false : away;
 	if (next === away) return;
 	away = next;
 	for (const update of bars) update();

@@ -134,8 +134,10 @@
 	</p>
 	<p>
 		A bar comes back near the top of the page, and stays while it holds the keyboard focus or an
-		open menu; the page has to travel a few pixels one way before the bars follow it. While the
-		bottom navigation is away, a sticky footer takes its place and toasts take its room. Under
+		open menu; the page has to travel a few pixels one way before the bars follow it, and a jump,
+		such as a scroll offset the browser restores on reload, brings them back rather than sending
+		them away. While the bottom navigation is away, a sticky footer takes its place and toasts take
+		its room. Under
 		<code>prefers-reduced-motion</code>, the bars go and come back without sliding. The bars follow
 		the page's scroll, so with <code>fill</code>, where <code>Main</code> scrolls on its own, they
 		stay. Set it once for the app through the defaults:
