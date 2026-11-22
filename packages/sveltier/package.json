@@ -87,13 +87,24 @@
 	"keywords": [
 		"svelte",
 		"svelte5",
+		"sveltekit",
+		"svelte-components",
 		"ui",
+		"ui-framework",
+		"component-library",
 		"components",
 		"design-system",
-		"ai",
-		"agents",
-		"llms",
+		"typescript",
 		"accessibility",
+		"a11y",
+		"dark-mode",
+		"theming",
+		"ssr",
+		"ai",
+		"ai-agents",
+		"coding-agents",
+		"llms",
+		"llms-txt",
 		"fintech"
 	]
 }

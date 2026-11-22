@@ -1,6 +1,17 @@
+<p align="center">
+  <a href="https://sveltier.com">
+    <img src="https://sveltier.com/social-card.png" alt="Sveltier: the UI framework for AI coding agents, on Svelte 5" width="100%">
+  </a>
+</p>
+
 # Sveltier
 
-The UI framework for AI coding agents, on Svelte 5.
+The UI framework for AI coding agents, on Svelte 5: 60+ accessible, typed components for SvelteKit
+and Vite, docs generated from the types, and errors that say how to fix them.
+
+[Docs](https://sveltier.com) · [Quick start](https://sveltier.com/getting-started/quick-start) ·
+[Playground](https://sveltier.com/tools/playground) · [llms.txt](https://sveltier.com/llms.txt) ·
+[GitHub](https://github.com/sveltier/sveltier)
 
 Coding agents do not remember your library, cannot see the screen, and learn by running and
 fixing. Sveltier is designed around all three, and the same choices help every developer.
@@ -84,8 +95,8 @@ The files the section points to:
 
 ## What is inside
 
-- **Layout:** AppLayout with AppBar, NavigationDrawer, Main and AppFooter, the frame of an app that the
-  server renders as it stays; Container, Row and Col, a twelve-column grid.
+- **Layout:** AppLayout with AppBar, NavigationDrawer, Main, AppFooter and BottomNavigation, the
+  frame of an app that the server renders as it stays, with bars that can hide on scroll; Container, Row and Col, a twelve-column grid.
 - **Components:** Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip,
   Divider, Icon, List, Pagination, ProgressCircular, ProgressLinear, SegmentedControl, Skeleton,
   Stepper, Table, Tabs, Timeline, Tree.
