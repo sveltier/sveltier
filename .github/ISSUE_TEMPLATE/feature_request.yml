@@ -1,0 +1,20 @@
+name: Feature request
+description: A component, a prop or a behaviour that is missing.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What you are trying to build
+      description: The screen or the flow, and where Sveltier falls short today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: The API you have in mind, if any. Props that follow the shared vocabulary (`variant`, `size`, `density`, `color`, `rounded`) fit best.
+  - type: textarea
+    id: workaround
+    attributes:
+      label: What you do meanwhile

@@ -1,64 +1,156 @@
-# Sveltier
+<p align="center">
+  <a href="https://sveltier.com">
+    <img src="./apps/docs/static/social-card.png" alt="Sveltier: the UI framework for AI coding agents, on Svelte 5" width="100%">
+  </a>
+</p>
 
-The UI framework for AI coding agents, on Svelte 5: one typed vocabulary across every component,
-docs generated from the types, and errors that say how to fix them. Accessible, consistent and
-polished by default, with five built-in design languages behind one theme engine.
+<h1 align="center">Sveltier</h1>
 
-> **Status: alpha.** Install it with `npm install @sveltier/ui`. The API may still change between
-> releases.
+<p align="center">
+  <strong>The UI framework for AI coding agents, on Svelte 5.</strong><br>
+  60+ accessible, typed components for SvelteKit and Vite, docs generated from the types, and
+  errors that say how to fix them.
+</p>
 
-- Docs: [sveltier.com](https://sveltier.com)
-- For agents: `npx sveltier init` in an app hooks its `AGENTS.md` to the docs inside the
-  package; on the web, [llms.txt](https://sveltier.com/llms.txt) and
-  [llms-full.txt](https://sveltier.com/llms-full.txt)
-- What the package offers and how to set it up: [packages/sveltier](./packages/sveltier#readme)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@sveltier/ui"><img src="https://img.shields.io/npm/v/@sveltier/ui?label=npm&color=cb3837" alt="npm version"></a>
+  <a href="https://github.com/sveltier/sveltier/actions/workflows/ci.yml"><img src="https://github.com/sveltier/sveltier/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <img src="https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white" alt="Svelte 5">
+  <img src="https://img.shields.io/badge/TypeScript-typed-3178c6?logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/dependencies-0-2ea44f" alt="Zero runtime dependencies">
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/sveltier/sveltier?color=blue" alt="MIT license"></a>
+</p>
 
-## Principles
+<p align="center">
+  <a href="https://sveltier.com">Docs</a> ·
+  <a href="https://sveltier.com/getting-started/quick-start">Quick start</a> ·
+  <a href="https://sveltier.com/components/button">Components</a> ·
+  <a href="https://sveltier.com/tools/playground">Playground</a> ·
+  <a href="https://sveltier.com/tools/theme-builder">Theme builder</a> ·
+  <a href="https://sveltier.com/llms.txt">llms.txt</a>
+</p>
 
-- **Built for agents**: props tables, `llms.txt` and the Markdown docs inside the package come
-  from the TypeScript types, shared props are literal types whose errors list the valid values,
-  and every library error has a stable code and a fix.
-- **Fast**: zero runtime dependencies, a gzip size budget on every entry checked in CI, and
-  flash-free server rendering.
-- **Predictable**: Svelte 5 only (runes, snippets, callback props, `$bindable`, attachments),
-  one prop vocabulary across components, and a typed theme contract.
-- **Accessible by default**: keyboard and ARIA behaviour follow the WAI-ARIA Authoring
-  Practices; every built-in theme passes WCAG contrast checks in light and dark.
-- **Overridable CSS**: plain CSS in cascade layers (`sv.tokens`, `sv.base`, `sv.components`,
-  `sv.utilities`), so your own styles win without `!important`. Colours are `oklch()` custom
-  properties (`--sv-*`).
+---
 
-## Repository
+## Why Sveltier
 
-| Path                | What                                                   |
-| ------------------- | ------------------------------------------------------ |
-| `packages/sveltier` | The library, built with `svelte-package`               |
-| `apps/docs`         | Documentation site (SvelteKit), built with the library |
+Coding agents do not remember your UI library, cannot see the screen, and learn by running the
+code and fixing what breaks. Sveltier is built around those three facts, and the same choices make
+it easier for every developer.
 
-## Development
+- **The right docs, for the version installed.** `llms.txt`, `llms-full.txt`, one Markdown page per
+  component and `components.json` ship inside the package, generated from the TypeScript types.
+  An agent reads the API it has, not a guess from its training data.
+- **Right the first time.** `variant`, `size`, `density`, `color` and `rounded` mean the same thing on
+  every component, as literal types: a value that does not exist is a type error that lists the
+  ones that do. Every public type and function has an `@example`.
+- **Self-correcting.** Every library error has a stable code, says what happened and what to do, and
+  links to its entry in the docs. Development builds also warn about the mistakes types cannot
+  catch, such as a value from an API that got past them:
 
-Requires Node 22.17+ and pnpm 10.
+  ```text
+  [sveltier SV2002] <Button> got variant="primary". Valid values: 'elevated' | 'flat' | 'tonal' |
+  'outlined' | 'text' | 'plain'. To colour it, use color="primary". https://sveltier.com/errors#SV2002
+  ```
+
+- **Accessible without being asked.** Roles, focus and keyboard follow the WAI-ARIA Authoring
+  Practices, tested in Chromium, Firefox and WebKit. Every built-in theme passes WCAG AA contrast
+  in light and dark.
+
+## Quick start
 
 ```sh
-pnpm install
-pnpm dev     # library in watch mode + docs at http://localhost:5173
-pnpm build   # package (svelte-package, publint, attw), then docs
-pnpm lint    # Prettier + ESLint
-pnpm check   # svelte-check
-pnpm test    # Vitest in Chromium, Firefox and WebKit, SSR tests, docs e2e
-pnpm size    # gzip size budgets
+npm install @sveltier/ui
 ```
 
-Browser tests need Playwright's browsers once: `pnpm --filter @sveltier/ui exec playwright install`.
+Wrap the app once in `UIProvider` with a theme pack (in SvelteKit, the root layout; with Vite
+alone, `App.svelte`):
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for the conventions a change follows.
+```svelte
+<!-- src/routes/+layout.svelte -->
+<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { monolith } from '@sveltier/ui/themes/monolith';
+	let { children } = $props();
+</script>
 
-## Releasing
+<UIProvider themes={monolith}>
+	{@render children()}
+</UIProvider>
+```
 
-Bump `version` in `packages/sveltier/package.json` in a pull request. Once it is merged and CI has
-passed on `main`, the **Release** workflow builds the package and publishes it on npm with
-trusted publishing, so no npm token is stored and npm signs provenance. To publish a version that
-is on `main` already, run the workflow by hand (Actions > Release > Run workflow).
+Then use the components anywhere inside it:
+
+```svelte
+<script>
+	import { Button, TextField } from '@sveltier/ui';
+	let email = $state('');
+</script>
+
+<TextField label="Email" type="email" required bind:value={email} />
+<Button variant="tonal">Save</Button>
+```
+
+Requires Svelte 5.40 or later. See the [installation guide](https://sveltier.com/getting-started/installation)
+for SvelteKit, Vite, fonts and server-side rendering.
+
+## For AI coding agents
+
+```sh
+npx sveltier init
+```
+
+Points the app's `AGENTS.md` (and `CLAUDE.md`, if there is one) at the docs of the installed
+version, and installs the Sveltier skill where the app has a `.claude` folder. Agents then read:
+
+| File                                         | What it holds                                          |
+| -------------------------------------------- | ------------------------------------------------------ |
+| `node_modules/@sveltier/ui/llms.txt`         | Setup, conventions and an index of the components      |
+| `node_modules/@sveltier/ui/docs/…/<page>.md` | One page per component, with an example and every prop |
+| `node_modules/@sveltier/ui/components.json`  | The same props as JSON                                 |
+
+On the web: [llms.txt](https://sveltier.com/llms.txt), [llms-full.txt](https://sveltier.com/llms-full.txt)
+and the [error codes](https://sveltier.com/errors).
+
+## What is inside
+
+| Group          | Components                                                                                                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Layout**     | AppLayout, AppBar, NavigationDrawer, Main, AppFooter, BottomNavigation, Container, Row, Col                                                                                                               |
+| **Components** | Accordion, Alert, Avatar, Badge, Breadcrumbs, Button, ButtonGroup, Card, Chip, Divider, Icon, List, Pagination, Progress, SegmentedControl, Skeleton, Stepper, Table, Tabs, Timeline, Tree                |
+| **Forms**      | Form, Field, TextField, Textarea, FileField, NumberField, NativeSelect, Select, Combobox, Checkbox, Switch, RadioGroup, Slider, OtpInput, Calendar, DatePicker, DateRangePicker, TimeField, DateTimeField |
+| **Overlays**   | Dialog, Sheet, Popover, Menu, ContextMenu, CommandPalette, Tooltip, toasts (`useToast`)                                                                                                                   |
+| **Finance**    | Amount, Delta, Odometer, PriceInput, AmountInput, Ledger, Receipt, PinPad, SecureMask, Guilloche                                                                                                          |
+| **Primitives** | Focus trap, roving focus, dismissable layers, portal, anchored positioning, typeahead, motion, virtual lists                                                                                              |
+
+Forms validate with the HTML constraints first, then your own rules. Overlays open in the
+browser's top layer. Tables sort, pin a column, and show their rows as blocks on a phone.
+
+## Theming
+
+Five built-in theme packs, each in light and dark: **Monolith** (the default), **Heritage**,
+**Aurora**, **Maison** and **Milano**. Themes switch with no flash on first paint, server-rendered
+included. Build your own with `defineTheme` or the [theme builder](https://sveltier.com/tools/theme-builder).
+
+Colours are `oklch()` custom properties (`--sv-*`), and all CSS lives in cascade layers
+(`sv.tokens`, `sv.base`, `sv.components`, `sv.utilities`), so your own styles win without
+`!important`.
+
+## Fast by default
+
+- **Zero runtime dependencies.**
+- A gzip **size budget on every entry**, checked in CI: import one component and you ship it and what it uses, nothing else.
+- **SSR-first**: layouts render on the server as they stay, with nothing measured on the client.
+- **Svelte 5 only**: runes, snippets, callback props, `$bindable` and attachments, no legacy syntax.
+
+## Status
+
+Sveltier is in **alpha**: the API may still change between releases. Each release is listed in the [changelog](./packages/sveltier/CHANGELOG.md).
+
+## Contributing
+
+Issues and pull requests are welcome. [CONTRIBUTING.md](./CONTRIBUTING.md) covers the setup, the
+checks and the conventions a change follows.
 
 ## License
 
