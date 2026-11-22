@@ -28,5 +28,9 @@ export const CONTRACT_DOCS: Record<ThemeVariable, string> = {
 	ease: 'Easing curve for every transition.',
 	'duration-fast': 'Duration of small state changes (hover, press).',
 	'duration-normal': 'Duration of most transitions.',
-	'duration-slow': 'Duration of larger movements (thumbs, panels).'
+	'duration-slow': 'Duration of larger movements (thumbs, panels).',
+	'duration-slower':
+		'Duration of entrances that cross the screen or reveal a page; the next Fibonacci step after slow.',
+	'duration-loop':
+		'Period of an indicator that loops (spinner, progress, skeleton); φ² slower, not zero, under reduced motion.'
 };

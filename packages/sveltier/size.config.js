@@ -322,10 +322,11 @@ export default [
 		// Includes rovingFocus, which gives the tab list one tab stop and arrow keys, the rules that
 		// let the Tabs fill the height they are given, and the underline that slides over from the
 		// old tab with the theme's timing (0.3 KB). Tabs with href render a navigation of links
-		// instead, in the same row and underline (0.15 KB).
+		// instead, in the same row and underline (0.15 KB). The theme's timing it reads holds the
+		// slower and loop periods too (0.02 KB).
 		name: 'Tabs',
 		code: "export { Tabs } from '@sveltier/ui';",
-		limit: '3 KB',
+		limit: '3.05 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -660,7 +661,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '88.95 KB'
+		limit: '89 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two
@@ -669,10 +670,11 @@ export default [
 		// Overlays growing out of what opened them and rows sliding when sorted add 0.3 KB; the
 		// table's figures in the data face, 0.02 KB; a flush Button and a Select's listHeight, 0.05 KB;
 		// a table's rows as blocks and a Select's list across a phone, 1.35 KB; where each column
-		// goes in a block, 0.1 KB; a whole row pressed, 0.5 KB.
+		// goes in a block, 0.1 KB; a whole row pressed, 0.5 KB; the slower and loop durations of
+		// the theme, 0.02 KB.
 		name: 'typical app (UIProvider, monolith, Button, TextField, Select, Table, Dialog, toasts)',
 		code: "export { UIProvider, Button, TextField, Select, Table, Dialog, useToast } from '@sveltier/ui';\nexport { monolith } from '@sveltier/ui/themes/monolith';",
 		external: [/fallback\.js$/, /\/core\/toast\/ToastOutlet/],
-		limit: '24.3 KB'
+		limit: '24.35 KB'
 	}
 ];

@@ -63,11 +63,14 @@ export const THEME_VARIABLES = [
 	'ornament',
 	'bevel',
 	'shadow',
-	// Motion (collapsed to near zero when the user prefers reduced motion)
+	// Motion: the four durations collapse to near zero when the user prefers reduced motion; the
+	// period of a loop slows down instead, so an indicator still shows that work goes on.
 	'ease',
 	'duration-fast',
 	'duration-normal',
-	'duration-slow'
+	'duration-slow',
+	'duration-slower',
+	'duration-loop'
 ] as const;
 
 export type ThemeVariable = (typeof THEME_VARIABLES)[number];

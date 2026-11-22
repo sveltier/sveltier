@@ -52,7 +52,8 @@
 	<h2 id="motion">Motion and reduced motion</h2>
 	<p>
 		Themes set their own easing and durations. When the user asks for reduced motion, the base
-		stylesheet collapses all three durations to near zero from a later cascade layer, so it wins
-		over every theme without you doing anything.
+		stylesheet collapses the four durations to near zero from a later cascade layer, so it wins over
+		every theme without you doing anything. The period of a loop slows down by φ² instead, so a
+		spinner keeps turning, calmly.
 	</p>
 </DocPage>

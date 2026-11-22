@@ -8,12 +8,17 @@ export interface Motion {
 	fast: number;
 	normal: number;
 	slow: number;
+	/** For an entrance that crosses the screen or reveals a page. */
+	slower: number;
+	/** The period of an indicator that loops, such as a spinner; slower, not zero, under reduced motion. */
+	loop: number;
 	ease: string;
 }
 
 /**
  * Reads the theme's timing where the element is: the theme in scope, and near-zero
- * durations while the user prefers reduced motion. For `element.animate()` and CSS.
+ * durations while the user prefers reduced motion (a loop's period slows down instead). For
+ * `element.animate()` and CSS.
  *
  * @example
  * const { normal, ease } = motion(row);
@@ -30,6 +35,8 @@ export function motion(element: Element): Motion {
 		fast: read('fast', 144),
 		normal: read('normal', 233),
 		slow: read('slow', 377),
+		slower: read('slower', 610),
+		loop: read('loop', 1618),
 		ease: style.getPropertyValue('--sv-ease').trim() || 'ease'
 	};
 }

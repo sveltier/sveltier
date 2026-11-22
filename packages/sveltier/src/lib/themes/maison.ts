@@ -29,7 +29,9 @@ const shared = {
 	ease: 'cubic-bezier(0.382, 0, 0.236, 1)',
 	'duration-fast': '233ms',
 	'duration-normal': '377ms',
-	'duration-slow': '610ms'
+	'duration-slow': '610ms',
+	'duration-slower': '987ms',
+	'duration-loop': '1618ms'
 } satisfies Partial<ThemeVariables>;
 
 export const maisonLight: ThemeDefinition = {

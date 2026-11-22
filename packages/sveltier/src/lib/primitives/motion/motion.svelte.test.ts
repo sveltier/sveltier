@@ -15,6 +15,8 @@ describe('motion', () => {
 			fast: 144,
 			normal: 233,
 			slow: 377,
+			slower: 610,
+			loop: 1618,
 			ease: monolithLight.variables.ease
 		});
 	});

@@ -626,7 +626,7 @@ export const MOTION_API: ApiRow[] = [
 		name: 'motion(element)',
 		type: '(element: Element) => Motion',
 		description:
-			'The timing where the element is: fast, normal and slow in ms, and ease as a CSS easing. Call it in the browser, from an attachment, an effect or a handler.'
+			'The timing where the element is: fast, normal, slow, slower and loop in ms, and ease as a CSS easing. Call it in the browser, from an attachment, an effect or a handler.'
 	},
 	{
 		name: 'easing(ease)',

@@ -53,7 +53,7 @@
 		return {
 			name: pack.name,
 			radii: pick(['radius-sm', 'radius-md', 'radius-lg', 'radius-xl']),
-			durations: pick(['duration-fast', 'duration-normal', 'duration-slow'])
+			durations: pick(['duration-fast', 'duration-normal', 'duration-slow', 'duration-slower'])
 		};
 	});
 </script>
@@ -225,7 +225,7 @@
 				<tr>
 					<th scope="col">Pack</th>
 					<th scope="col">Radius sm · md · lg · xl</th>
-					<th scope="col">Duration fast · normal · slow</th>
+					<th scope="col">Duration fast · normal · slow · slower</th>
 				</tr>
 			</thead>
 			<tbody>
