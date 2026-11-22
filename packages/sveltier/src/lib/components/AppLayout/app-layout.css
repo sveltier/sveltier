@@ -304,6 +304,11 @@
 		--sv-toasts-footer: calc(var(--sv-control-md) * var(--sv-density-comfortable));
 	}
 
+	/* While a sticky footer is away, toasts take its room too. */
+	:root:has(.sv-app-layout > .sv-app-footer[data-sv-away]) {
+		--sv-toasts-footer: 0px;
+	}
+
 	/*
 	 * Under a sticky bar, the page scrolls a link's target or a focused control into view below
 	 * the bar, with room to spare.

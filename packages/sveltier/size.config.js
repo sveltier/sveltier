@@ -137,19 +137,22 @@ export default [
 		// The grid and its placement rules, filling the window (from each breakpoint up), the skip
 		// link, the bar with its mark, its menu button (a Button, measured in its own entry) and its
 		// links, which give way to the menu button at each breakpoint, and the footer, which the
-		// toasts keep clear of.
+		// toasts keep clear of. Hiding the bar and the footer on scroll (one shared scroll listener
+		// and the rules that slide them away) took it past 3.25 KB.
 		name: 'AppLayout, AppBar, Main and AppFooter',
 		code: "export { AppLayout, AppBar, Main, AppFooter } from '@sveltier/ui';",
-		limit: '3.25 KB',
+		limit: '3.85 KB',
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{
 		// The phone's bar of destinations: its links with their icons, the current one, the
 		// safe-area inset, and at each breakpoint the rules that show it, hand it the bar's links and
-		// keep a sticky footer, toasts and scrolled-to content clear of it.
+		// keep a sticky footer, toasts and scrolled-to content clear of it. Hiding it on scroll (the
+		// shared scroll listener, its defaults, and the rules that give its room to the footer and
+		// the toasts) took it past 1.85 KB.
 		name: 'BottomNavigation',
 		code: "export { BottomNavigation } from '@sveltier/ui';",
-		limit: '1.85 KB',
+		limit: '2.4 KB',
 		external: [/\/core\//]
 	},
 	{
@@ -656,7 +659,7 @@ export default [
 		name: 'index (everything)',
 		code: "export * from '@sveltier/ui';",
 		external: [/fallback\.js$/],
-		limit: '88.25 KB'
+		limit: '88.9 KB'
 	},
 	{
 		// What a typical app loads first: the root provider with a theme pack, a button, two

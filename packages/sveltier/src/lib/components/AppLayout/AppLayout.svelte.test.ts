@@ -526,3 +526,121 @@ describe('BottomNavigation with links in the bar', () => {
 		expect(getComputedStyle(part('.sv-bottom-navigation')).display).toBe('none');
 	});
 });
+
+describe('Bars that hide on scroll', () => {
+	const original = { width: 0, height: 0 };
+	beforeAll(async () => {
+		original.width = window.innerWidth;
+		original.height = window.innerHeight;
+		await page.viewport(390, 800);
+	});
+	afterAll(async () => {
+		await page.viewport(original.width, original.height);
+	});
+	afterEach(() => window.scrollTo(0, 0));
+
+	// Each jump is one scroll event, and the bars follow on the next frame.
+	const scroll = async (y: number) => {
+		window.scrollTo(0, y);
+		await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+	};
+	const away = (selector: string) => part(selector).hasAttribute('data-sv-away');
+
+	it('slides the app bar off the top as the page is read on, and back as it moves up', async () => {
+		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: true } });
+		await scroll(600);
+		expect(away('.sv-app-bar')).toBe(true);
+		await expect.poll(() => box('.sv-app-bar').bottom).toBeLessThanOrEqual(0);
+		// A few pixels back do not count; more than that bring it back.
+		await scroll(596);
+		expect(away('.sv-app-bar')).toBe(true);
+		await scroll(560);
+		expect(away('.sv-app-bar')).toBe(false);
+		await expect.poll(() => box('.sv-app-bar').top).toBeCloseTo(0, 0);
+	});
+
+	it('shows the bar near the top of the page, whichever way it moved', async () => {
+		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: true } });
+		await scroll(80);
+		expect(away('.sv-app-bar')).toBe(false);
+		await scroll(600);
+		expect(away('.sv-app-bar')).toBe(true);
+	});
+
+	it('keeps a bar that holds the keyboard focus, or an open menu, in view', async () => {
+		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: true } });
+		await scroll(600);
+		expect(away('.sv-app-bar')).toBe(true);
+		// A focus that follows the keyboard, as Tab gives; WebKit's Tab skips buttons unless told.
+		await userEvent.keyboard('a');
+		(page.getByRole('button', { name: 'Sign out' }).element() as HTMLElement).focus({
+			focusVisible: true
+		} as FocusOptions);
+		expect(document.activeElement!.matches(':focus-visible')).toBe(true);
+		expect(away('.sv-app-bar')).toBe(false);
+		await expect.poll(() => box('.sv-app-bar').top).toBeCloseTo(0, 0);
+		(document.activeElement as HTMLElement).blur();
+		await scroll(1200);
+		expect(away('.sv-app-bar')).toBe(true);
+		// A control of the bar with an open menu holds it too.
+		part('.sv-app-bar button').setAttribute('aria-expanded', 'true');
+		await expect.poll(() => box('.sv-app-bar').top).toBeCloseTo(0, 0);
+	});
+
+	it('hides only below its breakpoint', async () => {
+		await render(AppLayoutHarness, { withDrawer: false, bar: { hideOnScroll: 'sm' } });
+		await scroll(600);
+		expect(away('.sv-app-bar')).toBe(true);
+		await page.viewport(700, 800);
+		await expect.poll(() => away('.sv-app-bar')).toBe(false);
+		await page.viewport(390, 800);
+		await expect.poll(() => away('.sv-app-bar')).toBe(true);
+	});
+
+	it('hides the bottom navigation and the sticky footer, and gives their room to the toasts', async () => {
+		await render(AppLayoutHarness, {
+			withDrawer: false,
+			footer: { sticky: true, hideOnScroll: true },
+			bottom: { hideOnScroll: true }
+		});
+		const root = () => getComputedStyle(document.documentElement);
+		expect(root().getPropertyValue('--sv-toasts-nav').trim()).not.toBe('0px');
+		await scroll(600);
+		await expect.poll(() => box('.sv-bottom-navigation').top).toBeGreaterThanOrEqual(800);
+		await expect.poll(() => box('.sv-app-footer').top).toBeGreaterThanOrEqual(800);
+		expect(root().getPropertyValue('--sv-toasts-nav').trim()).toBe('0px');
+		expect(root().getPropertyValue('--sv-toasts-footer').trim()).toBe('0px');
+		await scroll(500);
+		await expect.poll(() => box('.sv-bottom-navigation').bottom).toBeCloseTo(800, 0);
+		await expect
+			.poll(() => box('.sv-app-footer').bottom)
+			.toBeCloseTo(box('.sv-bottom-navigation').top, 0);
+	});
+
+	it('moves a sticky footer that stays down into the room of a bottom navigation that goes', async () => {
+		await render(AppLayoutHarness, {
+			withDrawer: false,
+			footer: { sticky: true },
+			bottom: { hideOnScroll: true }
+		});
+		await scroll(600);
+		await expect.poll(() => box('.sv-app-footer').bottom).toBeCloseTo(800, 0);
+		expect(away('.sv-app-footer')).toBe(false);
+	});
+
+	it('warns about a bar that hides on scroll but is not sticky, and leaves it be', async () => {
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await render(AppLayoutHarness, {
+			withDrawer: false,
+			footer: { hideOnScroll: 'md' }
+		});
+		expect(
+			warn.mock.calls.some(([text]) =>
+				String(text).startsWith('[sveltier SV4012] <AppFooter> has hideOnScroll but is not sticky')
+			)
+		).toBe(true);
+		await scroll(600);
+		expect(away('.sv-app-footer')).toBe(false);
+		warn.mockRestore();
+	});
+});

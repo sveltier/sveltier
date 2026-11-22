@@ -25,5 +25,19 @@
 		position: sticky;
 		inset-block-end: var(--sv-app-layout-bottom, 0px);
 		z-index: 1;
+		transition: translate var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	/*
+	 * Hidden on scroll: off the bottom, past a bottom navigation under it, unless it holds an open
+	 * menu. While only the bottom navigation is away, the footer takes its place.
+	 */
+	.sv-app-footer--sticky[data-sv-away]:not(:has([aria-expanded='true'])) {
+		translate: 0 calc(100% + var(--sv-app-layout-bottom, 0px));
+	}
+
+	.sv-app-layout:has(> .sv-bottom-navigation[data-sv-away])
+		> .sv-app-footer--sticky:not([data-sv-away]) {
+		translate: 0 var(--sv-app-layout-bottom, 0px);
 	}
 }

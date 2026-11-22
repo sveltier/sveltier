@@ -17,6 +17,8 @@ export { default as appLayoutPanes } from '../examples/layout/AppLayoutPanes.sve
 
 export { default as appLayoutPhone } from '../examples/layout/AppLayoutPhone.svelte?raw';
 
+export { default as appLayoutHideOnScroll } from '../examples/layout/AppLayoutHideOnScroll.svelte?raw';
+
 export { default as gridUsage } from '../examples/layout/GridUsage.svelte?raw';
 
 export { default as gridSplit } from '../examples/layout/GridSplit.svelte?raw';

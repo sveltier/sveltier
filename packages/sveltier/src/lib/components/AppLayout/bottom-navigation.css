@@ -18,6 +18,12 @@
 		border-block-start: var(--sv-hairline) solid var(--sv-color-border-soft);
 		background-color: var(--sv-color-background);
 		font-family: var(--sv-font-ui);
+		transition: translate var(--sv-duration-normal) var(--sv-ease);
+	}
+
+	/* Hidden on scroll: off the bottom while the page is read on. */
+	.sv-bottom-navigation[data-sv-away] {
+		translate: 0 100%;
 	}
 
 	.sv-app-layout > .sv-bottom-navigation {
@@ -204,5 +210,10 @@
 		.sv-bottom-navigation--xxl {
 			display: none;
 		}
+	}
+
+	/* While the bar is away, toasts take its room. */
+	:root:has(.sv-bottom-navigation[data-sv-away]) {
+		--sv-toasts-nav: 0px;
 	}
 }

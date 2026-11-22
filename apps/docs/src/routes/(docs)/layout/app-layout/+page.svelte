@@ -7,6 +7,7 @@
 		appLayoutBarLinks,
 		appLayoutCorner,
 		appLayoutFill,
+		appLayoutHideOnScroll,
 		appLayoutPanes,
 		appLayoutPhone,
 		appLayoutRail,
@@ -122,6 +123,27 @@
 		<code>viewport-fit=cover</code> in its viewport meta tag.
 	</p>
 	<Code title="+layout.svelte" code={appLayoutPhone} />
+
+	<h2 id="hide-on-scroll">Hiding the bars on scroll</h2>
+	<p>
+		On a phone, the bars take a good part of a short screen. <code>hideOnScroll</code> on the
+		<code>AppBar</code>, a sticky <code>AppFooter</code> and the <code>BottomNavigation</code>
+		slides them out of the way while the page is read on, and back as soon as it moves up, as reading
+		apps do. A breakpoint hides them only below its width (<code>md</code>, 960px), so a wide screen
+		keeps them; <code>true</code> hides them at every width.
+	</p>
+	<p>
+		A bar comes back near the top of the page, and stays while it holds the keyboard focus or an
+		open menu; the page has to travel a few pixels one way before the bars follow it. While the
+		bottom navigation is away, a sticky footer takes its place and toasts take its room. Under
+		<code>prefers-reduced-motion</code>, the bars go and come back without sliding. The bars follow
+		the page's scroll, so with <code>fill</code>, where <code>Main</code> scrolls on its own, they
+		stay. Set it once for the app through the defaults:
+		<code
+			>{"defaults={{ AppBar: { hideOnScroll: 'md' }, AppFooter: { sticky: true, hideOnScroll: 'md' }, BottomNavigation: { hideOnScroll: 'md' } }}"}</code
+		>.
+	</p>
+	<Code title="+layout.svelte" code={appLayoutHideOnScroll} />
 
 	<h2 id="rail">Rail</h2>
 	<p>
