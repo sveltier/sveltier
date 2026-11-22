@@ -138,10 +138,11 @@ export default [
 		// link, the bar with its mark, its menu button (a Button, measured in its own entry) and its
 		// links, which give way to the menu button at each breakpoint, and the footer, which the
 		// toasts keep clear of. Hiding the bar and the footer on scroll (one shared scroll listener
-		// and the rules that slide them away) took it past 3.25 KB.
+		// and the rules that slide them away, and clip them at the end of the page) took it past
+		// 3.25 KB.
 		name: 'AppLayout, AppBar, Main and AppFooter',
 		code: "export { AppLayout, AppBar, Main, AppFooter } from '@sveltier/ui';",
-		limit: '3.85 KB',
+		limit: '3.9 KB',
 		external: [/\/core\//, /\/components\/Button\//]
 	},
 	{

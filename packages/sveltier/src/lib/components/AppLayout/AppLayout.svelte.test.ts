@@ -631,6 +631,24 @@ describe('Bars that hide on scroll', () => {
 			.toBeCloseTo(box('.sv-bottom-navigation').top, 0);
 	});
 
+	it('keeps the page as long as it was, so the bars that went stay away at its end', async () => {
+		await render(AppLayoutHarness, {
+			withDrawer: false,
+			footer: { sticky: true, hideOnScroll: true },
+			bottom: { hideOnScroll: true }
+		});
+		const length = document.documentElement.scrollHeight;
+		await scroll(500);
+		await expect.poll(() => box('.sv-bottom-navigation').top).toBeGreaterThanOrEqual(800);
+		expect(document.documentElement.scrollHeight).toBe(length);
+		// Read on to the end, a step at a time.
+		while (scrollY < length - innerHeight - 1) await scroll(Math.min(scrollY + 400, length));
+		expect(away('.sv-bottom-navigation')).toBe(true);
+		// At most a fraction of a pixel, where the end of the page falls between two.
+		expect(box('.sv-bottom-navigation').top).toBeGreaterThan(799);
+		expect(box('.sv-app-footer').top).toBeGreaterThan(799);
+	});
+
 	it('moves a sticky footer that stays down into the room of a bottom navigation that goes', async () => {
 		await render(AppLayoutHarness, {
 			withDrawer: false,
