@@ -279,10 +279,11 @@ export default [
 	},
 	{
 		// Includes rovingFocus, which gives it one tab stop and arrow keys. The Tooltip of an
-		// option with `tooltip` is measured in its own entry.
+		// option with `tooltip` is measured in its own entry. The track that follows the variant
+		// (a hairline for outlined, none for text and plain) took it past 2.6 KB.
 		name: 'SegmentedControl',
 		code: "export { SegmentedControl } from '@sveltier/ui';",
-		limit: '2.6 KB',
+		limit: '2.65 KB',
 		external: [/\/core\//, /\/components\/Tooltip\//]
 	},
 	{

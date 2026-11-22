@@ -85,6 +85,26 @@ describe('SegmentedControl', () => {
 		await userEvent.keyboard('{ArrowUp}');
 		expect(text('value')).toBe('1M');
 	});
+
+	it('draws its track as the variant says: filled, a hairline, or none', async () => {
+		const screen = await render(SegmentedHarness, {});
+		const control = () => getComputedStyle(page.getByTestId('control').element());
+		const clear = 'rgba(0, 0, 0, 0)';
+		expect(control().backgroundColor).not.toBe(clear);
+		expect(control().boxShadow).toBe('none');
+		const height = page.getByTestId('control').element().getBoundingClientRect().height;
+
+		await screen.rerender({ variant: 'outlined' });
+		await expect.poll(() => control().backgroundColor).toBe(clear);
+		expect(control().boxShadow).toContain('inset');
+		// Drawn inset, so the control keeps its size beside others.
+		expect(page.getByTestId('control').element().getBoundingClientRect().height).toBe(height);
+
+		await screen.rerender({ variant: 'text' });
+		await expect.poll(() => control().boxShadow).toBe('none');
+		expect(control().backgroundColor).toBe(clear);
+	});
+
 	describe('whose value the app owns', () => {
 		const language = (name: string) =>
 			page.getByRole('radiogroup', { name: 'Language' }).getByRole('radio', { name });

@@ -1,5 +1,6 @@
 <script lang="ts">
-	// A chart range picker, a flat variant in the primary colour, and a disabled option.
+	// A chart range picker, a flat variant in the primary colour, and a disabled option; then the
+	// same range outlined (a hairline track) and as text (no track).
 	import { SegmentedControl } from '@sveltier/ui';
 
 	const RANGES = [
@@ -30,6 +31,21 @@
 			variant="flat"
 			color="primary"
 			size="sm"
+		/>
+	</div>
+	<div class="docs-actions">
+		<SegmentedControl
+			aria-label="Period, outlined"
+			options={RANGES}
+			bind:value={range}
+			variant="outlined"
+		/>
+		<SegmentedControl
+			aria-label="Period, text"
+			options={RANGES}
+			bind:value={range}
+			variant="text"
+			color="primary"
 		/>
 	</div>
 	<p class="docs-dim" aria-live="polite">Showing {range} as a {view}.</p>

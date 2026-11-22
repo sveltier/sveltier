@@ -1,5 +1,11 @@
 # @sveltier/ui
 
+## 0.1.0-alpha.23
+
+### Minor Changes
+
+- 97e7337: SegmentedControl: the track behind the options follows `variant`. `outlined` draws a hairline around the row with no fill, and `text` and `plain` have no track; `elevated`, `flat` and `tonal` keep the filled track. Set it for a whole app through `defaults` on `UIProvider`.
+
 ## 0.1.0-alpha.22
 
 ### Minor Changes
