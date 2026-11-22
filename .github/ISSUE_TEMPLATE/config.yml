@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://sveltier.com
+    about: Guides, every component's API and live examples.
+  - name: Error codes
+    url: https://sveltier.com/errors
+    about: What each [sveltier SVxxxx] message means and how to fix it.

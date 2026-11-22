@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in @sveltier/ui does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. A small reproduction gets a bug fixed fastest: the [playground](https://sveltier.com/tools/playground) or a minimal repository.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The version of `@sveltier/ui`, from `npm ls @sveltier/ui`.
+      placeholder: 0.1.0-alpha.24
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+      description: Include any `[sveltier SVxxxx]` message from the console as it is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A link, or the shortest component that shows it.
+      render: svelte
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, Svelte and framework
+      placeholder: Chrome 131, Svelte 5.40, SvelteKit 3
