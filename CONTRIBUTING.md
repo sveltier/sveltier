@@ -99,8 +99,9 @@ pnpm size    # gzip size budgets
 
 A release is a pull request that runs `pnpm changeset version`. Once it is merged and CI has
 passed on `main`, the **Release** workflow builds the package and publishes it on npm with trusted
-publishing, so no npm token is stored and npm signs provenance. To publish a version that is on
-`main` already, run the workflow by hand (Actions > Release > Run workflow).
+publishing, so no npm token is stored and npm signs provenance. It then tags the commit and creates
+the GitHub release from the version's changelog entry. To publish a version that is on `main`
+already, run the workflow by hand (Actions > Release > Run workflow).
 
 ## License
 
