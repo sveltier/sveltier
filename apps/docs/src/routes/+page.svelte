@@ -47,14 +47,18 @@
 				<a class="hero__cta" href="https://github.com/sveltier/sveltier" rel="external"
 					>Star on GitHub</a
 				>
-				<a class="hero__link" href="https://github.com/sveltier/sveltier/issues" rel="external"
-					>Open an issue</a
+				<a
+					class="hero__link"
+					href="https://github.com/sveltier/sveltier/discussions/71"
+					rel="external">Share feedback</a
 				>
 			</div>
 		</section>
 		<footer class="docs-foot">
 			Sveltier is in alpha. MIT licensed.
 			<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
+			<a href="https://github.com/sveltier/sveltier/discussions/71" rel="external">Share feedback</a
+			>
 		</footer>
 	</div>
 </main>

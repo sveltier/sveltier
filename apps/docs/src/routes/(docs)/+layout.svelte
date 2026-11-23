@@ -38,6 +38,8 @@
 		<footer class="docs-foot">
 			Sveltier is in alpha. MIT licensed.
 			<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
+			<a href="https://github.com/sveltier/sveltier/discussions/71" rel="external">Share feedback</a
+			>
 		</footer>
 	</main>
 	<aside class="docs-aside">
