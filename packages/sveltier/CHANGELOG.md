@@ -1,5 +1,17 @@
 # @sveltier/ui
 
+## 0.1.0
+
+The first release of Sveltier, a Svelte 5 UI framework built for AI coding agents.
+
+- **60+ accessible, typed components** for SvelteKit and Vite: layout, forms, overlays, tables and a finance set.
+- **Docs for agents in the package**, generated from the types: `llms.txt`, `llms-full.txt`, one Markdown page per component and `components.json`. `npx sveltier init` points an app's agents at them.
+- **Errors that say how to fix them**: stable `SVxxxx` codes, the valid values and a link, plus development warnings for what types cannot catch.
+- **Five theme packs** in light and dark, with no flash on first paint, server rendering included.
+- **Zero runtime dependencies**, and a size budget on every entry.
+
+From this version on, a patch release does not break your code. A breaking change comes in a minor version, with upgrade notes. The changes made during the alpha are listed below.
+
 ## 0.1.0-alpha.25
 
 ### Minor Changes
