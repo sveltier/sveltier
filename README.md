@@ -146,7 +146,8 @@ Colours are `oklch()` custom properties (`--sv-*`), and all CSS lives in cascade
 
 ## Status
 
-Sveltier is in **alpha**: the API may still change between releases. Each release is listed in the [changelog](./packages/sveltier/CHANGELOG.md).
+Sveltier is at **0.x**. Patch releases do not break your code. A breaking change comes in a minor
+version (0.2, 0.3), with upgrade notes in the [changelog](./packages/sveltier/CHANGELOG.md).
 
 ## Contributing
 

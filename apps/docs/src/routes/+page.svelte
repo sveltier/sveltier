@@ -40,8 +40,8 @@
 		<section class="landing-join" aria-labelledby="join-title">
 			<h2 id="join-title">Build it with us</h2>
 			<p>
-				Sveltier is in alpha and built in the open. Tell us which components your agents reach for
-				first, where they still get it wrong, and what would help them get it right.
+				Sveltier is built in the open. Tell us which components your agents reach for first, where
+				they still get it wrong, and what would help them get it right.
 			</p>
 			<div class="hero__actions">
 				<a class="hero__cta" href="https://github.com/sveltier/sveltier" rel="external"
@@ -55,7 +55,7 @@
 			</div>
 		</section>
 		<footer class="docs-foot">
-			Sveltier is in alpha. MIT licensed.
+			Sveltier is MIT licensed.
 			<a href="https://github.com/sveltier/sveltier" rel="external">Source on GitHub</a>
 			<a href="https://github.com/sveltier/sveltier/discussions/71" rel="external">Share feedback</a
 			>

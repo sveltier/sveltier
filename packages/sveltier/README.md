@@ -30,7 +30,8 @@ fixing. Sveltier is designed around all three, and the same choices help every d
 - **Accessible without being asked.** Roles, focus and keys follow the WAI-ARIA Authoring
   Practices, tested in Chromium, Firefox and WebKit.
 
-> **Alpha.** The API may still change between releases.
+> **Version 0.x.** Patch releases do not break your code. A breaking change comes in a minor
+> version (0.2, 0.3), with upgrade notes in the changelog.
 
 ## Install
 

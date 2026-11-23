@@ -2,8 +2,7 @@
 
 ## Supported versions
 
-Sveltier is in alpha. Fixes go into the latest release on npm (`@sveltier/ui`), so upgrade to it
-before reporting.
+Fixes go into the latest release on npm (`@sveltier/ui`), so upgrade to it before reporting.
 
 ## Reporting a vulnerability
 
