@@ -19,6 +19,8 @@
 	} from '../../lib/components/AppLayout/types.js';
 	import List from '../../lib/components/List/List.svelte';
 	import ListItem from '../../lib/components/List/ListItem.svelte';
+	import DefaultsProvider from '../../lib/core/defaults/DefaultsProvider.svelte';
+	import type { DefaultsConfig } from '../../lib/core/defaults/context.js';
 	import ThemeProvider from '../../lib/core/theme/ThemeProvider.svelte';
 	import { monolith } from '../../lib/themes/monolith.js';
 
@@ -35,7 +37,8 @@
 		drawer = {},
 		open = $bindable(false),
 		wrapMain = false,
-		bottom
+		bottom,
+		defaults = {}
 	}: {
 		drawerFirst?: boolean;
 		withDrawer?: boolean;
@@ -50,6 +53,7 @@
 		open?: boolean;
 		wrapMain?: boolean;
 		bottom?: Partial<BottomNavigationProps>;
+		defaults?: DefaultsConfig;
 	} = $props();
 
 	const ICON = 'M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z';
@@ -108,34 +112,36 @@
 {/snippet}
 
 <ThemeProvider themes={monolith} theme="monolith-light" storageKey={false}>
-	<AppLayout {fill}>
-		{#if withDrawer && drawerFirst}{@render navigation()}{/if}
-		<AppBar
-			title="Ledger"
-			prepend={brand ? mark : undefined}
-			nav={withNav ? links : undefined}
-			{...bar}
-		>
-			{#snippet actions()}<button type="button">Sign out</button>{/snippet}
-		</AppBar>
-		{#if withDrawer && !drawerFirst}{@render navigation()}{/if}
-		{#if wrapMain}
-			<div>{@render main()}</div>
-		{:else}
-			{@render main()}
-		{/if}
-		{#if footer}<AppFooter {...footer}>Market open</AppFooter>{/if}
-		{#if bottom}
-			<BottomNavigation
-				aria-label="Sections"
-				items={PAGES.map((page, index) => ({
-					label: page,
-					href: `#${page.toLowerCase()}`,
-					icon: ICON,
-					current: index === 0
-				}))}
-				{...bottom}
-			/>
-		{/if}
-	</AppLayout>
+	<DefaultsProvider {defaults}>
+		<AppLayout {fill}>
+			{#if withDrawer && drawerFirst}{@render navigation()}{/if}
+			<AppBar
+				title="Ledger"
+				prepend={brand ? mark : undefined}
+				nav={withNav ? links : undefined}
+				{...bar}
+			>
+				{#snippet actions()}<button type="button">Sign out</button>{/snippet}
+			</AppBar>
+			{#if withDrawer && !drawerFirst}{@render navigation()}{/if}
+			{#if wrapMain}
+				<div>{@render main()}</div>
+			{:else}
+				{@render main()}
+			{/if}
+			{#if footer}<AppFooter {...footer}>Market open</AppFooter>{/if}
+			{#if bottom}
+				<BottomNavigation
+					aria-label="Sections"
+					items={PAGES.map((page, index) => ({
+						label: page,
+						href: `#${page.toLowerCase()}`,
+						icon: ICON,
+						current: index === 0
+					}))}
+					{...bottom}
+				/>
+			{/if}
+		</AppLayout>
+	</DefaultsProvider>
 </ThemeProvider>

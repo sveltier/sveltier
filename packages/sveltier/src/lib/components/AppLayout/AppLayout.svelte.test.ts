@@ -496,6 +496,37 @@ describe('BottomNavigation', () => {
 		expect(parseFloat(root.scrollPaddingBlockEnd)).toBeGreaterThan(BAR);
 	});
 
+	it("marks the current destination with a pill, or the theme's radius with rounded", async () => {
+		await page.viewport(390, 800);
+		const radius = () =>
+			parseFloat(getComputedStyle(part('.sv-bottom-navigation__icon')).borderTopLeftRadius);
+		const height = () => part('.sv-bottom-navigation__icon').getBoundingClientRect().height;
+
+		const pill = await render(AppLayoutHarness, { bottom: {} });
+		await expect.element(bottom()).toBeVisible();
+		expect(radius()).toBeGreaterThanOrEqual(height() / 2);
+		pill.unmount();
+
+		const square = await render(AppLayoutHarness, { bottom: { rounded: 'none' } });
+		await expect.element(bottom()).toBeVisible();
+		expect(radius()).toBe(0);
+		square.unmount();
+
+		// Set once for the app, as a square-cornered theme would.
+		await render(AppLayoutHarness, {
+			bottom: {},
+			defaults: { BottomNavigation: { rounded: 'sm' } }
+		});
+		await expect.element(bottom()).toBeVisible();
+		const token = (name: string) =>
+			parseFloat(getComputedStyle(part('.sv-bottom-navigation')).getPropertyValue(name));
+		expect(radius()).toBeCloseTo(token('--sv-radius-sm'), 0);
+		// The destinations keep their own corners.
+		expect(
+			parseFloat(getComputedStyle(part('.sv-bottom-navigation__item')).borderTopLeftRadius)
+		).toBeCloseTo(token('--sv-radius-md'), 0);
+	});
+
 	it('warns in development about a breakpoint at which it would never show', async () => {
 		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 		await page.viewport(390, 800);

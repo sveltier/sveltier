@@ -48,14 +48,15 @@
 		-webkit-tap-highlight-color: transparent;
 	}
 
-	/* The icon sits in a pill, φ wide, which carries the state layer and marks the current one. */
+	/* The icon sits in a pill, φ wide, which carries the state layer and marks the current one.
+	 * `rounded` sets its corners; `true` keeps the pill. */
 	.sv-bottom-navigation__icon {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		inline-size: var(--sv-space-55);
 		block-size: var(--sv-space-34);
-		border-radius: var(--sv-radius-full);
+		border-radius: var(--sv-rounded, var(--sv-radius-full));
 	}
 
 	/* An icon component, whatever size it draws itself at, takes the same box as a path. */
