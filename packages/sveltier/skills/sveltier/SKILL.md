@@ -20,7 +20,7 @@ These are the defaults. Where the app's own instructions, or a comment in its co
 
 - Svelte 5 only: `$state`, `$derived`, `$props`, `$bindable`, snippets and `{@render}`, callback props such as `onclick`. Never write `export let`, `on:click`, `<slot>`, `createEventDispatcher` or `$:`.
 - Every component takes the same shared props: `variant`, `size`, `density`, `color` and `rounded`. Set them app-wide with `defaults` on `UIProvider`.
-- Style your own elements with `--sv-*` variables (`--sv-color-*`, `--sv-space-*`, `--sv-radius-md`). Never use fixed colours.
+- Style your own elements with `--sv-*` variables (`--sv-color-*`, `--sv-space-*`, `--sv-radius-md`). Never use fixed colours. Spacing is `--sv-space-N`, with N the size in px on a Fibonacci scale: 2, 3, 5, 8, 13, 21, 34, 55, 89, 144. There is no `--sv-space-4` or `--sv-space-16`.
 - Components put their content in snippets (`children`, `prepend`, `append`, `actions`), and two-way values use `bind:`.
 
 ## After you write
