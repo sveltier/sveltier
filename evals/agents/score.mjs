@@ -167,7 +167,8 @@ export async function scan(dir) {
 		// var(--sv-…) names that the library never defines: they fall back, or resolve to nothing.
 		unknownVariables: [...used].filter((name) => !known.has(name)),
 		svelte4: count(/export let |\bon:[a-z]+=|<slot\b|createEventDispatcher|^\s*\$:\s/gm),
-		fixedColours: count(/#[0-9a-fA-F]{3,8}\b(?![\w-])|\brgba?\(|\bhsla?\(/g),
+		// oklch( and its kin too: a DESIGN.md writes the theme's colours that way.
+		fixedColours: count(/#[0-9a-fA-F]{3,8}\b(?![\w-])|\brgba?\(|\bhsla?\(|\b(?:ok)?l(?:ab|ch)\(/g),
 		nativeControls: count(/<(button|table|dialog|select|input)\b/g),
 		addedDependencies: deps.filter(
 			(name) =>
