@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 4c0ca25: Ship a DESIGN.md for each theme pack, in `design/<pack>.md`: the pack's colours, type, space, corners and motion in the open format coding agents read for how an app looks, each value with the `--sv-*` variable to use instead. `npx sveltier init` now writes the one of the pack the root layout imports to the app's `DESIGN.md`, and leaves a DESIGN.md the app wrote itself as it is. The AGENTS.md section and the skill point agents at it.
+- 4c0ca25: Ship a DESIGN.md for each theme pack, in `design/<pack>.md`: the pack's colours, type, space, corners and motion in the open format coding agents read for how an app looks, each value with the `--sv-*` variable to use instead. `npx sveltier init` now writes it to the app's `DESIGN.md` when the root layout uses a pack as it ships (or has no provider yet, which gets Monolith). An app whose themes are its own, made with `defineTheme`, gets none, since a pack's would describe another look; a DESIGN.md the app wrote itself stays as it is. The AGENTS.md section and the skill point agents at it.
 
 ## 0.1.1
 
