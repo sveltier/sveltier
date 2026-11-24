@@ -17,6 +17,7 @@ pnpm dev                                             # library in watch mode + d
 | ------------------- | ------------------------------------------------------------------- |
 | `packages/sveltier` | The library (`@sveltier/ui`), built with `svelte-package`           |
 | `apps/docs`         | The docs site (SvelteKit), which also generates the docs for agents |
+| `examples/starter`  | A starter app on the published package, opened in StackBlitz        |
 
 The docs dev server compiles the library from source, so edits to it reload like app code.
 
