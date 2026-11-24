@@ -150,10 +150,11 @@ export default [
 		// safe-area inset, and at each breakpoint the rules that show it, hand it the bar's links and
 		// keep a sticky footer, toasts and scrolled-to content clear of it. Hiding it on scroll (the
 		// shared scroll listener, its defaults, and the rules that give its room to the footer and
-		// the toasts) took it past 1.85 KB.
+		// the toasts) took it past 1.85 KB. The marker's rounded, from a prop or the defaults, took
+		// it past 2.4 KB.
 		name: 'BottomNavigation',
 		code: "export { BottomNavigation } from '@sveltier/ui';",
-		limit: '2.4 KB',
+		limit: '2.45 KB',
 		external: [/\/core\//]
 	},
 	{
