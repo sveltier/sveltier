@@ -76,7 +76,7 @@ describe('tokens.css', () => {
 			.map((name) => name.slice('--sv-space-'.length));
 		for (const file of ['../../../agents/sveltier.md', '../../../skills/sveltier/SKILL.md']) {
 			const text = readFileSync(new URL(file, import.meta.url), 'utf8');
-			expect(/Fibonacci scale: ([\d, ]+)\./.exec(text)?.[1].split(', '), file).toEqual(steps);
+			expect(/Fibonacci scale: ([\d, ]+)\./.exec(text)?.[1]?.split(', '), file).toEqual(steps);
 		}
 	});
 
