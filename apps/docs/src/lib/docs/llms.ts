@@ -480,7 +480,7 @@ export function llmsIndex(link: (path: string) => string): string {
 		'## Optional',
 		'',
 		`- [Full reference](${link('llms-full.txt')}): setup, conventions, and every component's props, generated from its types`,
-		`- [DESIGN.md of a theme pack](${link('design/monolith.md')}): how an app on the pack looks, its colours, type, space, corners and motion, each with its \`--sv-*\` variable, at design/<monolith|heritage|aurora|maison|milano>.md; \`npx sveltier init\` copies the app's one to its DESIGN.md`,
+		`- [DESIGN.md of a theme pack](${link('design/monolith.md')}): how an app on the pack as it ships looks, its colours, type, space, corners and motion, each with its \`--sv-*\` variable, at design/<monolith|heritage|aurora|maison|milano>.md; \`npx sveltier init\` copies the app's one to its DESIGN.md`,
 		`- [Component gallery](${link('examples/gallery/light/brand/default')}): every component in its main states, one page per mode, accent and density at examples/gallery/<light|dark>/<brand|amber>/<compact|default|comfortable>`,
 		''
 	].join('\n');

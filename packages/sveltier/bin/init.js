@@ -171,8 +171,28 @@ export function init(app) {
 }
 
 /**
- * Gives the app the DESIGN.md of its theme pack, the one its root layout imports (Monolith when
- * it names none). A DESIGN.md that init did not write is the app's own and stays as it is.
+ * The pack whose DESIGN.md describes the app: the one its root layout hands the provider as it
+ * ships (`themes={heritage}`, imported from the package), or Monolith in an app with no provider
+ * yet, which the setup tells agents to add. A theme of the app's own, such as one made with
+ * defineTheme over a pack, looks different from any pack: `null`.
+ * @param {string} code The root layout.
+ * @param {string[]} packs The packs with a DESIGN.md.
+ * @returns {string | null}
+ */
+function shippedPack(code, packs) {
+	if (!/\b(UIProvider|ThemeProvider)\b/.test(code)) return 'monolith';
+	const passed = /\bthemes=\{\s*([A-Za-z_$][\w$]*)\s*\}/.exec(code)?.[1];
+	if (!passed || !packs.includes(passed)) return null;
+	const from = new RegExp(
+		`import\\s*\\{[^}]*\\b${passed}\\b[^}]*\\}\\s*from\\s*['"]@sveltier/ui(?:/themes/${passed})?['"]`
+	);
+	return from.test(code) ? passed : null;
+}
+
+/**
+ * Gives the app the DESIGN.md of its theme pack when it uses one as it ships (see shippedPack).
+ * An app with a theme of its own gets none, since a pack's would describe another look; a
+ * DESIGN.md that init did not write is the app's own and stays as it is.
  * @param {string} app The app's folder.
  * @param {string} [source] The installed package; this one by default.
  * @returns {string[]} What was done, one line each; nothing when the package has no DESIGN.md.
@@ -184,23 +204,32 @@ export function design(app, source = PACKAGE) {
 		.filter((file) => file.endsWith('.md'))
 		.map((file) => file.slice(0, -3));
 	const layout = LAYOUTS.map((file) => join(app, file)).find((file) => existsSync(file));
-	const code = layout ? readFileSync(layout, 'utf8') : '';
-	const named = packs
-		.map((pack) => ({ pack, at: code.search(new RegExp(`\\b${pack}\\b`)) }))
-		.filter(({ at }) => at !== -1)
-		.sort((a, b) => a.at - b.at);
-	const pack = named[0]?.pack ?? 'monolith';
-	const file = join(folder, `${pack}.md`);
-	if (!existsSync(file)) return [];
-
-	const text = readFileSync(file, 'utf8');
-	const name = OURS.exec(text)?.[1] ?? pack;
+	const pack = shippedPack(layout ? readFileSync(layout, 'utf8') : '', packs);
 	const target = join(app, 'DESIGN.md');
 	const before = existsSync(target) ? readFileSync(target, 'utf8') : undefined;
+	const packsShown = posix(relative(app, join(locate(app).installed, 'design')));
+
+	if (pack === null) {
+		if (before !== undefined && OURS.test(before)) {
+			return [
+				`DESIGN.md describes the ${OURS.exec(before)?.[1]} pack as it ships, but the app's themes are its own: edit it to match them, or delete it.`
+			];
+		}
+		if (before !== undefined) return [];
+		return [
+			`No DESIGN.md: the app's themes are its own, and a pack's would describe another look. To give agents one, start from its pack's in ${packsShown}/ and write in what the app changes.`
+		];
+	}
+
+	const file = join(folder, `${pack}.md`);
+	if (!existsSync(file)) return [];
+	const text = readFileSync(file, 'utf8');
+	const name = OURS.exec(text)?.[1] ?? pack;
 	if (before === text) return ['DESIGN.md is up to date.'];
 	if (before !== undefined && !OURS.test(before)) {
-		const shown = posix(relative(app, join(locate(app).installed, 'design', `${pack}.md`)));
-		return [`DESIGN.md is the app's own, so it stays as it is. The ${name} pack's is in ${shown}.`];
+		return [
+			`DESIGN.md is the app's own, so it stays as it is. The ${name} pack's is in ${packsShown}/${pack}.md.`
+		];
 	}
 	writeFileSync(target, text);
 	return [`${before === undefined ? 'Created' : 'Updated'} DESIGN.md from the ${name} theme pack.`];

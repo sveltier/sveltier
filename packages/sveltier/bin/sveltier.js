@@ -11,8 +11,8 @@ Points this app's coding agents at the docs of the installed @sveltier/ui:
   - installs the skill in .claude/skills/sveltier: the repository root's .claude, or the
     app's when the root has none,
   - says when the root layout has no UIProvider yet,
-  - writes DESIGN.md, the look of the theme pack the root layout imports, unless the app
-    already has a DESIGN.md of its own.
+  - writes DESIGN.md, the look of the theme pack, when the root layout uses one as it ships;
+    themes of the app's own get none, and a DESIGN.md of the app's own stays as it is.
 In a workspace, run it in the app's folder (pnpm --filter <app> exec sveltier init): it finds
 the repository root above it and writes each path from where it is read.`;
 

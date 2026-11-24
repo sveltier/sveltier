@@ -177,23 +177,68 @@ describe('sveltier init: DESIGN.md', () => {
 		rmSync(source, { recursive: true, force: true });
 	});
 
-	it('writes the DESIGN.md of the pack the root layout imports', () => {
-		layout("<script>import { heritage } from '@sveltier/ui/themes/heritage';</script>");
+	/** A root layout that hands the provider a pack as it ships. */
+	const shipped = (id: string) =>
+		`<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { ${id} } from '@sveltier/ui/themes/${id}';
+</script>
+
+<UIProvider themes={${id}}>{@render children()}</UIProvider>
+`;
+
+	it('writes the DESIGN.md of the pack the root layout uses as it ships', () => {
+		layout(shipped('heritage'));
 		expect(design(app, source)).toEqual(['Created DESIGN.md from the Heritage theme pack.']);
 		expect(read('DESIGN.md')).toBe(pack('Heritage'));
 		expect(design(app, source)).toEqual(['DESIGN.md is up to date.']);
 	});
 
-	it('takes Monolith when the layout names no pack', () => {
+	it('takes Monolith in an app with no provider yet, as the setup adds it', () => {
 		expect(design(app, source)).toEqual(['Created DESIGN.md from the Monolith theme pack.']);
 		expect(read('DESIGN.md')).toBe(pack('Monolith'));
 	});
 
 	it('follows a change of pack', () => {
 		design(app, source);
-		layout('<UIProvider themes={heritage}>…</UIProvider>');
+		layout(shipped('heritage'));
 		expect(design(app, source)).toEqual(['Updated DESIGN.md from the Heritage theme pack.']);
 		expect(read('DESIGN.md')).toBe(pack('Heritage'));
+	});
+
+	it("writes none for themes of the app's own, which a pack's would misdescribe", () => {
+		// defineTheme over Monolith, kept in a module of the app's.
+		layout(`<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { themes } from '$lib/themes';
+</script>
+
+<UIProvider {themes}>{@render children()}</UIProvider>
+`);
+		const [line] = design(app, source);
+		expect(line).toMatch(/^No DESIGN\.md: the app's themes are its own/);
+		expect(existsSync(join(app, 'DESIGN.md'))).toBe(false);
+
+		// The name of a pack, given to a theme of the app's.
+		layout(`<script>
+	import { monolith } from '$lib/themes';
+</script>
+
+<UIProvider themes={monolith}>…</UIProvider>
+`);
+		expect(design(app, source)[0]).toMatch(/^No DESIGN\.md/);
+		expect(existsSync(join(app, 'DESIGN.md'))).toBe(false);
+	});
+
+	it('leaves a DESIGN.md it wrote for a pack and says it no longer fits', () => {
+		design(app, source);
+		layout(
+			'<UIProvider themes={{ ...monolith, brand: defineTheme(monolithLight, {}) }}>…</UIProvider>'
+		);
+		expect(design(app, source)).toEqual([
+			"DESIGN.md describes the Monolith pack as it ships, but the app's themes are its own: edit it to match them, or delete it."
+		]);
+		expect(read('DESIGN.md')).toBe(pack('Monolith'));
 	});
 
 	it('keeps a DESIGN.md the app wrote itself', () => {

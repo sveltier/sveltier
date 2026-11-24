@@ -83,11 +83,12 @@
 		<code>UIProvider</code> yet.
 	</p>
 	<p>
-		Last, it writes <code>DESIGN.md</code>, the look of the theme pack the root layout imports: its
-		colours, type, space, corners and motion, each with the <code>--sv-*</code> variable to use, in
-		the open format coding agents read for how an app should look. It leaves a
-		<code>DESIGN.md</code> of your own as it is; each pack's is in
-		<code>node_modules/@sveltier/ui/design/</code>.
+		Last, when the root layout uses a theme pack as it ships, it writes <code>DESIGN.md</code>, the
+		look of that pack: its colours, type, space, corners and motion, each with the
+		<code>--sv-*</code> variable to use, in the open format coding agents read for how an app should
+		look. Themes of your own, made with <code>defineTheme</code>, get none, since a pack's would
+		describe another look: start from the pack's in <code>node_modules/@sveltier/ui/design/</code>
+		and write in what you change. A <code>DESIGN.md</code> of your own stays as it is.
 	</p>
 	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
 	<p>

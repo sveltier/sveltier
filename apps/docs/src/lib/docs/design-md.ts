@@ -180,6 +180,8 @@ Suits: ${pack.suits}
 
 This app is built with Sveltier (\`@sveltier/ui\`), a UI framework for Svelte 5, on the ${pack.name} theme pack: \`${pack.id}-light\` and \`${pack.id}-dark\`. Every value in this file is already a CSS variable of the theme. Build screens from Sveltier's components and, in your own CSS, read the \`--sv-*\` variable named in each section. Never copy a value from this file into a stylesheet: it would not follow dark mode, the density or a change of pack.
 
+This file describes the pack as it ships. If the app's themes are its own, made with \`defineTheme\` over the pack, they win: read the theme code for what it changes.
+
 \`\`\`svelte
 <script>
 	import { UIProvider } from '@sveltier/ui';
