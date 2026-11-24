@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Questions and feedback
+    url: https://github.com/sveltier/sveltier/discussions/71
+    about: Tell us what worked, what got in your way, and what your agent got wrong.
   - name: Documentation
     url: https://sveltier.com
     about: Guides, every component's API and live examples.

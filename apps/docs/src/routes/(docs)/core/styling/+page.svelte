@@ -82,6 +82,6 @@
 	<p>
 		Each component's root element has a class named after it, such as <code>sv-button</code> or
 		<code>sv-card</code>. Classes inside a component are part of its implementation and may change
-		while the API is in alpha; prefer props, tokens and the <code>class</code> prop.
+		in any release; prefer props, tokens and the <code>class</code> prop.
 	</p>
 </DocPage>

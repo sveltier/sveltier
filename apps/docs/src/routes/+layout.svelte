@@ -33,6 +33,12 @@
 	const example = $derived(page.route.id?.startsWith('/(examples)') ?? false);
 </script>
 
+<svelte:head>
+	{#if !example && !page.error}
+		<link rel="canonical" href={new URL(page.url.pathname, page.url.origin).href} />
+	{/if}
+</svelte:head>
+
 <UIProvider themes={THEMES} light="{pack}-light" dark="{pack}-dark">
 	{#if !example}
 		<a class="docs-skip" href="#main">Skip to content</a>

@@ -11,7 +11,8 @@ and Vite, docs generated from the types, and errors that say how to fix them.
 
 [Docs](https://sveltier.com) · [Quick start](https://sveltier.com/getting-started/quick-start) ·
 [Playground](https://sveltier.com/tools/playground) · [llms.txt](https://sveltier.com/llms.txt) ·
-[GitHub](https://github.com/sveltier/sveltier)
+[GitHub](https://github.com/sveltier/sveltier) ·
+[Feedback](https://github.com/sveltier/sveltier/discussions/71)
 
 Coding agents do not remember your library, cannot see the screen, and learn by running and
 fixing. Sveltier is designed around all three, and the same choices help every developer.
@@ -29,7 +30,8 @@ fixing. Sveltier is designed around all three, and the same choices help every d
 - **Accessible without being asked.** Roles, focus and keys follow the WAI-ARIA Authoring
   Practices, tested in Chromium, Firefox and WebKit.
 
-> **Alpha.** The API may still change between releases.
+> **Version 0.x.** Patch releases do not break your code. A breaking change comes in a minor
+> version (0.2, 0.3), with upgrade notes in the changelog.
 
 ## Install
 

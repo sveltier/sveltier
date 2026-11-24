@@ -27,7 +27,8 @@
   <a href="https://sveltier.com/components/button">Components</a> ·
   <a href="https://sveltier.com/tools/playground">Playground</a> ·
   <a href="https://sveltier.com/tools/theme-builder">Theme builder</a> ·
-  <a href="https://sveltier.com/llms.txt">llms.txt</a>
+  <a href="https://sveltier.com/llms.txt">llms.txt</a> ·
+  <a href="https://github.com/sveltier/sveltier/discussions">Discussions</a>
 </p>
 
 ---
@@ -145,12 +146,15 @@ Colours are `oklch()` custom properties (`--sv-*`), and all CSS lives in cascade
 
 ## Status
 
-Sveltier is in **alpha**: the API may still change between releases. Each release is listed in the [changelog](./packages/sveltier/CHANGELOG.md).
+Sveltier is at **0.x**. Patch releases do not break your code. A breaking change comes in a minor
+version (0.2, 0.3), with upgrade notes in the [changelog](./packages/sveltier/CHANGELOG.md).
 
 ## Contributing
 
-Issues and pull requests are welcome. [CONTRIBUTING.md](./CONTRIBUTING.md) covers the setup, the
-checks and the conventions a change follows.
+Tried it? [Tell us what worked and what got in your way](https://github.com/sveltier/sveltier/discussions/71), or
+[show what you built](https://github.com/sveltier/sveltier/discussions/72). Issues and pull requests
+are welcome too: [CONTRIBUTING.md](./CONTRIBUTING.md) covers the setup, the checks and the
+conventions a change follows.
 
 ## License
 

@@ -11,7 +11,8 @@
 	lede="Add Sveltier to a Svelte 5 project. One package, no runtime dependencies, types included."
 >
 	<aside class="docs-note" aria-label="Status">
-		<strong>Alpha.</strong> The API may still change between releases, so pin the version you install.
+		<strong>Version 0.x.</strong> Patch releases do not break your code. A breaking change comes in a
+		minor version (0.2, 0.3), with upgrade notes in the changelog.
 	</aside>
 
 	<h2 id="requirements">Requirements</h2>

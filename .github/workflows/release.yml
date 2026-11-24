@@ -17,7 +17,7 @@ on:
       dist-tag:
         description: The npm dist-tag the version is published under
         type: choice
-        options: [latest, alpha, next]
+        options: [latest, next]
         default: latest
 
 permissions:
@@ -77,7 +77,7 @@ jobs:
       id-token: write
     env:
       VERSION: ${{ needs.check.outputs.version }}
-      # Alphas go to latest while there is no stable version; by hand, the input chooses.
+      # A release goes to latest; by hand, the input chooses.
       DIST_TAG: ${{ inputs.dist-tag || 'latest' }}
     steps:
       - uses: actions/checkout@v7
@@ -113,3 +113,38 @@ jobs:
           npx --yes npm@11.21.0 publish --access public --tag "$DIST_TAG"
           echo "::notice title=Published @sveltier/ui@$VERSION::Under the dist-tag $DIST_TAG, with provenance."
           echo "Published \`@sveltier/ui@$VERSION\` under the dist-tag \`$DIST_TAG\`, with provenance." >> "$GITHUB_STEP_SUMMARY"
+
+  github-release:
+    name: Create the GitHub release
+    needs: [check, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # A job of its own, so the job that runs the build and holds the npm identity cannot write to
+    # the repository. If it fails, re-run this job: the version is on npm already.
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+      SHA: ${{ needs.check.outputs.sha }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          persist-credentials: false
+
+      - name: Create the tag and the release from the changelog
+        run: |
+          tag="v$VERSION"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "The release $tag exists already." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          awk -v heading="## $VERSION" '$0 == heading { found = 1; next } /^## / { found = 0 } found' packages/sveltier/CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::CHANGELOG.md has no entry for $VERSION."
+            exit 1
+          fi
+          prerelease=()
+          case "$VERSION" in *-*) prerelease=(--prerelease) ;; esac
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$SHA" --title "$tag" --notes-file notes.md "${prerelease[@]}"
