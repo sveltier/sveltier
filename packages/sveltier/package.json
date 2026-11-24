@@ -1,6 +1,6 @@
 {
 	"name": "@sveltier/ui",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "The UI framework for AI coding agents, on Svelte 5: one typed vocabulary, docs generated from the types, and errors that say how to fix them.",
 	"license": "MIT",
 	"repository": {
@@ -33,6 +33,7 @@
 		"llms-full.txt",
 		"components.json",
 		"docs",
+		"design",
 		"agents",
 		"skills",
 		"bin"

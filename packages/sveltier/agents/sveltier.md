@@ -22,6 +22,7 @@ The docs of the installed version ship inside the package. Read them before writ
 - `node_modules/@sveltier/ui/docs/<group>/<page>.md`: one page per component, with an example and every prop.
 - `node_modules/@sveltier/ui/components.json`: the same props as JSON.
 - The types: every component exports `<Name>Props`, with an `@example`.
+- `DESIGN.md`, beside this file, when the app uses a theme pack as it ships (`npx sveltier init` writes it): how the app looks, the pack's colours, type, space, corners and motion, and the `--sv-*` variable for each. Read it before styling a page. An app whose themes are its own (made with `defineTheme`) gets none from Sveltier: its look is in its theme code, which wins over any pack's description.
 
 Rules, for code that does not say otherwise (where this app's own instructions or a comment in the code make an exception, keep it):
 

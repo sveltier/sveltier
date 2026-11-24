@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { agentsBlock, END, init, START, withBlock } from '../../bin/init.js';
+import { agentsBlock, design, END, init, START, withBlock } from '../../bin/init.js';
 
 // `npx sveltier init` in a fresh app folder: what it writes, and that a second run changes
 // nothing but its own block.
@@ -153,5 +153,106 @@ describe('sveltier init', () => {
 		expect(execFileSync(process.execPath, [BIN, '--help'], { encoding: 'utf8' })).toContain(
 			'Usage: npx sveltier init'
 		);
+	});
+});
+
+describe('sveltier init: DESIGN.md', () => {
+	// A stand-in for the installed package, with the DESIGN.md of two packs.
+	let source: string;
+	const pack = (name: string) =>
+		`---\nversion: alpha\nname: "Sveltier ${name}"\n---\n\n# ${name}\n`;
+	const layout = (code: string) => {
+		mkdirSync(join(app, 'src', 'routes'), { recursive: true });
+		writeFileSync(join(app, 'src', 'routes', '+layout.svelte'), code);
+	};
+
+	beforeEach(() => {
+		source = mkdtempSync(join(tmpdir(), 'sveltier-package-'));
+		mkdirSync(join(source, 'design'));
+		writeFileSync(join(source, 'design', 'monolith.md'), pack('Monolith'));
+		writeFileSync(join(source, 'design', 'heritage.md'), pack('Heritage'));
+	});
+
+	afterEach(() => {
+		rmSync(source, { recursive: true, force: true });
+	});
+
+	/** A root layout that hands the provider a pack as it ships. */
+	const shipped = (id: string) =>
+		`<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { ${id} } from '@sveltier/ui/themes/${id}';
+</script>
+
+<UIProvider themes={${id}}>{@render children()}</UIProvider>
+`;
+
+	it('writes the DESIGN.md of the pack the root layout uses as it ships', () => {
+		layout(shipped('heritage'));
+		expect(design(app, source)).toEqual(['Created DESIGN.md from the Heritage theme pack.']);
+		expect(read('DESIGN.md')).toBe(pack('Heritage'));
+		expect(design(app, source)).toEqual(['DESIGN.md is up to date.']);
+	});
+
+	it('takes Monolith in an app with no provider yet, as the setup adds it', () => {
+		expect(design(app, source)).toEqual(['Created DESIGN.md from the Monolith theme pack.']);
+		expect(read('DESIGN.md')).toBe(pack('Monolith'));
+	});
+
+	it('follows a change of pack', () => {
+		design(app, source);
+		layout(shipped('heritage'));
+		expect(design(app, source)).toEqual(['Updated DESIGN.md from the Heritage theme pack.']);
+		expect(read('DESIGN.md')).toBe(pack('Heritage'));
+	});
+
+	it("writes none for themes of the app's own, which a pack's would misdescribe", () => {
+		// defineTheme over Monolith, kept in a module of the app's.
+		layout(`<script>
+	import { UIProvider } from '@sveltier/ui';
+	import { themes } from '$lib/themes';
+</script>
+
+<UIProvider {themes}>{@render children()}</UIProvider>
+`);
+		const [line] = design(app, source);
+		expect(line).toMatch(/^No DESIGN\.md: the app's themes are its own/);
+		expect(existsSync(join(app, 'DESIGN.md'))).toBe(false);
+
+		// The name of a pack, given to a theme of the app's.
+		layout(`<script>
+	import { monolith } from '$lib/themes';
+</script>
+
+<UIProvider themes={monolith}>…</UIProvider>
+`);
+		expect(design(app, source)[0]).toMatch(/^No DESIGN\.md/);
+		expect(existsSync(join(app, 'DESIGN.md'))).toBe(false);
+	});
+
+	it('leaves a DESIGN.md it wrote for a pack and says it no longer fits', () => {
+		design(app, source);
+		layout(
+			'<UIProvider themes={{ ...monolith, brand: defineTheme(monolithLight, {}) }}>…</UIProvider>'
+		);
+		expect(design(app, source)).toEqual([
+			"DESIGN.md describes the Monolith pack as it ships, but the app's themes are its own: edit it to match them, or delete it."
+		]);
+		expect(read('DESIGN.md')).toBe(pack('Monolith'));
+	});
+
+	it('keeps a DESIGN.md the app wrote itself', () => {
+		writeFileSync(join(app, 'DESIGN.md'), '# Our look\n');
+		const [line] = design(app, source);
+		expect(line).toMatch(
+			/^DESIGN\.md is the app's own, so it stays as it is\. The Monolith pack's is in .*design\/monolith\.md\.$/
+		);
+		expect(read('DESIGN.md')).toBe('# Our look\n');
+	});
+
+	it('does nothing with a package that has no DESIGN.md', () => {
+		rmSync(join(source, 'design'), { recursive: true });
+		expect(design(app, source)).toEqual([]);
+		expect(existsSync(join(app, 'DESIGN.md'))).toBe(false);
 	});
 });

@@ -31,10 +31,10 @@ test('applying a pack themes the whole site and is remembered', async ({ page })
 		.click();
 
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'maison-dark');
-	await expect(page.getByRole('combobox', { name: 'Theme' })).toHaveValue('maison');
+	await expect(page.getByRole('combobox', { name: 'Theme' })).toHaveText('Maison');
 	await expect(
 		page
-			.getByRole('group', { name: 'Mode', exact: true })
+			.getByRole('radiogroup', { name: 'Mode', exact: true })
 			.getByRole('radio', { name: 'Dark', exact: true })
 	).toBeChecked();
 	expect(await page.evaluate(() => localStorage.getItem('sv-theme'))).toBe('maison-dark');
@@ -49,7 +49,8 @@ test('the theme select restyles the system theme', async ({ page }) => {
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'system');
 	expect(await htmlVar(page, '--sv-color-background')).toBe('oklch(0.985 0.002 260)');
 
-	await page.getByRole('combobox', { name: 'Theme' }).selectOption('milano');
+	await page.getByRole('combobox', { name: 'Theme' }).click();
+	await page.getByRole('option', { name: 'Milano' }).click();
 	await expect(page.locator('html')).toHaveAttribute('data-sv-theme', 'system');
 	await expect.poll(() => htmlVar(page, '--sv-color-background')).toBe('oklch(0.955 0.013 75)');
 	expect(await htmlVar(page, '--sv-radius-md')).toBe('999px');

@@ -4,9 +4,9 @@
 // .claude folder. In a workspace, the app may sit below the repository root, where CLAUDE.md
 // and .claude usually live: init finds that root, puts the skill in its .claude (the app's only
 // when the root has none), and writes each path from where it is read. It also says when the
-// root layout has no UIProvider, which nothing else reports. Plain Node, no dependencies; every
-// file it reads ships in this package.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+// root layout has no UIProvider, which nothing else reports, and gives the app the DESIGN.md of
+// its theme pack. Plain Node, no dependencies; every file it reads ships in this package.
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +15,10 @@ const PACKAGE = join(dirname(fileURLToPath(import.meta.url)), '..');
 const INSTALLED = 'node_modules/@sveltier/ui';
 export const START = '<!-- sveltier:start -->';
 export const END = '<!-- sveltier:end -->';
+/** The root layout of an app, where it sets up the provider and picks its theme pack. */
+const LAYOUTS = ['src/routes/+layout.svelte', 'src/App.svelte'];
+/** The line of a DESIGN.md that names a Sveltier pack, and so marks the file as one init wrote. */
+const OURS = /^name: "Sveltier ([^"]+)"$/m;
 
 /** A relative path as Markdown and Claude's imports write it: forward slashes. */
 const posix = (path) => path.split(sep).join('/');
@@ -155,9 +159,7 @@ export function init(app) {
 	}
 
 	// A page without the provider renders with no theme and raises no error, so say it here.
-	const layout = ['src/routes/+layout.svelte', 'src/App.svelte']
-		.map((file) => join(app, file))
-		.find((file) => existsSync(file));
+	const layout = LAYOUTS.map((file) => join(app, file)).find((file) => existsSync(file));
 	if (layout && !/\b(UIProvider|ThemeProvider)\b/.test(readFileSync(layout, 'utf8'))) {
 		const shownLayout = posix(relative(where.root, layout));
 		done.push(
@@ -166,4 +168,69 @@ export function init(app) {
 	}
 
 	return done;
+}
+
+/**
+ * The pack whose DESIGN.md describes the app: the one its root layout hands the provider as it
+ * ships (`themes={heritage}`, imported from the package), or Monolith in an app with no provider
+ * yet, which the setup tells agents to add. A theme of the app's own, such as one made with
+ * defineTheme over a pack, looks different from any pack: `null`.
+ * @param {string} code The root layout.
+ * @param {string[]} packs The packs with a DESIGN.md.
+ * @returns {string | null}
+ */
+function shippedPack(code, packs) {
+	if (!/\b(UIProvider|ThemeProvider)\b/.test(code)) return 'monolith';
+	const passed = /\bthemes=\{\s*([A-Za-z_$][\w$]*)\s*\}/.exec(code)?.[1];
+	if (!passed || !packs.includes(passed)) return null;
+	const from = new RegExp(
+		`import\\s*\\{[^}]*\\b${passed}\\b[^}]*\\}\\s*from\\s*['"]@sveltier/ui(?:/themes/${passed})?['"]`
+	);
+	return from.test(code) ? passed : null;
+}
+
+/**
+ * Gives the app the DESIGN.md of its theme pack when it uses one as it ships (see shippedPack).
+ * An app with a theme of its own gets none, since a pack's would describe another look; a
+ * DESIGN.md that init did not write is the app's own and stays as it is.
+ * @param {string} app The app's folder.
+ * @param {string} [source] The installed package; this one by default.
+ * @returns {string[]} What was done, one line each; nothing when the package has no DESIGN.md.
+ */
+export function design(app, source = PACKAGE) {
+	const folder = join(source, 'design');
+	if (!existsSync(folder)) return [];
+	const packs = readdirSync(folder)
+		.filter((file) => file.endsWith('.md'))
+		.map((file) => file.slice(0, -3));
+	const layout = LAYOUTS.map((file) => join(app, file)).find((file) => existsSync(file));
+	const pack = shippedPack(layout ? readFileSync(layout, 'utf8') : '', packs);
+	const target = join(app, 'DESIGN.md');
+	const before = existsSync(target) ? readFileSync(target, 'utf8') : undefined;
+	const packsShown = posix(relative(app, join(locate(app).installed, 'design')));
+
+	if (pack === null) {
+		if (before !== undefined && OURS.test(before)) {
+			return [
+				`DESIGN.md describes the ${OURS.exec(before)?.[1]} pack as it ships, but the app's themes are its own: edit it to match them, or delete it.`
+			];
+		}
+		if (before !== undefined) return [];
+		return [
+			`No DESIGN.md: the app's themes are its own, and a pack's would describe another look. To give agents one, start from its pack's in ${packsShown}/ and write in what the app changes.`
+		];
+	}
+
+	const file = join(folder, `${pack}.md`);
+	if (!existsSync(file)) return [];
+	const text = readFileSync(file, 'utf8');
+	const name = OURS.exec(text)?.[1] ?? pack;
+	if (before === text) return ['DESIGN.md is up to date.'];
+	if (before !== undefined && !OURS.test(before)) {
+		return [
+			`DESIGN.md is the app's own, so it stays as it is. The ${name} pack's is in ${packsShown}/${pack}.md.`
+		];
+	}
+	writeFileSync(target, text);
+	return [`${before === undefined ? 'Created' : 'Updated'} DESIGN.md from the ${name} theme pack.`];
 }

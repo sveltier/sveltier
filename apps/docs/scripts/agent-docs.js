@@ -13,9 +13,13 @@ if (!existsSync(source)) {
 	process.exit(1);
 }
 
-for (const name of [...FILES, 'docs']) rmSync(join(target, name), { recursive: true, force: true });
+for (const name of [...FILES, 'docs', 'design']) {
+	rmSync(join(target, name), { recursive: true, force: true });
+}
 for (const name of FILES.slice(0, 2)) cpSync(join(source, name), join(target, name));
 cpSync(join(source, 'docs'), join(target, 'docs'), { recursive: true });
+// The DESIGN.md of each theme pack, served at the site's root as design/<pack>.md.
+cpSync(join(source, '..', 'design'), join(target, 'design'), { recursive: true });
 
 // The manifest names the version it describes, read from the package it ships in.
 const { version } = JSON.parse(readFileSync(join(target, 'package.json'), 'utf8'));

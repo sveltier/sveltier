@@ -82,12 +82,22 @@
 		none, so agents find one copy. It also says when the app's root layout has no
 		<code>UIProvider</code> yet.
 	</p>
+	<p>
+		Last, when the root layout uses a theme pack as it ships, it writes <code>DESIGN.md</code>, the
+		look of that pack: its colours, type, space, corners and motion, each with the
+		<code>--sv-*</code> variable to use, in the open format coding agents read for how an app should
+		look. Themes of your own, made with <code>defineTheme</code>, get none, since a pack's would
+		describe another look: start from the pack's in <code>node_modules/@sveltier/ui/design/</code>
+		and write in what you change. A <code>DESIGN.md</code> of your own stays as it is.
+	</p>
 	<!-- eslint-disable svelte/no-navigation-without-resolve -- pageHref() calls resolve() -->
 	<p>
 		On the web, the same reference is at <a href={pageHref('llms.txt')} data-sveltekit-reload
 			>llms.txt</a
 		>
-		and <a href={pageHref('llms-full.txt')} data-sveltekit-reload>llms-full.txt</a>.
+		and <a href={pageHref('llms-full.txt')} data-sveltekit-reload>llms-full.txt</a>, and each pack's
+		DESIGN.md at
+		<a href={pageHref('design/monolith.md')} data-sveltekit-reload>design/monolith.md</a>.
 	</p>
 	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 
