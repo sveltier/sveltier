@@ -26,7 +26,7 @@ The docs of the installed version ship inside the package. Read them before writ
 Rules, for code that does not say otherwise (where this app's own instructions or a comment in the code make an exception, keep it):
 
 - Svelte 5 only: runes, snippets and callback props (`onclick`). Never write `export let`, `on:click`, `<slot>`, `createEventDispatcher` or `$:`.
-- Use the shared props (`variant`, `size`, `density`, `color`, `rounded`) rather than restyling components. In your own CSS, use the theme's `--sv-*` variables, never fixed colours.
+- Use the shared props (`variant`, `size`, `density`, `color`, `rounded`) rather than restyling components. In your own CSS, use the theme's `--sv-*` variables, never fixed colours. Spacing is `--sv-space-N`, with N the size in px on a Fibonacci scale: 2, 3, 5, 8, 13, 21, 34, 55, 89, 144. There is no `--sv-space-4` or `--sv-space-16`.
 - Figures go through `Amount` and `Delta`, dates are ISO strings (`'YYYY-MM-DD'`), and toasts come from `useToast()`.
 - A message that starts with `[sveltier SVxxxx]` says what went wrong and how to fix it. Do what it says.
 - With Tailwind 4, or CSS layers of your own, declare the order in `src/app.html` (or `index.html`) before any stylesheet: `<style>@layer theme, base, sv, components, utilities;</style>`.

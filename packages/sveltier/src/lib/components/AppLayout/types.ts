@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'svelte/elements';
 import type { Breakpoint } from '../../core/display/display.js';
 import type { CloseReason } from '../../core/overlay/types.js';
 import type { ElementProps } from '../../core/props/element.js';
-import type { Color, Density } from '../../core/props/types.js';
+import type { Color, Density, Rounded } from '../../core/props/types.js';
 
 /**
  * The frame of an app: an `AppBar`, a `NavigationDrawer`, the `Main` content, an `AppFooter` and,
@@ -281,6 +281,13 @@ export interface BottomNavigationDefaults {
 	 * @default false
 	 */
 	hideOnScroll: boolean | Exclude<Breakpoint, 'xs'>;
+	/**
+	 * The corners of the marker behind each icon, which shows the current destination. `true`
+	 * keeps the pill; a size takes the theme's radius, so a square-cornered theme can set `'md'`
+	 * app-wide in `defaults`.
+	 * @default true
+	 */
+	rounded: Rounded;
 }
 
 declare module '../../core/defaults/context.js' {

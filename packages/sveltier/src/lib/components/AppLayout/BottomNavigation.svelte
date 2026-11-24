@@ -15,6 +15,7 @@
 		breakpoint = 'md',
 		color = 'primary',
 		hideOnScroll,
+		rounded,
 		'aria-label': ariaLabel,
 		class: className,
 		ref = $bindable(null),
@@ -22,9 +23,10 @@
 	}: BottomNavigationProps = $props();
 
 	const resolve = useDefaults<BottomNavigationDefaults>('BottomNavigation', {
-		hideOnScroll: false
+		hideOnScroll: false,
+		rounded: true
 	});
-	const p = $derived(resolve({ hideOnScroll }));
+	const p = $derived(resolve({ hideOnScroll, rounded }));
 	const locale = useLocale();
 	const layout = getLayout();
 	if (DEV) {
@@ -47,7 +49,7 @@
 	class={[
 		'sv-bottom-navigation',
 		`sv-bottom-navigation--${breakpoint}`,
-		sharedClasses({ color }, 'BottomNavigation'),
+		sharedClasses({ color, rounded: p.rounded }, 'BottomNavigation'),
 		className
 	]}
 	{@attach p.hideOnScroll && scrollAway(p.hideOnScroll)}

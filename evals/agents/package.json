@@ -1,0 +1,13 @@
+{
+	"name": "@sveltier/agent-evals",
+	"private": true,
+	"type": "module",
+	"description": "Coding agents build UI tasks with @sveltier/ui, with and without its docs; the results are scored by type check, build and behaviour.",
+	"scripts": {
+		"run": "node run.mjs",
+		"report": "node report.mjs"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.64.1"
+	}
+}

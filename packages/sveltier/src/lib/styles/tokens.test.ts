@@ -69,6 +69,17 @@ describe('tokens.css', () => {
 		expect(token('--sv-density-comfortable')).toBeCloseTo(PHI ** 0.25, 4);
 	});
 
+	it('lists the space scale for agents as tokens.css defines it', () => {
+		// Agents guess --sv-space-4 or -16 when the docs name the family without its steps.
+		const steps = [...tokens.keys()]
+			.filter((name) => name.startsWith('--sv-space-'))
+			.map((name) => name.slice('--sv-space-'.length));
+		for (const file of ['../../../agents/sveltier.md', '../../../skills/sveltier/SKILL.md']) {
+			const text = readFileSync(new URL(file, import.meta.url), 'utf8');
+			expect(/Fibonacci scale: ([\d, ]+)\./.exec(text)?.[1]?.split(', '), file).toEqual(steps);
+		}
+	});
+
 	it('mixes interaction states in Fibonacci percentages', () => {
 		expect(FIBONACCI).toContain(token('--sv-state-hover'));
 		expect(FIBONACCI).toContain(token('--sv-state-press'));

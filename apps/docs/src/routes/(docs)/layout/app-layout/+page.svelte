@@ -122,6 +122,12 @@
 		room under its links for the inset of a phone's home indicator, which a page gets with
 		<code>viewport-fit=cover</code> in its viewport meta tag.
 	</p>
+	<p>
+		The current destination's icon sits in a pill. <code>rounded</code> gives it the theme's corners
+		instead: a square-cornered theme sets
+		<code>{"defaults={{ BottomNavigation: { rounded: 'md' } }}"}</code> once, and the marker matches the
+		rest of the app.
+	</p>
 	<Code title="+layout.svelte" code={appLayoutPhone} />
 
 	<h2 id="hide-on-scroll">Hiding the bars on scroll</h2>
