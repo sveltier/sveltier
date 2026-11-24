@@ -1,5 +1,12 @@
 # @sveltier/ui
 
+## 0.1.1
+
+### Patch Changes
+
+- d3b0c85: The docs for coding agents (the `AGENTS.md` that `npx sveltier init` writes, the Sveltier skill and `llms.txt`) list the spacing scale, `--sv-space-2` to `--sv-space-144`. Agents that saw only `--sv-space-*` wrote `--sv-space-4` and `--sv-space-6`, which do not exist, so their spacing fell back or vanished.
+- a8bf375: `BottomNavigation` takes `rounded`, for the corners of the marker behind the current destination's icon. `true`, the default, keeps the pill; a size takes the theme's radius, so a square-cornered theme can set `defaults={{ BottomNavigation: { rounded: 'md' } }}` once and the marker matches the rest of the app.
+
 ## 0.1.0
 
 The first release of Sveltier, a Svelte 5 UI framework built for AI coding agents.
