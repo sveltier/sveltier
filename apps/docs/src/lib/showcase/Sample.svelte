@@ -1,6 +1,23 @@
 <script lang="ts">
-	// A sample screen rendered in each theme: app chrome, a balance with a
-	// chart, a form, an activity list and a toast. Styled only through --sv-* tokens.
+	// A sample screen rendered in each theme, built from the library's own components: app
+	// chrome, a balance with a chart, a form, a card and its limit, an activity list and a status.
+	import {
+		Alert,
+		Amount,
+		AmountInput,
+		Avatar,
+		Button,
+		Card,
+		Checkbox,
+		Chip,
+		Delta,
+		List,
+		ListItem,
+		ProgressLinear,
+		SegmentedControl,
+		Switch,
+		TextField
+	} from '@sveltier/ui';
 	import './sample.css';
 
 	const uid = $props.id();
@@ -13,8 +30,42 @@
 		'1M': [30, 34, 31, 38, 36, 35, 42, 47, 44, 52, 57, 63],
 		'1Y': [12, 18, 15, 24, 29, 26, 35, 41, 39, 50, 58, 66]
 	};
+	const USD = { style: 'currency', currency: 'USD' } as const;
+	const SECTIONS = [
+		{ id: 'balance', label: 'Overview' },
+		{ id: 'send', label: 'Payments' },
+		{ id: 'wallet', label: 'Cards' }
+	];
+	const ACTIVITY = [
+		{
+			id: 'apple',
+			title: 'Apple Store',
+			when: 'Today, 09:32',
+			status: 'Completed',
+			color: 'success',
+			amount: -129
+		},
+		{
+			id: 'salary',
+			title: 'Salary · Acme Inc.',
+			when: 'Yesterday',
+			status: 'Received',
+			color: 'info',
+			amount: 8400
+		},
+		{
+			id: 'brokerage',
+			title: 'Brokerage deposit',
+			when: 'Oct 21',
+			status: 'Pending',
+			color: 'warning',
+			amount: -2000
+		}
+	] as const;
 
 	let period = $state<Period>('1W');
+	let recipient = $state('Alex Morgan');
+	let amount = $state<number | null>(1250);
 	let instant = $state(true);
 	let save = $state(false);
 	let toast = $state(true);
@@ -26,37 +77,43 @@
 		return data.map((v, i) => [(i / (data.length - 1)) * 300, 70 - ((v - min) / (max - min)) * 60]);
 	});
 	const line = $derived(points.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(''));
-	const index = $derived(periods.indexOf(period));
 </script>
 
 <div class="smp">
 	<header class="smp-bar">
 		<span class="smp-brand"><span class="smp-logo" aria-hidden="true"></span>Northwind</span>
 		<nav class="smp-tabs" aria-label="Sample sections">
-			<a href="#{uid}-balance" aria-current="page">Overview</a>
-			<a href="#{uid}-send">Payments</a>
-			<a href="#{uid}-wallet">Cards</a>
+			{#each SECTIONS as section, i (section.id)}
+				<Button
+					href="#{uid}-{section.id}"
+					variant={i === 0 ? 'tonal' : 'text'}
+					color="neutral"
+					size="sm"
+					aria-current={i === 0 ? 'page' : undefined}>{section.label}</Button
+				>
+			{/each}
 		</nav>
-		<span class="smp-avatar" aria-hidden="true">AM</span>
+		<Avatar size="sm" class="smp-avatar">AM</Avatar>
 	</header>
 
-	<section class="smp-card smp-balance" aria-labelledby="{uid}-balance">
-		<div class="smp-row">
-			<h3 class="smp-label" id="{uid}-balance">Total balance</h3>
-			<div class="smp-seg" role="radiogroup" aria-label="Period" style:--i={index}>
-				<span class="smp-seg__thumb" aria-hidden="true"></span>
-				{#each periods as p (p)}
-					<label>
-						<input type="radio" name="{uid}-period" value={p} bind:group={period} />
-						<span>{p}</span>
-					</label>
-				{/each}
-			</div>
-		</div>
-		<p class="smp-figure">$248,190<span>.35</span></p>
+	<Card id="{uid}-balance" class="smp-balance" title="Total balance" level={3}>
+		{#snippet append()}
+			<SegmentedControl
+				aria-label="Period"
+				size="sm"
+				options={periods.map((value) => ({ value, label: value }))}
+				bind:value={period}
+			/>
+		{/snippet}
+		<Amount value={248190.35} format={USD} dimFraction font="inherit" class="smp-figure" />
 		<p class="smp-delta">
-			<span class="smp-chip smp-chip--up">▲ 1.84%</span>
-			<span class="smp-muted">+$4,481.20 this {period === '1D' ? 'day' : 'period'}</span>
+			<Chip color="up">
+				<Delta value={0.0184} arrow format={{ style: 'percent', minimumFractionDigits: 2 }} />
+			</Chip>
+			<span class="smp-muted">
+				<Delta value={4481.2} format={USD} />
+				this {period === '1D' ? 'day' : 'period'}
+			</span>
 		</p>
 		<svg class="smp-spark" viewBox="0 0 300 80" preserveAspectRatio="none" aria-hidden="true">
 			<defs>
@@ -70,56 +127,44 @@
 		</svg>
 		<dl class="smp-stats">
 			<div>
-				<dt class="smp-label">Available</dt>
-				<dd>48,000.00</dd>
+				<dt>Available</dt>
+				<dd><Amount value={48000} decimals={2} /></dd>
 			</div>
 			<div>
-				<dt class="smp-label">Pending</dt>
-				<dd>1,254.00</dd>
+				<dt>Pending</dt>
+				<dd><Amount value={1254} decimals={2} /></dd>
 			</div>
 			<div>
-				<dt class="smp-label">Invested</dt>
-				<dd>198,936.35</dd>
+				<dt>Invested</dt>
+				<dd><Amount value={198936.35} decimals={2} /></dd>
 			</div>
 		</dl>
-	</section>
+	</Card>
 
-	<section class="smp-card smp-form" aria-labelledby="{uid}-send">
-		<h3 class="smp-title" id="{uid}-send">Send money</h3>
-		<label class="smp-field">
-			<span class="smp-label">Recipient</span>
-			<input class="smp-input" value="Alex Morgan" autocomplete="off" />
-		</label>
-		<label class="smp-field">
-			<span class="smp-label">Amount</span>
-			<span class="smp-input smp-input--amount">
-				<input value="1,250.00" inputmode="decimal" autocomplete="off" />
-				<span>USD</span>
-			</span>
-			<span class="smp-hint">No fee · Arrives {instant ? 'in seconds' : 'within a day'}</span>
-		</label>
-		<div class="smp-row smp-row--wrap">
-			<label class="smp-check">
-				<input type="checkbox" bind:checked={save} />
-				<span class="smp-check__box" aria-hidden="true"></span>
-				Save recipient
-			</label>
-			<label class="smp-switch">
-				<input type="checkbox" role="switch" bind:checked={instant} />
-				<span class="smp-switch__track" aria-hidden="true"><span></span></span>
-				Instant transfer
-			</label>
+	<Card id="{uid}-send" class="smp-form" title="Send money" level={3}>
+		<div class="smp-fields">
+			<TextField label="Recipient" autocomplete="off" bind:value={recipient} />
+			<AmountInput
+				label="Amount"
+				controls={false}
+				format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+				hint="No fee · Arrives {instant ? 'in seconds' : 'within a day'}"
+				bind:value={amount}
+			>
+				{#snippet append()}USD{/snippet}
+			</AmountInput>
+			<div class="smp-row">
+				<Checkbox label="Save recipient" bind:checked={save} />
+				<Switch label="Instant transfer" bind:checked={instant} />
+			</div>
 		</div>
-		<div class="smp-actions">
-			<button type="button" class="smp-btn smp-btn--ghost">Cancel</button>
-			<button type="button" class="smp-btn smp-btn--primary" onclick={() => (toast = true)}>
-				Send $1,250.00
-			</button>
-		</div>
-	</section>
+		{#snippet actions()}
+			<Button variant="text" color="neutral">Cancel</Button>
+			<Button onclick={() => (toast = true)}>Send $1,250.00</Button>
+		{/snippet}
+	</Card>
 
-	<section class="smp-card smp-wallet" aria-labelledby="{uid}-wallet">
-		<h3 class="smp-title" id="{uid}-wallet">Wallet</h3>
+	<Card id="{uid}-wallet" class="smp-wallet" title="Wallet" level={3}>
 		<div class="smp-cardart" aria-label="Northwind Reserve card ending 4821" role="img">
 			<span class="smp-cardart__brand">Northwind <em>Reserve</em></span>
 			<span class="smp-cardart__chip" aria-hidden="true"></span>
@@ -127,57 +172,46 @@
 			<span class="smp-cardart__meta"><span>Alex Morgan</span><span>09 / 29</span></span>
 		</div>
 		<div class="smp-limit">
-			<div class="smp-row">
-				<span class="smp-label">Monthly limit</span>
-				<span class="smp-amount">3,420 / 10,000</span>
+			<div class="smp-row smp-row--between">
+				<span class="smp-muted">Monthly limit</span>
+				<span><Amount value={3420} /> / <Amount value={10000} /></span>
 			</div>
-			<div
-				class="smp-progress"
-				role="progressbar"
-				aria-label="Monthly limit used"
-				aria-valuenow={34}
-				aria-valuemin={0}
-				aria-valuemax={100}
-			>
-				<span style:--value="34%"></span>
-			</div>
+			<ProgressLinear value={34} label="Monthly limit used" />
 		</div>
-		<div class="smp-actions smp-actions--start">
-			<button type="button" class="smp-btn smp-btn--ghost">Freeze card</button>
-			<button type="button" class="smp-btn smp-btn--text">Card details</button>
-		</div>
-	</section>
+		{#snippet actions()}
+			<Button variant="outlined" color="neutral">Freeze card</Button>
+			<Button variant="text">Card details</Button>
+		{/snippet}
+	</Card>
 
-	<section class="smp-card smp-activity" aria-labelledby="{uid}-activity">
-		<h3 class="smp-title" id="{uid}-activity">Recent activity</h3>
-		<ul>
-			<li>
-				<span class="smp-item">Apple Store<small>Today, 09:32</small></span>
-				<span class="smp-chip smp-chip--success">Completed</span>
-				<span class="smp-amount smp-down">−129.00</span>
-			</li>
-			<li>
-				<span class="smp-item">Salary · Acme Inc.<small>Yesterday</small></span>
-				<span class="smp-chip smp-chip--info">Received</span>
-				<span class="smp-amount smp-up">+8,400.00</span>
-			</li>
-			<li>
-				<span class="smp-item">Brokerage deposit<small>Oct 21</small></span>
-				<span class="smp-chip smp-chip--warning">Pending</span>
-				<span class="smp-amount">−2,000.00</span>
-			</li>
-		</ul>
+	<Card class="smp-activity" title="Recent activity" level={3}>
+		<List density="compact" class="smp-list">
+			{#each ACTIVITY as item (item.id)}
+				<ListItem title={item.title} subtitle={item.when}>
+					{#snippet append()}
+						<span class="smp-entry">
+							<Chip color={item.color} class="smp-status">{item.status}</Chip>
+							{#if item.status === 'Pending'}
+								<Amount value={item.amount} decimals={2} class="smp-sum" />
+							{:else}
+								<Delta value={item.amount} decimals={2} class="smp-sum" />
+							{/if}
+						</span>
+					{/snippet}
+				</ListItem>
+			{/each}
+		</List>
 		<p class="smp-total">
-			<span>Net this week</span><span class="smp-amount smp-up">+6,271.00</span>
+			<span>Net this week</span><Delta value={6271} decimals={2} />
 		</p>
-	</section>
+	</Card>
 
 	{#if toast}
-		<div class="smp-toast" role="status">
-			<span>Transfer of $1,250.00 scheduled</span>
-			<button type="button" class="smp-btn smp-btn--text" onclick={() => (toast = false)}
-				>Undo</button
+		<Alert type="success" variant="elevated" density="compact" class="smp-toast">
+			Transfer of $1,250.00 scheduled
+			<Button variant="text" size="sm" flush class="smp-undo" onclick={() => (toast = false)}
+				>Undo</Button
 			>
-		</div>
+		</Alert>
 	{/if}
 </div>
