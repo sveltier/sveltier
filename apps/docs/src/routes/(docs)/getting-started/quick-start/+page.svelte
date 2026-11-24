@@ -10,6 +10,15 @@
 	title="Quick start"
 	lede="Add one provider with the theme pack you use, then read or change the theme and the app's settings from any component."
 >
+	<p>
+		To start from a working app instead, open the <a
+			href="https://stackblitz.com/github/sveltier/sveltier/tree/main/examples/starter?file=src/routes/%2Bpage.svelte"
+			>starter in StackBlitz</a
+		>, in the browser with nothing to install, or copy it with
+		<code>npx degit sveltier/sveltier/examples/starter my-app</code>. It has the app frame, a table,
+		a form in a dialog, toasts, light and dark mode, and an <code>AGENTS.md</code> for your coding agent.
+	</p>
+
 	<h2 id="provider">1. Add the provider</h2>
 	<p>
 		Put <code>UIProvider</code> in your root layout and pass the theme pack you use. It follows the operating

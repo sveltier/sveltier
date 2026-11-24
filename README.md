@@ -95,6 +95,11 @@ Then use the components anywhere inside it:
 Requires Svelte 5.40 or later. See the [installation guide](https://sveltier.com/getting-started/installation)
 for SvelteKit, Vite, fonts and server-side rendering.
 
+Or start from a working app: the [starter](./examples/starter) has the app frame, a table, a form
+in a dialog, toasts and an `AGENTS.md`.
+[Open it in StackBlitz](https://stackblitz.com/github/sveltier/sveltier/tree/main/examples/starter?file=src/routes/%2Bpage.svelte)
+to try it in the browser, or copy it with `npx degit sveltier/sveltier/examples/starter my-app`.
+
 ## For AI coding agents
 
 ```sh
