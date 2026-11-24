@@ -94,7 +94,7 @@ test('the anchored popover sits against its trigger and follows side and alignme
 	);
 	await page.getByRole('radio', { name: 'top' }).check();
 	await settles(({ anchor, floating }) => near(floating.y + floating.height, anchor.y - 5));
-	await page.getByRole('group', { name: 'Align' }).getByRole('radio', { name: 'end' }).check();
+	await page.getByRole('radiogroup', { name: 'Align' }).getByRole('radio', { name: 'end' }).check();
 	await settles(({ anchor, floating }) =>
 		near(floating.x + floating.width, anchor.x + anchor.width)
 	);

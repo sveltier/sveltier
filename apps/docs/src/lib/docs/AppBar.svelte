@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { useTheme } from '@sveltier/ui';
+	import { SegmentedControl, Select, useTheme } from '@sveltier/ui';
 	import Logo from '../brand/Logo.svelte';
-	import Segmented from '../Segmented.svelte';
-	import { PACKS, parseChoice, type Mode, type PackId } from '../site.js';
+	import { PACKS, THEMES, parseChoice, type Mode, type PackId } from '../site.js';
 	import { useShell } from './shell.svelte.js';
 
 	/** Pack used while the mode is "system" (explicit choices carry their own pack). */
@@ -25,6 +24,20 @@
 		if (parsed.mode !== 'system') theme.set(`${next}-${parsed.mode}`);
 	}
 </script>
+
+<!-- A pack's name after its paper and ink, in the mode shown, so the list previews each pack. -->
+{#snippet packOption(id: PackId, name: string)}
+	{@const colors = THEMES[`${id}-${theme.isDark ? 'dark' : 'light'}`]?.colors}
+	<span class="docs-pack-option">
+		<span
+			class="docs-pack-swatch"
+			style:--paper={colors?.background}
+			style:--ink={colors?.primary}
+			aria-hidden="true"
+		></span>
+		{name}
+	</span>
+{/snippet}
 
 <header class="docs-bar">
 	<div class="docs-bar__inner">
@@ -63,20 +76,24 @@
 			<a href="https://github.com/sveltier/sveltier" rel="external">GitHub</a>
 		</nav>
 		<div class="docs-bar__controls">
-			<label class="docs-select">
-				<span class="docs-visually-hidden">Theme</span>
-				<select
-					value={activePack}
-					onchange={(event) => setPack(event.currentTarget.value as PackId)}
-				>
-					{#each PACKS as option (option.id)}
-						<option value={option.id}>{option.name}</option>
-					{/each}
-				</select>
-			</label>
-			<Segmented
-				label="Mode"
-				name="mode"
+			<Select
+				aria-label="Theme"
+				size="sm"
+				class="docs-bar__theme"
+				options={PACKS.map((option) => ({ value: option.id, label: option.name }))}
+				value={activePack}
+				onchange={setPack}
+			>
+				{#snippet option(item)}
+					{@render packOption(item.value, item.label)}
+				{/snippet}
+				{#snippet selection(item)}
+					{@render packOption(item.value, item.label)}
+				{/snippet}
+			</Select>
+			<SegmentedControl
+				aria-label="Mode"
+				size="sm"
 				value={parsed.mode}
 				onchange={setMode}
 				options={[

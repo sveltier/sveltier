@@ -1,7 +1,6 @@
 <script lang="ts">
 	// A receipt that mounts and unmounts with the theme's timing, with a choice of transition.
-	import { fade, grow, pop, rise, type TransitionOptions } from '@sveltier/ui';
-	import Segmented from '../Segmented.svelte';
+	import { fade, grow, pop, rise, SegmentedControl, type TransitionOptions } from '@sveltier/ui';
 
 	const TRANSITIONS = { fade, rise, pop, grow };
 	type Kind = keyof typeof TRANSITIONS;
@@ -21,12 +20,11 @@
 
 <div class="docs-demo">
 	<div class="docs-demo__controls">
-		<Segmented
-			label="Transition"
-			name="motion-transition"
+		<SegmentedControl
+			aria-label="Transition"
+			size="sm"
 			options={KINDS.map((value) => ({ value, label: value }))}
-			value={kind}
-			onchange={(value) => (kind = value)}
+			bind:value={kind}
 		/>
 		<button
 			bind:this={button}

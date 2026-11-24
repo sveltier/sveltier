@@ -4,6 +4,7 @@
 		DENSITIES,
 		INTENT_COLORS,
 		SIZES,
+		SegmentedControl,
 		VARIANTS,
 		sharedClasses,
 		type Color,
@@ -11,7 +12,6 @@
 		type Rounded,
 		type Size
 	} from '@sveltier/ui';
-	import Segmented from '../Segmented.svelte';
 
 	const COLORS: Color[] = [...INTENT_COLORS, 'neutral'];
 	const ROUNDED = ['true', 'none', 'sm', 'lg', 'full'] as const;
@@ -26,26 +26,18 @@
 
 <div class="docs-demo">
 	<div class="docs-demo__controls">
-		<Segmented
-			label="Size"
-			name="shared-size"
-			options={options(SIZES)}
-			value={size}
-			onchange={(value) => (size = value)}
-		/>
-		<Segmented
-			label="Density"
-			name="shared-density"
+		<SegmentedControl aria-label="Size" size="sm" options={options(SIZES)} bind:value={size} />
+		<SegmentedControl
+			aria-label="Density"
+			size="sm"
 			options={options(DENSITIES)}
-			value={density}
-			onchange={(value) => (density = value)}
+			bind:value={density}
 		/>
-		<Segmented
-			label="Rounded"
-			name="shared-rounded"
+		<SegmentedControl
+			aria-label="Rounded"
+			size="sm"
 			options={options(ROUNDED)}
-			value={rounded}
-			onchange={(value) => (rounded = value)}
+			bind:value={rounded}
 		/>
 	</div>
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
