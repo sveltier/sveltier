@@ -12,7 +12,8 @@ Sveltier is a UI framework for Svelte 5. Its docs for the installed version are 
 1. Check the setup, which every app needs once: its root layout (`src/routes/+layout.svelte`) wraps everything in `UIProvider` with a theme pack (`<UIProvider themes={monolith}>`, from `@sveltier/ui` and `@sveltier/ui/themes/monolith`). Without it, components render without the theme's styles. If it is missing, add it before anything else.
 2. Read `node_modules/@sveltier/ui/llms.txt`. It holds the setup, the conventions every component follows, and an index of the components.
 3. Open the page of each component you use: `node_modules/@sveltier/ui/docs/<group>/<page>.md`, such as `docs/forms/text-field.md`. Each page has a working example and every prop with its type and default. `components.json` holds the same data as JSON.
-4. Prefer a component to hand-written markup: `Table` for rows and columns, `Amount` and `Delta` for figures, `Select` or `Combobox` for choices, `Form` with fields for input, and `useToast()` for notices.
+4. Before styling a page, read the app's `DESIGN.md`: its theme pack's colours, type, space, corners and motion, each with its `--sv-*` variable. `npx sveltier init` writes it; a pack's own is in `node_modules/@sveltier/ui/design/<pack>.md`.
+5. Prefer a component to hand-written markup: `Table` for rows and columns, `Amount` and `Delta` for figures, `Select` or `Combobox` for choices, `Form` with fields for input, and `useToast()` for notices.
 
 ## While you write
 

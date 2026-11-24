@@ -12,6 +12,8 @@ const REQUIRED = [
 	'components.json',
 	'docs/components/button.md',
 	'docs/forms/text-field.md',
+	'design/monolith.md',
+	'design/milano.md',
 	'agents/sveltier.md',
 	'skills/sveltier/SKILL.md',
 	'bin/sveltier.js',

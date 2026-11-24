@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // The `sveltier` command of @sveltier/ui. Installed with the package, so `npx sveltier init`
 // runs the version the app uses, offline.
-import { init } from './init.js';
+import { design, init } from './init.js';
 
 const HELP = `Usage: npx sveltier init   (in the app's folder)
 
@@ -10,14 +10,16 @@ Points this app's coding agents at the docs of the installed @sveltier/ui:
   - adds an import of it to CLAUDE.md, the app's and the repository root's, where there is one,
   - installs the skill in .claude/skills/sveltier: the repository root's .claude, or the
     app's when the root has none,
-  - says when the root layout has no UIProvider yet.
+  - says when the root layout has no UIProvider yet,
+  - writes DESIGN.md, the look of the theme pack the root layout imports, unless the app
+    already has a DESIGN.md of its own.
 In a workspace, run it in the app's folder (pnpm --filter <app> exec sveltier init): it finds
 the repository root above it and writes each path from where it is read.`;
 
 const [command] = process.argv.slice(2);
 
 if (command === 'init') {
-	for (const line of init(process.cwd())) console.log(line);
+	for (const line of [...init(process.cwd()), ...design(process.cwd())]) console.log(line);
 	console.log('Agents will now read the llms.txt and the docs inside the installed @sveltier/ui.');
 } else {
 	console.log(HELP);

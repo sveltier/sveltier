@@ -33,6 +33,7 @@
 		"llms-full.txt",
 		"components.json",
 		"docs",
+		"design",
 		"agents",
 		"skills",
 		"bin"

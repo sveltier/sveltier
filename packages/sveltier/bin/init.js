@@ -4,9 +4,9 @@
 // .claude folder. In a workspace, the app may sit below the repository root, where CLAUDE.md
 // and .claude usually live: init finds that root, puts the skill in its .claude (the app's only
 // when the root has none), and writes each path from where it is read. It also says when the
-// root layout has no UIProvider, which nothing else reports. Plain Node, no dependencies; every
-// file it reads ships in this package.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+// root layout has no UIProvider, which nothing else reports, and gives the app the DESIGN.md of
+// its theme pack. Plain Node, no dependencies; every file it reads ships in this package.
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +15,10 @@ const PACKAGE = join(dirname(fileURLToPath(import.meta.url)), '..');
 const INSTALLED = 'node_modules/@sveltier/ui';
 export const START = '<!-- sveltier:start -->';
 export const END = '<!-- sveltier:end -->';
+/** The root layout of an app, where it sets up the provider and picks its theme pack. */
+const LAYOUTS = ['src/routes/+layout.svelte', 'src/App.svelte'];
+/** The line of a DESIGN.md that names a Sveltier pack, and so marks the file as one init wrote. */
+const OURS = /^name: "Sveltier ([^"]+)"$/m;
 
 /** A relative path as Markdown and Claude's imports write it: forward slashes. */
 const posix = (path) => path.split(sep).join('/');
@@ -155,9 +159,7 @@ export function init(app) {
 	}
 
 	// A page without the provider renders with no theme and raises no error, so say it here.
-	const layout = ['src/routes/+layout.svelte', 'src/App.svelte']
-		.map((file) => join(app, file))
-		.find((file) => existsSync(file));
+	const layout = LAYOUTS.map((file) => join(app, file)).find((file) => existsSync(file));
 	if (layout && !/\b(UIProvider|ThemeProvider)\b/.test(readFileSync(layout, 'utf8'))) {
 		const shownLayout = posix(relative(where.root, layout));
 		done.push(
@@ -166,4 +168,40 @@ export function init(app) {
 	}
 
 	return done;
+}
+
+/**
+ * Gives the app the DESIGN.md of its theme pack, the one its root layout imports (Monolith when
+ * it names none). A DESIGN.md that init did not write is the app's own and stays as it is.
+ * @param {string} app The app's folder.
+ * @param {string} [source] The installed package; this one by default.
+ * @returns {string[]} What was done, one line each; nothing when the package has no DESIGN.md.
+ */
+export function design(app, source = PACKAGE) {
+	const folder = join(source, 'design');
+	if (!existsSync(folder)) return [];
+	const packs = readdirSync(folder)
+		.filter((file) => file.endsWith('.md'))
+		.map((file) => file.slice(0, -3));
+	const layout = LAYOUTS.map((file) => join(app, file)).find((file) => existsSync(file));
+	const code = layout ? readFileSync(layout, 'utf8') : '';
+	const named = packs
+		.map((pack) => ({ pack, at: code.search(new RegExp(`\\b${pack}\\b`)) }))
+		.filter(({ at }) => at !== -1)
+		.sort((a, b) => a.at - b.at);
+	const pack = named[0]?.pack ?? 'monolith';
+	const file = join(folder, `${pack}.md`);
+	if (!existsSync(file)) return [];
+
+	const text = readFileSync(file, 'utf8');
+	const name = OURS.exec(text)?.[1] ?? pack;
+	const target = join(app, 'DESIGN.md');
+	const before = existsSync(target) ? readFileSync(target, 'utf8') : undefined;
+	if (before === text) return ['DESIGN.md is up to date.'];
+	if (before !== undefined && !OURS.test(before)) {
+		const shown = posix(relative(app, join(locate(app).installed, 'design', `${pack}.md`)));
+		return [`DESIGN.md is the app's own, so it stays as it is. The ${name} pack's is in ${shown}.`];
+	}
+	writeFileSync(target, text);
+	return [`${before === undefined ? 'Created' : 'Updated'} DESIGN.md from the ${name} theme pack.`];
 }
